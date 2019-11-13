@@ -16,27 +16,29 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import com.alipay.sofa.jraft.Status;
-
-import java.io.Serializable;
-
 /**
- * This is a callback interface, {@link NodeExecutor#execute(Status, boolean)}
- * will be triggered when each node's state machine is applied.
- * <p>
- * Note that any element contained in the implementation of this interface must
- * implement the {@link Serializable} interface.
- *
- * @author jiachun.fjc
+ * @author Jerry Yang
  */
-public interface NodeExecutor extends Serializable {
+public class KVCompositeEntry extends KVEntry {
 
-    /**
-     * This callback method will be triggered when each node's state machine
-     * is applied.
-     *
-     * @param status   The execution state of the current node
-     * @param isLeader Whether the current node is a leader
-     */
-    void execute(Status status, boolean isLeader);
+    private boolean isDelete; // delete or udpate.
+
+    public KVCompositeEntry(byte[] key) {
+        super(key, null);
+        this.isDelete = true;
+    }
+
+    public KVCompositeEntry(byte[] key, byte[] value, boolean isDelete) {
+        super(key, value);
+        this.isDelete = isDelete;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    @Override
+    public String toString() {
+        return "KVCompositeEntry{" + super.toString() + " delete=" + this.isDelete + "}";
+    }
 }

@@ -20,7 +20,6 @@ import com.alipay.sofa.jraft.Closure;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 
 /**
- *
  * @author jiachun.fjc
  */
 public interface KVStoreClosure extends Closure {

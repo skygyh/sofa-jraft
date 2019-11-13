@@ -14,29 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alipay.sofa.jraft.rhea.storage;
-
-import com.alipay.sofa.jraft.Status;
-
-import java.io.Serializable;
+package com.alipay.sofa.jraft.rhea.cmd.store;
 
 /**
- * This is a callback interface, {@link NodeExecutor#execute(Status, boolean)}
- * will be triggered when each node's state machine is applied.
- * <p>
- * Note that any element contained in the implementation of this interface must
- * implement the {@link Serializable} interface.
  *
- * @author jiachun.fjc
+ * @author Jerry Yang
  */
-public interface NodeExecutor extends Serializable {
+public class BatchCompositeResponse extends BaseResponse<Boolean> {
 
-    /**
-     * This callback method will be triggered when each node's state machine
-     * is applied.
-     *
-     * @param status   The execution state of the current node
-     * @param isLeader Whether the current node is a leader
-     */
-    void execute(Status status, boolean isLeader);
+    private static final long serialVersionUID = 5567277378042784855L;
 }

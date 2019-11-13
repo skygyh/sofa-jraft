@@ -35,13 +35,13 @@ import java.util.concurrent.ExecutorService;
 import static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta;
 
 /**
- * @author jiachun.fjc
+ * @author Jerry Yang
  */
-public class MemoryKVStoreSnapshotFile extends AbstractKVStoreSnapshotFile {
+public class PMemKVStoreSnapshotFile extends AbstractKVStoreSnapshotFile {
 
-    private final MemoryRawKVStore kvStore;
+    private final PMemRawKVStore kvStore;
 
-    MemoryKVStoreSnapshotFile(MemoryRawKVStore kvStore) {
+    PMemKVStoreSnapshotFile(PMemRawKVStore kvStore) {
         this.kvStore = kvStore;
     }
 

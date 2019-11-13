@@ -25,6 +25,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
+import com.alipay.sofa.jraft.rhea.storage.KVCompositeEntry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -508,7 +510,7 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
         assertNull(value);
 
         value = makeValue("put_test_value");
-        store.bPut(key, value);
+        assertTrue(store.bPut(key, value));
         byte[] newValue = store.bGet(key);
         assertArrayEquals(value, newValue);
     }
@@ -521,6 +523,52 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
     @Test
     public void putByFollowerTest() {
         putTest(getRandomFollowerStore());
+    }
+
+    /**
+     * Test method: {@link RheaKVStore#put(byte[], byte[])}
+     */
+    private void putTest(RheaKVStore store, final int keySize, final int valueSize) {
+        // regions: 1 -> [null, g), 2 -> [g, null)
+        StringBuilder kb1 = new StringBuilder();
+        StringBuilder kb2 = new StringBuilder();
+        for (int i = 0; i < keySize - 1; i++) {
+            kb1.append('a');
+            kb2.append('g');
+        }
+        StringBuilder vb1 = new StringBuilder();
+        StringBuilder vb2 = new StringBuilder();
+        for (int i = 0; i < valueSize - 1; i++) {
+            vb1.append('1');
+            vb2.append('2');
+        }
+        byte[] key1 = makeKey(kb1.toString());
+        checkRegion(store, key1, 1);
+        byte[] value1 = store.bGet(key1);
+        assertNull(value1);
+        value1 = makeValue(vb1.toString());
+        assertTrue(store.bPut(key1, value1));
+        byte[] newValue = store.bGet(key1);
+        assertArrayEquals(value1, newValue);
+
+        byte[] key2 = makeKey(kb2.toString());
+        checkRegion(store, key2, 2);
+        byte[] value2 = store.bGet(key2);
+        assertNull(value2);
+        value2 = makeValue(vb2.toString());
+        assertTrue(store.bPut(key2, value2));
+        newValue = store.bGet(key2);
+        assertArrayEquals(value2, newValue);
+    }
+
+    @Test
+    public void largePutByLeaderTest() {
+        putTest(getRandomLeaderStore(), PMemDBOptions.MAX_KEY_SIZE, PMemDBOptions.MAX_VALUE_SIZE);
+    }
+
+    @Test
+    public void largePutByFollowerTest() {
+        putTest(getRandomFollowerStore(), PMemDBOptions.MAX_KEY_SIZE, PMemDBOptions.MAX_VALUE_SIZE);
     }
 
     /**
@@ -795,6 +843,83 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
     }
 
     /**
+     * Test method: {@link RheaKVStore#batch(List)}
+     */
+    private void batchCompositeTest(RheaKVStore store) {
+        List<KVEntry> entries1 = Lists.newArrayList();
+        List<byte[]> keys1 = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            byte[] key = makeKey("batch_composite_test_key" + i);
+            checkRegion(store, key, 1);
+            entries1.add(new KVEntry(key, makeValue("batch_composite_test_value" + i)));
+            keys1.add(key);
+        }
+        store.bPut(entries1);
+
+        List<KVEntry> entries2 = Lists.newArrayList();
+        List<byte[]> keys2 = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            byte[] key = makeKey("g_batch_composite_test_key" + i);
+            checkRegion(store, key, 2);
+            entries2.add(new KVEntry(key, makeValue("batch_composite_test_value" + i)));
+            keys2.add(key);
+        }
+        store.bPut(entries2);
+
+        // mixed put and delete in single batch
+        List<KVCompositeEntry> entries3 = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            byte[] key1 = keys1.get(i);
+            byte[] key2 = keys2.get(i);
+            checkRegion(store, key1, 1);
+            checkRegion(store, key2, 2);
+            if (i % 2 == 0) {
+                entries3.add(new KVCompositeEntry(key1, makeValue("batch_composite_test_value" + i * 100), false));
+                entries3.add(new KVCompositeEntry(key2, makeValue("batch_composite_test_value" + i * 100), false));
+            } else {
+                // delete odd index keys
+                entries3.add(new KVCompositeEntry(key1));
+                entries3.add(new KVCompositeEntry(key2));
+            }
+        }
+        store.bBatch(entries3);
+
+        List<KVEntry> foundList = store.bScan(makeKey("batch_composite_test_key"),
+            makeKey("batch_composite_test_key" + 99));
+        assertEquals(5, foundList.size());
+        for (int i = 0; i < keys1.size(); i++) {
+            byte[] value = store.bGet(keys1.get(i));
+            if (i % 2 == 0) {
+                assertNotNull(value);
+                assertEquals(0, BytesUtil.compare(value, makeValue("batch_composite_test_value" + i * 100)));
+            } else {
+                assertNull(value);
+            }
+        }
+        foundList = store.bScan(makeKey("g_batch_composite_test_key"), makeKey("g_batch_composite_test_key" + 99));
+        assertEquals(5, foundList.size());
+        for (int i = 0; i < keys2.size(); i++) {
+            byte[] value = store.bGet(keys2.get(i));
+            if (i % 2 == 0) {
+                assertNotNull(value);
+                assertEquals(0, BytesUtil.compare(value, makeValue("batch_composite_test_value" + i * 100)));
+            } else {
+                assertNull(value);
+            }
+        }
+    }
+
+    @Test
+    public void batchCompositeByLeaderTest() {
+        batchCompositeTest(getRandomLeaderStore());
+    }
+
+    @Test
+    public void batchCompositeByFollowerTest() {
+        batchCompositeTest(getRandomFollowerStore());
+    }
+
+    /**
      * Test method: {@link RheaKVStore#getDistributedLock(byte[], long, TimeUnit)}
      */
     private void distributedLockTest(RheaKVStore store) throws InterruptedException {
@@ -870,7 +995,7 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
         final ScheduledExecutorService watchdog = Executors.newScheduledThreadPool(1);
         final DistributedLock<byte[]> lockWithScheduler = store.getDistributedLock(lockKey, 3, TimeUnit.SECONDS,
                 watchdog);
-        lockWithScheduler.tryLock();
+        assertTrue(lockWithScheduler.tryLock());
         Thread.sleep(5000);
 
         final CountDownLatch latch5 = new CountDownLatch(1);

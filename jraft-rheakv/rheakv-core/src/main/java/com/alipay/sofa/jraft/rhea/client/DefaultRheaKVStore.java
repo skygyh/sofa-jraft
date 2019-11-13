@@ -22,7 +22,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import com.alipay.sofa.jraft.rhea.cmd.store.*;
+import com.alipay.sofa.jraft.rhea.storage.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -206,6 +210,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
     private GetBatching                        getBatching;
     private GetBatching                        getBatchingOnlySafe;
     private PutBatching                        putBatching;
+    private CompositeBatching                  compositeBatching;
 
     private volatile boolean                   started;
 
@@ -281,6 +286,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
                     new GetBatchingHandler("get_only_safe", true));
             this.putBatching = new PutBatching(KVEvent::new, "put_batching",
                     new PutBatchingHandler("put"));
+            this.compositeBatching = new CompositeBatching(KVCompositeEvent::new, "composite_batching",
+                    new CompositeBatchingHandler("batch"));
         }
         LOG.info("[DefaultRheaKVStore] start successfully, options: {}.", opts);
         return this.started = true;
@@ -1165,6 +1172,19 @@ public class DefaultRheaKVStore implements RheaKVStore {
         return delete(BytesUtil.writeUtf8(key));
     }
 
+    private CompletableFuture<Boolean> delete(final byte[] key, final CompletableFuture<Boolean> future,
+                                              final boolean tryBatching) {
+        checkState();
+        if (tryBatching) {
+            final CompositeBatching compositeBatching = this.compositeBatching;
+            if (compositeBatching != null && compositeBatching.apply(new KVCompositeEntry(key), future)) {
+                return future;
+            }
+        }
+        internalDelete(key, future, this.failoverRetries, null);
+        return future;
+    }
+
     @Override
     public Boolean bDelete(final byte[] key) {
         return FutureHelper.get(delete(key), this.futureTimeoutMillis);
@@ -1313,6 +1333,67 @@ public class DefaultRheaKVStore implements RheaKVStore {
             final DeleteRangeRequest request = new DeleteRangeRequest();
             request.setStartKey(subStartKey);
             request.setEndKey(subEndKey);
+            request.setRegionId(region.getId());
+            request.setRegionEpoch(region.getRegionEpoch());
+            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
+        }
+    }
+
+    @Override
+    public Boolean bBatch(final List<KVCompositeEntry> entries) {
+        return FutureHelper.get(batch(entries), this.futureTimeoutMillis);
+    }
+
+    // batch operation with composite put or delete
+    // Note: the current implementation, if the 'keys' are distributed across
+    // multiple regions, can not provide transaction guarantee.
+    @Override
+    public CompletableFuture<Boolean> batch(final List<KVCompositeEntry> entries) {
+        checkState();
+        Requires.requireNonNull(entries, "entries");
+        Requires.requireTrue(!entries.isEmpty(), "entries empty");
+        final FutureGroup<Boolean> futureGroup = internalBatch(entries, this.failoverRetries, null);
+        return FutureHelper.joinBooleans(futureGroup);
+    }
+
+    private FutureGroup<Boolean> internalBatch(final List<KVCompositeEntry> kvCompositeEntries, final int retriesLeft,
+                                                final Throwable lastCause) {
+        final Map<Region, List<KVCompositeEntry>> regionMap = this.pdClient
+                .findRegionsByKvEntries(kvCompositeEntries, ApiExceptionHelper.isInvalidEpoch(lastCause));
+        final List<CompletableFuture<Boolean>> futures = Lists.newArrayListWithCapacity(regionMap.size());
+        final Errors lastError = lastCause == null ? null : Errors.forException(lastCause);
+        for (final Map.Entry<Region, List<KVCompositeEntry>> entry : regionMap.entrySet()) {
+            final Region region = entry.getKey();
+            final List<KVCompositeEntry> subEntries = entry.getValue();
+            final RetryCallable<Boolean> retryCallable = retryCause -> internalBatch(subEntries, retriesLeft - 1,
+                    retryCause);
+            final BoolFailoverFuture future = new BoolFailoverFuture(retriesLeft, retryCallable);
+            internalRegionBatch(region, subEntries, future, retriesLeft, lastError);
+            futures.add(future);
+        }
+        return new FutureGroup<>(futures);
+    }
+
+    private void internalRegionBatch(final Region region, final List<KVCompositeEntry> subEntries,
+                                   final CompletableFuture<Boolean> future, final int retriesLeft,
+                                   final Errors lastCause) {
+        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
+        final RetryRunner retryRunner = retryCause -> internalRegionBatch(region, subEntries, future,
+                retriesLeft - 1, retryCause);
+        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, false, retriesLeft,
+                retryRunner);
+        if (regionEngine != null) {
+            if (ensureOnValidEpoch(region, regionEngine, closure)) {
+                final RawKVStore rawKVStore = getRawKVStore(regionEngine);
+                if (this.kvDispatcher == null) {
+                    rawKVStore.batch(subEntries, closure);
+                } else {
+                    this.kvDispatcher.execute(() -> rawKVStore.batch(subEntries, closure));
+                }
+            }
+        } else {
+            final BatchCompositeRequest request = new BatchCompositeRequest();
+            request.setKvEntries(subEntries);
             request.setRegionId(region.getId());
             request.setRegionEpoch(region.getRegionEpoch());
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
@@ -1568,6 +1649,22 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
+    private class CompositeBatching extends Batching<KVCompositeEvent, KVCompositeEntry, Boolean> {
+
+        public CompositeBatching(EventFactory<KVCompositeEvent> factory, String name, CompositeBatchingHandler handler) {
+            super(factory, batchingOpts.getBufSize(), name, handler);
+        }
+
+        @Override
+        public boolean apply(final KVCompositeEntry message, final CompletableFuture<Boolean> future) {
+            return this.ringBuffer.tryPublishEvent((event, sequence) -> {
+                event.reset();
+                event.kvCompositeEntry = message;
+                event.future = future;
+            });
+        }
+    }
+
     private class GetBatchingHandler extends AbstractBatchingHandler<KeyEvent> {
 
         private final boolean readOnlySafe;
@@ -1671,6 +1768,60 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
+    private class CompositeBatchingHandler extends AbstractBatchingHandler<KVCompositeEvent> {
+
+        public CompositeBatchingHandler(String metricsName) {
+            super(metricsName);
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void onEvent(final KVCompositeEvent event, final long sequence, final boolean endOfBatch) throws Exception {
+            this.events.add(event);
+            this.cachedBytes += event.kvCompositeEntry.length();
+            final int size = this.events.size();
+            if (!endOfBatch && size < batchingOpts.getBatchSize() && this.cachedBytes < batchingOpts.getMaxWriteBytes()) {
+                return;
+            }
+
+            if (size == 1) {
+                reset();
+                final KVCompositeEntry kv = event.kvCompositeEntry;
+                try {
+                    if (kv.isDelete()) {
+                        delete(kv.getKey(), event.future, false);
+                    } else {
+                        put(kv.getKey(), kv.getValue(), event.future, false);
+                    }
+                } catch (final Throwable t) {
+                    exceptionally(t, event.future);
+                }
+            } else {
+                final List<KVCompositeEntry> entries = Lists.newArrayListWithCapacity(size);
+                final CompletableFuture<Boolean>[] futures = new CompletableFuture[size];
+                for (int i = 0; i < size; i++) {
+                    final KVCompositeEvent e = this.events.get(i);
+                    entries.add(e.kvCompositeEntry);
+                    futures[i] = e.future;
+                }
+                reset();
+                try {
+                    batch(entries).whenComplete((result, throwable) -> {
+                        if (throwable == null) {
+                            for (int i = 0; i < futures.length; i++) {
+                                futures[i].complete(result);
+                            }
+                            return;
+                        }
+                        exceptionally(throwable, futures);
+                    });
+                } catch (final Throwable t) {
+                    exceptionally(t, futures);
+                }
+            }
+        }
+    }
+
     private abstract class AbstractBatchingHandler<T> implements EventHandler<T> {
 
         protected final Histogram histogramWithKeys;
@@ -1717,6 +1868,17 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
         public void reset() {
             this.kvEntry = null;
+            this.future = null;
+        }
+    }
+
+    private static class KVCompositeEvent {
+
+        private KVCompositeEntry           kvCompositeEntry;
+        private CompletableFuture<Boolean> future;
+
+        public void reset() {
+            this.kvCompositeEntry = null;
             this.future = null;
         }
     }

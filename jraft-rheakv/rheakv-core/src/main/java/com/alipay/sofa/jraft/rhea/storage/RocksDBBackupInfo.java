@@ -16,9 +16,9 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.io.Serializable;
-
 import org.rocksdb.BackupInfo;
+
+import java.io.Serializable;
 
 /**
  * RocksDB backup metadata info.

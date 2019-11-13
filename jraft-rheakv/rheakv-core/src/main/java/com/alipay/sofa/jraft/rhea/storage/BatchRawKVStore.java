@@ -164,4 +164,11 @@ public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
             resetSequence(kvState.getOp().getKey(), kvState.getDone());
         }
     }
+
+    public void batchComposite(final KVStateOutputList kvStates) {
+        for (int i = 0, l = kvStates.size(); i < l; i++) {
+            final KVState kvState = kvStates.get(i);
+            batch(kvState.getOp().getCompositeEntries(), kvState.getDone());
+        }
+    }
 }

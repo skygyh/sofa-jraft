@@ -26,6 +26,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.alipay.sofa.jraft.rhea.options.*;
+import com.alipay.sofa.jraft.rhea.storage.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,20 +46,8 @@ import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.metadata.Store;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
-import com.alipay.sofa.jraft.rhea.options.HeartbeatOptions;
-import com.alipay.sofa.jraft.rhea.options.MemoryDBOptions;
-import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
-import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
-import com.alipay.sofa.jraft.rhea.options.StoreEngineOptions;
 import com.alipay.sofa.jraft.rhea.rpc.ExtSerializerSupports;
 import com.alipay.sofa.jraft.rhea.serialization.Serializers;
-import com.alipay.sofa.jraft.rhea.storage.BatchRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.KVClosureAdapter;
-import com.alipay.sofa.jraft.rhea.storage.KVOperation;
-import com.alipay.sofa.jraft.rhea.storage.KVStoreClosure;
-import com.alipay.sofa.jraft.rhea.storage.MemoryRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
 import com.alipay.sofa.jraft.rhea.util.Constants;
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.rhea.util.Maps;
@@ -594,6 +584,8 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
                 return initRocksDB(opts);
             case Memory:
                 return initMemoryDB(opts);
+            case PMem:
+                return initPMemDB(opts);
             default:
                 throw new UnsupportedOperationException("unsupported storage type: " + storageType);
         }
@@ -640,6 +632,25 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             return false;
         }
         this.rawKVStore = memoryRawKVStore;
+        return true;
+    }
+
+    // Persistent Memory
+    private boolean initPMemDB(final StoreEngineOptions opts) {
+        PMemDBOptions pmemOpts = opts.getPMemDBOptions();
+        if (pmemOpts == null) {
+            pmemOpts = new PMemDBOptions();
+            opts.setPMemDBOptions(pmemOpts);
+        }
+        final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
+        pmemOpts.setDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, childPath).toString());
+        this.dbPath = new File(pmemOpts.getDbPath());
+        final PMemRawKVStore pmemRawKVStore = new PMemRawKVStore();
+        if (!pmemRawKVStore.init(pmemOpts)) {
+            LOG.error("Fail to init [PMemRawKVStore].");
+            return false;
+        }
+        this.rawKVStore = pmemRawKVStore;
         return true;
     }
 

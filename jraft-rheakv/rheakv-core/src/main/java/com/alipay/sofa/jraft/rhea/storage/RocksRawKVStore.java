@@ -16,15 +16,27 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.rhea.errors.StorageException;
+import com.alipay.sofa.jraft.rhea.metadata.Region;
+import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
+import com.alipay.sofa.jraft.rhea.rocks.support.RocksStatisticsCollector;
+import com.alipay.sofa.jraft.rhea.serialization.Serializer;
+import com.alipay.sofa.jraft.rhea.serialization.Serializers;
+import com.alipay.sofa.jraft.rhea.util.*;
+import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
+import com.alipay.sofa.jraft.util.*;
+import com.alipay.sofa.jraft.util.concurrent.AdjustableSemaphore;
+import com.codahale.metrics.Timer;
+import org.apache.commons.io.FileUtils;
+import org.rocksdb.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,57 +45,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Function;
-
-import org.apache.commons.io.FileUtils;
-import org.rocksdb.BackupEngine;
-import org.rocksdb.BackupInfo;
-import org.rocksdb.BackupableDBOptions;
-import org.rocksdb.BlockBasedTableConfig;
-import org.rocksdb.Checkpoint;
-import org.rocksdb.ColumnFamilyDescriptor;
-import org.rocksdb.ColumnFamilyHandle;
-import org.rocksdb.ColumnFamilyOptions;
-import org.rocksdb.DBOptions;
-import org.rocksdb.Env;
-import org.rocksdb.EnvOptions;
-import org.rocksdb.IngestExternalFileOptions;
-import org.rocksdb.Options;
-import org.rocksdb.ReadOptions;
-import org.rocksdb.RestoreOptions;
-import org.rocksdb.RocksDB;
-import org.rocksdb.RocksDBException;
-import org.rocksdb.RocksIterator;
-import org.rocksdb.Snapshot;
-import org.rocksdb.SstFileWriter;
-import org.rocksdb.Statistics;
-import org.rocksdb.StatisticsCollectorCallback;
-import org.rocksdb.StatsCollectorInput;
-import org.rocksdb.StringAppendOperator;
-import org.rocksdb.WriteBatch;
-import org.rocksdb.WriteOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alipay.sofa.jraft.rhea.errors.StorageException;
-import com.alipay.sofa.jraft.rhea.metadata.Region;
-import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
-import com.alipay.sofa.jraft.rhea.rocks.support.RocksStatisticsCollector;
-import com.alipay.sofa.jraft.rhea.serialization.Serializer;
-import com.alipay.sofa.jraft.rhea.serialization.Serializers;
-import com.alipay.sofa.jraft.rhea.util.ByteArray;
-import com.alipay.sofa.jraft.rhea.util.Lists;
-import com.alipay.sofa.jraft.rhea.util.Maps;
-import com.alipay.sofa.jraft.rhea.util.Partitions;
-import com.alipay.sofa.jraft.rhea.util.StackTraceUtil;
-import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
-import com.alipay.sofa.jraft.util.Bits;
-import com.alipay.sofa.jraft.util.BytesUtil;
-import com.alipay.sofa.jraft.util.Describer;
-import com.alipay.sofa.jraft.util.Requires;
-import com.alipay.sofa.jraft.util.StorageOptionsFactory;
-import com.alipay.sofa.jraft.util.SystemPropertyUtil;
-import com.alipay.sofa.jraft.util.concurrent.AdjustableSemaphore;
-import com.codahale.metrics.Timer;
 
 /**
  * Local KV store based on RocksDB
@@ -420,7 +381,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                     }
                 } catch (final Exception e) {
                     LOG.error("Failed to [BATCH_RESET_SEQUENCE], [size = {}], {}.", segment.size(),
-                        StackTraceUtil.stackTrace(e));
+                            StackTraceUtil.stackTrace(e));
                     setCriticalError(Lists.transform(kvStates, KVState::getDone), "Fail to [BATCH_RESET_SEQUENCE]", e);
                 }
                 return null;
@@ -531,7 +492,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                     }
                 } catch (final Exception e) {
                     LOG.error("Failed to [BATCH_GET_PUT], [size = {}] {}.", segment.size(),
-                        StackTraceUtil.stackTrace(e));
+                            StackTraceUtil.stackTrace(e));
                     setCriticalError(Lists.transform(kvStates, KVState::getDone), "Fail to [BATCH_GET_PUT]", e);
                 }
                 return null;
@@ -607,7 +568,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                     }
                 } catch (final Exception e) {
                     LOG.error("Failed to [BATCH_COMPARE_PUT], [size = {}] {}.", segment.size(),
-                        StackTraceUtil.stackTrace(e));
+                            StackTraceUtil.stackTrace(e));
                     setCriticalError(Lists.transform(kvStates, KVState::getDone), "Fail to [BATCH_COMPARE_PUT]", e);
                 }
                 return null;
@@ -751,7 +712,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                     }
                 } catch (final Exception e) {
                     LOG.error("Failed to [BATCH_PUT_IF_ABSENT], [size = {}] {}.", segment.size(),
-                        StackTraceUtil.stackTrace(e));
+                            StackTraceUtil.stackTrace(e));
                     setCriticalError(Lists.transform(kvStates, KVState::getDone), "Fail to [BATCH_PUT_IF_ABSENT]", e);
                 }
                 return null;
@@ -1068,7 +1029,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                     }
                 } catch (final Exception e) {
                     LOG.error("Failed to [BATCH_DELETE], [size = {}], {}.", segment.size(),
-                        StackTraceUtil.stackTrace(e));
+                            StackTraceUtil.stackTrace(e));
                     setCriticalError(Lists.transform(kvStates, KVState::getDone), "Fail to [BATCH_DELETE]", e);
                 }
                 return null;
@@ -1111,6 +1072,30 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         } catch (final Exception e) {
             LOG.error("Failed to [DELETE_LIST], [size = {}], {}.", keys.size(), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE_LIST]", e);
+        } finally {
+            readLock.unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("BATCH_OP");
+        final Lock readLock = this.readWriteLock.readLock();
+        readLock.lock();
+        try (final WriteBatch batch = new WriteBatch()) {
+            for (final KVCompositeEntry entry : entries) {
+                if (entry.isDelete()) {
+                    batch.delete(entry.getKey());
+                } else {
+                    batch.put(entry.getKey(), entry.getValue());
+                }
+            }
+            this.db.write(this.writeOptions, batch);
+            setSuccess(closure, Boolean.TRUE);
+        } catch (final Exception e) {
+            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", entries.size(), StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [BATCH_OP]", e);
         } finally {
             readLock.unlock();
             timeCtx.stop();
@@ -1461,7 +1446,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
             final EnumMap<SstColumnFamily, File> sstFileTable = getSstFileTable(tempPath);
             final CompletableFuture<Void> snapshotFuture = new CompletableFuture<>();
             final CompletableFuture<Void> sstFuture = createSstFiles(sstFileTable, region.getStartKey(),
-                region.getEndKey(), executor);
+                    region.getEndKey(), executor);
             sstFuture.whenComplete((aVoid, throwable) -> {
                 if (throwable == null) {
                     try {

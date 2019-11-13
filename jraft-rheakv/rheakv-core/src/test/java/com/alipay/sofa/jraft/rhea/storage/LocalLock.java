@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
@@ -30,7 +31,11 @@ public class LocalLock extends DistributedLock<byte[]> {
     private final RawKVStore rawKVStore;
 
     public LocalLock(byte[] target, long lease, TimeUnit unit, RawKVStore rawKVStore) {
-        super(target, lease, unit, null);
+        this(target, lease, unit, rawKVStore, null);
+    }
+
+    public LocalLock(byte[] target, long lease, TimeUnit unit, RawKVStore rawKVStore, ScheduledExecutorService watchdog) {
+        super(target, lease, unit, watchdog);
         this.rawKVStore = rawKVStore;
     }
 

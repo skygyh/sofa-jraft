@@ -16,15 +16,14 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.util.concurrent.ExecutorService;
-
 import com.alipay.sofa.jraft.Closure;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.storage.snapshot.SnapshotReader;
 import com.alipay.sofa.jraft.storage.snapshot.SnapshotWriter;
 
+import java.util.concurrent.ExecutorService;
+
 /**
- *
  * @author jiachun.fjc
  */
 public interface KVStoreSnapshotFile {

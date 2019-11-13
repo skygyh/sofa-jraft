@@ -19,7 +19,6 @@ package com.alipay.sofa.jraft.rhea.storage;
 import com.alipay.sofa.jraft.util.Requires;
 
 /**
- *
  * @author jiachun.fjc
  */
 public final class KVStoreSnapshotFileFactory {
@@ -31,6 +30,9 @@ public final class KVStoreSnapshotFileFactory {
         }
         if (kvStore instanceof MemoryRawKVStore) {
             return new MemoryKVStoreSnapshotFile((MemoryRawKVStore) kvStore);
+        }
+        if (kvStore instanceof PMemRawKVStore) {
+            return new PMemKVStoreSnapshotFile((PMemRawKVStore) kvStore);
         }
         throw reject("fail to find a KVStoreSnapshotFile with " + kvStore.getClass().getName());
     }
