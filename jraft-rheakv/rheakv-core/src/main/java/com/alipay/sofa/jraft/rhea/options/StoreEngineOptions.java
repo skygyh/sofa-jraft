@@ -33,6 +33,7 @@ public class StoreEngineOptions {
     private StorageType               storageType                   = StorageType.RocksDB;
     private RocksDBOptions            rocksDBOptions;
     private MemoryDBOptions           memoryDBOptions;
+    private PMemDBOptions             pmemDBOptions;
     private String                    raftDataPath;
     private Endpoint                  serverAddress;
     // Most configurations do not need to be configured separately for each raft-group,
@@ -77,6 +78,14 @@ public class StoreEngineOptions {
 
     public void setMemoryDBOptions(MemoryDBOptions memoryDBOptions) {
         this.memoryDBOptions = memoryDBOptions;
+    }
+
+    public PMemDBOptions getPMemDBOptions() {
+        return pmemDBOptions;
+    }
+
+    public void setPMemDBOptions(PMemDBOptions pmemDBOptions) {
+        this.pmemDBOptions = pmemDBOptions;
     }
 
     public String getRaftDataPath() {

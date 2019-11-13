@@ -16,17 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.zip.Checksum;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.Closure;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.error.RaftError;
@@ -40,6 +29,16 @@ import com.alipay.sofa.jraft.storage.snapshot.SnapshotWriter;
 import com.alipay.sofa.jraft.util.CRC64;
 import com.alipay.sofa.jraft.util.Requires;
 import com.google.protobuf.ByteString;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.zip.Checksum;
 
 import static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta;
 
@@ -63,6 +62,7 @@ public abstract class AbstractKVStoreSnapshotFile implements KVStoreSnapshotFile
         try {
             doSnapshotSave(snapshotPath, region, executor).whenComplete((metaBuilder, throwable) -> {
                 if (throwable == null) {
+                    LOG.info("Saved kv snapshot to file {}.", snapshotPath);
                     executor.execute(() -> compressSnapshot(writer, metaBuilder, done));
                 } else {
                     LOG.error("Fail to save snapshot, path={}, file list={}, {}.", writerPath, writer.listFiles(),
@@ -89,6 +89,7 @@ public abstract class AbstractKVStoreSnapshotFile implements KVStoreSnapshotFile
         }
         final String snapshotPath = Paths.get(readerPath, SNAPSHOT_DIR).toString();
         try {
+            LOG.info("Loading kv snapshot file from path {}.", readerPath);
             decompressSnapshot(readerPath, meta);
             doSnapshotLoad(snapshotPath, meta, region);
             final File tmp = new File(snapshotPath);

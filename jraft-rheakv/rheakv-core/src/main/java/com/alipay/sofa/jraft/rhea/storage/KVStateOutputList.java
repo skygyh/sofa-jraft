@@ -16,14 +16,14 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.util.Recyclable;
+import com.alipay.sofa.jraft.util.Recyclers;
+import com.alipay.sofa.jraft.util.Requires;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-
-import com.alipay.sofa.jraft.util.Recyclable;
-import com.alipay.sofa.jraft.util.Recyclers;
-import com.alipay.sofa.jraft.util.Requires;
 
 /**
  * A simple kv state list which is recyclable.

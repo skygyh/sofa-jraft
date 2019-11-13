@@ -18,7 +18,7 @@ package com.alipay.sofa.jraft.rhea.storage;
 
 /**
  * A heap-allocated iterator over the contents of the database.
- *
+ * <p>
  * Caller should close the iterator when it is no longer needed.
  * The returned iterator should be closed before this db is closed.
  *
@@ -58,7 +58,7 @@ public interface KVIterator extends AutoCloseable {
     /**
      * Position at the first entry in the source whose key is that or
      * past target.
-     *
+     * <p>
      * The iterator is valid after this call if the source contains
      * a key that comes at or past target.
      *
@@ -70,7 +70,7 @@ public interface KVIterator extends AutoCloseable {
     /**
      * Position at the first entry in the source whose key is that or
      * before target.
-     *
+     * <p>
      * The iterator is valid after this call if the source contains
      * a key that comes at or before target.
      *
@@ -82,7 +82,7 @@ public interface KVIterator extends AutoCloseable {
     /**
      * Moves to the next entry in the source.  After this call, Valid() is
      * true if the iterator was not positioned at the last entry in the source.
-     *
+     * <p>
      * REQUIRES: {@link #isValid()}
      */
     void next();
@@ -90,7 +90,7 @@ public interface KVIterator extends AutoCloseable {
     /**
      * Moves to the previous entry in the source.  After this call, Valid() is
      * true if the iterator was not positioned at the first entry in source.
-     *
+     * <p>
      * REQUIRES: {@link #isValid()}
      */
     void prev();
@@ -99,7 +99,7 @@ public interface KVIterator extends AutoCloseable {
      * Return the key for the current entry.  The underlying storage for
      * the returned slice is valid only until the next modification of
      * the iterator.
-     *
+     * <p>
      * REQUIRES: {@link #isValid()}
      *
      * @return key for the current entry.
@@ -110,7 +110,7 @@ public interface KVIterator extends AutoCloseable {
      * Return the value for the current entry.  The underlying storage for
      * the returned slice is valid only until the next modification of
      * the iterator.
-     *
+     * <p>
      * REQUIRES: !AtEnd() &amp;&amp; !AtStart()
      *
      * @return value for the current entry.

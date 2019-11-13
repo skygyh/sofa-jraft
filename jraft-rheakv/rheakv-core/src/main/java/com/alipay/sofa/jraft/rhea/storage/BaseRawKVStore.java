@@ -16,11 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.error.RaftError;
@@ -29,6 +24,10 @@ import com.alipay.sofa.jraft.rhea.errors.StorageException;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
 import com.alipay.sofa.jraft.rhea.util.StackTraceUtil;
 import com.codahale.metrics.Timer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.DB_TIMER;
 
@@ -155,7 +154,7 @@ public abstract class BaseRawKVStore<T> implements RawKVStore, Lifecycle<T> {
 
     /**
      * Sets critical error and halt the state machine.
-     *
+     * <p>
      * If current node is a leader, first reply to client
      * failure response.
      *
@@ -173,7 +172,7 @@ public abstract class BaseRawKVStore<T> implements RawKVStore, Lifecycle<T> {
 
     /**
      * Sets critical error and halt the state machine.
-     *
+     * <p>
      * If current node is a leader, first reply to client
      * failure response.
      *

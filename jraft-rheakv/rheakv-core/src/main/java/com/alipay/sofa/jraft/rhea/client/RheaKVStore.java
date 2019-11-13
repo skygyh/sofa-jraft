@@ -16,22 +16,23 @@
  */
 package com.alipay.sofa.jraft.rhea.client;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.rhea.FollowerStateListener;
 import com.alipay.sofa.jraft.rhea.LeaderStateListener;
 import com.alipay.sofa.jraft.rhea.StateListener;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
+import com.alipay.sofa.jraft.rhea.storage.KVCompositeEntry;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.storage.Sequence;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User layer KV store api.
@@ -577,6 +578,18 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      * @see #delete(List)
      */
     Boolean bDelete(final List<byte[]> keys);
+
+    /**
+     * Sync call of batch method
+     * @see #bBatch(List<KVCompositeEntry>)
+     */
+    Boolean bBatch(final List<KVCompositeEntry> entries);
+
+    /**
+     * Async call of batch method
+     * @see #batch(List<KVCompositeEntry>)
+     */
+    CompletableFuture<Boolean> batch(final List<KVCompositeEntry> entries);
 
     /**
      * @see #getDistributedLock(byte[], long, TimeUnit, ScheduledExecutorService)

@@ -16,13 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.concurrent.Executor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.Node;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.closure.ReadIndexClosure;
@@ -34,6 +27,12 @@ import com.alipay.sofa.jraft.rhea.util.Clock;
 import com.alipay.sofa.jraft.rhea.util.Pair;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 /**
  * KVStore based on RAFT replica state machine.
@@ -304,6 +303,11 @@ public class RaftRawKVStore implements RawKVStore {
     @Override
     public void delete(final List<byte[]> keys, final KVStoreClosure closure) {
         applyOperation(KVOperation.createDeleteList(keys), closure);
+    }
+
+    @Override
+    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+        applyOperation(KVOperation.createBatchOpList(entries), closure);
     }
 
     @Override

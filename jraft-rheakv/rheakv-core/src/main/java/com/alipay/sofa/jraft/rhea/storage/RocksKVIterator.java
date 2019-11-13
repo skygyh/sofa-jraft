@@ -16,14 +16,12 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.util.concurrent.locks.Lock;
-
+import com.alipay.sofa.jraft.rhea.errors.InvalidIteratorVersion;
 import org.rocksdb.RocksIterator;
 
-import com.alipay.sofa.jraft.rhea.errors.InvalidIteratorVersion;
+import java.util.concurrent.locks.Lock;
 
 /**
- *
  * @author jiachun.fjc
  */
 public class RocksKVIterator implements KVIterator {

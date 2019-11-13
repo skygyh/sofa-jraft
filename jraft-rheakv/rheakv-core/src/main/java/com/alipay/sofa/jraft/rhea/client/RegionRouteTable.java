@@ -222,13 +222,13 @@ public class RegionRouteTable {
     /**
      * Returns the list of regions to which the keys belongs.
      */
-    public Map<Region, List<KVEntry>> findRegionsByKvEntries(final List<KVEntry> kvEntries) {
+    public <E extends KVEntry> Map<Region, List<E>> findRegionsByKvEntries(final List<E> kvEntries) {
         Requires.requireNonNull(kvEntries, "kvEntries");
-        final Map<Region, List<KVEntry>> regionMap = Maps.newHashMap();
+        final Map<Region, List<E>> regionMap = Maps.newHashMap();
         final StampedLock stampedLock = this.stampedLock;
         final long stamp = stampedLock.readLock();
         try {
-            for (final KVEntry kvEntry : kvEntries) {
+            for (final E kvEntry : kvEntries) {
                 final Region region = findRegionByKeyWithoutLock(kvEntry.getKey());
                 regionMap.computeIfAbsent(region, k -> Lists.newArrayList()).add(kvEntry);
             }

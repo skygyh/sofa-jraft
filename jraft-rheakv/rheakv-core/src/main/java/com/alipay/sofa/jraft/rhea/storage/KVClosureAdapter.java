@@ -16,11 +16,10 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jiachun.fjc

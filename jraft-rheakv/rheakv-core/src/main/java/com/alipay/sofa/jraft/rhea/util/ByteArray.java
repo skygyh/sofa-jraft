@@ -50,6 +50,35 @@ public final class ByteArray implements Comparable<ByteArray>, Serializable {
         return bytes;
     }
 
+    public long getLong() {
+        return getLong(this.bytes);
+    }
+
+    public static long getLong(byte[] bytes) {
+        long res = 0;
+        for (int i = 0; i < Math.min(8, bytes.length); i++) {
+            res = res | (bytes[i] & 0xFF << i * 8);
+        }
+        return res;
+    }
+
+    public byte[] putLong(long n) {
+        for (int i = 0; i < 8; i++) {
+            this.bytes[i] = (byte) (n & 0xFF);
+            n >>= 8;
+        }
+        return bytes;
+    }
+
+    public static byte[] convertToBytes(long n) {
+        byte[] lbytes = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            lbytes[i] = (byte) (n & 0xFF);
+            n >>= 8;
+        }
+        return lbytes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

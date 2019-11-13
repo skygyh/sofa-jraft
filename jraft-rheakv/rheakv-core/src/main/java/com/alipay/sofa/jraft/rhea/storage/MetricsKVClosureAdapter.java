@@ -16,23 +16,18 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.codahale.metrics.Timer;
 
-import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.REGION_BYTES_READ;
-import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.REGION_BYTES_WRITTEN;
-import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.REGION_KEYS_READ;
-import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.REGION_KEYS_WRITTEN;
-import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.RPC_REQUEST_HANDLE_TIMER;
+import java.util.List;
+import java.util.Map;
+
+import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.*;
 
 /**
- *
  * @author jiachun.fjc
  */
 public class MetricsKVClosureAdapter implements KVStoreClosure {

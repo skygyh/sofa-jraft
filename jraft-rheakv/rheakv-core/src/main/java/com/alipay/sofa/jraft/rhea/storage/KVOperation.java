@@ -16,13 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.alipay.sofa.jraft.rhea.util.Pair;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Requires;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The KV store operation
@@ -33,56 +33,98 @@ public class KVOperation implements Serializable {
 
     private static final long   serialVersionUID = 1368415383186519279L;
 
-    /** Encode magic number */
+    /**
+     * Encode magic number
+     */
     public static final byte    MAGIC            = 0x00;
 
-    /** Put operation */
+    /**
+     * Put operation
+     */
     public static final byte    PUT              = 0x01;
-    /** PutIfAbsent operation */
+    /**
+     * PutIfAbsent operation
+     */
     public static final byte    PUT_IF_ABSENT    = 0x02;
-    /** Delete operation */
+    /**
+     * Delete operation
+     */
     public static final byte    DELETE           = 0x03;
-    /** Put list operation */
+    /**
+     * Put list operation
+     */
     public static final byte    PUT_LIST         = 0x04;
-    /** Delete range operation */
+    /**
+     * Delete range operation
+     */
     public static final byte    DELETE_RANGE     = 0x05;
-    /** Get sequence operation */
+    /**
+     * Get sequence operation
+     */
     public static final byte    GET_SEQUENCE     = 0x06;
-    /** Execute on every node operation */
+    /**
+     * Execute on every node operation
+     */
     public static final byte    NODE_EXECUTE     = 0x07;
-    /** Tries to lock the specified key */
+    /**
+     * Tries to lock the specified key
+     */
     public static final byte    KEY_LOCK         = 0x08;
-    /** Unlock the specified key */
+    /**
+     * Unlock the specified key
+     */
     public static final byte    KEY_LOCK_RELEASE = 0x09;
-    /** Get operation */
+    /**
+     * Get operation
+     */
     public static final byte    GET              = 0x0a;
-    /** MultiGet operation  */
+    /**
+     * MultiGet operation
+     */
     public static final byte    MULTI_GET        = 0x0b;
-    /** Scan operation */
+    /**
+     * Scan operation
+     */
     public static final byte    SCAN             = 0x0c;
-    /** Get and put operation */
+    /**
+     * Get and put operation
+     */
     public static final byte    GET_PUT          = 0x0d;
-    /** Merge operation */
+    /**
+     * Merge operation
+     */
     public static final byte    MERGE            = 0x0e;
-    /** Reset sequence operation */
+    /**
+     * Reset sequence operation
+     */
     public static final byte    RESET_SEQUENCE   = 0x0f;
 
     // split operation ***********************************
-    /** Range split operation */
+    /**
+     * Range split operation
+     */
     public static final byte    RANGE_SPLIT      = 0x10;
-    /** Compare and put operation */
+    /**
+     * Compare and put operation
+     */
     public static final byte    COMPARE_PUT      = 0x11;
-    /** Delete list operation */
+    /**
+     * Delete list operation
+     */
     public static final byte    DELETE_LIST      = 0x12;
-    /** Contains key operation */
+    /**
+     * Contains key operation
+     */
     public static final byte    CONTAINS_KEY     = 0x13;
 
-    public static final byte    EOF              = 0x14;
+    public static final byte    BATCH_OP         = 0x14;
+
+    public static final byte    EOF              = 0x15;
 
     private static final byte[] VALID_OPS;
 
     static {
-        VALID_OPS = new byte[19];
+        VALID_OPS = new byte[20];
         VALID_OPS[0] = PUT;
         VALID_OPS[1] = PUT_IF_ABSENT;
         VALID_OPS[2] = DELETE;
@@ -102,6 +144,7 @@ public class KVOperation implements Serializable {
         VALID_OPS[16] = COMPARE_PUT;
         VALID_OPS[17] = DELETE_LIST;
         VALID_OPS[18] = CONTAINS_KEY;
+        VALID_OPS[19] = BATCH_OP;
     }
 
     private byte[]              key;                                    // also startKey for DELETE_RANGE
@@ -157,6 +200,12 @@ public class KVOperation implements Serializable {
         Requires.requireNonNull(keys, "keys");
         Requires.requireTrue(!keys.isEmpty(), "keys is empty");
         return new KVOperation(BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, keys, DELETE_LIST);
+    }
+
+    public static KVOperation createBatchOpList(final List<KVCompositeEntry> entries) {
+        Requires.requireNonNull(entries, "entries");
+        Requires.requireTrue(!entries.isEmpty(), "entries is empty");
+        return new KVOperation(BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, entries, BATCH_OP);
     }
 
     public static KVOperation createGetSequence(final byte[] seqKey, final int step) {
@@ -282,6 +331,11 @@ public class KVOperation implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
+    public List<KVCompositeEntry> getCompositeEntries() {
+        return (List<KVCompositeEntry>) this.attach;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<byte[]> getKeys() {
         return (List<byte[]>) this.attach;
     }
@@ -374,6 +428,8 @@ public class KVOperation implements Serializable {
                 return "RESET_SEQUENCE";
             case RANGE_SPLIT:
                 return "RANGE_SPLIT";
+            case BATCH_OP:
+                return "BATCH_OP";
             default:
                 return "UNKNOWN" + op;
         }

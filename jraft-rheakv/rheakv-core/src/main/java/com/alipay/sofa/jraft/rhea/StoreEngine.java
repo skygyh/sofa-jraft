@@ -16,20 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import java.io.File;
-import java.nio.ByteBuffer;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.rpc.RpcServer;
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.Status;
@@ -44,35 +30,28 @@ import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.metadata.Store;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
-import com.alipay.sofa.jraft.rhea.options.HeartbeatOptions;
-import com.alipay.sofa.jraft.rhea.options.MemoryDBOptions;
-import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
-import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
-import com.alipay.sofa.jraft.rhea.options.StoreEngineOptions;
+import com.alipay.sofa.jraft.rhea.options.*;
 import com.alipay.sofa.jraft.rhea.rpc.ExtSerializerSupports;
 import com.alipay.sofa.jraft.rhea.serialization.Serializers;
-import com.alipay.sofa.jraft.rhea.storage.BatchRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.KVClosureAdapter;
-import com.alipay.sofa.jraft.rhea.storage.KVOperation;
-import com.alipay.sofa.jraft.rhea.storage.KVStoreClosure;
-import com.alipay.sofa.jraft.rhea.storage.MemoryRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
-import com.alipay.sofa.jraft.rhea.util.Constants;
-import com.alipay.sofa.jraft.rhea.util.Lists;
-import com.alipay.sofa.jraft.rhea.util.Maps;
-import com.alipay.sofa.jraft.rhea.util.NetUtil;
-import com.alipay.sofa.jraft.rhea.util.Strings;
+import com.alipay.sofa.jraft.rhea.storage.*;
+import com.alipay.sofa.jraft.rhea.util.*;
 import com.alipay.sofa.jraft.rpc.RaftRpcServerFactory;
-import com.alipay.sofa.jraft.util.BytesUtil;
-import com.alipay.sofa.jraft.util.Describer;
-import com.alipay.sofa.jraft.util.Endpoint;
-import com.alipay.sofa.jraft.util.ExecutorServiceHelper;
-import com.alipay.sofa.jraft.util.MetricThreadPoolExecutor;
-import com.alipay.sofa.jraft.util.Requires;
-import com.alipay.sofa.jraft.util.Utils;
+import com.alipay.sofa.jraft.util.*;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Storage engine, there is only one instance in a node,
@@ -595,6 +574,8 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
                 return initRocksDB(opts);
             case Memory:
                 return initMemoryDB(opts);
+            case PMem:
+                return initPMemDB(opts);
             default:
                 throw new UnsupportedOperationException("unsupported storage type: " + storageType);
         }
@@ -641,6 +622,25 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             return false;
         }
         this.rawKVStore = memoryRawKVStore;
+        return true;
+    }
+
+    // Persistent Memory
+    private boolean initPMemDB(final StoreEngineOptions opts) {
+        PMemDBOptions pmemOpts = opts.getPMemDBOptions();
+        if (pmemOpts == null) {
+            pmemOpts = new PMemDBOptions();
+            opts.setPMemDBOptions(pmemOpts);
+        }
+        final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
+        pmemOpts.setDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, childPath).toString());
+        this.dbPath = new File(pmemOpts.getDbPath());
+        final PMemRawKVStore pmemRawKVStore = new PMemRawKVStore();
+        if (!pmemRawKVStore.init(pmemOpts)) {
+            LOG.error("Fail to init [PMemRawKVStore].");
+            return false;
+        }
+        this.rawKVStore = pmemRawKVStore;
         return true;
     }
 

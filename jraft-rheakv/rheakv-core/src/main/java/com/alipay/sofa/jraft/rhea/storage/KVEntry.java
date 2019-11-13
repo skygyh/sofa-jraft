@@ -16,12 +16,11 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.io.Serializable;
-
 import com.alipay.sofa.jraft.util.BytesUtil;
 
+import java.io.Serializable;
+
 /**
- *
  * @author jiachun.fjc
  */
 public class KVEntry implements Serializable {

@@ -20,5 +20,5 @@ package com.alipay.sofa.jraft.rhea.storage;
  * @author jiachun.fjc
  */
 public enum StorageType {
-    RocksDB, Memory
+    RocksDB, Memory, PMem
 }

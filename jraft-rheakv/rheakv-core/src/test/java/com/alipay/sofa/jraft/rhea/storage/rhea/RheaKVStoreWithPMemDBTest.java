@@ -14,29 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alipay.sofa.jraft.rhea.storage;
+package com.alipay.sofa.jraft.rhea.storage.rhea;
 
-import com.alipay.sofa.jraft.Status;
-
-import java.io.Serializable;
+import com.alipay.sofa.jraft.rhea.storage.StorageType;
 
 /**
- * This is a callback interface, {@link NodeExecutor#execute(Status, boolean)}
- * will be triggered when each node's state machine is applied.
- * <p>
- * Note that any element contained in the implementation of this interface must
- * implement the {@link Serializable} interface.
- *
- * @author jiachun.fjc
+ * @author Jerry Yang
+ * Persistent Memory test
  */
-public interface NodeExecutor extends Serializable {
+public class RheaKVStoreWithPMemDBTest extends AbstractRheaKVStoreTest {
 
-    /**
-     * This callback method will be triggered when each node's state machine
-     * is applied.
-     *
-     * @param status   The execution state of the current node
-     * @param isLeader Whether the current node is a leader
-     */
-    void execute(Status status, boolean isLeader);
+    @Override
+    public StorageType getStorageType() {
+        return StorageType.PMem;
+    }
 }

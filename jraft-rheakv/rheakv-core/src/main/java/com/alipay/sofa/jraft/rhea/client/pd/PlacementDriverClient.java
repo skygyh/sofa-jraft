@@ -59,7 +59,7 @@ public interface PlacementDriverClient extends Lifecycle<PlacementDriverOptions>
     /**
      * Returns the regions to which the keys belongs.
      */
-    Map<Region, List<KVEntry>> findRegionsByKvEntries(final List<KVEntry> kvEntries, final boolean forceRefresh);
+    <E extends KVEntry> Map<Region, List<E>> findRegionsByKvEntries(final List<E> kvEntries, final boolean forceRefresh);
 
     /**
      * Returns the list of regions covered by startKey and endKey.
