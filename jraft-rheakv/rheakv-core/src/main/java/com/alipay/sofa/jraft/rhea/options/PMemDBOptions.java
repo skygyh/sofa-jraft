@@ -48,7 +48,7 @@ public class PMemDBOptions {
     private String             hashEngine     = "cmap";
     private int                pmemDataSize   = 512 * 1024 * 1024;
     private int                pmemMetaSize   = 8 * 1024 * 1024;
-    private String             dbPath         = PMEM_ROOT_PATH + System.nanoTime();
+    private String             dbPath         = null;
     private int                forceCreate    = 1;
 
     // for segment snapshot file size

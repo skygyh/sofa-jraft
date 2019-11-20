@@ -8,8 +8,8 @@ placementDriverOptions:
 storeEngineOptions:
   rocksDBOptions:
     sync: false
-    dbPath: benchmark_rhea_db/
-  raftDataPath: benchmark_rhea_raft/
+    dbPath: /mnt/mem/benchmark_rhea_db/
+  raftDataPath: /mnt/mem/benchmark_rhea_raft/
   serverAddress:
     ip: 127.0.0.1
     port: 8181

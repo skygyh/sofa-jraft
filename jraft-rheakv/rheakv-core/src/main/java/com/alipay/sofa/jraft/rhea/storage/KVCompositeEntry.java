@@ -21,16 +21,23 @@ package com.alipay.sofa.jraft.rhea.storage;
  */
 public class KVCompositeEntry extends KVEntry {
 
+    private boolean isCreate;
     private boolean isDelete; // delete or udpate.
 
     public KVCompositeEntry(byte[] key) {
         super(key, null);
+        this.isCreate = false;
         this.isDelete = true;
     }
 
-    public KVCompositeEntry(byte[] key, byte[] value, boolean isDelete) {
+    public KVCompositeEntry(byte[] key, byte[] value, boolean isDelete, boolean isCreate) {
         super(key, value);
+        this.isCreate = isCreate;
         this.isDelete = isDelete;
+    }
+
+    public boolean isCreate() {
+        return isCreate;
     }
 
     public boolean isDelete() {
@@ -39,6 +46,6 @@ public class KVCompositeEntry extends KVEntry {
 
     @Override
     public String toString() {
-        return "KVCompositeEntry{" + super.toString() + " delete=" + this.isDelete + "}";
+        return "KVCompositeEntry{" + super.toString() + " delete=" + this.isDelete + " isCreate=" + isCreate + "}";
     }
 }

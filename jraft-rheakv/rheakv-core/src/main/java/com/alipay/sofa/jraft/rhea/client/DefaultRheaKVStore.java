@@ -1790,6 +1790,12 @@ public class DefaultRheaKVStore implements RheaKVStore {
                 try {
                     if (kv.isDelete()) {
                         delete(kv.getKey(), event.future, false);
+                    } else if (kv.isCreate()){
+                        putIfAbsent(kv.getKey(), kv.getValue()).thenApply(prevVal -> {
+                            boolean success = prevVal == null || prevVal.length == 0;
+                            event.future.complete(success);
+                            return success;
+                        });
                     } else {
                         put(kv.getKey(), kv.getValue(), event.future, false);
                     }
