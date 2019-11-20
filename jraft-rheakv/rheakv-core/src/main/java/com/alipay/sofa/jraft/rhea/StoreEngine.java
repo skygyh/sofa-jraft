@@ -633,7 +633,9 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             opts.setPMemDBOptions(pmemOpts);
         }
         final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
-        pmemOpts.setDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, childPath).toString());
+        pmemOpts.setDbPath(Paths.get(
+            pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
+        LOG.info("set PMem DBPath : {}", pmemOpts.getDbPath());
         this.dbPath = new File(pmemOpts.getDbPath());
         final PMemRawKVStore pmemRawKVStore = new PMemRawKVStore();
         if (!pmemRawKVStore.init(pmemOpts)) {

@@ -614,6 +614,8 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
             for (final KVCompositeEntry entry : entries) {
                 if (entry.isDelete()) {
                     this.defaultDB.remove(entry.getKey());
+                } else if (entry.isCreate()) {
+                    this.defaultDB.putIfAbsent(entry.getKey(), entry.getValue());
                 } else {
                     this.defaultDB.put(entry.getKey(), entry.getValue());
                 }

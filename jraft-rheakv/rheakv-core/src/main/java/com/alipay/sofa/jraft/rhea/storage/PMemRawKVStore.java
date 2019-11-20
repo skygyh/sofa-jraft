@@ -773,6 +773,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
                 if (entry.isDelete()) {
                     this.defaultDB.remove(key);
+                } else if (entry.isCreate()) {
+                    Requires.requireTrue(value != null && value.length <= PMemDBOptions.MAX_VALUE_SIZE);
+                    // TODO : require pmemkv to support putIfAbsent op.
+                    byte[] old = this.defaultDB.get(key);
+                    if (old == null || old.length == 0) {
+                        this.defaultDB.put(key, value);
+                    }
                 } else {
                     Requires.requireTrue(value != null && value.length <= PMemDBOptions.MAX_VALUE_SIZE);
                     this.defaultDB.put(key, value);

@@ -1110,6 +1110,11 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
             for (final KVCompositeEntry entry : entries) {
                 if (entry.isDelete()) {
                     batch.delete(entry.getKey());
+                } else if (entry.isCreate()) {
+                    byte[] old = this.db.get(entry.getKey());
+                    if (old == null || old.length == 0) {
+                        batch.put(entry.getKey(), entry.getValue());
+                    }
                 } else {
                     batch.put(entry.getKey(), entry.getValue());
                 }

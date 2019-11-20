@@ -38,33 +38,45 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
  * @author jiachun.fjc
  */
 public class RheaBenchmarkCluster {
+    // Default path if system environment variables (DB_PATH and RAFT_PATH) are not set.
+    private static final String               DefaultBenchMarkDbPath   = "benchmark_rhea_db";
+    private static final String               DefaultBenchMarkRaftPath = "benchmark_rhea_raft";
 
-    private static final String[]             CONF   = {
+    private static final String[]             CONF                     = {
             "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_1.yaml",
             "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_2.yaml",
             "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_3.yaml" };
 
     private volatile String                   tempDbPath;
     private volatile String                   tempRaftPath;
-    private CopyOnWriteArrayList<RheaKVStore> stores = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<RheaKVStore> stores                   = new CopyOnWriteArrayList<>();
 
     protected void start() throws IOException, InterruptedException {
         SystemPropertyUtil.setProperty(Configs.NETTY_BUFFER_LOW_WATERMARK, Integer.toString(256 * 1024));
         SystemPropertyUtil.setProperty(Configs.NETTY_BUFFER_HIGH_WATERMARK, Integer.toString(512 * 1024));
-        File file = new File("benchmark_rhea_db");
+        File file = new File(DefaultBenchMarkDbPath);
         if (file.exists()) {
             FileUtils.forceDelete(file);
         }
-        file = new File("benchmark_rhea_db");
+        String dbPath = System.getenv("DB_PATH");
+        if (dbPath == null || dbPath.isEmpty()) {
+            dbPath = DefaultBenchMarkDbPath;
+        }
+        file = new File(dbPath);
         if (file.mkdir()) {
             this.tempDbPath = file.getAbsolutePath();
             System.out.println("make dir: " + this.tempDbPath);
         }
-        file = new File("benchmark_rhea_raft");
+
+        String raftPath = System.getenv("RAFT_PATH");
+        if (raftPath == null || raftPath.isEmpty()) {
+            raftPath = DefaultBenchMarkRaftPath;
+        }
+        file = new File(raftPath);
         if (file.exists()) {
             FileUtils.forceDelete(file);
         }
-        file = new File("benchmark_rhea_raft");
+        file = new File(raftPath);
         if (file.mkdir()) {
             this.tempRaftPath = file.getAbsolutePath();
             System.out.println("make dir: " + this.tempRaftPath);

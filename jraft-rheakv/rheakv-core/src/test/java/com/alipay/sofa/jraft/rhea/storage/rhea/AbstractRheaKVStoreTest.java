@@ -882,8 +882,10 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
             checkRegion(store, key1, 1);
             checkRegion(store, key2, 2);
             if (i % 2 == 0) {
-                entries3.add(new KVCompositeEntry(key1, makeValue("batch_composite_test_value" + i * 100), false));
-                entries3.add(new KVCompositeEntry(key2, makeValue("batch_composite_test_value" + i * 100), false));
+                entries3
+                    .add(new KVCompositeEntry(key1, makeValue("batch_composite_test_value" + i * 100), false, false));
+                entries3
+                    .add(new KVCompositeEntry(key2, makeValue("batch_composite_test_value" + i * 100), false, false));
             } else {
                 // delete odd index keys
                 entries3.add(new KVCompositeEntry(key1));
