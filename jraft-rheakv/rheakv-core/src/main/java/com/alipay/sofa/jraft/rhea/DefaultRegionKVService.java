@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -620,9 +621,9 @@ public class DefaultRegionKVService implements RegionKVService {
         response.setRegionEpoch(getRegionEpoch());
         try {
             KVParameterRequires.requireSameEpoch(request, getRegionEpoch());
-            final List<KVCompositeEntry> entries = KVParameterRequires.requireNonEmpty(request.getKvEntries(),
-                "batch.kvCompositeEntries");
-            this.rawKVStore.batch(entries, new BaseKVStoreClosure() {
+            final List<BaseRequest> subRequests = KVParameterRequires.requireNonEmpty(request.getCompositeRequests(),
+                "batch.compositeRequests");
+            this.rawKVStore.batch(getKvOperations(request), new BaseKVStoreClosure() {
 
                 @Override
                 public void run(final Status status) {
@@ -639,6 +640,74 @@ public class DefaultRegionKVService implements RegionKVService {
             response.setError(Errors.forException(t));
             closure.sendResponse(response);
         }
+    }
+
+    private List<KVOperation> getKvOperations(BatchCompositeRequest request) {
+        List<KVOperation> kvOperations = new ArrayList<>();
+        for (BaseRequest subRequest : request.getCompositeRequests()) {
+            switch (subRequest.magic()) {
+                case BaseRequest.PUT:
+                    kvOperations.add(KVOperation.createPut(((PutRequest)subRequest).getKey(), ((PutRequest)subRequest).getValue()));
+                    break;
+                case BaseRequest.BATCH_PUT:
+                    kvOperations.add(KVOperation.createPutList(((BatchPutRequest)subRequest).getKvEntries()));
+                    break;
+                case BaseRequest.PUT_IF_ABSENT:
+                    kvOperations.add(KVOperation.createPutIfAbsent(((PutIfAbsentRequest)subRequest).getKey(), ((PutIfAbsentRequest)subRequest).getValue()));
+                    break;
+                case BaseRequest.GET_PUT:
+                    kvOperations.add(KVOperation.createGetAndPut(((GetAndPutRequest)subRequest).getKey(), ((GetAndPutRequest)subRequest).getValue()));
+                    break;
+                case BaseRequest.DELETE:
+                    kvOperations.add(KVOperation.createDelete(((DeleteRequest)subRequest).getKey()));
+                    break;
+                case BaseRequest.DELETE_RANGE:
+                    kvOperations.add(KVOperation.createDeleteRange(((DeleteRangeRequest)subRequest).getStartKey(), ((DeleteRangeRequest)subRequest).getEndKey()));
+                    break;
+                case BaseRequest.MERGE:
+                    kvOperations.add(KVOperation.createMerge(((MergeRequest)subRequest).getKey(), ((MergeRequest)subRequest).getValue()));
+                    break;
+                case BaseRequest.GET:
+                    kvOperations.add(KVOperation.createGet(((GetRequest)subRequest).getKey()));
+                    break;
+                case BaseRequest.MULTI_GET:
+                    kvOperations.add(KVOperation.createMultiGet(((MultiGetRequest)subRequest).getKeys()));
+                    break;
+                case BaseRequest.SCAN:
+                    kvOperations.add(KVOperation.createScan(((ScanRequest)subRequest).getStartKey(), ((ScanRequest)subRequest).getEndKey(), ((ScanRequest)subRequest).getLimit(), ((ScanRequest)subRequest).isReturnValue()));
+                    break;
+                case BaseRequest.GET_SEQUENCE:
+                    kvOperations.add(KVOperation.createGetSequence(((GetSequenceRequest)subRequest).getSeqKey(), ((GetSequenceRequest)subRequest).getStep()));
+                    break;
+                case BaseRequest.RESET_SEQUENCE:
+                    kvOperations.add(KVOperation.createResetSequence(((ResetSequenceRequest)subRequest).getSeqKey()));
+                    break;
+                case BaseRequest.KEY_LOCK:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                case BaseRequest.KEY_UNLOCK:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                case BaseRequest.NODE_EXECUTE:
+                    kvOperations.add(KVOperation.createNodeExecutor(((NodeExecuteRequest)subRequest).getNodeExecutor()));
+                    break;
+                case BaseRequest.RANGE_SPLIT:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                case BaseRequest.COMPARE_PUT:
+                    kvOperations.add(KVOperation.createCompareAndPut(((CompareAndPutRequest)subRequest).getKey(), ((CompareAndPutRequest)subRequest).getExpect(), ((CompareAndPutRequest)subRequest).getUpdate()));
+                    break;
+                case BaseRequest.BATCH_DELETE:
+                    kvOperations.add(KVOperation.createDeleteList(((BatchDeleteRequest)subRequest).getKeys()));
+                    break;
+                case BaseRequest.CONTAINS_KEY:
+                    kvOperations.add(KVOperation.createContainsKey(((ContainsKeyRequest)subRequest).getKey()));
+                    break;
+                case BaseRequest.BATCH_COMPOSITE:
+                    kvOperations.addAll(getKvOperations((BatchCompositeRequest) subRequest));
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+            }
+        }
+        return kvOperations;
     }
 
     private static void setFailure(final BaseRequest request, final BaseResponse<?> response, final Status status,

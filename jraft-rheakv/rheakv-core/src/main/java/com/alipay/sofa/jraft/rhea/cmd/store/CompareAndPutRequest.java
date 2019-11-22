@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
 /**
@@ -29,6 +30,15 @@ public class CompareAndPutRequest extends BaseRequest {
     private byte[]            key;
     private byte[]            expect;
     private byte[]            update;
+
+    public CompareAndPutRequest(){}
+
+    public CompareAndPutRequest(byte[] key, byte[] expect, byte[] update, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.key = key;
+        this.expect = expect;
+        this.update = update;
+    }
 
     public byte[] getKey() {
         return key;

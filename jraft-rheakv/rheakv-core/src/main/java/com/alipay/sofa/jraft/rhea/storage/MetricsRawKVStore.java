@@ -195,14 +195,16 @@ public class MetricsRawKVStore implements RawKVStore {
     }
 
     @Override
-    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+    public void batch(final List<KVOperation> operations, final KVStoreClosure closure) {
         long bytesWritten = 0;
-        for (final KVEntry kvEntry : entries) {
-            byte[] value = kvEntry.getValue();
+        for (final KVOperation kvOperation : operations) {
+            byte[] key = kvOperation.getKey();
+            byte[] value = kvOperation.getValue();
+            bytesWritten += (key == null ? 0 : key.length);
             bytesWritten += (value == null ? 0 : value.length);
         }
-        final KVStoreClosure c = metricsAdapter(closure, BATCH_OP, entries.size(), bytesWritten);
-        this.rawKVStore.batch(entries, c);
+        final KVStoreClosure c = metricsAdapter(closure, BATCH_OP, operations.size(), bytesWritten);
+        this.rawKVStore.batch(operations, c);
     }
 
     @Override

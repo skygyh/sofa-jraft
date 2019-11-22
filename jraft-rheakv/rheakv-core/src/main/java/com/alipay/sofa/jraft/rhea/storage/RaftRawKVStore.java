@@ -306,8 +306,8 @@ public class RaftRawKVStore implements RawKVStore {
     }
 
     @Override
-    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
-        applyOperation(KVOperation.createBatchOpList(entries), closure);
+    public void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure) {
+        applyOperation(KVOperation.createBatchOpList(kvOperations), closure);
     }
 
     @Override

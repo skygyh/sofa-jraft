@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
 /**
@@ -28,6 +29,14 @@ public class GetSequenceRequest extends BaseRequest {
 
     private byte[]            seqKey;
     private int               step;
+
+    public GetSequenceRequest(){}
+
+    public GetSequenceRequest(byte[] seqKey, int step, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.seqKey = seqKey;
+        this.step = step;
+    }
 
     public byte[] getSeqKey() {
         return seqKey;

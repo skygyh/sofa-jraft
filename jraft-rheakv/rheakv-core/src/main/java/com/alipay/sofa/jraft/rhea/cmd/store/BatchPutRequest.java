@@ -18,6 +18,7 @@ package com.alipay.sofa.jraft.rhea.cmd.store;
 
 import java.util.List;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 
 /**
@@ -29,6 +30,13 @@ public class BatchPutRequest extends BaseRequest {
     private static final long serialVersionUID = -980036845124180958L;
 
     private List<KVEntry>     kvEntries;
+
+    public BatchPutRequest(){}
+
+    public BatchPutRequest(List<KVEntry> kvEntries, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.kvEntries = kvEntries;
+    }
 
     public List<KVEntry> getKvEntries() {
         return kvEntries;

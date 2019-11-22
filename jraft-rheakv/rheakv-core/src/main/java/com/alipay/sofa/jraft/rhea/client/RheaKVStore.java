@@ -22,8 +22,8 @@ import com.alipay.sofa.jraft.rhea.LeaderStateListener;
 import com.alipay.sofa.jraft.rhea.StateListener;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
-import com.alipay.sofa.jraft.rhea.storage.KVCompositeEntry;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import com.alipay.sofa.jraft.rhea.storage.Sequence;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
@@ -581,15 +581,15 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
 
     /**
      * Sync call of batch method
-     * @see #bBatch(List<KVCompositeEntry>)
+     * @see #bBatch(List<KVOperation>)
      */
-    Boolean bBatch(final List<KVCompositeEntry> entries);
+    Boolean bBatch(final List<KVOperation> kvOperations);
 
     /**
      * Async call of batch method
-     * @see #batch(List<KVCompositeEntry>)
+     * @see #batch(List<KVOperation>)
      */
-    CompletableFuture<Boolean> batch(final List<KVCompositeEntry> entries);
+    CompletableFuture<Boolean> batch(final List<KVOperation> kvOperations);
 
     /**
      * @see #getDistributedLock(byte[], long, TimeUnit, ScheduledExecutorService)

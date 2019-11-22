@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
@@ -29,6 +30,14 @@ public class KeyUnlockRequest extends BaseRequest {
 
     private byte[]                   key;
     private DistributedLock.Acquirer acquirer;
+
+    public KeyUnlockRequest() {}
+
+    public KeyUnlockRequest(byte[] key, DistributedLock.Acquirer acquirer, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.key = key;
+        this.acquirer = acquirer;
+    }
 
     public byte[] getKey() {
         return key;

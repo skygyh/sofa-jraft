@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
 /**
@@ -28,6 +29,14 @@ public class DeleteRangeRequest extends BaseRequest {
 
     private byte[]            startKey;
     private byte[]            endKey;
+
+    public DeleteRangeRequest(){}
+
+    public DeleteRangeRequest(byte[] startKey, byte[] endKey, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.startKey = startKey;
+        this.endKey = endKey;
+    }
 
     public byte[] getStartKey() {
         return startKey;

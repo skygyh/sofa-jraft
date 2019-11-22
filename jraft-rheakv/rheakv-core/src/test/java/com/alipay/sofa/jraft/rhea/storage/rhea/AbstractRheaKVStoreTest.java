@@ -25,8 +25,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
-import com.alipay.sofa.jraft.rhea.storage.KVCompositeEntry;
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +43,6 @@ import com.alipay.sofa.jraft.rhea.RheaKVServiceFactory;
 import com.alipay.sofa.jraft.rhea.client.FutureGroup;
 import com.alipay.sofa.jraft.rhea.client.RheaIterator;
 import com.alipay.sofa.jraft.rhea.client.RheaKVCliService;
-import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.storage.Sequence;
@@ -875,7 +875,7 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
         store.bPut(entries2);
 
         // mixed put and delete in single batch
-        List<KVCompositeEntry> entries3 = Lists.newArrayList();
+        List<KVOperation> entries3 = Lists.newArrayList();
         for (int i = 0; i < 10; i++) {
             byte[] key1 = keys1.get(i);
             byte[] key2 = keys2.get(i);
@@ -883,13 +883,13 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
             checkRegion(store, key2, 2);
             if (i % 2 == 0) {
                 entries3
-                    .add(new KVCompositeEntry(key1, makeValue("batch_composite_test_value" + i * 100), false, false));
+                    .add(new KVOperation(key1, makeValue("batch_composite_test_value" + i * 100), null, KVOperation.PUT));
                 entries3
-                    .add(new KVCompositeEntry(key2, makeValue("batch_composite_test_value" + i * 100), false, false));
+                    .add(new KVOperation(key2, makeValue("batch_composite_test_value" + i * 100), null, KVOperation.PUT));
             } else {
                 // delete odd index keys
-                entries3.add(new KVCompositeEntry(key1));
-                entries3.add(new KVCompositeEntry(key2));
+                entries3.add(new KVOperation(key1, null, null, KVOperation.DELETE));
+                entries3.add(new KVOperation(key2, null, null, KVOperation.DELETE));
             }
         }
         store.bBatch(entries3);

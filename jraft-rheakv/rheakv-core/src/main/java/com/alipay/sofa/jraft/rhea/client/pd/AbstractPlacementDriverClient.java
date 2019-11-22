@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,6 +148,15 @@ public abstract class AbstractPlacementDriverClient implements PlacementDriverCl
             refreshRouteTable();
         }
         return this.regionRouteTable.findRegionsByKvEntries(kvEntries);
+    }
+
+    @Override
+    public <E extends KVOperation> Map<Region, List<E>> findRegionsByKvOperations(final List<E> kvOperations,
+                                                                                final boolean forceRefresh) {
+        if (forceRefresh) {
+            refreshRouteTable();
+        }
+        return this.regionRouteTable.findRegionsByKvOperations(kvOperations);
     }
 
     @Override

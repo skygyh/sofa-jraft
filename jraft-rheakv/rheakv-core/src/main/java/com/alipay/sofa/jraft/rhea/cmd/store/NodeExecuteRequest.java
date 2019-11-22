@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.storage.NodeExecutor;
 
 /**
@@ -27,6 +28,13 @@ public class NodeExecuteRequest extends BaseRequest {
     private static final long serialVersionUID = -9087272065211874819L;
 
     private NodeExecutor      nodeExecutor;
+
+    public NodeExecuteRequest(){}
+
+    public NodeExecuteRequest(NodeExecutor nodeExecutor, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.nodeExecutor = nodeExecutor;
+    }
 
     public NodeExecutor getNodeExecutor() {
         return nodeExecutor;

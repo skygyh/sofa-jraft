@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
@@ -30,6 +31,15 @@ public class KeyLockRequest extends BaseRequest {
     private byte[]                   key;
     private boolean                  keepLease;
     private DistributedLock.Acquirer acquirer;
+
+    public KeyLockRequest(){}
+
+    public KeyLockRequest(byte[] key, boolean keepLease, DistributedLock.Acquirer acquirer, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.key = key;
+        this.keepLease = keepLease;
+        this.acquirer = acquirer;
+    }
 
     public byte[] getKey() {
         return key;
