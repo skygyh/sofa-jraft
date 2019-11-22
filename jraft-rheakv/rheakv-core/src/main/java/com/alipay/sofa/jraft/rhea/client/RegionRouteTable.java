@@ -23,6 +23,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.locks.StampedLock;
 
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -231,6 +232,22 @@ public class RegionRouteTable {
             for (final E kvEntry : kvEntries) {
                 final Region region = findRegionByKeyWithoutLock(kvEntry.getKey());
                 regionMap.computeIfAbsent(region, k -> Lists.newArrayList()).add(kvEntry);
+            }
+            return regionMap;
+        } finally {
+            stampedLock.unlockRead(stamp);
+        }
+    }
+
+    public <E extends KVOperation> Map<Region, List<E>> findRegionsByKvOperations(final List<E> kvOperations) {
+        Requires.requireNonNull(kvOperations, "kvOperations");
+        final Map<Region, List<E>> regionMap = Maps.newHashMap();
+        final StampedLock stampedLock = this.stampedLock;
+        final long stamp = stampedLock.readLock();
+        try {
+            for (final E kvOperation : kvOperations) {
+                final Region region = findRegionByKeyWithoutLock(kvOperation.getKey());
+                regionMap.computeIfAbsent(region, k -> Lists.newArrayList()).add(kvOperation);
             }
             return regionMap;
         } finally {

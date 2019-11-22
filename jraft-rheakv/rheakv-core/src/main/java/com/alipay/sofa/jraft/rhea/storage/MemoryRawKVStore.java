@@ -33,8 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import static com.alipay.sofa.jraft.rhea.storage.MemoryKVStoreSnapshotFile.*;
-
 /**
  * @author jiachun.fjc
  */
@@ -608,23 +606,16 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     }
 
     @Override
-    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+    public void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("BATCH_OP");
+        //final Lock readLock = this.readWriteLock.readLock();
+        //readLock.lock();
         try {
-            for (final KVCompositeEntry entry : entries) {
-                if (entry.isDelete()) {
-                    this.defaultDB.remove(entry.getKey());
-                } else if (entry.isCreate()) {
-                    this.defaultDB.putIfAbsent(entry.getKey(), entry.getValue());
-                } else {
-                    this.defaultDB.put(entry.getKey(), entry.getValue());
-                }
-            }
-            setSuccess(closure, Boolean.TRUE);
+            doBatch(kvOperations, closure);
         } catch (final Exception e) {
-            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", entries.size(), StackTraceUtil.stackTrace(e));
-            setCriticalError(closure, "Fail to [BATCH_OP]", e);
+            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
+            //readLock.unlock();
             timeCtx.stop();
         }
     }

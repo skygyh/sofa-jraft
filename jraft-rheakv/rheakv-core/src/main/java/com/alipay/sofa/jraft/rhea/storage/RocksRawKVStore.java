@@ -16,6 +16,8 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.Status;
+import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.errors.StorageException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
@@ -1078,31 +1080,18 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         }
     }
 
+    // batch mixed operations
     @Override
-    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+    public void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("BATCH_OP");
-        final Lock readLock = this.readWriteLock.readLock();
-        readLock.lock();
-        try (final WriteBatch batch = new WriteBatch()) {
-            for (final KVCompositeEntry entry : entries) {
-                if (entry.isDelete()) {
-                    batch.delete(entry.getKey());
-                } else if (entry.isCreate()) {
-                    byte[] old = this.db.get(entry.getKey());
-                    if (old == null || old.length == 0) {
-                        batch.put(entry.getKey(), entry.getValue());
-                    }
-                } else {
-                    batch.put(entry.getKey(), entry.getValue());
-                }
-            }
-            this.db.write(this.writeOptions, batch);
-            setSuccess(closure, Boolean.TRUE);
+        //final Lock readLock = this.readWriteLock.readLock();
+        //readLock.lock();
+        try {
+            doBatch(kvOperations, closure);
         } catch (final Exception e) {
-            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", entries.size(), StackTraceUtil.stackTrace(e));
-            setCriticalError(closure, "Fail to [BATCH_OP]", e);
+            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
-            readLock.unlock();
+            //readLock.unlock();
             timeCtx.stop();
         }
     }

@@ -16,8 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
-import com.alipay.sofa.jraft.rhea.storage.KVCompositeEntry;
-import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 
 import java.util.List;
 
@@ -29,14 +28,20 @@ public class BatchCompositeRequest extends BaseRequest {
 
     private static final long      serialVersionUID = -980036845124180958L;
 
-    private List<KVCompositeEntry> kvCompositeEntries;
+    private List<BaseRequest> compositeRequests;
 
-    public List<KVCompositeEntry> getKvEntries() {
-        return kvCompositeEntries;
+    public BatchCompositeRequest(){}
+    public BatchCompositeRequest(List<BaseRequest> compositeRequests, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.compositeRequests = compositeRequests;
     }
 
-    public void setKvEntries(List<KVCompositeEntry> kvCompositeEntries) {
-        this.kvCompositeEntries = kvCompositeEntries;
+    public List<BaseRequest> getCompositeRequests() {
+        return compositeRequests;
+    }
+
+    public void setCompositeRequests(List<BaseRequest> compositeRequests) {
+        this.compositeRequests = compositeRequests;
     }
 
     @Override
@@ -46,6 +51,15 @@ public class BatchCompositeRequest extends BaseRequest {
 
     @Override
     public String toString() {
-        return "BatchCompositeRequest{" + "kvCompositeEntries=" + kvCompositeEntries + "} " + super.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("BatchCompositeRequest")
+                .append(" size=")
+                .append(compositeRequests.size())
+                .append('{');
+        for (BaseRequest request : compositeRequests) {
+            sb.append(' ').append(request.toString());
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

@@ -16,6 +16,8 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
+
 import java.util.List;
 
 /**
@@ -27,6 +29,13 @@ public class BatchDeleteRequest extends BaseRequest {
     private static final long serialVersionUID = -472951628397420368L;
 
     private List<byte[]>      keys;
+
+    public BatchDeleteRequest(){}
+
+    public BatchDeleteRequest(List<byte[]> keys, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.keys = keys;
+    }
 
     public List<byte[]> getKeys() {
         return keys;

@@ -763,32 +763,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     }
 
     @Override
-    public void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure) {
+    public void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("BATCH_OP");
         writeLock().lock();
         try {
-            for (final KVCompositeEntry entry : entries) {
-                final byte[] key = entry.getKey();
-                final byte[] value = entry.getValue();
-                Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                if (entry.isDelete()) {
-                    this.defaultDB.remove(key);
-                } else if (entry.isCreate()) {
-                    Requires.requireTrue(value != null && value.length <= PMemDBOptions.MAX_VALUE_SIZE);
-                    // TODO : require pmemkv to support putIfAbsent op.
-                    byte[] old = this.defaultDB.get(key);
-                    if (old == null || old.length == 0) {
-                        this.defaultDB.put(key, value);
-                    }
-                } else {
-                    Requires.requireTrue(value != null && value.length <= PMemDBOptions.MAX_VALUE_SIZE);
-                    this.defaultDB.put(key, value);
-                }
-            }
-            setSuccess(closure, Boolean.TRUE);
+            doBatch(kvOperations, closure);
         } catch (final Exception e) {
-            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", entries.size(), StackTraceUtil.stackTrace(e));
-            setCriticalError(closure, "Fail to [BATCH_OP]", e);
+            LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
             writeLock().unlock();
             timeCtx.stop();

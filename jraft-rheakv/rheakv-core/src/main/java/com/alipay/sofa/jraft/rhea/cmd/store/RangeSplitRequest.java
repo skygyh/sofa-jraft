@@ -16,6 +16,8 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
+
 /**
  * @author jiachun.fjc
  */
@@ -24,6 +26,13 @@ public class RangeSplitRequest extends BaseRequest {
     private static final long serialVersionUID = 2369343322478279224L;
 
     private Long              newRegionId;
+
+    public RangeSplitRequest(){}
+
+    public RangeSplitRequest(Long newRegionId, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.newRegionId = newRegionId;
+    }
 
     public Long getNewRegionId() {
         return newRegionId;

@@ -205,7 +205,7 @@ public interface RawKVStore {
     /**
      * Store key/value pairs in batch with composite put or delete.
      */
-    void batch(final List<KVCompositeEntry> entries, final KVStoreClosure closure);
+    void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure);
 
     /**
      * The {@code nodeExecutor} will be triggered when each node's

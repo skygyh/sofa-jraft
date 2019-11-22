@@ -20,6 +20,7 @@ import com.alipay.sofa.jraft.rhea.util.Pair;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Requires;
+import com.sun.org.apache.xpath.internal.operations.Operation;
 
 import java.io.Serializable;
 import java.util.List;
@@ -202,10 +203,10 @@ public class KVOperation implements Serializable {
         return new KVOperation(BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, keys, DELETE_LIST);
     }
 
-    public static KVOperation createBatchOpList(final List<KVCompositeEntry> entries) {
-        Requires.requireNonNull(entries, "entries");
-        Requires.requireTrue(!entries.isEmpty(), "entries is empty");
-        return new KVOperation(BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, entries, BATCH_OP);
+    public static KVOperation createBatchOpList(final List<KVOperation> kvOperations) {
+        Requires.requireNonNull(kvOperations, "kvOperations");
+        Requires.requireTrue(!kvOperations.isEmpty(), "kvOperations is empty");
+        return new KVOperation(kvOperations);
     }
 
     public static KVOperation createGetSequence(final byte[] seqKey, final int step) {
@@ -289,6 +290,11 @@ public class KVOperation implements Serializable {
         this.op = op;
     }
 
+    public KVOperation(List<KVOperation> operations) {
+        this.attach = operations;
+        this.op = BATCH_OP;
+    }
+
     public byte[] getKey() {
         return key;
     }
@@ -331,8 +337,8 @@ public class KVOperation implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public List<KVCompositeEntry> getCompositeEntries() {
-        return (List<KVCompositeEntry>) this.attach;
+    public List<KVOperation> getKVOperations() {
+        return (List<KVOperation>) this.attach;
     }
 
     @SuppressWarnings("unchecked")

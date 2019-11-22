@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.util.BytesUtil;
 
 /**
@@ -28,6 +29,18 @@ public class GetRequest extends BaseRequest {
 
     private byte[]            key;
     private boolean           readOnlySafe     = true;
+
+    public GetRequest(){}
+
+    public GetRequest(byte[] key, boolean readOnlySafe, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.key = key;
+        this.readOnlySafe = readOnlySafe;
+    }
+
+    public GetRequest(byte[] key, long regionId, RegionEpoch regionEpoch) {
+        this(key, true, regionId, regionEpoch);
+    }
 
     public byte[] getKey() {
         return key;

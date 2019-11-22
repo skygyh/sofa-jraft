@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.client;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.alipay.sofa.jraft.rhea.cmd.store.*;
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.storage.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1172,19 +1174,6 @@ public class DefaultRheaKVStore implements RheaKVStore {
         return delete(BytesUtil.writeUtf8(key));
     }
 
-    private CompletableFuture<Boolean> delete(final byte[] key, final CompletableFuture<Boolean> future,
-                                              final boolean tryBatching) {
-        checkState();
-        if (tryBatching) {
-            final CompositeBatching compositeBatching = this.compositeBatching;
-            if (compositeBatching != null && compositeBatching.apply(new KVCompositeEntry(key), future)) {
-                return future;
-            }
-        }
-        internalDelete(key, future, this.failoverRetries, null);
-        return future;
-    }
-
     @Override
     public Boolean bDelete(final byte[] key) {
         return FutureHelper.get(delete(key), this.futureTimeoutMillis);
@@ -1340,45 +1329,45 @@ public class DefaultRheaKVStore implements RheaKVStore {
     }
 
     @Override
-    public Boolean bBatch(final List<KVCompositeEntry> entries) {
-        return FutureHelper.get(batch(entries), this.futureTimeoutMillis);
+    public Boolean bBatch(final List<KVOperation> kvOperations) {
+        return FutureHelper.get(batch(kvOperations), this.futureTimeoutMillis);
     }
 
     // batch operation with composite put or delete
     // Note: the current implementation, if the 'keys' are distributed across
     // multiple regions, can not provide transaction guarantee.
     @Override
-    public CompletableFuture<Boolean> batch(final List<KVCompositeEntry> entries) {
+    public CompletableFuture<Boolean> batch(final List<KVOperation> kvOperations) {
         checkState();
-        Requires.requireNonNull(entries, "entries");
-        Requires.requireTrue(!entries.isEmpty(), "entries empty");
-        final FutureGroup<Boolean> futureGroup = internalBatch(entries, this.failoverRetries, null);
+        Requires.requireNonNull(kvOperations, "kvOperations");
+        Requires.requireTrue(!kvOperations.isEmpty(), "kvOperations empty");
+        final FutureGroup<Boolean> futureGroup = internalBatch(kvOperations, this.failoverRetries, null);
         return FutureHelper.joinBooleans(futureGroup);
     }
 
-    private FutureGroup<Boolean> internalBatch(final List<KVCompositeEntry> kvCompositeEntries, final int retriesLeft,
+    private FutureGroup<Boolean> internalBatch(final List<KVOperation> kvCompositeOperations, final int retriesLeft,
                                                 final Throwable lastCause) {
-        final Map<Region, List<KVCompositeEntry>> regionMap = this.pdClient
-                .findRegionsByKvEntries(kvCompositeEntries, ApiExceptionHelper.isInvalidEpoch(lastCause));
+        final Map<Region, List<KVOperation>> regionMap = this.pdClient
+                .findRegionsByKvOperations(kvCompositeOperations, ApiExceptionHelper.isInvalidEpoch(lastCause));
         final List<CompletableFuture<Boolean>> futures = Lists.newArrayListWithCapacity(regionMap.size());
         final Errors lastError = lastCause == null ? null : Errors.forException(lastCause);
-        for (final Map.Entry<Region, List<KVCompositeEntry>> entry : regionMap.entrySet()) {
+        for (final Map.Entry<Region, List<KVOperation>> entry : regionMap.entrySet()) {
             final Region region = entry.getKey();
-            final List<KVCompositeEntry> subEntries = entry.getValue();
-            final RetryCallable<Boolean> retryCallable = retryCause -> internalBatch(subEntries, retriesLeft - 1,
+            final List<KVOperation> subKVOperations = entry.getValue();
+            final RetryCallable<Boolean> retryCallable = retryCause -> internalBatch(subKVOperations, retriesLeft - 1,
                     retryCause);
             final BoolFailoverFuture future = new BoolFailoverFuture(retriesLeft, retryCallable);
-            internalRegionBatch(region, subEntries, future, retriesLeft, lastError);
+            internalRegionBatch(region, subKVOperations, future, retriesLeft, lastError);
             futures.add(future);
         }
         return new FutureGroup<>(futures);
     }
 
-    private void internalRegionBatch(final Region region, final List<KVCompositeEntry> subEntries,
+    private void internalRegionBatch(final Region region, final List<KVOperation> subKVOperations,
                                    final CompletableFuture<Boolean> future, final int retriesLeft,
                                    final Errors lastCause) {
         final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalRegionBatch(region, subEntries, future,
+        final RetryRunner retryRunner = retryCause -> internalRegionBatch(region, subKVOperations, future,
                 retriesLeft - 1, retryCause);
         final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, false, retriesLeft,
                 retryRunner);
@@ -1386,18 +1375,86 @@ public class DefaultRheaKVStore implements RheaKVStore {
             if (ensureOnValidEpoch(region, regionEngine, closure)) {
                 final RawKVStore rawKVStore = getRawKVStore(regionEngine);
                 if (this.kvDispatcher == null) {
-                    rawKVStore.batch(subEntries, closure);
+                    rawKVStore.batch(subKVOperations, closure);
                 } else {
-                    this.kvDispatcher.execute(() -> rawKVStore.batch(subEntries, closure));
+                    this.kvDispatcher.execute(() -> rawKVStore.batch(subKVOperations, closure));
                 }
             }
         } else {
             final BatchCompositeRequest request = new BatchCompositeRequest();
-            request.setKvEntries(subEntries);
+            request.setCompositeRequests(createCompositeRequests(subKVOperations, region.getId(), region.getRegionEpoch()));
             request.setRegionId(region.getId());
             request.setRegionEpoch(region.getRegionEpoch());
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
         }
+    }
+
+    private List<BaseRequest> createCompositeRequests(final List<KVOperation> kvOperations, final long regionId, final RegionEpoch regionEpoch) {
+        List<BaseRequest> requests = new LinkedList<>();
+        for (KVOperation op : kvOperations) {
+            switch (op.getOp()) {
+                case KVOperation.PUT:
+                    requests.add(new PutRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
+                    break;
+                case KVOperation.PUT_IF_ABSENT:
+                    requests.add(new PutIfAbsentRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
+                    break;
+                case KVOperation.DELETE:
+                    requests.add(new DeleteRequest(op.getKey(), regionId, regionEpoch));
+                    break;
+                case KVOperation.PUT_LIST:
+                    requests.add(new BatchPutRequest(op.getEntries(), regionId, regionEpoch));
+                    break;
+                case KVOperation.DELETE_RANGE:
+                    requests.add(new DeleteRangeRequest(op.getStartKey(), op.getEndKey(), regionId, regionEpoch));
+                    break;
+                case KVOperation.GET_SEQUENCE:
+                    requests.add(new GetSequenceRequest(op.getSeqKey(), op.getStep(), regionId, regionEpoch));
+                    break;
+                case KVOperation.NODE_EXECUTE:
+                    requests.add(new NodeExecuteRequest(op.getNodeExecutor(), regionId, regionEpoch));
+                    break;
+                case KVOperation.KEY_LOCK:
+                    requests.add(new KeyLockRequest(op.getKey(), true, op.getAcquirer(), regionId, regionEpoch));
+                    break;
+                case KVOperation.KEY_LOCK_RELEASE:
+                    requests.add(new KeyUnlockRequest(op.getKey(), op.getAcquirer(), regionId, regionEpoch));
+                    break;
+                case KVOperation.GET:
+                    requests.add(new GetRequest(op.getKey(), regionId, regionEpoch));
+                    break;
+                case KVOperation.MULTI_GET:
+                    requests.add(new MultiGetRequest(op.getKeys(), regionId, regionEpoch));
+                    break;
+                case KVOperation.SCAN:
+                    requests.add(new ScanRequest(op.getStartKey(), op.getEndKey(), op.getLimit(), regionId, regionEpoch));
+                    break;
+                case KVOperation.GET_PUT:
+                    requests.add(new GetAndPutRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
+                    break;
+                case KVOperation.MERGE:
+                    requests.add(new MergeRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
+                    break;
+                case KVOperation.RESET_SEQUENCE:
+                    requests.add(new ResetSequenceRequest(op.getSeqKey(), regionId, regionEpoch));
+                    break;
+                case KVOperation.RANGE_SPLIT:
+                    requests.add(new RangeSplitRequest(op.getNewRegionId(), regionId, regionEpoch));
+                    break;
+                case KVOperation.COMPARE_PUT:
+                    requests.add(new CompareAndPutRequest(op.getKey(), op.getExpect(), op.getValue(), regionId, regionEpoch));
+                    break;
+                case KVOperation.DELETE_LIST:
+                    requests.add(new BatchDeleteRequest(op.getKeys(), regionId, regionEpoch));
+                    break;
+                case KVOperation.CONTAINS_KEY:
+                    requests.add(new ContainsKeyRequest(op.getKey(), regionId, regionEpoch));
+                    break;
+                default:
+                    throw new UnsupportedOperationException("batch op " + op.getOp() + " is not supported yet");
+            }
+        }
+        return requests;
     }
 
     // internal api
@@ -1649,17 +1706,17 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
-    private class CompositeBatching extends Batching<KVCompositeEvent, KVCompositeEntry, Boolean> {
+    private class CompositeBatching extends Batching<KVCompositeEvent, KVOperation, Boolean> {
 
         public CompositeBatching(EventFactory<KVCompositeEvent> factory, String name, CompositeBatchingHandler handler) {
             super(factory, batchingOpts.getBufSize(), name, handler);
         }
 
         @Override
-        public boolean apply(final KVCompositeEntry message, final CompletableFuture<Boolean> future) {
+        public boolean apply(final KVOperation message, final CompletableFuture<Boolean> future) {
             return this.ringBuffer.tryPublishEvent((event, sequence) -> {
                 event.reset();
-                event.kvCompositeEntry = message;
+                event.kvOperation = message;
                 event.future = future;
             });
         }
@@ -1778,7 +1835,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
         @Override
         public void onEvent(final KVCompositeEvent event, final long sequence, final boolean endOfBatch) throws Exception {
             this.events.add(event);
-            this.cachedBytes += event.kvCompositeEntry.length();
+            this.cachedBytes += event.kvOperation.getValue().length;
             final int size = this.events.size();
             if (!endOfBatch && size < batchingOpts.getBatchSize() && this.cachedBytes < batchingOpts.getMaxWriteBytes()) {
                 return;
@@ -1786,28 +1843,25 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
             if (size == 1) {
                 reset();
-                final KVCompositeEntry kv = event.kvCompositeEntry;
+                final KVOperation operation = event.kvOperation;
                 try {
-                    if (kv.isDelete()) {
-                        delete(kv.getKey(), event.future, false);
-                    } else if (kv.isCreate()){
-                        putIfAbsent(kv.getKey(), kv.getValue()).thenApply(prevVal -> {
-                            boolean success = prevVal == null || prevVal.length == 0;
-                            event.future.complete(success);
-                            return success;
-                        });
-                    } else {
-                        put(kv.getKey(), kv.getValue(), event.future, false);
-                    }
+                    assert operation.getOp() == KVOperation.BATCH_OP;
+                    batch(operation.getKVOperations()).whenComplete((r, t) -> {
+                        if (t == null) {
+                            event.future.complete(r);
+                        } else {
+                            event.future.completeExceptionally(t);
+                        }
+                    });
                 } catch (final Throwable t) {
                     exceptionally(t, event.future);
                 }
             } else {
-                final List<KVCompositeEntry> entries = Lists.newArrayListWithCapacity(size);
+                final List<KVOperation> entries = Lists.newArrayListWithCapacity(size);
                 final CompletableFuture<Boolean>[] futures = new CompletableFuture[size];
                 for (int i = 0; i < size; i++) {
                     final KVCompositeEvent e = this.events.get(i);
-                    entries.add(e.kvCompositeEntry);
+                    entries.add(e.kvOperation);
                     futures[i] = e.future;
                 }
                 reset();
@@ -1880,11 +1934,11 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
     private static class KVCompositeEvent {
 
-        private KVCompositeEntry           kvCompositeEntry;
+        private KVOperation           kvOperation;
         private CompletableFuture<Boolean> future;
 
         public void reset() {
-            this.kvCompositeEntry = null;
+            this.kvOperation = null;
             this.future = null;
         }
     }

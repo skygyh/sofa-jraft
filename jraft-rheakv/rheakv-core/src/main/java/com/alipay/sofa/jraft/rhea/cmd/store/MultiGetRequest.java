@@ -16,6 +16,8 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
+
 import java.util.List;
 
 /**
@@ -28,6 +30,18 @@ public class MultiGetRequest extends BaseRequest {
 
     private List<byte[]>      keys;
     private boolean           readOnlySafe     = true;
+
+    public MultiGetRequest(){}
+
+    public MultiGetRequest(List<byte[]> keys, boolean readOnlySafe, long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+        this.keys = keys;
+        this.readOnlySafe = readOnlySafe;
+    }
+
+    public MultiGetRequest(List<byte[]> keys, long regionId, RegionEpoch regionEpoch) {
+        this(keys, true, regionId, regionEpoch);
+    }
 
     public List<byte[]> getKeys() {
         return keys;
