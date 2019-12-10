@@ -31,7 +31,7 @@ public class BaseKVStoreTest {
         this.kvStore = new PMemRawKVStore();
         this.dbOptions = PMemDBOptionsConfigured.newConfigured().withPmemDataSize(512 * 1024 * 1024)
             .withPmemMetaSize(64 * 1024 * 1024)
-            .withDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest").toString()).withForceCreate(1)
+            .withDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest").toString()).withForceCreate(true)
             .config();
         this.kvStore.init(this.dbOptions);
     }

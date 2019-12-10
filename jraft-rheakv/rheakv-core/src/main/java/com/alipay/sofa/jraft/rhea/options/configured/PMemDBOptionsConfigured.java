@@ -56,7 +56,7 @@ public final class PMemDBOptionsConfigured implements Configured<PMemDBOptions> 
         return this;
     }
 
-    public PMemDBOptionsConfigured withForceCreate(final int forceCreate) {
+    public PMemDBOptionsConfigured withForceCreate(final boolean forceCreate) {
         this.opts.setForceCreate(forceCreate);
         return this;
     }
