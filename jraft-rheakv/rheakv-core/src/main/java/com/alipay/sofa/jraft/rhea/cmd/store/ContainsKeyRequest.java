@@ -29,7 +29,8 @@ public class ContainsKeyRequest extends BaseRequest {
 
     private byte[]            key;
 
-    public ContainsKeyRequest(){}
+    public ContainsKeyRequest() {
+    }
 
     public ContainsKeyRequest(byte[] key, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

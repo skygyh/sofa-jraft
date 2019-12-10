@@ -27,7 +27,8 @@ public class RangeSplitRequest extends BaseRequest {
 
     private Long              newRegionId;
 
-    public RangeSplitRequest(){}
+    public RangeSplitRequest() {
+    }
 
     public RangeSplitRequest(Long newRegionId, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

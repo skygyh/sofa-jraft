@@ -30,7 +30,8 @@ public class DeleteRangeRequest extends BaseRequest {
     private byte[]            startKey;
     private byte[]            endKey;
 
-    public DeleteRangeRequest(){}
+    public DeleteRangeRequest() {
+    }
 
     public DeleteRangeRequest(byte[] startKey, byte[] endKey, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

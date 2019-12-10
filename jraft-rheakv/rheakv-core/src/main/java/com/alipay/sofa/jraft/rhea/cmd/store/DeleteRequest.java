@@ -29,7 +29,8 @@ public class DeleteRequest extends BaseRequest {
 
     private byte[]            key;
 
-    public DeleteRequest(){}
+    public DeleteRequest() {
+    }
 
     public DeleteRequest(byte[] key, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

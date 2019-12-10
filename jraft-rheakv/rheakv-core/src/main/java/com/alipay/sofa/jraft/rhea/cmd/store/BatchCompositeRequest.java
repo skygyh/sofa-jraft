@@ -26,11 +26,13 @@ import java.util.List;
  */
 public class BatchCompositeRequest extends BaseRequest {
 
-    private static final long      serialVersionUID = -980036845124180958L;
+    private static final long serialVersionUID = -980036845124180958L;
 
     private List<BaseRequest> compositeRequests;
 
-    public BatchCompositeRequest(){}
+    public BatchCompositeRequest() {
+    }
+
     public BatchCompositeRequest(List<BaseRequest> compositeRequests, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);
         this.compositeRequests = compositeRequests;
@@ -52,10 +54,7 @@ public class BatchCompositeRequest extends BaseRequest {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("BatchCompositeRequest")
-                .append(" size=")
-                .append(compositeRequests.size())
-                .append('{');
+        sb.append("BatchCompositeRequest").append(" size=").append(compositeRequests.size()).append('{');
         for (BaseRequest request : compositeRequests) {
             sb.append(' ').append(request.toString());
         }

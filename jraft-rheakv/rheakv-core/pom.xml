@@ -101,7 +101,20 @@
             <groupId>lib.util.persistent</groupId>
             <artifactId>jraft-pcj</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>/home/jerry/opensources/sofa-jraft/jraft-rheakv/pcj/target/classes/</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

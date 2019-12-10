@@ -31,7 +31,8 @@ public class MultiGetRequest extends BaseRequest {
     private List<byte[]>      keys;
     private boolean           readOnlySafe     = true;
 
-    public MultiGetRequest(){}
+    public MultiGetRequest() {
+    }
 
     public MultiGetRequest(List<byte[]> keys, boolean readOnlySafe, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

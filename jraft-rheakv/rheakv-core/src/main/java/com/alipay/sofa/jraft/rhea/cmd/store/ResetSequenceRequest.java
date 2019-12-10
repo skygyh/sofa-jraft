@@ -29,7 +29,8 @@ public class ResetSequenceRequest extends BaseRequest {
 
     private byte[]            seqKey;
 
-    public ResetSequenceRequest(){}
+    public ResetSequenceRequest() {
+    }
 
     public ResetSequenceRequest(byte[] seqKey, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

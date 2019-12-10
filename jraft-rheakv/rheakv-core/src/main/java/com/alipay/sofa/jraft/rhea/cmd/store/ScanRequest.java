@@ -38,9 +38,11 @@ public class ScanRequest extends BaseRequest {
     private boolean           readOnlySafe     = true;
     private boolean           returnValue      = true;
 
-    public ScanRequest(){}
+    public ScanRequest() {
+    }
 
-    public ScanRequest(byte[] startKey, byte[] endKey, int limit, boolean readOnlySafe, boolean returnValue, long regionId, RegionEpoch regionEpoch) {
+    public ScanRequest(byte[] startKey, byte[] endKey, int limit, boolean readOnlySafe, boolean returnValue,
+                       long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);
         this.startKey = startKey;
         this.endKey = endKey;

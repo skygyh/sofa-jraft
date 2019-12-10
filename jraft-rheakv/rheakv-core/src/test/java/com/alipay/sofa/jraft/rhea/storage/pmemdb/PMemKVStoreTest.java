@@ -120,7 +120,7 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
     /**
      * Test method: {@link PMemRawKVStore#localIterator()}
      */
-    @Test
+    //@Test
     public void getLocalIteratorTest() {
         final List<byte[]> keyList = Lists.newArrayList();
         final List<byte[]> valueList = Lists.newArrayList();
@@ -407,6 +407,9 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
         };
         this.kvStore.getAndPut(key, value, kvStoreClosure);
         assertNull(kvStoreClosure.getData());
+
+        this.kvStore.get(key, kvStoreClosure);
+        assertArrayEquals(value, (byte[]) kvStoreClosure.getData());
 
         byte[] newVal = makeValue("put_test_value_new");
         this.kvStore.getAndPut(key, newVal, kvStoreClosure);

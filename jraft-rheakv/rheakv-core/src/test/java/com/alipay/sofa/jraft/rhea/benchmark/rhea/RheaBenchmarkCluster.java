@@ -16,12 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.rhea;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.apache.commons.io.FileUtils;
-
 import com.alipay.remoting.config.Configs;
 import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
@@ -32,6 +26,11 @@ import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.SystemPropertyUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -42,10 +41,8 @@ public class RheaBenchmarkCluster {
     private static final String               DefaultBenchMarkDbPath   = "benchmark_rhea_db";
     private static final String               DefaultBenchMarkRaftPath = "benchmark_rhea_raft";
 
-    private static final String[]             CONF                     = {
-            "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_1.yaml",
-            "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_2.yaml",
-            "jraft-rheakv/rheakv-core/src/test/resources/benchmark/conf/rhea_cluster_3.yaml" };
+    private static final String[]             CONF                     = { "benchmark/conf/rhea_cluster_1.yaml",
+            "benchmark/conf/rhea_cluster_2.yaml", "benchmark/conf/rhea_cluster_3.yaml" };
 
     private volatile String                   tempDbPath;
     private volatile String                   tempRaftPath;
