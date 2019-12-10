@@ -343,6 +343,9 @@
                         <buildDirectory>/usr/local/lib</buildDirectory>
                     </systemPropertyVariables>
                     <!-- jacoco coveraage -->
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${basedir}/jraft-rheakv/pcj/target/classes</additionalClasspathElement>
+                    </additionalClasspathElements>
                     <argLine>-Xmx2048m ${coverageAgent}</argLine>
                     <includes>
                         <include>**/*Test.java</include>

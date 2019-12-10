@@ -30,7 +30,8 @@ public class PutRequest extends BaseRequest {
     private byte[]            key;
     private byte[]            value;
 
-    public PutRequest(){}
+    public PutRequest() {
+    }
 
     public PutRequest(byte[] key, byte[] value, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

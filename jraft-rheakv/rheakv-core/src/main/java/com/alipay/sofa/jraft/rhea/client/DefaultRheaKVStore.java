@@ -1389,7 +1389,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
-    private List<BaseRequest> createCompositeRequests(final List<KVOperation> kvOperations, final long regionId, final RegionEpoch regionEpoch) {
+    private List<BaseRequest> createCompositeRequests(final List<KVOperation> kvOperations, final long regionId,
+                                                      final RegionEpoch regionEpoch) {
         List<BaseRequest> requests = new LinkedList<>();
         for (KVOperation op : kvOperations) {
             switch (op.getOp()) {
@@ -1427,7 +1428,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
                     requests.add(new MultiGetRequest(op.getKeys(), regionId, regionEpoch));
                     break;
                 case KVOperation.SCAN:
-                    requests.add(new ScanRequest(op.getStartKey(), op.getEndKey(), op.getLimit(), regionId, regionEpoch));
+                    requests
+                        .add(new ScanRequest(op.getStartKey(), op.getEndKey(), op.getLimit(), regionId, regionEpoch));
                     break;
                 case KVOperation.GET_PUT:
                     requests.add(new GetAndPutRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
@@ -1442,7 +1444,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
                     requests.add(new RangeSplitRequest(op.getNewRegionId(), regionId, regionEpoch));
                     break;
                 case KVOperation.COMPARE_PUT:
-                    requests.add(new CompareAndPutRequest(op.getKey(), op.getExpect(), op.getValue(), regionId, regionEpoch));
+                    requests.add(new CompareAndPutRequest(op.getKey(), op.getExpect(), op.getValue(), regionId,
+                        regionEpoch));
                     break;
                 case KVOperation.DELETE_LIST:
                     requests.add(new BatchDeleteRequest(op.getKeys(), regionId, regionEpoch));
@@ -1934,7 +1937,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
     private static class KVCompositeEvent {
 
-        private KVOperation           kvOperation;
+        private KVOperation                kvOperation;
         private CompletableFuture<Boolean> future;
 
         public void reset() {

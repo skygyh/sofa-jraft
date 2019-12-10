@@ -30,7 +30,8 @@ public class GetAndPutRequest extends BaseRequest {
     private byte[]            key;
     private byte[]            value;
 
-    public GetAndPutRequest(){}
+    public GetAndPutRequest() {
+    }
 
     public GetAndPutRequest(byte[] key, byte[] value, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

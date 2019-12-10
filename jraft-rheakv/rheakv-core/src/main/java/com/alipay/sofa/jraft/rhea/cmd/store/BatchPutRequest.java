@@ -31,7 +31,8 @@ public class BatchPutRequest extends BaseRequest {
 
     private List<KVEntry>     kvEntries;
 
-    public BatchPutRequest(){}
+    public BatchPutRequest() {
+    }
 
     public BatchPutRequest(List<KVEntry> kvEntries, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

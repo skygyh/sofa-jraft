@@ -30,7 +30,8 @@ public class GetSequenceRequest extends BaseRequest {
     private byte[]            seqKey;
     private int               step;
 
-    public GetSequenceRequest(){}
+    public GetSequenceRequest() {
+    }
 
     public GetSequenceRequest(byte[] seqKey, int step, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

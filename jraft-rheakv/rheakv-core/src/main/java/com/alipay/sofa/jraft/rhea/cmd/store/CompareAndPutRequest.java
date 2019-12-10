@@ -31,7 +31,8 @@ public class CompareAndPutRequest extends BaseRequest {
     private byte[]            expect;
     private byte[]            update;
 
-    public CompareAndPutRequest(){}
+    public CompareAndPutRequest() {
+    }
 
     public CompareAndPutRequest(byte[] key, byte[] expect, byte[] update, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

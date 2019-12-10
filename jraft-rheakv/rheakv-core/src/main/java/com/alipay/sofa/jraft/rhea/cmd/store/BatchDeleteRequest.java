@@ -30,7 +30,8 @@ public class BatchDeleteRequest extends BaseRequest {
 
     private List<byte[]>      keys;
 
-    public BatchDeleteRequest(){}
+    public BatchDeleteRequest() {
+    }
 
     public BatchDeleteRequest(List<byte[]> keys, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

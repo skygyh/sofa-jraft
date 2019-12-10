@@ -32,9 +32,11 @@ public class KeyLockRequest extends BaseRequest {
     private boolean                  keepLease;
     private DistributedLock.Acquirer acquirer;
 
-    public KeyLockRequest(){}
+    public KeyLockRequest() {
+    }
 
-    public KeyLockRequest(byte[] key, boolean keepLease, DistributedLock.Acquirer acquirer, long regionId, RegionEpoch regionEpoch) {
+    public KeyLockRequest(byte[] key, boolean keepLease, DistributedLock.Acquirer acquirer, long regionId,
+                          RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);
         this.key = key;
         this.keepLease = keepLease;

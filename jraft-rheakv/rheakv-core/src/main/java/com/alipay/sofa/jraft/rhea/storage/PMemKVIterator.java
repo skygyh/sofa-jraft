@@ -29,8 +29,8 @@ import java.util.Map;
 public class PMemKVIterator implements KVIterator {
 
     private PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map;
-    private Iterator<Map.Entry<PersistentByteArray, PersistentByteArray>> iterator;
-    private Map.Entry<PersistentByteArray, PersistentByteArray> current;
+    private Iterator<Map.Entry<PersistentByteArray, PersistentByteArray>>   iterator;
+    private Map.Entry<PersistentByteArray, PersistentByteArray>             current;
 
     public PMemKVIterator(PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map) {
         reset(map);
@@ -39,9 +39,7 @@ public class PMemKVIterator implements KVIterator {
     private void reset(final PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map) {
         this.map = map;
         this.iterator = map.entrySet().iterator();
-        if (this.iterator.hasNext()) {
-            current = this.iterator.next();
-        }
+        next();
     }
 
     @Override
@@ -68,11 +66,11 @@ public class PMemKVIterator implements KVIterator {
         if (!isValid() || BytesUtil.compare(current.getKey().toArray(), target) >= 0) {
             return;
         }
-        while (this.iterator.hasNext()) {
-            this.current = this.iterator.next();
-            if (current != null && BytesUtil.compare(current.getKey().toArray(), target) >= 0) {
+        while (isValid()) {
+            if (BytesUtil.compare(current.getKey().toArray(), target) >= 0) {
                 break;
             }
+            next();
         }
     }
 
@@ -83,7 +81,11 @@ public class PMemKVIterator implements KVIterator {
 
     @Override
     public void next() {
-        this.current = this.iterator.next();
+        if (this.iterator.hasNext()) {
+            this.current = this.iterator.next();
+        } else {
+            this.current = null;
+        }
     }
 
     @Override

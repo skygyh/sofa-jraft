@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -48,66 +49,91 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
 
-    private static final Logger             LOG           = LoggerFactory.getLogger(PMemRawKVStore.class);
+    private static final Logger                                             LOG          = LoggerFactory
+                                                                                             .getLogger(PMemRawKVStore.class);
 
-    private final ReadWriteLock             snapshotLock  = new ReentrantReadWriteLock();
+    private final ReadWriteLock                                             snapshotLock = new ReentrantReadWriteLock();
 
-    private final Serializer                serializer    = Serializers.getDefault();
+    private final Serializer                                                serializer   = Serializers.getDefault();
 
-    private static final byte               DELIMITER     = (byte) ',';
-    private static final Comparator<PersistentByteArray> COMPARATOR    = new Comparator<PersistentByteArray>() {
-        @Override
-        public int compare(PersistentByteArray o1, PersistentByteArray o2) {
-            return compare(o1, 0, o1.length(), o2, 0, o2.length());
-        }
+    private static final byte                                               DELIMITER    = (byte) ',';
+    private static final Comparator<PersistentByteArray>                    COMPARATOR   = new Comparator<PersistentByteArray>() {
+                                                                                             @Override
+                                                                                             public int compare(PersistentByteArray o1,
+                                                                                                                PersistentByteArray o2) {
+                                                                                                 return compare(o1, 0,
+                                                                                                     o1.length(), o2,
+                                                                                                     0, o2.length());
+                                                                                             }
 
-        public int compare(final PersistentByteArray buffer1, final int offset1, final int length1,
-                           final PersistentByteArray buffer2, final int offset2, final int length2) {
-            // short circuit equal case
-            if (buffer1 == buffer2 && offset1 == offset2 && length1 == length2) {
-                return 0;
-            }
-            final int end1 = offset1 + length1;
-            final int end2 = offset2 + length2;
-            for (int i = offset1, j = offset2; i < end1 && j < end2; i++, j++) {
-                int a = buffer1.get(i) & 0xff;
-                int b = buffer2.get(j) & 0xff;
-                if (a != b) {
-                    return a - b;
-                }
-            }
-            return length1 - length2;
-        }
-    };
+                                                                                             public int compare(final PersistentByteArray buffer1,
+                                                                                                                final int offset1,
+                                                                                                                final int length1,
+                                                                                                                final PersistentByteArray buffer2,
+                                                                                                                final int offset2,
+                                                                                                                final int length2) {
+                                                                                                 // short circuit equal case
+                                                                                                 if (buffer1 == buffer2
+                                                                                                     && offset1 == offset2
+                                                                                                     && length1 == length2) {
+                                                                                                     return 0;
+                                                                                                 }
+                                                                                                 final int end1 = offset1
+                                                                                                                  + length1;
+                                                                                                 final int end2 = offset2
+                                                                                                                  + length2;
+                                                                                                 for (int i = offset1, j = offset2; i < end1
+                                                                                                                                    && j < end2; i++, j++) {
+                                                                                                     int a = buffer1
+                                                                                                         .get(i) & 0xff;
+                                                                                                     int b = buffer2
+                                                                                                         .get(j) & 0xff;
+                                                                                                     if (a != b) {
+                                                                                                         return a - b;
+                                                                                                     }
+                                                                                                 }
+                                                                                                 return length1
+                                                                                                        - length2;
+                                                                                             }
+                                                                                         };
 
     private PersistentSkipListMap<PersistentByteArray, PersistentByteArray> defaultDB;
-    private PersistentSIHashMap<PersistentByteArray, PersistentLong> sequenceDB;
-    private PersistentSIHashMap<PersistentByteArray, PersistentLong> fencingKeyDB;
-    private PersistentSIHashMap<PersistentByteArray, PersistentByteArray> lockerDB;
+    private PersistentSIHashMap<PersistentByteArray, PersistentLong>        sequenceDB;
+    private PersistentSIHashMap<PersistentByteArray, PersistentLong>        fencingKeyDB;
+    private PersistentSIHashMap<PersistentByteArray, PersistentByteArray>   lockerDB;
     //private final Map<ByteArray, Long>                   sequenceDB   = new ConcurrentHashMap<>();
     //private final Map<ByteArray, Long>                   fencingKeyDB = new ConcurrentHashMap<>();
     //private final Map<ByteArray, DistributedLock.Owner>  lockerDB     = new ConcurrentHashMap<>();
-    private volatile PMemDBOptions          opts;
+    private volatile PMemDBOptions                                          opts;
 
-    private static PersistentSkipListMap<PersistentByteArray, PersistentByteArray> createSkipListMap(String dbName, int size, boolean forceCreate) {
+    @SuppressWarnings("unchecked")
+    private static PersistentSkipListMap<PersistentByteArray, PersistentByteArray> createSkipListMap(String dbName,
+                                                                                                     int size,
+                                                                                                     boolean forceCreate) {
         String id = "persistent_" + dbName;
-        PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map = ObjectDirectory.get(id,PersistentSkipListMap.class);
-        if(map == null) {
+        PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map = ObjectDirectory.get(id,
+            PersistentSkipListMap.class);
+        if (map == null) {
             map = new PersistentSkipListMap<>(COMPARATOR);
             ObjectDirectory.put(id, map);
-        } else if (forceCreate){
+        } else if (forceCreate) {
+            map.setComparator(COMPARATOR);
             map.clear();
         }
+        assert (map.comparator() != null);
         return map;
     }
 
-    private static <T extends AnyPersistent> PersistentSIHashMap<PersistentByteArray, T> createHashMap(String dbName, int size, boolean forceCreate) {
+    @SuppressWarnings("unchecked")
+    private static <T extends AnyPersistent> PersistentSIHashMap<PersistentByteArray, T> createHashMap(String dbName,
+                                                                                                       int size,
+                                                                                                       boolean forceCreate) {
         String id = "persistent_" + dbName;
-        PersistentSIHashMap<PersistentByteArray, T> map = ObjectDirectory.get(id,PersistentSIHashMap.class);
-        if(map == null) {
+        PersistentSIHashMap<PersistentByteArray, T> map = ObjectDirectory.get(id, PersistentSIHashMap.class);
+        if (map == null) {
             map = new PersistentSIHashMap<>();
             ObjectDirectory.put(id, map);
-        } else if (forceCreate){
+        } else if (forceCreate) {
             map.clear();
         }
         return map;
@@ -175,16 +201,16 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void shutdown() {
         if (this.defaultDB != null) {
-            //this.defaultDB.stop();
+            this.defaultDB.clear();
         }
         if (this.sequenceDB != null) {
-            //this.sequenceDB.stop();
+            this.sequenceDB.clear();
         }
         if (this.fencingKeyDB != null) {
-            //this.fencingKeyDB.stop();
+            this.fencingKeyDB.clear();
         }
         if (this.lockerDB != null) {
-            //this.lockerDB.stop();
+            this.lockerDB.clear();
         }
     }
 
@@ -199,7 +225,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("GET");
         try {
-            final byte[] value = this.defaultDB.get(new PersistentByteArray(key)).toArray();
+            final PersistentByteArray v = this.defaultDB.get(new PersistentByteArray(key));
+            final byte[] value = (v == null) ? null : v.toArray();
             setSuccess(closure, value);
         } catch (final Exception e) {
             LOG.error("Fail to [GET], key: [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
@@ -217,11 +244,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             final Map<ByteArray, byte[]> resultMap = Maps.newHashMap();
             for (final byte[] key : keys) {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                final byte[] value = this.defaultDB.get(new PersistentByteArray(key)).toArray();
-                if (value == null) {
-                    continue;
-                }
-                resultMap.put(ByteArray.wrap(key), value);
+                final PersistentByteArray v = this.defaultDB.get(new PersistentByteArray(key));
+                resultMap.put(ByteArray.wrap(key), v == null ? null : v.toArray());
             }
             setSuccess(closure, resultMap);
         } catch (final Exception e) {
@@ -263,7 +287,17 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final int maxCount = limit > 0 ? limit : Integer.MAX_VALUE;
         final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
         try {
-            for (Map.Entry<PersistentByteArray, PersistentByteArray> e : this.defaultDB.subMap(new PersistentByteArray(realStartKey), endKey == null ? null : new PersistentByteArray(endKey)).entrySet()) {
+            ConcurrentNavigableMap<PersistentByteArray, PersistentByteArray> subMap;
+            if (startKey == null && endKey == null) {
+                subMap = this.defaultDB;
+            } else if (startKey == null) {
+                subMap = this.defaultDB.headMap(new PersistentByteArray(endKey), false);
+            } else if (endKey == null) {
+                subMap = this.defaultDB.tailMap(new PersistentByteArray(startKey));
+            } else {
+                subMap = this.defaultDB.subMap(new PersistentByteArray(startKey), new PersistentByteArray(endKey));
+            }
+            for (Map.Entry<PersistentByteArray, PersistentByteArray> e : subMap.entrySet()) {
                 if (entries.size() > maxCount) {
                     break;
                 }
@@ -271,8 +305,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             }
             setSuccess(closure, entries);
         } catch (final Exception e) {
-            LOG.error("Fail to [SCAN], range: ['[{}, {})'], {}.", BytesUtil.toHex(realStartKey), BytesUtil.toHex(endKey),
-                    StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [SCAN], range: ['[{}, {})'], {}.", BytesUtil.toHex(realStartKey),
+                BytesUtil.toHex(endKey), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [SCAN]");
         } finally {
             timeCtx.stop();
@@ -350,11 +384,24 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         try {
             final PersistentByteArray k = new PersistentByteArray(key);
             final PersistentByteArray updateVal = new PersistentByteArray(value);
-            PersistentByteArray prevVal;
+            PersistentByteArray prevVal = null;
             do {
-                prevVal = this.defaultDB.get(k);
-            } while (!this.defaultDB.replace(k, prevVal, updateVal));
-            setSuccess(closure, prevVal);
+                if (this.defaultDB.containsKey(k)) {
+                    prevVal = this.defaultDB.get(k);
+                    if (prevVal == null) {
+                        if (this.defaultDB.replace(k, updateVal) == null) {
+                            break;
+                        }
+                    } else if (this.defaultDB.replace(k, prevVal, updateVal)) {
+                        break;
+                    }
+                } else {
+                    if ((prevVal = this.defaultDB.putIfAbsent(k, updateVal)) == null) {
+                        break;
+                    }
+                }
+            } while (true);
+            setSuccess(closure, prevVal == null ? null : prevVal.toArray());
         } catch (final Exception e) {
             LOG.error("Fail to [GET_PUT], [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
                 StackTraceUtil.stackTrace(e));
@@ -374,11 +421,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             final PersistentByteArray k = new PersistentByteArray(key);
             final PersistentByteArray expectVal = new PersistentByteArray(expect);
             final PersistentByteArray updateVal = new PersistentByteArray(update);
-            if (this.defaultDB.replace(k, expectVal, updateVal)) {
-                setSuccess(closure, Boolean.TRUE);
-            } else {
-                setSuccess(closure, Boolean.FALSE);
-            }
+            boolean success = this.defaultDB.replace(k, expectVal, updateVal);
+            setSuccess(closure, success);
         } catch (final Exception e) {
             LOG.error("Fail to [COMPARE_PUT], [{}, {}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(expect),
                 BytesUtil.toHex(update), StackTraceUtil.stackTrace(e));
@@ -413,7 +457,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 if (Arrays.equals(oldValue, newValue)) {
                     break;
                 }
-            } while(!this.defaultDB.replace(k, expectVal, updateVal));
+            } while (!this.defaultDB.replace(k, expectVal, updateVal));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
             LOG.error("Fail to [MERGE], [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
@@ -475,7 +519,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             final long now = acquirer.getLockingTimestamp();
             final long timeoutMillis = acquirer.getLeaseMillis();
             final PersistentByteArray k = new PersistentByteArray(key);
-            final byte[] prevBytesVal = this.lockerDB.get(k).toArray();
+            final PersistentByteArray prevV = this.lockerDB.get(k);
+            final byte[] prevBytesVal = prevV == null ? null : prevV.toArray();
 
             final DistributedLock.Owner owner;
             // noinspection ConstantConditions
@@ -748,15 +793,16 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         // TODO : thread safe to delete range?
         // TODO : Use iterator to delete range
         try {
-            List<PersistentByteArray> toDeleteKeys = new LinkedList<>(this.defaultDB.subMap(startKey == null ? null : new PersistentByteArray(startKey),
-                            endKey == null ? null : new PersistentByteArray(endKey)).keySet());
+            List<PersistentByteArray> toDeleteKeys = new LinkedList<>(this.defaultDB.subMap(
+                startKey == null ? null : new PersistentByteArray(startKey),
+                endKey == null ? null : new PersistentByteArray(endKey)).keySet());
             for (PersistentByteArray k : toDeleteKeys) {
                 this.defaultDB.remove(k);
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
             LOG.error("Fail to [DELETE_RANGE], ['[{}, {})'], {}.", BytesUtil.toHex(startKey), BytesUtil.toHex(endKey),
-                    StackTraceUtil.stackTrace(e));
+                StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE_RANGE]", e);
         } finally {
             timeCtx.stop();
@@ -952,22 +998,26 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         }
     }
 
-    private <P extends AnyPersistent, T> void dump(PersistentSIHashMap<PersistentByteArray, P> db, Map<ByteArray, T> data) {
+    private <P extends AnyPersistent, T> void dump(PersistentSIHashMap<PersistentByteArray, P> db,
+                                                   Map<ByteArray, T> data) {
         for (Map.Entry<ByteArray, T> e : data.entrySet()) {
             final byte[] key = e.getKey().getBytes();
             final PersistentByteArray k = new PersistentByteArray(key);
             T value = e.getValue();
             if (value instanceof Long) {
-                ((PersistentSIHashMap<PersistentByteArray, PersistentLong>)db).put(k, new PersistentLong((Long)value));
+                ((PersistentSIHashMap<PersistentByteArray, PersistentLong>) db)
+                    .put(k, new PersistentLong((Long) value));
             } else if (value instanceof DistributedLock.Owner) {
-                ((PersistentSIHashMap<PersistentByteArray, PersistentByteArray>)db).put(k, new PersistentByteArray(this.serializer.writeObject(value)));
+                ((PersistentSIHashMap<PersistentByteArray, PersistentByteArray>) db).put(k, new PersistentByteArray(
+                    this.serializer.writeObject(value)));
             } else {
                 throw new RuntimeException("dump unsupported value type " + value.getClass().getSimpleName());
             }
         }
     }
 
-    static Map<ByteArray, Long> subRangeMap(final PersistentSIHashMap<PersistentByteArray, PersistentLong> input, final Region region) {
+    static Map<ByteArray, Long> subRangeMap(final PersistentSIHashMap<PersistentByteArray, PersistentLong> input,
+                                            final Region region) {
         final Map<ByteArray, Long> output = new HashMap<>();
         if (RegionHelper.isSingleGroup(region)) {
             for (Map.Entry<PersistentByteArray, PersistentLong> e : input.entrySet()) {
@@ -988,11 +1038,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         return output;
     }
 
-    private Map<ByteArray, DistributedLock.Owner> subRangeMapOwner(final PersistentSIHashMap<PersistentByteArray, PersistentByteArray> input, final Region region) {
+    private Map<ByteArray, DistributedLock.Owner> subRangeMapOwner(final PersistentSIHashMap<PersistentByteArray, PersistentByteArray> input,
+                                                                   final Region region) {
         final Map<ByteArray, DistributedLock.Owner> output = new HashMap<>();
         if (RegionHelper.isSingleGroup(region)) {
             for (Map.Entry<PersistentByteArray, PersistentByteArray> e : input.entrySet()) {
-                output.put(ByteArray.wrap(e.getKey().toArray()), this.serializer.readObject(e.getValue().toArray(), DistributedLock.Owner.class));
+                output.put(ByteArray.wrap(e.getKey().toArray()),
+                    this.serializer.readObject(e.getValue().toArray(), DistributedLock.Owner.class));
             }
             return output;
         }

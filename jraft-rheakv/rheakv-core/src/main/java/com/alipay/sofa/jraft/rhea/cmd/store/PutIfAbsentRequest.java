@@ -30,7 +30,8 @@ public class PutIfAbsentRequest extends BaseRequest {
     private byte[]            key;
     private byte[]            value;
 
-    public PutIfAbsentRequest(){}
+    public PutIfAbsentRequest() {
+    }
 
     public PutIfAbsentRequest(byte[] key, byte[] value, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

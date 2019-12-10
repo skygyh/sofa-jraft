@@ -199,6 +199,7 @@ public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
             setCriticalError(closure, "Fail to [BATCH_OP]", e);
         }
     }
+
     // called by batch only, recursively for COMPOSITE_OP
     protected void doSingleOperation(KVOperation op, final KVStoreClosure closure) {
         switch (op.getOp()) {

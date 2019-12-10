@@ -30,7 +30,8 @@ public class GetRequest extends BaseRequest {
     private byte[]            key;
     private boolean           readOnlySafe     = true;
 
-    public GetRequest(){}
+    public GetRequest() {
+    }
 
     public GetRequest(byte[] key, boolean readOnlySafe, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

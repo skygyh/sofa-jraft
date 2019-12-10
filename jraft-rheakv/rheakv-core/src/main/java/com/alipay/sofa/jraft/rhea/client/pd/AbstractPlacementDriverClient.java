@@ -152,7 +152,7 @@ public abstract class AbstractPlacementDriverClient implements PlacementDriverCl
 
     @Override
     public <E extends KVOperation> Map<Region, List<E>> findRegionsByKvOperations(final List<E> kvOperations,
-                                                                                final boolean forceRefresh) {
+                                                                                  final boolean forceRefresh) {
         if (forceRefresh) {
             refreshRouteTable();
         }

@@ -29,7 +29,8 @@ public class NodeExecuteRequest extends BaseRequest {
 
     private NodeExecutor      nodeExecutor;
 
-    public NodeExecuteRequest(){}
+    public NodeExecuteRequest() {
+    }
 
     public NodeExecuteRequest(NodeExecutor nodeExecutor, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

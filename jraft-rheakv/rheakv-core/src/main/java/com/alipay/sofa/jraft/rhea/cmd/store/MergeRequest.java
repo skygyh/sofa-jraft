@@ -30,7 +30,8 @@ public class MergeRequest extends BaseRequest {
     private byte[]            key;
     private byte[]            value;
 
-    public MergeRequest(){}
+    public MergeRequest() {
+    }
 
     public MergeRequest(byte[] key, byte[] value, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);

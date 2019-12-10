@@ -53,7 +53,8 @@ public abstract class BaseRequest implements Serializable {
     private long              regionId;
     private RegionEpoch       regionEpoch;
 
-    protected BaseRequest() {}
+    protected BaseRequest() {
+    }
 
     protected BaseRequest(long regionId, RegionEpoch regionEpoch) {
         this.regionId = regionId;

@@ -31,7 +31,8 @@ public class KeyUnlockRequest extends BaseRequest {
     private byte[]                   key;
     private DistributedLock.Acquirer acquirer;
 
-    public KeyUnlockRequest() {}
+    public KeyUnlockRequest() {
+    }
 
     public KeyUnlockRequest(byte[] key, DistributedLock.Acquirer acquirer, long regionId, RegionEpoch regionEpoch) {
         super(regionId, regionEpoch);
