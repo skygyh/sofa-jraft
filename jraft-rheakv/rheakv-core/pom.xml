@@ -97,5 +97,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/pmemkv-0.9.0.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>lib.util.persistent</groupId>
+            <artifactId>jraft-pcj</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
