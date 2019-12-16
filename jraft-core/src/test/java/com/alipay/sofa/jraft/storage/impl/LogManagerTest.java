@@ -16,25 +16,6 @@
  */
 package com.alipay.sofa.jraft.storage.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import com.alipay.sofa.jraft.FSMCaller;
 import com.alipay.sofa.jraft.JRaftUtils;
 import com.alipay.sofa.jraft.Status;
@@ -52,15 +33,30 @@ import com.alipay.sofa.jraft.storage.BaseStorageTest;
 import com.alipay.sofa.jraft.storage.LogManager;
 import com.alipay.sofa.jraft.storage.LogStorage;
 import com.alipay.sofa.jraft.test.TestUtils;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import static org.junit.Assert.*;
 
 @RunWith(value = MockitoJUnitRunner.class)
-public class LogManagerTest extends BaseStorageTest {
-    private LogManagerImpl       logManager;
+public abstract class LogManagerTest extends BaseStorageTest {
+    private LogManagerImpl logManager;
     private ConfigurationManager confManager;
     @Mock
-    private FSMCaller            fsmCaller;
+    private FSMCaller fsmCaller;
 
-    private LogStorage           logStorage;
+    private LogStorage logStorage;
+
+    protected abstract LogStorage newLogStorage(RaftOptions raftOptions);
 
     @Override
     @Before
@@ -78,10 +74,6 @@ public class LogManagerTest extends BaseStorageTest {
         opts.setLogStorage(this.logStorage);
         opts.setRaftOptions(raftOptions);
         assertTrue(this.logManager.init(opts));
-    }
-
-    protected RocksDBLogStorage newLogStorage(final RaftOptions raftOptions) {
-        return new RocksDBLogStorage(this.path, raftOptions);
     }
 
     @Override
@@ -307,14 +299,14 @@ public class LogManagerTest extends BaseStorageTest {
     public void testSetSnapshot() throws Exception {
         final List<LogEntry> entries = mockAddEntries();
         RaftOutter.SnapshotMeta meta = RaftOutter.SnapshotMeta.newBuilder().setLastIncludedIndex(3)
-            .setLastIncludedTerm(2).addPeers("localhost:8081").build();
+                .setLastIncludedTerm(2).addPeers("localhost:8081").build();
         this.logManager.setSnapshot(meta);
         //Still valid
         for (int i = 0; i < 10; i++) {
             Assert.assertEquals(entries.get(i), this.logManager.getEntry(i + 1));
         }
         meta = RaftOutter.SnapshotMeta.newBuilder().setLastIncludedIndex(5).setLastIncludedTerm(4)
-            .addPeers("localhost:8081").build();
+                .addPeers("localhost:8081").build();
         this.logManager.setSnapshot(meta);
 
         Thread.sleep(1000);

@@ -16,23 +16,21 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.raw;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
+import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
+import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
+import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
+import com.alipay.sofa.jraft.util.BytesUtil;
+import org.apache.commons.io.FileUtils;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import com.alipay.sofa.jraft.util.BytesUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.CONCURRENCY;
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
@@ -42,6 +40,27 @@ import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
  */
 @State(Scope.Benchmark)
 public class RawKVApproximateBenchmark extends BaseRawStoreBenchmark {
+    protected String          tempPath;
+    protected RocksRawKVStore rocksRawKVStore;
+    protected RocksDBOptions dbOptions;
+
+    @Override
+    protected RawKVStore initRawKVStore() throws IOException {
+        File file = getTempDir();
+        this.tempPath = file.getAbsolutePath();
+        System.out.println(this.tempPath);
+        this.dbOptions = new RocksDBOptions();
+        this.dbOptions.setDbPath(this.tempPath);
+        this.dbOptions.setSync(false);
+        this.rocksRawKVStore.init(this.dbOptions);
+        return this.rocksRawKVStore;
+    }
+
+    @Override
+    protected void shutdown() throws IOException {
+        this.rocksRawKVStore.shutdown();
+        FileUtils.forceDelete(new File(this.tempPath));
+    }
 
     /**
      //
@@ -76,7 +95,7 @@ public class RawKVApproximateBenchmark extends BaseRawStoreBenchmark {
 
         for (int i = 0; i < KEY_COUNT; i++) {
             byte[] key = BytesUtil.writeUtf8("approximate_" + i);
-            super.kvStore.put(key, VALUE_BYTES, null);
+            rocksRawKVStore.put(key, VALUE_BYTES, null);
         }
     }
 
@@ -93,7 +112,7 @@ public class RawKVApproximateBenchmark extends BaseRawStoreBenchmark {
     @BenchmarkMode(Mode.All)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void getApproximateKeysInRange() {
-        super.kvStore.getApproximateKeysInRange(null, BytesUtil.writeUtf8("approximate_" + (KEY_COUNT - 1)));
+        rocksRawKVStore.getApproximateKeysInRange(null, BytesUtil.writeUtf8("approximate_" + (KEY_COUNT - 1)));
     }
 
     public static void main(String[] args) throws RunnerException {
