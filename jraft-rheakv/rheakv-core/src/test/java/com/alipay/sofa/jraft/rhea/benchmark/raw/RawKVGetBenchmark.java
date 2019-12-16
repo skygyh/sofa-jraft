@@ -16,37 +16,28 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.raw;
 
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
+import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
+import com.alipay.sofa.jraft.rhea.util.Lists;
+import com.alipay.sofa.jraft.util.BytesUtil;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import com.alipay.sofa.jraft.rhea.storage.KVEntry;
-import com.alipay.sofa.jraft.rhea.util.Lists;
-import com.alipay.sofa.jraft.util.BytesUtil;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
-import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.CONCURRENCY;
-import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.KEY_COUNT;
-import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
+import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.*;
 
 /**
  * @author jiachun.fjc
  */
 @State(Scope.Benchmark)
-public class RawKVGetBenchmark extends BaseRawStoreBenchmark {
+public abstract class RawKVGetBenchmark extends BaseRawStoreBenchmark {
     /**
      //
      // 100w keys, each value is 100 bytes.
@@ -67,6 +58,7 @@ public class RawKVGetBenchmark extends BaseRawStoreBenchmark {
      RawKVGetBenchmark.get:get·p1.00    sample             248.775             ms/op
      RawKVGetBenchmark.get                  ss         3     0.039 ±   0.100   ms/op
      */
+    protected abstract RawKVStore rawKVStore();
 
     @Setup
     public void setup() {
@@ -78,8 +70,6 @@ public class RawKVGetBenchmark extends BaseRawStoreBenchmark {
 
         // insert data first
         put();
-        long dbSize = this.kvStore.getApproximateKeysInRange(null, null);
-        System.out.println("db size = " + dbSize);
     }
 
     @TearDown
@@ -97,7 +87,7 @@ public class RawKVGetBenchmark extends BaseRawStoreBenchmark {
     public void get() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         byte[] key = BytesUtil.writeUtf8("benchmark_" + random.nextInt(KEY_COUNT));
-        this.kvStore.get(key, false, null);
+        rawKVStore().get(key, false, null);
     }
 
     public void put() {
@@ -106,7 +96,7 @@ public class RawKVGetBenchmark extends BaseRawStoreBenchmark {
             byte[] key = BytesUtil.writeUtf8("benchmark_" + i);
             batch.add(new KVEntry(key, VALUE_BYTES));
             if (batch.size() >= 100) {
-                this.kvStore.put(batch, null);
+                rawKVStore().put(batch, null);
                 batch.clear();
             }
         }

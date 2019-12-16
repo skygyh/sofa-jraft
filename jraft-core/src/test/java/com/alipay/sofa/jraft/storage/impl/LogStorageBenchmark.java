@@ -16,10 +16,6 @@
  */
 package com.alipay.sofa.jraft.storage.impl;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alipay.sofa.jraft.conf.ConfigurationManager;
 import com.alipay.sofa.jraft.entity.LogEntry;
 import com.alipay.sofa.jraft.entity.codec.v2.LogEntryV2CodecFactory;
@@ -30,6 +26,10 @@ import com.alipay.sofa.jraft.storage.log.RocksDBSegmentLogStorage;
 import com.alipay.sofa.jraft.test.TestUtils;
 import com.alipay.sofa.jraft.util.SystemPropertyUtil;
 import com.alipay.sofa.jraft.util.Utils;
+
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LogStorageBenchmark {
 
@@ -64,9 +64,9 @@ public class LogStorageBenchmark {
         }
     }
 
-    private static void assertNotNull(final Object obj) {
+    private static void assertNotNull(final Object obj, int index) {
         if (obj == null) {
-            System.err.println("Null object");
+            System.err.println(String.format("LogIndex-%d should not be Null object", index));
             System.exit(1);
         }
     }
@@ -81,7 +81,7 @@ public class LogStorageBenchmark {
     private void read(final int logSize, final int totalLogs) {
         for (int i = 0; i < totalLogs; i++) {
             LogEntry log = this.logStorage.getEntry(i);
-            assertNotNull(log);
+            assertNotNull(log, i);
             assertEquals(i, log.getId().getIndex());
             assertEquals(i, log.getId().getTerm());
             assertEquals(logSize, log.getData().remaining());
@@ -126,10 +126,15 @@ public class LogStorageBenchmark {
         String testPath = Paths.get(SystemPropertyUtil.get("user.dir"), "log_storage").toString();
         int batchSize = 100;
         int logSize = 16 * 1024;
-        int totalLogs = 1024 * 1024;
+        int totalLogs = 128 * 1024;
 
-        // LogStorage logStorage = new RocksDBLogStorage(testPath, new RaftOptions());
-        LogStorage logStorage = new RocksDBSegmentLogStorage(testPath, new RaftOptions());
+        LogStorage logStorage;
+        if (args != null && args.length >= 1 && "pmem".equals(args[0])) {
+            logStorage = new MemoryLogStorage(new RaftOptions());
+        } else {
+            // LogStorage logStorage = new RocksDBLogStorage(testPath, new RaftOptions());
+            logStorage = new RocksDBSegmentLogStorage(testPath, new RaftOptions());
+        }
 
         LogStorageOptions opts = new LogStorageOptions();
         opts.setConfigurationManager(new ConfigurationManager());

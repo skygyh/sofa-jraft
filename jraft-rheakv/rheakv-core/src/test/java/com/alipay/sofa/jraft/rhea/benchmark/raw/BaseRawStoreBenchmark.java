@@ -16,29 +16,19 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.raw;
 
+import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
+public abstract class BaseRawStoreBenchmark {
 
-import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
-import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
-
-public class BaseRawStoreBenchmark {
-
-    protected String          tempPath;
-    protected RocksRawKVStore kvStore;
-    protected RocksDBOptions  dbOptions;
+    protected abstract RawKVStore initRawKVStore() throws IOException;
+    protected abstract void shutdown() throws IOException;
 
     protected void setup() throws Exception {
-        File file = getTempDir();
-        this.tempPath = file.getAbsolutePath();
-        System.out.println(this.tempPath);
-        this.kvStore = new RocksRawKVStore();
-        this.dbOptions = new RocksDBOptions();
-        this.dbOptions.setDbPath(this.tempPath);
-        this.dbOptions.setSync(false);
-        this.kvStore.init(this.dbOptions);
+        initRawKVStore();
     }
 
     protected File getTempDir() throws IOException {
@@ -51,7 +41,6 @@ public class BaseRawStoreBenchmark {
     }
 
     protected void tearDown() throws Exception {
-        this.kvStore.shutdown();
-        FileUtils.forceDelete(new File(this.tempPath));
+        shutdown();
     }
 }

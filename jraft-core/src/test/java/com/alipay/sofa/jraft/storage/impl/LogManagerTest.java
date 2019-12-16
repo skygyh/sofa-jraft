@@ -16,18 +16,6 @@
  */
 package com.alipay.sofa.jraft.storage.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import com.alipay.sofa.jraft.FSMCaller;
 import com.alipay.sofa.jraft.JRaftUtils;
 import com.alipay.sofa.jraft.Status;
@@ -45,16 +33,22 @@ import com.alipay.sofa.jraft.storage.BaseStorageTest;
 import com.alipay.sofa.jraft.storage.LogManager;
 import com.alipay.sofa.jraft.storage.LogStorage;
 import com.alipay.sofa.jraft.test.TestUtils;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import static org.junit.Assert.*;
 
 @RunWith(value = MockitoJUnitRunner.class)
-public class LogManagerTest extends BaseStorageTest {
+public abstract class LogManagerTest extends BaseStorageTest {
     private LogManagerImpl       logManager;
     private ConfigurationManager confManager;
     @Mock
@@ -62,13 +56,15 @@ public class LogManagerTest extends BaseStorageTest {
 
     private LogStorage           logStorage;
 
+    protected abstract LogStorage newLogStorage(RaftOptions raftOptions);
+
     @Override
     @Before
     public void setup() throws Exception {
         super.setup();
         this.confManager = new ConfigurationManager();
         final RaftOptions raftOptions = new RaftOptions();
-        this.logStorage = new RocksDBLogStorage(this.path, raftOptions);
+        this.logStorage = newLogStorage(raftOptions);
         this.logManager = new LogManagerImpl();
         final LogManagerOptions opts = new LogManagerOptions();
         opts.setConfigurationManager(this.confManager);

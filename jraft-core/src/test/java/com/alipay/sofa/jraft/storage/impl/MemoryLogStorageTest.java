@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alipay.sofa.jraft.core;
+package com.alipay.sofa.jraft.storage.impl;
 
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.LogStorage;
-import com.alipay.sofa.jraft.storage.impl.MemoryLogStorage;
 
-public class TestJRaftServiceFactory extends DefaultJRaftServiceFactory {
+public class MemoryLogStorageTest extends BaseLogStorageTest {
 
     @Override
-    public LogStorage createLogStorage(final String uri, final RaftOptions raftOptions) {
-
-        //return new RocksDBLogStorage(uri, raftOptions);
-        return new MemoryLogStorage(raftOptions);
+    protected LogStorage newLogStorage() {
+        return new MemoryLogStorage(new RaftOptions());
     }
 
 }

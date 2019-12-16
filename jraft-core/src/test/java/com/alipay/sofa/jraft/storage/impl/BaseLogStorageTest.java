@@ -16,21 +16,6 @@
  */
 package com.alipay.sofa.jraft.storage.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.alipay.sofa.jraft.JRaftUtils;
 import com.alipay.sofa.jraft.conf.ConfigurationEntry;
 import com.alipay.sofa.jraft.conf.ConfigurationManager;
@@ -44,6 +29,16 @@ import com.alipay.sofa.jraft.storage.BaseStorageTest;
 import com.alipay.sofa.jraft.storage.LogStorage;
 import com.alipay.sofa.jraft.test.TestUtils;
 import com.alipay.sofa.jraft.util.Utils;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public abstract class BaseLogStorageTest extends BaseStorageTest {
     private LogStorage           logStorage;

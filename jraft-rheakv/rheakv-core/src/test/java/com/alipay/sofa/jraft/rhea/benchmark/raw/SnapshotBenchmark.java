@@ -16,27 +16,24 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.raw;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.Checksum;
-
-import org.apache.commons.io.FileUtils;
-
 import com.alipay.sofa.jraft.rhea.metadata.Region;
+import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.storage.KVStoreAccessHelper;
+import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.rhea.util.ZipUtil;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.CRC64;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.zip.Checksum;
 
 import static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta;
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.KEY_COUNT;
@@ -49,6 +46,27 @@ public class SnapshotBenchmark extends BaseRawStoreBenchmark {
 
     private static final String SNAPSHOT_DIR     = "kv";
     private static final String SNAPSHOT_ARCHIVE = "kv.zip";
+    protected String          tempPath;
+    protected RocksRawKVStore kvStore;
+    protected RocksDBOptions dbOptions;
+
+    @Override
+    protected RawKVStore initRawKVStore() throws IOException{
+        File file = getTempDir();
+        this.tempPath = file.getAbsolutePath();
+        System.out.println(this.tempPath);
+        this.dbOptions = new RocksDBOptions();
+        this.dbOptions.setDbPath(this.tempPath);
+        this.dbOptions.setSync(false);
+        this.kvStore.init(this.dbOptions);
+        return this.kvStore;
+    }
+
+    @Override
+    protected void shutdown() throws IOException {
+        this.kvStore.shutdown();
+        FileUtils.forceDelete(new File(this.tempPath));
+    }
 
     public void setup() {
         try {
@@ -77,7 +95,7 @@ public class SnapshotBenchmark extends BaseRawStoreBenchmark {
             final byte[] key = BytesUtil.writeUtf8("benchmark_" + i);
             batch.add(new KVEntry(key, VALUE_BYTES));
             if (batch.size() >= 100) {
-                this.kvStore.put(batch, null);
+                kvStore.put(batch, null);
                 batch.clear();
             }
         }
