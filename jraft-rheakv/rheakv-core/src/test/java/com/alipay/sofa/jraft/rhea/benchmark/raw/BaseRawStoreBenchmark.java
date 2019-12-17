@@ -25,6 +25,7 @@ import java.io.IOException;
 public abstract class BaseRawStoreBenchmark {
 
     protected abstract RawKVStore initRawKVStore() throws IOException;
+
     protected abstract void shutdown() throws IOException;
 
     protected void setup() throws Exception {

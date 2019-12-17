@@ -46,12 +46,12 @@ public class SnapshotBenchmark extends BaseRawStoreBenchmark {
 
     private static final String SNAPSHOT_DIR     = "kv";
     private static final String SNAPSHOT_ARCHIVE = "kv.zip";
-    protected String          tempPath;
-    protected RocksRawKVStore kvStore;
-    protected RocksDBOptions dbOptions;
+    protected String            tempPath;
+    protected RocksRawKVStore   kvStore;
+    protected RocksDBOptions    dbOptions;
 
     @Override
-    protected RawKVStore initRawKVStore() throws IOException{
+    protected RawKVStore initRawKVStore() throws IOException {
         File file = getTempDir();
         this.tempPath = file.getAbsolutePath();
         System.out.println(this.tempPath);
