@@ -42,7 +42,7 @@ import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
 public class RawKVApproximateBenchmark extends BaseRawStoreBenchmark {
     protected String          tempPath;
     protected RocksRawKVStore rocksRawKVStore;
-    protected RocksDBOptions dbOptions;
+    protected RocksDBOptions  dbOptions;
 
     @Override
     protected RawKVStore initRawKVStore() throws IOException {

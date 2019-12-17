@@ -17,8 +17,8 @@
 package com.alipay.sofa.jraft.rhea.storage;
 
 import com.alipay.sofa.jraft.util.BytesUtil;
-import lib.util.persistent.PersistentByteArray;
-import lib.util.persistent.PersistentSkipListMap;
+import lib.util.persistent.PersistentImmutableByteArray;
+import lib.util.persistent.PersistentFPTree2;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -28,15 +28,15 @@ import java.util.Map;
  */
 public class PMemKVIterator implements KVIterator {
 
-    private PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map;
-    private Iterator<Map.Entry<PersistentByteArray, PersistentByteArray>>   iterator;
-    private Map.Entry<PersistentByteArray, PersistentByteArray>             current;
+    private PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray>   map;
+    private Iterator<Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray>> iterator;
+    private Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray>           current;
 
-    public PMemKVIterator(PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map) {
+    public PMemKVIterator(PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> map) {
         reset(map);
     }
 
-    private void reset(final PersistentSkipListMap<PersistentByteArray, PersistentByteArray> map) {
+    private void reset(final PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> map) {
         this.map = map;
         this.iterator = map.entrySet().iterator();
         next();
@@ -106,7 +106,7 @@ public class PMemKVIterator implements KVIterator {
         if (!isValid()) {
             return null;
         }
-        PersistentByteArray v = current.getValue();
+        PersistentImmutableByteArray v = current.getValue();
         return v == null ? null : v.toArray();
     }
 

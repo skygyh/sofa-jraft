@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.alipay.sofa.jraft.storage.impl;
 
 import com.alipay.sofa.jraft.conf.Configuration;
@@ -31,19 +47,21 @@ import static com.alipay.sofa.jraft.entity.EnumOutter.EntryType.ENTRY_TYPE_NO_OP
  * 2019-Dec-11 11:16:06 AM
  */
 public class MemoryLogStorage implements LogStorage, Describer {
-    private static final Logger LOG = LoggerFactory.getLogger(MemoryLogStorage.class);
-    private static final long               DEFAULT_FIRST_LOG_INDEX = 1L;
+    private static final Logger                   LOG                     = LoggerFactory
+                                                                              .getLogger(MemoryLogStorage.class);
+    private static final long                     DEFAULT_FIRST_LOG_INDEX = 1L;
 
-    private ConcurrentSkipListMap<Long, LogEntry>   db = new ConcurrentSkipListMap<>();
-    private ConcurrentSkipListMap<Long, LogEntry>   confDb = new ConcurrentSkipListMap<>();
-    private volatile long                       firstLogIndex = DEFAULT_FIRST_LOG_INDEX;
-    private volatile boolean                    hasLoadFirstLogIndex = false;
-    private final ReadWriteLock                 readWriteLock = new ReentrantReadWriteLock();
-    private final Lock                          writeLock     = this.readWriteLock.writeLock();
+    private ConcurrentSkipListMap<Long, LogEntry> db                      = new ConcurrentSkipListMap<>();
+    private ConcurrentSkipListMap<Long, LogEntry> confDb                  = new ConcurrentSkipListMap<>();
+    private volatile long                         firstLogIndex           = DEFAULT_FIRST_LOG_INDEX;
+    private volatile boolean                      hasLoadFirstLogIndex    = false;
+    private final ReadWriteLock                   readWriteLock           = new ReentrantReadWriteLock();
+    private final Lock                            writeLock               = this.readWriteLock.writeLock();
 
     public MemoryLogStorage(final RaftOptions raftOptions) {
 
     }
+
     @Override
     public boolean init(final LogStorageOptions opts) {
         if (this.db == null) {
@@ -71,7 +89,7 @@ public class MemoryLogStorage implements LogStorage, Describer {
     public static final Long FIRST_LOG_IDX_KEY = Long.MIN_VALUE;
 
     private void load(final ConfigurationManager confManager) {
-        for(Map.Entry<Long, LogEntry> e : this.confDb.entrySet()) {
+        for (Map.Entry<Long, LogEntry> e : this.confDb.entrySet()) {
             Long k = e.getKey();
             LogEntry entry = e.getValue();
             if (k.equals(FIRST_LOG_IDX_KEY)) {
@@ -204,8 +222,9 @@ public class MemoryLogStorage implements LogStorage, Describer {
         long lastIndex = headEntry.getId().getIndex() - 1;
         for (LogEntry entry : entries) {
             long currentIndex = entry.getId().getIndex();
-            if (currentIndex != (lastIndex+1)) {
-                throw new UnsupportedOperationException((String.format("Non-consecutive log index appending attempted %d -> %d", lastIndex, currentIndex)));
+            if (currentIndex != (lastIndex + 1)) {
+                throw new UnsupportedOperationException((String.format(
+                    "Non-consecutive log index appending attempted %d -> %d", lastIndex, currentIndex)));
             }
             if (entry.getType() == EnumOutter.EntryType.ENTRY_TYPE_CONFIGURATION) {
                 this.confDb.put(currentIndex, entry);
@@ -316,11 +335,10 @@ public class MemoryLogStorage implements LogStorage, Describer {
     @Override
     public void describe(final Printer out) {
         StringBuilder sb = new StringBuilder();
-        sb.append("MemoryLogStorage").append("\r\n")
-                .append("FirstLogIndex        : ").append(firstLogIndex).append("\r\n")
-                .append("HasLoadFirstLogIndex : ").append(hasLoadFirstLogIndex).append("\r\n")
-                .append("LastLogIndex         : ").append(getLastLogIndex()).append("\r\n")
-                .append("LogEntries Size      : ").append(this.db.size()).append("\r\n");
+        sb.append("MemoryLogStorage").append("\r\n").append("FirstLogIndex        : ").append(firstLogIndex)
+            .append("\r\n").append("HasLoadFirstLogIndex : ").append(hasLoadFirstLogIndex).append("\r\n")
+            .append("LastLogIndex         : ").append(getLastLogIndex()).append("\r\n")
+            .append("LogEntries Size      : ").append(this.db.size()).append("\r\n");
         out.print(sb.toString());
     }
 }
