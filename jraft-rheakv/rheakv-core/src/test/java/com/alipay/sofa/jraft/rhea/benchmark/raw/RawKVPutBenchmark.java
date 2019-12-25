@@ -25,10 +25,10 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.*;
+import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.CONCURRENCY;
+import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
 
 /**
  * @author jiachun.fjc
@@ -96,8 +96,7 @@ public abstract class RawKVPutBenchmark extends BaseRawStoreBenchmark {
     @BenchmarkMode(Mode.All)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void put() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        byte[] key = BytesUtil.writeUtf8("benchmark_" + random.nextInt(KEY_COUNT));
+        byte[] key = BytesUtil.writeUtf8("benchmark_" + getRandomInt());
         rawKVStore().put(key, VALUE_BYTES, null);
     }
 }

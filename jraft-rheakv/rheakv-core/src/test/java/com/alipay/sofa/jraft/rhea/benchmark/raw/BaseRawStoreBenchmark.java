@@ -21,6 +21,9 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.KEY_COUNT;
 
 public abstract class BaseRawStoreBenchmark {
 
@@ -28,9 +31,26 @@ public abstract class BaseRawStoreBenchmark {
 
     protected abstract void shutdown() throws IOException;
 
+    private int[] numbers;
+    private int index;
+
     protected void setup() throws Exception {
+        buildRandomNumbers(KEY_COUNT);
         initRawKVStore();
     }
+
+    private void buildRandomNumbers(final int keyCount) {
+        this.numbers = new int[keyCount];
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        for (int i = 0; i < keyCount; i++) {
+            this.numbers[i] = random.nextInt(keyCount);
+        }
+    }
+
+    protected int getRandomInt() {
+        return this.numbers[this.index++ % this.numbers.length];
+    }
+
 
     protected File getTempDir() throws IOException {
         final File file = File.createTempFile("RawRocksDBTest", "test");
