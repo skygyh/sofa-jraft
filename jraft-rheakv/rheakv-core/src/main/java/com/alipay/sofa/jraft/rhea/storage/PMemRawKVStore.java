@@ -25,6 +25,7 @@ import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Requires;
 import lib.util.persistent.*;
+import lib.util.persistent.spi.PersistentMemoryProvider;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,118 +50,62 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 3. use more persistent data structure
  */
 public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
+    private static final Logger LOG = LoggerFactory.getLogger(PMemRawKVStore.class);
+    private static final byte DELIMITER = (byte) ',';
 
-    private static final Logger                                                             LOG          = LoggerFactory
-                                                                                                             .getLogger(PMemRawKVStore.class);
+    static {
+        PersistentMemoryProvider.getDefaultProvider().getHeap().open();
+    }
 
-    private final ReadWriteLock                                                             snapshotLock = new ReentrantReadWriteLock();
+    public PMemRawKVStore() {
+        super();
+    }
 
-    private final Serializer                                                                serializer   = Serializers
-                                                                                                             .getDefault();
-
-    private static final byte                                                               DELIMITER    = (byte) ',';
-    private static final Comparator<PersistentImmutableByteArray>                           COMPARATOR   = new Comparator<PersistentImmutableByteArray>() {
-                                                                                                             @Override
-                                                                                                             public int compare(PersistentImmutableByteArray o1,
-                                                                                                                                PersistentImmutableByteArray o2) {
-                                                                                                                 return compare(
-                                                                                                                     o1,
-                                                                                                                     0,
-                                                                                                                     o1.length(),
-                                                                                                                     o2,
-                                                                                                                     0,
-                                                                                                                     o2.length());
-                                                                                                             }
-
-                                                                                                             public int compare(final PersistentImmutableByteArray buffer1,
-                                                                                                                                final int offset1,
-                                                                                                                                final int length1,
-                                                                                                                                final PersistentImmutableByteArray buffer2,
-                                                                                                                                final int offset2,
-                                                                                                                                final int length2) {
-                                                                                                                 // short circuit equal case
-                                                                                                                 if (buffer1 == buffer2
-                                                                                                                     && offset1 == offset2
-                                                                                                                     && length1 == length2) {
-                                                                                                                     return 0;
-                                                                                                                 }
-                                                                                                                 final int end1 = offset1
-                                                                                                                                  + length1;
-                                                                                                                 final int end2 = offset2
-                                                                                                                                  + length2;
-                                                                                                                 for (int i = offset1, j = offset2; i < end1
-                                                                                                                                                    && j < end2; i++, j++) {
-                                                                                                                     int a = buffer1
-                                                                                                                         .get(i) & 0xff;
-                                                                                                                     int b = buffer2
-                                                                                                                         .get(j) & 0xff;
-                                                                                                                     if (a != b) {
-                                                                                                                         return a
-                                                                                                                                - b;
-                                                                                                                     }
-                                                                                                                 }
-                                                                                                                 return length1
-                                                                                                                        - length2;
-                                                                                                             }
-                                                                                                         };
-
-    private PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray>   defaultDB;
-    private PersistentSIHashMap<PersistentImmutableByteArray, PersistentLong>               sequenceDB;                                       // key -> sequence long
-    private PersistentSIHashMap<PersistentImmutableByteArray, PersistentLong>               fencingKeyDB;                                     // key -> fencing id long
-    private PersistentSIHashMap<PersistentImmutableByteArray, PersistentImmutableByteArray> lockerDB;                                         // key -> DistributedLock.Owner
-    private volatile PMemDBOptions                                                          opts;
-
-    private static volatile int                                                             count        = 0;
+    private final ReadWriteLock snapshotLock = new ReentrantReadWriteLock();
+    private final Serializer serializer = Serializers.getDefault();
+    private PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> defaultDB;
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong> sequenceDB;                             // key -> sequence long
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong> fencingKeyDB;                           // key -> fencing id long
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentImmutableByteArray> lockerDB;                 // key -> DistributedLock.Owner
+    private volatile PMemDBOptions opts;
 
     @SuppressWarnings("unchecked")
-    private static PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> createSortedMap(String dbName,
-                                                                                                                 int size,
-                                                                                                                 boolean forceCreate) {
+    private static PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> createSortedMap(String dbName,
+                                                                                                     int size,
+                                                                                                     boolean forceCreate) {
         String id = "persistent_" + dbName;
-        System.out.print("opening " + count + " ...");
-        PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> map = ObjectDirectory.get(id,
-            PersistentFPTree2.class);
+        PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> map = ObjectDirectory.get(id,
+                PersistentFPTree2.class);
         if (map == null) {
-            map = new PersistentFPTree2<>(8, 64, COMPARATOR);
+            map = new PersistentFPTree2<>(8, 64);
             ObjectDirectory.put(id, map);
+            LOG.info("created sorted map {} {}", id, map.getClass().getSimpleName());
         } else if (forceCreate) {
-            map.setComparator(COMPARATOR);
             map.clear();
+            LOG.info("cleared sorted map {} {}", id, map.getClass().getSimpleName());
+        } else {
+            LOG.info("loaded sorted map {} {}", id, map.getClass().getSimpleName());
         }
-        assert (map.comparator() != null);
-        System.out.println("success");
-        count++;
         return map;
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends AnyPersistent> PersistentSIHashMap<PersistentImmutableByteArray, T> createHashMap(String dbName,
-                                                                                                                int size,
-                                                                                                                boolean forceCreate) {
+    private static <T extends AnyPersistent> PersistentSIHashMap<PMemDecoratedKey, T> createHashMap(String dbName,
+                                                                                                    int size,
+                                                                                                    boolean forceCreate) {
         String id = "persistent_" + dbName;
-        PersistentSIHashMap<PersistentImmutableByteArray, T> map = ObjectDirectory.get(id, PersistentSIHashMap.class);
+        PersistentSIHashMap<PMemDecoratedKey, T> map = ObjectDirectory.get(id, PersistentSIHashMap.class);
         if (map == null) {
             map = new PersistentSIHashMap<>();
             ObjectDirectory.put(id, map);
+            LOG.info("created hash map {} {}", id, map.getClass().getSimpleName());
         } else if (forceCreate) {
             map.clear();
+            LOG.info("cleared hash map {} {}", id, map.getClass().getSimpleName());
+        } else {
+            LOG.info("loaded hash map {} {}", id, map.getClass().getSimpleName());
         }
         return map;
-    }
-
-    // Use by Test only
-    @Override
-    public boolean init(final PMemDBOptions opts) {
-        this.opts = opts;
-
-        Requires.requireTrue(hasEnoughSpace(opts), "No enough space for Persistent Memory on "
-                                                   + PMemDBOptions.PMEM_ROOT_PATH);
-        this.defaultDB = createSortedMap("defaultDB", opts.getPmemDataSize(), opts.getForceCreate());
-        this.sequenceDB = createHashMap("sequenceDB", opts.getPmemMetaSize(), opts.getForceCreate());
-        this.fencingKeyDB = createHashMap("fencingKeyDB", opts.getPmemMetaSize(), opts.getForceCreate());
-        this.lockerDB = createHashMap("lockerDB", opts.getPmemMetaSize(), opts.getForceCreate());
-        LOG.info("[PMemRawKVStore] start successfully, options: {}.", opts);
-        return true;
     }
 
     private static boolean hasEnoughSpace(PMemDBOptions opts) {
@@ -208,6 +153,43 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         return confStr.toString();
     }
 
+    static Map<ByteArray, Long> subRangeMap(final PersistentSIHashMap<PMemDecoratedKey, PersistentLong> input,
+                                            final Region region) {
+        final Map<ByteArray, Long> output = new HashMap<>();
+        if (RegionHelper.isSingleGroup(region)) {
+            for (Map.Entry<PMemDecoratedKey, PersistentLong> e : input.entrySet()) {
+                output.put(ByteArray.wrap(e.getKey().toArray()), e.getValue().longValue());
+            }
+            return output;
+        }
+
+        final Iterator<Map.Entry<PMemDecoratedKey, PersistentLong>> it = input.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<PMemDecoratedKey, PersistentLong> e = it.next();
+            byte[] key = e.getKey().toArray();
+            long value = e.getValue().longValue();
+            if (RegionHelper.isKeyInRegion(key, region)) {
+                output.put(ByteArray.wrap(key), value);
+            }
+        }
+        return output;
+    }
+
+    // Use by Test only
+    @Override
+    public boolean init(final PMemDBOptions opts) {
+        this.opts = opts;
+
+        Requires.requireTrue(hasEnoughSpace(opts), "No enough space for Persistent Memory on "
+                + PMemDBOptions.PMEM_ROOT_PATH);
+        this.defaultDB = createSortedMap("defaultDB", opts.getPmemDataSize(), opts.getForceCreate());
+        this.sequenceDB = createHashMap("sequenceDB", opts.getPmemMetaSize(), opts.getForceCreate());
+        this.fencingKeyDB = createHashMap("fencingKeyDB", opts.getPmemMetaSize(), opts.getForceCreate());
+        this.lockerDB = createHashMap("lockerDB", opts.getPmemMetaSize(), opts.getForceCreate());
+        LOG.info("[PMemRawKVStore] start successfully, options: {}.", opts);
+        return true;
+    }
+
     @Override
     public void shutdown() {
         if (this.defaultDB != null) {
@@ -222,6 +204,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         if (this.lockerDB != null) {
             this.lockerDB.clear();
         }
+        LOG.info("[PMemRawKVStore] shutdown successfully");
     }
 
     @Override
@@ -235,11 +218,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("GET");
         try {
-            final PersistentImmutableByteArray v = this.defaultDB.get(new PersistentImmutableByteArray(key));
+            final PersistentImmutableByteArray v = this.defaultDB.get(new PMemDecoratedKey(key));
             final byte[] value = (v == null) ? null : v.toArray();
             setSuccess(closure, value);
         } catch (final Exception e) {
-            LOG.error("Fail to [GET], key: [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [GET], key: [{}], {}.", BytesUtil.readUtf8(key), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [GET]");
         } finally {
             ////timeCtx.stop();
@@ -254,7 +237,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             final Map<ByteArray, byte[]> resultMap = Maps.newHashMap();
             for (final byte[] key : keys) {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                final PersistentImmutableByteArray v = this.defaultDB.get(new PersistentImmutableByteArray(key));
+                final PersistentImmutableByteArray v = this.defaultDB.get(new PMemDecoratedKey(key));
                 resultMap.put(ByteArray.wrap(key), v == null ? null : v.toArray());
             }
             setSuccess(closure, resultMap);
@@ -271,10 +254,10 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("CONTAINS_KEY");
         try {
-            final boolean exists = this.defaultDB.containsKey(new PersistentImmutableByteArray(key));
+            final boolean exists = this.defaultDB.containsKey(new PMemDecoratedKey(key));
             setSuccess(closure, exists);
         } catch (final Exception e) {
-            LOG.error("Fail to [CONTAINS_KEY], key: [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [CONTAINS_KEY], key: [{}], {}.", BytesUtil.readUtf8(key), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [CONTAINS_KEY]");
         } finally {
             ////timeCtx.stop();
@@ -297,27 +280,29 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final int maxCount = limit > 0 ? limit : Integer.MAX_VALUE;
         final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
         try {
-            ConcurrentNavigableMap<PersistentImmutableByteArray, PersistentImmutableByteArray> subMap;
+            ConcurrentNavigableMap<PMemDecoratedKey, PersistentImmutableByteArray> subMap;
             if (startKey == null && endKey == null) {
                 subMap = this.defaultDB;
             } else if (startKey == null) {
-                subMap = this.defaultDB.headMap(new PersistentImmutableByteArray(endKey), false);
+                subMap = this.defaultDB.headMap(new PMemDecoratedKey(endKey), false);
             } else if (endKey == null) {
-                subMap = this.defaultDB.tailMap(new PersistentImmutableByteArray(startKey));
+                subMap = this.defaultDB.tailMap(new PMemDecoratedKey(startKey));
             } else {
-                subMap = this.defaultDB.subMap(new PersistentImmutableByteArray(startKey),
-                    new PersistentImmutableByteArray(endKey));
+                subMap = this.defaultDB.subMap(new PMemDecoratedKey(startKey),
+                        new PMemDecoratedKey(endKey));
             }
-            for (Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray> e : subMap.entrySet()) {
-                if (entries.size() > maxCount) {
-                    break;
+            if (!subMap.isEmpty()) {
+                for (Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray> e : subMap.entrySet()) {
+                    if (entries.size() > maxCount) {
+                        break;
+                    }
+                    entries.add(new KVEntry(e.getKey().getKey(), returnValue ? e.getValue().toArray() : null));
                 }
-                entries.add(new KVEntry(e.getKey().toArray(), returnValue ? e.getValue().toArray() : null));
             }
             setSuccess(closure, entries);
         } catch (final Exception e) {
-            LOG.error("Fail to [SCAN], range: ['[{}, {})'], {}.", BytesUtil.toHex(realStartKey),
-                BytesUtil.toHex(endKey), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [SCAN], range: ['[{}, {})'], {}.", BytesUtil.readUtf8(realStartKey),
+                    BytesUtil.readUtf8(endKey), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [SCAN]");
         } finally {
             ////timeCtx.stop();
@@ -330,7 +315,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         ////final Timer.Context timeCtx = getTimeContext("GET_SEQUENCE");
         final byte[] realKey = BytesUtil.nullToEmpty(seqKey);
         try {
-            final PersistentLong startLong = this.sequenceDB.get(new PersistentImmutableByteArray(realKey));
+            final PersistentLong startLong = this.sequenceDB.get(new PMemDecoratedKey(realKey));
             long startVal = (startLong == null) ? 0 : startLong.longValue();
             if (step < 0) {
                 // never get here
@@ -343,12 +328,12 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             }
             final long endVal = getSafeEndValueForSequence(startVal, step);
             if (startVal != endVal) {
-                this.sequenceDB.put(new PersistentImmutableByteArray(realKey), new PersistentLong(endVal));
+                this.sequenceDB.put(new PMemDecoratedKey(realKey), new PersistentLong(endVal));
             }
             setSuccess(closure, new Sequence(startVal, endVal));
         } catch (final Exception e) {
-            LOG.error("Fail to [GET_SEQUENCE], [key = {}, step = {}], {}.", BytesUtil.toHex(realKey), step,
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [GET_SEQUENCE], [key = {}, step = {}], {}.", BytesUtil.readUtf8(realKey), step,
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [GET_SEQUENCE]", e);
         } finally {
             ////timeCtx.stop();
@@ -360,11 +345,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(seqKey != null && seqKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("RESET_SEQUENCE");
         try {
-            this.sequenceDB.remove(new PersistentImmutableByteArray(seqKey));
+            this.sequenceDB.remove(new PMemDecoratedKey(seqKey));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Fail to [RESET_SEQUENCE], [key = {}], {}.", BytesUtil.toHex(seqKey),
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [RESET_SEQUENCE], [key = {}], {}.", BytesUtil.readUtf8(seqKey),
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [RESET_SEQUENCE]", e);
         } finally {
             ////timeCtx.stop();
@@ -376,11 +361,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("PUT");
         try {
-            this.defaultDB.put(new PersistentImmutableByteArray(key), new PersistentImmutableByteArray(value));
+            this.defaultDB.put(new PMemDecoratedKey(key), new PersistentImmutableByteArray(value));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Fail to [PUT], [{}, {}], kvsize [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
-                key.length, value == null ? 0 : value.length, StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [PUT], [{}, {}], kvsize [{}, {}], {}.", BytesUtil.readUtf8(key), BytesUtil.readUtf8(value),
+                    key.length, value == null ? 0 : value.length, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT]", e);
         } finally {
             //timeCtx.stop();
@@ -393,7 +378,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("GET_PUT");
         try {
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             final PersistentImmutableByteArray updateVal = new PersistentImmutableByteArray(value);
             PersistentImmutableByteArray prevVal = null;
             do {
@@ -414,8 +399,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             } while (true);
             setSuccess(closure, prevVal == null ? null : prevVal.toArray());
         } catch (final Exception e) {
-            LOG.error("Fail to [GET_PUT], [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [GET_PUT], [{}, {}], {}.", BytesUtil.readUtf8(key), BytesUtil.readUtf8(value),
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [GET_PUT]", e);
         } finally {
             //timeCtx.stop();
@@ -429,14 +414,14 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(update.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("COMPARE_PUT");
         try {
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             final PersistentImmutableByteArray expectVal = new PersistentImmutableByteArray(expect);
             final PersistentImmutableByteArray updateVal = new PersistentImmutableByteArray(update);
             boolean success = this.defaultDB.replace(k, expectVal, updateVal);
             setSuccess(closure, success);
         } catch (final Exception e) {
-            LOG.error("Fail to [COMPARE_PUT], [{}, {}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(expect),
-                BytesUtil.toHex(update), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [COMPARE_PUT], [{}, {}, {}], {}.", BytesUtil.readUtf8(key), BytesUtil.readUtf8(expect),
+                    BytesUtil.readUtf8(update), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [COMPARE_PUT]", e);
         } finally {
             //timeCtx.stop();
@@ -449,7 +434,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("MERGE");
         try {
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             PersistentImmutableByteArray expectVal;
             PersistentImmutableByteArray updateVal;
             do {
@@ -471,8 +456,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             } while (!this.defaultDB.replace(k, expectVal, updateVal));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Fail to [MERGE], [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [MERGE], [{}, {}], {}.", BytesUtil.readUtf8(key), BytesUtil.readUtf8(value),
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [MERGE]", e);
         } finally {
             //timeCtx.stop();
@@ -488,7 +473,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 final byte[] value = entry.getValue();
                 Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
                 Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
-                this.defaultDB.put(new PersistentImmutableByteArray(key), new PersistentImmutableByteArray(value));
+                this.defaultDB.put(new PMemDecoratedKey(key), new PersistentImmutableByteArray(value));
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -505,13 +490,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("PUT_IF_ABSENT");
         try {
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             final PersistentImmutableByteArray prevVal = this.defaultDB.putIfAbsent(k,
-                new PersistentImmutableByteArray(value));
+                    new PersistentImmutableByteArray(value));
             setSuccess(closure, prevVal == null ? null : prevVal.toArray());
         } catch (final Exception e) {
-            LOG.error("Fail to [PUT_IF_ABSENT], [{}, {}], {}.", BytesUtil.toHex(key), BytesUtil.toHex(value),
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [PUT_IF_ABSENT], [{}, {}], {}.", BytesUtil.readUtf8(key), BytesUtil.readUtf8(value),
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT_IF_ABSENT]", e);
         } finally {
             //timeCtx.stop();
@@ -530,7 +515,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             // which is small compared to the auto-release time of the lock.
             final long now = acquirer.getLockingTimestamp();
             final long timeoutMillis = acquirer.getLeaseMillis();
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             final PersistentImmutableByteArray prevV = this.lockerDB.get(k);
             final byte[] prevBytesVal = prevV == null ? null : prevV.toArray();
 
@@ -543,72 +528,72 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     if (keepLease) {
                         // it wants to keep the lease but too late, will return failure
                         owner = builder //
-                            // set acquirer id
-                            .id(acquirer.getId())
-                            // fail to keep lease
-                            .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_FAIL)
-                            // set failure
-                            .success(false).build();
+                                // set acquirer id
+                                .id(acquirer.getId())
+                                // fail to keep lease
+                                .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_FAIL)
+                                // set failure
+                                .success(false).build();
                         break;
                     }
                     // is first time to try lock (another possibility is that this lock has been deleted),
                     // will return successful
                     owner = builder //
-                        // set acquirer id, now it will own the lock
-                        .id(acquirer.getId())
-                        // set a new deadline
-                        .deadlineMillis(now + timeoutMillis)
-                        // first time to acquire and success
-                        .remainingMillis(DistributedLock.OwnerBuilder.FIRST_TIME_SUCCESS)
-                        // create a new fencing token
-                        .fencingToken(getNextFencingToken(fencingKey))
-                        // init acquires
-                        .acquires(1)
-                        // set acquirer ctx
-                        .context(acquirer.getContext())
-                        // set successful
-                        .success(true).build();
+                            // set acquirer id, now it will own the lock
+                            .id(acquirer.getId())
+                            // set a new deadline
+                            .deadlineMillis(now + timeoutMillis)
+                            // first time to acquire and success
+                            .remainingMillis(DistributedLock.OwnerBuilder.FIRST_TIME_SUCCESS)
+                            // create a new fencing token
+                            .fencingToken(getNextFencingToken(fencingKey))
+                            // init acquires
+                            .acquires(1)
+                            // set acquirer ctx
+                            .context(acquirer.getContext())
+                            // set successful
+                            .success(true).build();
                     this.lockerDB.put(k, new PersistentImmutableByteArray(this.serializer.writeObject(owner)));
                     break;
                 }
 
                 // this lock has an owner, check if it has expired
                 final DistributedLock.Owner prevOwner = this.serializer.readObject(prevBytesVal,
-                    DistributedLock.Owner.class);
+                        DistributedLock.Owner.class);
                 final long remainingMillis = prevOwner.getDeadlineMillis() - now;
                 if (remainingMillis < 0) {
                     // the previous owner is out of lease
                     if (keepLease) {
                         // it wants to keep the lease but too late, will return failure
                         owner = builder //
-                            // still previous owner id
-                            .id(prevOwner.getId())
-                            // do not update
-                            .deadlineMillis(prevOwner.getDeadlineMillis())
-                            // fail to keep lease
-                            .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_FAIL)
-                            // set previous ctx
-                            .context(prevOwner.getContext())
-                            // set failure
-                            .success(false).build();
+                                // still previous owner id
+                                .id(prevOwner.getId())
+                                // do not update
+                                .deadlineMillis(prevOwner.getDeadlineMillis())
+                                // fail to keep lease
+                                .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_FAIL)
+                                // set previous ctx
+                                .context(prevOwner.getContext())
+                                // set failure
+                                .success(false).build();
                         break;
                     }
                     // create new lock owner
                     owner = builder //
-                        // set acquirer id, now it will own the lock
-                        .id(acquirer.getId())
-                        // set a new deadline
-                        .deadlineMillis(now + timeoutMillis)
-                        // success as a new acquirer
-                        .remainingMillis(DistributedLock.OwnerBuilder.NEW_ACQUIRE_SUCCESS)
-                        // create a new fencing token
-                        .fencingToken(getNextFencingToken(fencingKey))
-                        // init acquires
-                        .acquires(1)
-                        // set acquirer ctx
-                        .context(acquirer.getContext())
-                        // set successful
-                        .success(true).build();
+                            // set acquirer id, now it will own the lock
+                            .id(acquirer.getId())
+                            // set a new deadline
+                            .deadlineMillis(now + timeoutMillis)
+                            // success as a new acquirer
+                            .remainingMillis(DistributedLock.OwnerBuilder.NEW_ACQUIRE_SUCCESS)
+                            // create a new fencing token
+                            .fencingToken(getNextFencingToken(fencingKey))
+                            // init acquires
+                            .acquires(1)
+                            // set acquirer ctx
+                            .context(acquirer.getContext())
+                            // set successful
+                            .success(true).build();
                     this.lockerDB.put(k, new PersistentImmutableByteArray(this.serializer.writeObject(owner)));
                     break;
                 }
@@ -620,59 +605,59 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     if (keepLease) {
                         // the old friend only wants to keep lease of lock
                         owner = builder //
-                            // still previous owner id
-                            .id(prevOwner.getId())
-                            // update the deadline to keep lease
-                            .deadlineMillis(now + timeoutMillis)
-                            // success to keep lease
-                            .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_SUCCESS)
-                            // keep fencing token
-                            .fencingToken(prevOwner.getFencingToken())
-                            // keep acquires
-                            .acquires(prevOwner.getAcquires())
-                            // do not update ctx when keeping lease
-                            .context(prevOwner.getContext())
-                            // set successful
-                            .success(true).build();
+                                // still previous owner id
+                                .id(prevOwner.getId())
+                                // update the deadline to keep lease
+                                .deadlineMillis(now + timeoutMillis)
+                                // success to keep lease
+                                .remainingMillis(DistributedLock.OwnerBuilder.KEEP_LEASE_SUCCESS)
+                                // keep fencing token
+                                .fencingToken(prevOwner.getFencingToken())
+                                // keep acquires
+                                .acquires(prevOwner.getAcquires())
+                                // do not update ctx when keeping lease
+                                .context(prevOwner.getContext())
+                                // set successful
+                                .success(true).build();
                         this.defaultDB.put(k, new PersistentImmutableByteArray(this.serializer.writeObject(owner)));
                         break;
                     }
                     // now we are sure that is an old friend who is back again (reentrant lock)
                     owner = builder //
-                        // still previous owner id
-                        .id(prevOwner.getId())
-                        // by the way, the lease will also be kept
-                        .deadlineMillis(now + timeoutMillis)
-                        // success reentrant
-                        .remainingMillis(DistributedLock.OwnerBuilder.REENTRANT_SUCCESS)
-                        // keep fencing token
-                        .fencingToken(prevOwner.getFencingToken())
-                        // acquires++
-                        .acquires(prevOwner.getAcquires() + 1)
-                        // update ctx when reentrant
-                        .context(acquirer.getContext())
-                        // set successful
-                        .success(true).build();
+                            // still previous owner id
+                            .id(prevOwner.getId())
+                            // by the way, the lease will also be kept
+                            .deadlineMillis(now + timeoutMillis)
+                            // success reentrant
+                            .remainingMillis(DistributedLock.OwnerBuilder.REENTRANT_SUCCESS)
+                            // keep fencing token
+                            .fencingToken(prevOwner.getFencingToken())
+                            // acquires++
+                            .acquires(prevOwner.getAcquires() + 1)
+                            // update ctx when reentrant
+                            .context(acquirer.getContext())
+                            // set successful
+                            .success(true).build();
                     this.lockerDB.put(k, new PersistentImmutableByteArray(this.serializer.writeObject(owner)));
                     break;
                 }
 
                 // the lock is exist and also prev locker is not the same as current
                 owner = builder //
-                    // set previous owner id to tell who is the real owner
-                    .id(prevOwner.getId())
-                    // set the remaining lease time of current owner
-                    .remainingMillis(remainingMillis)
-                    // set previous ctx
-                    .context(prevOwner.getContext())
-                    // set failure
-                    .success(false).build();
+                        // set previous owner id to tell who is the real owner
+                        .id(prevOwner.getId())
+                        // set the remaining lease time of current owner
+                        .remainingMillis(remainingMillis)
+                        // set previous ctx
+                        .context(prevOwner.getContext())
+                        // set failure
+                        .success(false).build();
                 LOG.debug("Another locker [{}] is trying the existed lock [{}].", acquirer, prevOwner);
             } while (false);
 
             setSuccess(closure, owner);
         } catch (final Exception e) {
-            LOG.error("Fail to [TRY_LOCK], [{}, {}], {}.", BytesUtil.toHex(key), acquirer, StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [TRY_LOCK], [{}, {}], {}.", BytesUtil.readUtf8(key), acquirer, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [TRY_LOCK]", e);
         } finally {
             //timeCtx.stop();
@@ -684,7 +669,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("RELEASE_LOCK");
         try {
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             final byte[] prevBytesVal = this.lockerDB.get(k).toArray();
 
             final DistributedLock.Owner owner;
@@ -694,35 +679,35 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 if (prevBytesVal == null) {
                     LOG.warn("Lock not exist: {}.", acquirer);
                     owner = builder //
-                        // set acquirer id
-                        .id(acquirer.getId())
-                        // set acquirer fencing token
-                        .fencingToken(acquirer.getFencingToken())
-                        // set acquires=0
-                        .acquires(0)
-                        // set successful
-                        .success(true).build();
+                            // set acquirer id
+                            .id(acquirer.getId())
+                            // set acquirer fencing token
+                            .fencingToken(acquirer.getFencingToken())
+                            // set acquires=0
+                            .acquires(0)
+                            // set successful
+                            .success(true).build();
                     break;
                 }
 
                 final DistributedLock.Owner prevOwner = this.serializer.readObject(prevBytesVal,
-                    DistributedLock.Owner.class);
+                        DistributedLock.Owner.class);
 
                 if (prevOwner.isSameAcquirer(acquirer)) {
                     final long acquires = prevOwner.getAcquires() - 1;
                     owner = builder //
-                        // still previous owner id
-                        .id(prevOwner.getId())
-                        // do not update deadline
-                        .deadlineMillis(prevOwner.getDeadlineMillis())
-                        // keep fencing token
-                        .fencingToken(prevOwner.getFencingToken())
-                        // acquires--
-                        .acquires(acquires)
-                        // set previous ctx
-                        .context(prevOwner.getContext())
-                        // set successful
-                        .success(true).build();
+                            // still previous owner id
+                            .id(prevOwner.getId())
+                            // do not update deadline
+                            .deadlineMillis(prevOwner.getDeadlineMillis())
+                            // keep fencing token
+                            .fencingToken(prevOwner.getFencingToken())
+                            // acquires--
+                            .acquires(acquires)
+                            // set previous ctx
+                            .context(prevOwner.getContext())
+                            // set successful
+                            .success(true).build();
                     if (acquires <= 0) {
                         // real delete, goodbye ~
                         this.lockerDB.remove(k);
@@ -735,22 +720,22 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
 
                 // invalid acquirer, can't to release the lock
                 owner = builder //
-                    // set previous owner id to tell who is the real owner
-                    .id(prevOwner.getId())
-                    // keep previous fencing token
-                    .fencingToken(prevOwner.getFencingToken())
-                    // do not update acquires
-                    .acquires(prevOwner.getAcquires())
-                    // set previous ctx
-                    .context(prevOwner.getContext())
-                    // set failure
-                    .success(false).build();
+                        // set previous owner id to tell who is the real owner
+                        .id(prevOwner.getId())
+                        // keep previous fencing token
+                        .fencingToken(prevOwner.getFencingToken())
+                        // do not update acquires
+                        .acquires(prevOwner.getAcquires())
+                        // set previous ctx
+                        .context(prevOwner.getContext())
+                        // set failure
+                        .success(false).build();
                 LOG.warn("The lock owner is: [{}], [{}] could't release it.", prevOwner, acquirer);
             } while (false);
 
             setSuccess(closure, owner);
         } catch (final Exception e) {
-            LOG.error("Fail to [RELEASE_LOCK], [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [RELEASE_LOCK], [{}], {}.", BytesUtil.readUtf8(key), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [RELEASE_LOCK]", e);
         } finally {
             //timeCtx.stop();
@@ -762,7 +747,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         //final Timer.Context timeCtx = getTimeContext("FENCING_TOKEN");
         try {
             final byte[] realKey = BytesUtil.nullToEmpty(fencingKey);
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(realKey);
+            final PMemDecoratedKey k = new PMemDecoratedKey(realKey);
             final PersistentLong v = this.fencingKeyDB.get(k);
             final long prevVal;
             if (v == null) {
@@ -786,10 +771,10 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("DELETE");
         try {
-            this.defaultDB.remove(new PersistentImmutableByteArray(key));
+            this.defaultDB.remove(new PMemDecoratedKey(key));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Fail to [DELETE], [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [DELETE], [{}], {}.", BytesUtil.readUtf8(key), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE]", e);
         } finally {
             //timeCtx.stop();
@@ -805,16 +790,16 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         // TODO : thread safe to delete range?
         // TODO : Use iterator to delete range
         try {
-            List<PersistentImmutableByteArray> toDeleteKeys = new LinkedList<>(this.defaultDB.subMap(
-                startKey == null ? null : new PersistentImmutableByteArray(startKey),
-                endKey == null ? null : new PersistentImmutableByteArray(endKey)).keySet());
-            for (PersistentImmutableByteArray k : toDeleteKeys) {
+            List<PMemDecoratedKey> toDeleteKeys = new LinkedList<>(this.defaultDB.subMap(
+                    startKey == null ? null : new PMemDecoratedKey(startKey),
+                    endKey == null ? null : new PMemDecoratedKey(endKey)).keySet());
+            for (PMemDecoratedKey k : toDeleteKeys) {
                 this.defaultDB.remove(k);
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Fail to [DELETE_RANGE], ['[{}, {})'], {}.", BytesUtil.toHex(startKey), BytesUtil.toHex(endKey),
-                StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to [DELETE_RANGE], ['[{}, {})'], {}.", BytesUtil.readUtf8(startKey), BytesUtil.readUtf8(endKey),
+                    StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE_RANGE]", e);
         } finally {
             //timeCtx.stop();
@@ -827,7 +812,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         try {
             for (final byte[] key : keys) {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                this.defaultDB.remove(new PersistentImmutableByteArray(key));
+                this.defaultDB.remove(new PMemDecoratedKey(key));
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -857,14 +842,18 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("APPROXIMATE_KEYS");
         try {
-            if (startKey == null || startKey.length == 0) {
-                return this.defaultDB.headMap(new PersistentImmutableByteArray(endKey)).size();
-            } else if (endKey == null || endKey.length == 0) {
-                return this.defaultDB.tailMap(new PersistentImmutableByteArray(startKey)).size();
+            ConcurrentNavigableMap<PMemDecoratedKey, PersistentImmutableByteArray> subMap;
+            if (startKey == null && endKey == null) {
+                subMap = this.defaultDB;
+            } else if (startKey == null) {
+                subMap = this.defaultDB.headMap(new PMemDecoratedKey(endKey), false);
+            } else if (endKey == null) {
+                subMap = this.defaultDB.tailMap(new PMemDecoratedKey(startKey));
             } else {
-                return this.defaultDB.subMap(new PersistentImmutableByteArray(startKey),
-                    new PersistentImmutableByteArray(endKey)).size();
+                subMap = this.defaultDB.subMap(new PMemDecoratedKey(startKey),
+                        new PMemDecoratedKey(endKey));
             }
+            return subMap.size();
         } finally {
             //timeCtx.stop();
         }
@@ -911,8 +900,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         try {
             // TODO : make 'CAS' atomic
             final byte[] realKey = BytesUtil.nullToEmpty(parentKey);
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(realKey);
-            final PersistentImmutableByteArray ck = new PersistentImmutableByteArray(childKey);
+            final PMemDecoratedKey k = new PMemDecoratedKey(realKey);
+            final PMemDecoratedKey ck = new PMemDecoratedKey(childKey);
             final PersistentLong parentVal = this.fencingKeyDB.get(k);
             if (parentVal == null) {
                 return;
@@ -924,7 +913,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     }
 
     void doSnapshotSave(final PMemKVStoreSnapshotFile snapshotFile, final String snapshotPath, final Region region)
-                                                                                                                   throws Exception {
+            throws Exception {
         //final Timer.Context timeCtx = getTimeContext("SNAPSHOT_SAVE");
         // TODO : do transactional save for all DBs (defaultDB and sequenceDB, fencingDB ...)
         snapshotLock.writeLock().lock();
@@ -935,11 +924,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             FileUtils.forceMkdir(tempFile);
 
             snapshotFile.writeToFile(tempPath, "sequenceDB",
-                new PMemKVStoreSnapshotFile.SequenceDB(subRangeMap(this.sequenceDB, region)));
+                    new PMemKVStoreSnapshotFile.SequenceDB(subRangeMap(this.sequenceDB, region)));
             snapshotFile.writeToFile(tempPath, "fencingKeyDB",
-                new PMemKVStoreSnapshotFile.FencingKeyDB(subRangeMap(this.fencingKeyDB, region)));
+                    new PMemKVStoreSnapshotFile.FencingKeyDB(subRangeMap(this.fencingKeyDB, region)));
             snapshotFile.writeToFile(tempPath, "lockerDB",
-                new PMemKVStoreSnapshotFile.LockerDB(subRangeMapOwner(this.lockerDB, region)));
+                    new PMemKVStoreSnapshotFile.LockerDB(subRangeMapOwner(this.lockerDB, region)));
             final int size = this.opts.getKeysPerSegment();
             final List<Pair<byte[], byte[]>> segment = Lists.newArrayListWithCapacity(size);
             int index = 0;
@@ -956,7 +945,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 segment.add(Pair.of(it.key(), it.value()));
                 if (segment.size() >= size) {
                     snapshotFile.writeToFile(tempPath, "segment" + index++,
-                        new PMemKVStoreSnapshotFile.Segment(segment));
+                            new PMemKVStoreSnapshotFile.Segment(segment));
                     segment.clear();
                 }
                 it.next();
@@ -981,29 +970,29 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         snapshotLock.readLock().lock();
         try {
             final PMemKVStoreSnapshotFile.SequenceDB sequenceDB = snapshotFile.readFromFile(snapshotPath, "sequenceDB",
-                PMemKVStoreSnapshotFile.SequenceDB.class);
+                    PMemKVStoreSnapshotFile.SequenceDB.class);
             final PMemKVStoreSnapshotFile.FencingKeyDB fencingKeyDB = snapshotFile.readFromFile(snapshotPath,
-                "fencingKeyDB", PMemKVStoreSnapshotFile.FencingKeyDB.class);
+                    "fencingKeyDB", PMemKVStoreSnapshotFile.FencingKeyDB.class);
             final PMemKVStoreSnapshotFile.LockerDB lockerDB = snapshotFile.readFromFile(snapshotPath, "lockerDB",
-                PMemKVStoreSnapshotFile.LockerDB.class);
+                    PMemKVStoreSnapshotFile.LockerDB.class);
 
             this.dump(this.sequenceDB, sequenceDB.data());
             this.dump(this.fencingKeyDB, fencingKeyDB.data());
             this.dump(this.lockerDB, lockerDB.data());
 
             final PMemKVStoreSnapshotFile.TailIndex tailIndex = snapshotFile.readFromFile(snapshotPath, "tailIndex",
-                PMemKVStoreSnapshotFile.TailIndex.class);
+                    PMemKVStoreSnapshotFile.TailIndex.class);
             final int tail = tailIndex.data();
             final List<PMemKVStoreSnapshotFile.Segment> segments = Lists.newArrayListWithCapacity(tail + 1);
             for (int i = 0; i <= tail; i++) {
                 final PMemKVStoreSnapshotFile.Segment segment = snapshotFile.readFromFile(snapshotPath, "segment" + i,
-                    PMemKVStoreSnapshotFile.Segment.class);
+                        PMemKVStoreSnapshotFile.Segment.class);
                 segments.add(segment);
             }
             for (final PMemKVStoreSnapshotFile.Segment segment : segments) {
                 for (final Pair<byte[], byte[]> p : segment.data()) {
-                    this.defaultDB.put(new PersistentImmutableByteArray(p.getKey()),
-                        new PersistentImmutableByteArray(p.getValue()));
+                    this.defaultDB.put(new PMemDecoratedKey(p.getKey()),
+                            new PersistentImmutableByteArray(p.getValue()));
                 }
             }
         } finally {
@@ -1012,61 +1001,39 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         }
     }
 
-    private <P extends AnyPersistent, T> void dump(PersistentSIHashMap<PersistentImmutableByteArray, P> db,
+    private <P extends AnyPersistent, T> void dump(PersistentSIHashMap<PMemDecoratedKey, P> db,
                                                    Map<ByteArray, T> data) {
         for (Map.Entry<ByteArray, T> e : data.entrySet()) {
             final byte[] key = e.getKey().getBytes();
-            final PersistentImmutableByteArray k = new PersistentImmutableByteArray(key);
+            final PMemDecoratedKey k = new PMemDecoratedKey(key);
             T value = e.getValue();
             if (value instanceof Long) {
-                ((PersistentSIHashMap<PersistentImmutableByteArray, PersistentLong>) db).put(k, new PersistentLong(
-                    (Long) value));
+                ((PersistentSIHashMap<PMemDecoratedKey, PersistentLong>) db).put(k, new PersistentLong(
+                        (Long) value));
             } else if (value instanceof DistributedLock.Owner) {
-                ((PersistentSIHashMap<PersistentImmutableByteArray, PersistentImmutableByteArray>) db).put(k,
-                    new PersistentImmutableByteArray(this.serializer.writeObject(value)));
+                ((PersistentSIHashMap<PMemDecoratedKey, PersistentImmutableByteArray>) db).put(k,
+                        new PersistentImmutableByteArray(this.serializer.writeObject(value)));
             } else {
                 throw new RuntimeException("dump unsupported value type " + value.getClass().getSimpleName());
             }
         }
     }
 
-    static Map<ByteArray, Long> subRangeMap(final PersistentSIHashMap<PersistentImmutableByteArray, PersistentLong> input,
-                                            final Region region) {
-        final Map<ByteArray, Long> output = new HashMap<>();
-        if (RegionHelper.isSingleGroup(region)) {
-            for (Map.Entry<PersistentImmutableByteArray, PersistentLong> e : input.entrySet()) {
-                output.put(ByteArray.wrap(e.getKey().toArray()), e.getValue().longValue());
-            }
-            return output;
-        }
-
-        final Iterator<Map.Entry<PersistentImmutableByteArray, PersistentLong>> it = input.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<PersistentImmutableByteArray, PersistentLong> e = it.next();
-            byte[] key = e.getKey().toArray();
-            long value = e.getValue().longValue();
-            if (RegionHelper.isKeyInRegion(key, region)) {
-                output.put(ByteArray.wrap(key), value);
-            }
-        }
-        return output;
-    }
-
-    private Map<ByteArray, DistributedLock.Owner> subRangeMapOwner(final PersistentSIHashMap<PersistentImmutableByteArray, PersistentImmutableByteArray> input,
+    private Map<ByteArray, DistributedLock.Owner> subRangeMapOwner(final PersistentSIHashMap<PMemDecoratedKey, PersistentImmutableByteArray> input,
                                                                    final Region region) {
         final Map<ByteArray, DistributedLock.Owner> output = new HashMap<>();
         if (RegionHelper.isSingleGroup(region)) {
-            for (Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray> e : input.entrySet()) {
+            for (Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray> e : input.entrySet()) {
                 output.put(ByteArray.wrap(e.getKey().toArray()),
-                    this.serializer.readObject(e.getValue().toArray(), DistributedLock.Owner.class));
+                        this.serializer.readObject(e.getValue().toArray(), DistributedLock.Owner.class));
             }
             return output;
         }
 
-        final Iterator<Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray>> it = input.entrySet()
-            .iterator();
+        final Iterator<Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray>> it = input.entrySet()
+                .iterator();
         while (it.hasNext()) {
-            Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray> e = it.next();
+            Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray> e = it.next();
             byte[] key = e.getKey().toArray();
             byte[] value = e.getValue().toArray();
             if (RegionHelper.isKeyInRegion(key, region)) {

@@ -28,15 +28,15 @@ import java.util.Map;
  */
 public class PMemKVIterator implements KVIterator {
 
-    private PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray>   map;
-    private Iterator<Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray>> iterator;
-    private Map.Entry<PersistentImmutableByteArray, PersistentImmutableByteArray>           current;
+    private PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray>   map;
+    private Iterator<Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray>> iterator;
+    private Map.Entry<PMemDecoratedKey, PersistentImmutableByteArray>           current;
 
-    public PMemKVIterator(PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> map) {
+    public PMemKVIterator(PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> map) {
         reset(map);
     }
 
-    private void reset(final PersistentFPTree2<PersistentImmutableByteArray, PersistentImmutableByteArray> map) {
+    private void reset(final PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> map) {
         this.map = map;
         this.iterator = map.entrySet().iterator();
         next();
@@ -63,11 +63,11 @@ public class PMemKVIterator implements KVIterator {
         // TODO : support Binary Search
         reset(this.map);
 
-        if (!isValid() || BytesUtil.compare(current.getKey().toArray(), target) >= 0) {
+        if (!isValid() || BytesUtil.compare(current.getKey().getKey(), target) >= 0) {
             return;
         }
         while (isValid()) {
-            if (BytesUtil.compare(current.getKey().toArray(), target) >= 0) {
+            if (BytesUtil.compare(current.getKey().getKey(), target) >= 0) {
                 break;
             }
             next();
@@ -98,7 +98,7 @@ public class PMemKVIterator implements KVIterator {
         if (!isValid()) {
             return null;
         }
-        return current.getKey().toArray();
+        return current.getKey().getKey();
     }
 
     @Override

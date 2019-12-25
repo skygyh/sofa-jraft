@@ -421,11 +421,11 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
      */
     @Test
     public void compareAndPutTest() {
-        final byte[] key = makeKey("put_test");
-        byte[] value = makeValue("put_test_value");
+        final byte[] key = makeKey("compare_put_test");
+        byte[] value = makeValue("compare_put_test_value");
         this.kvStore.put(key, value, null);
 
-        byte[] update = makeValue("put_test_update");
+        byte[] update = makeValue("compare_put_test_update");
         KVStoreClosure kvStoreClosure = new BaseKVStoreClosure() {
             @Override
             public void run(Status status) {

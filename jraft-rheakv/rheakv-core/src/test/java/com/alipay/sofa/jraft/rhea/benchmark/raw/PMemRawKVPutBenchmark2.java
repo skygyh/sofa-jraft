@@ -17,25 +17,25 @@
 package com.alipay.sofa.jraft.rhea.benchmark.raw;
 
 import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
-import com.alipay.sofa.jraft.rhea.storage.PMemRawKVStore;
+import com.alipay.sofa.jraft.rhea.storage.PMemRawKVStore2;
 import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.TearDown;
 
-public class PMemRawKVPutBenchmark extends RawKVPutBenchmark {
-    private PMemRawKVStore pmemRawKVStore;
+import java.nio.file.Paths;
+
+public class PMemRawKVPutBenchmark2 extends RawKVPutBenchmark {
+    private PMemRawKVStore2 pmemRawKVStore;
 
     @Override
     protected RawKVStore initRawKVStore() {
-        try {
-            this.pmemRawKVStore = new PMemRawKVStore();
-            this.pmemRawKVStore.init(new PMemDBOptions());
-            return this.pmemRawKVStore;
-        } catch (Exception e) {
-            System.out.println("initRawKVStore failed : " + e.getCause().getMessage());
-            e.printStackTrace();
-            throw e;
-        }
+        PMemDBOptions pmemOpts = new PMemDBOptions();
+        final String childPath = "PMemRawKVPutBenchmark2_db";
+        pmemOpts.setDbPath(Paths.get(
+                pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
+        this.pmemRawKVStore = new PMemRawKVStore2();
+        this.pmemRawKVStore.init(pmemOpts);
+        return this.pmemRawKVStore;
     }
 
     @Override
