@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+rm -rf /mnt/mem/*
 export DB_PATH="/mnt/mem/benchmark_rhea_db/"
 export RAFT_PATH="/mnt/mem/benchmark_rhea_raft/"
 export HOME="/home/jerry"
