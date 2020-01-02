@@ -50,7 +50,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
-    private static final Logger             LOG           = LoggerFactory.getLogger(PMemRawKVStore.class);
+    private static final Logger             LOG           = LoggerFactory.getLogger(PMemRawKVStore2.class);
 
     private final ReadWriteLock             readWriteLock = new ReentrantReadWriteLock();
     private final Serializer                serializer    = Serializers.getDefault();
