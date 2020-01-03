@@ -32,7 +32,7 @@ public abstract class BaseRawStoreBenchmark {
     protected abstract void shutdown() throws IOException;
 
     private int[] numbers;
-    private int index;
+    private int   index;
 
     protected void setup() throws Exception {
         buildRandomNumbers(KEY_COUNT);
@@ -50,7 +50,6 @@ public abstract class BaseRawStoreBenchmark {
     protected int getRandomInt() {
         return this.numbers[this.index++ % this.numbers.length];
     }
-
 
     protected File getTempDir() throws IOException {
         final File file = File.createTempFile("RawRocksDBTest", "test");

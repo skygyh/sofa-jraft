@@ -39,7 +39,7 @@ public class RocksRawKVPutBenchmark extends RawKVPutBenchmark {
         this.rocksRawKVStore = new RocksRawKVStore();
         this.dbOptions = new RocksDBOptions();
         this.dbOptions.setDbPath(this.tempPath);
-        this.dbOptions.setSync(false);
+        this.dbOptions.setSync(true);
         this.rocksRawKVStore.init(this.dbOptions);
         return this.rocksRawKVStore;
     }
