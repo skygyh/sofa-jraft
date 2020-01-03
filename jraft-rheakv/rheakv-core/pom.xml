@@ -111,7 +111,7 @@
                 <version>2.12.4</version>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>/home/jerry/opensources/sofa-jraft/jraft-rheakv/pcj/target/classes/</additionalClasspathElement>
+                        <additionalClasspathElement>/home/jerry/opensources/sofa-jraft/pcj/target/classes/</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>
