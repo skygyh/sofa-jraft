@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class BenchmarkUtil {
 
-    public static final int    CONCURRENCY = 32;
+    public static final int    CONCURRENCY = 1;
     public static final int    KEY_COUNT   = 1000000;
 
     public static final byte[] VALUE_BYTES;

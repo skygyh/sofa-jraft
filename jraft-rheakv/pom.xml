@@ -13,6 +13,5 @@
     <modules>
         <module>rheakv-core</module>
         <module>rheakv-pd</module>
-        <module>pcj</module>
     </modules>
 </project>

@@ -32,7 +32,7 @@ public class PMemRawKVPutBenchmark2 extends RawKVPutBenchmark {
         PMemDBOptions pmemOpts = new PMemDBOptions();
         final String childPath = "PMemRawKVPutBenchmark2_db";
         pmemOpts.setDbPath(Paths.get(
-                pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
+            pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
         this.pmemRawKVStore = new PMemRawKVStore2();
         this.pmemRawKVStore.init(pmemOpts);
         return this.pmemRawKVStore;

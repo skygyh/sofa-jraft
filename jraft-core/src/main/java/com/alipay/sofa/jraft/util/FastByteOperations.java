@@ -1,11 +1,10 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -69,8 +68,7 @@ public class FastByteOperations {
     }
 
     public interface ByteOperations {
-        abstract public int compare(byte[] buffer1, int offset1, int length1,
-                                    byte[] buffer2, int offset2, int length2);
+        abstract public int compare(byte[] buffer1, int offset1, int length1, byte[] buffer2, int offset2, int length2);
 
         abstract public int compare(ByteBuffer buffer1, byte[] buffer2, int offset2, int length2);
 
@@ -89,8 +87,8 @@ public class FastByteOperations {
      * {@code Unsafe} isn't available.
      */
     private static class BestHolder {
-        static final String UNSAFE_COMPARER_NAME = FastByteOperations.class.getName() + "$UnsafeOperations";
-        static final ByteOperations BEST = getBest();
+        static final String         UNSAFE_COMPARER_NAME = FastByteOperations.class.getName() + "$UnsafeOperations";
+        static final ByteOperations BEST                 = getBest();
 
         /**
          * Returns the Unsafe-using Comparer, or falls back to the pure-Java
@@ -113,37 +111,37 @@ public class FastByteOperations {
 
     }
 
-    @SuppressWarnings("unused") // used via reflection
+    @SuppressWarnings("unused")
+    // used via reflection
     public static final class UnsafeOperations implements ByteOperations {
-        static final Unsafe theUnsafe;
+        static final Unsafe       theUnsafe;
         /**
          * The offset to the first element in a byte array.
          */
-        static final long BYTE_ARRAY_BASE_OFFSET;
-        static final long DIRECT_BUFFER_ADDRESS_OFFSET;
-        static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
+        static final long         BYTE_ARRAY_BASE_OFFSET;
+        static final long         DIRECT_BUFFER_ADDRESS_OFFSET;
+        static final boolean      BIG_ENDIAN            = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
         // 1M, copied from java.nio.Bits (unfortunately a package-private class)
         private static final long UNSAFE_COPY_THRESHOLD = 1 << 20;
-        private static final long MIN_COPY_THRESHOLD = 6;
+        private static final long MIN_COPY_THRESHOLD    = 6;
 
         static {
-            theUnsafe = (Unsafe) AccessController.doPrivileged(
-                    new PrivilegedAction<Object>() {
-                        @Override
-                        public Object run() {
-                            try {
-                                Field f = Unsafe.class.getDeclaredField("theUnsafe");
-                                f.setAccessible(true);
-                                return f.get(null);
-                            } catch (NoSuchFieldException e) {
-                                // It doesn't matter what we throw;
-                                // it's swallowed in getBest().
-                                throw new Error();
-                            } catch (IllegalAccessException e) {
-                                throw new Error();
-                            }
-                        }
-                    });
+            theUnsafe = (Unsafe) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
+                public Object run() {
+                    try {
+                        Field f = Unsafe.class.getDeclaredField("theUnsafe");
+                        f.setAccessible(true);
+                        return f.get(null);
+                    } catch (NoSuchFieldException e) {
+                        // It doesn't matter what we throw;
+                        // it's swallowed in getBest().
+                        throw new Error();
+                    } catch (IllegalAccessException e) {
+                        throw new Error();
+                    }
+                }
+            });
 
             try {
                 BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);
@@ -162,7 +160,8 @@ public class FastByteOperations {
             if (trgBuf.hasArray()) {
                 copy(src, srcOffset, trgBuf.array(), trgBuf.arrayOffset() + trgPosition, length);
             } else {
-                copy(src, srcOffset, null, trgPosition + theUnsafe.getLong(trgBuf, DIRECT_BUFFER_ADDRESS_OFFSET), length);
+                copy(src, srcOffset, null, trgPosition + theUnsafe.getLong(trgBuf, DIRECT_BUFFER_ADDRESS_OFFSET),
+                    length);
             }
         }
 
@@ -236,8 +235,8 @@ public class FastByteOperations {
          * @return 0 if equal, {@code < 0} if left is less than right, etc.
          */
         //@Inline
-        public static int compareTo(Object buffer1, long memoryOffset1, int length1,
-                                    Object buffer2, long memoryOffset2, int length2) {
+        public static int compareTo(Object buffer1, long memoryOffset1, int length1, Object buffer2,
+                                    long memoryOffset2, int length2) {
             int minLength = Math.min(length1, length2);
 
             /*
@@ -272,8 +271,8 @@ public class FastByteOperations {
 
         @Override
         public int compare(byte[] buffer1, int offset1, int length1, byte[] buffer2, int offset2, int length2) {
-            return compareTo(buffer1, BYTE_ARRAY_BASE_OFFSET + offset1, length1,
-                    buffer2, BYTE_ARRAY_BASE_OFFSET + offset2, length2);
+            return compareTo(buffer1, BYTE_ARRAY_BASE_OFFSET + offset1, length1, buffer2, BYTE_ARRAY_BASE_OFFSET
+                                                                                          + offset2, length2);
         }
 
         @Override
@@ -330,8 +329,7 @@ public class FastByteOperations {
     @SuppressWarnings("unused")
     public static final class PureJavaOperations implements ByteOperations {
         @Override
-        public int compare(byte[] buffer1, int offset1, int length1,
-                           byte[] buffer2, int offset2, int length2) {
+        public int compare(byte[] buffer1, int offset1, int length1, byte[] buffer2, int offset2, int length2) {
             // Short circuit equal case
             if (buffer1 == buffer2 && offset1 == offset2 && length1 == length2) {
                 return 0;
@@ -353,7 +351,7 @@ public class FastByteOperations {
         public int compare(ByteBuffer buffer1, byte[] buffer2, int offset2, int length2) {
             if (buffer1.hasArray()) {
                 return compare(buffer1.array(), buffer1.arrayOffset() + buffer1.position(), buffer1.remaining(),
-                        buffer2, offset2, length2);
+                    buffer2, offset2, length2);
             }
             return compare(buffer1, ByteBuffer.wrap(buffer2, offset2, length2));
         }
@@ -386,7 +384,8 @@ public class FastByteOperations {
         @Override
         public void copy(ByteBuffer src, int srcPosition, ByteBuffer trg, int trgPosition, int length) {
             if (src.hasArray() && trg.hasArray()) {
-                System.arraycopy(src.array(), src.arrayOffset() + srcPosition, trg.array(), trg.arrayOffset() + trgPosition, length);
+                System.arraycopy(src.array(), src.arrayOffset() + srcPosition, trg.array(), trg.arrayOffset()
+                                                                                            + trgPosition, length);
                 return;
             }
             src = src.duplicate();
