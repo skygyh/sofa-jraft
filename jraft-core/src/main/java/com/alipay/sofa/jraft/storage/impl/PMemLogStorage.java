@@ -22,17 +22,23 @@ import com.alipay.sofa.jraft.conf.ConfigurationManager;
 import com.alipay.sofa.jraft.entity.EnumOutter;
 import com.alipay.sofa.jraft.entity.LogEntry;
 import com.alipay.sofa.jraft.entity.LogId;
+import com.alipay.sofa.jraft.entity.codec.LogEntryDecoder;
+import com.alipay.sofa.jraft.entity.codec.LogEntryEncoder;
 import com.alipay.sofa.jraft.option.LogStorageOptions;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.LogStorage;
 import com.alipay.sofa.jraft.util.Describer;
+import lib.util.persistent.ObjectDirectory;
+import lib.util.persistent.PersistentSkipListMap2;
+import lib.util.persistent.PersistentImmutableByteArray;
+import lib.util.persistent.PersistentLong;
+import lib.util.persistent.spi.PersistentMemoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -40,41 +46,64 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import static com.alipay.sofa.jraft.entity.EnumOutter.EntryType.ENTRY_TYPE_NO_OP;
 
 /**
- * Log storage in volatile memory.
+ * Log storage in persistent memory by pmemlog
  *
  * @author Jerry Yang (20830326@qq.com)
  *
- * 2019-Dec-11 11:16:06 AM
+ * 2020-Jan-2 16:00:00
  */
-public class MemoryLogStorage implements LogStorage, Describer {
-    private static final Logger                   LOG                     = LoggerFactory
-                                                                              .getLogger(MemoryLogStorage.class);
-    private static final long                     DEFAULT_FIRST_LOG_INDEX = 1L;
+public class PMemLogStorage implements LogStorage, Describer {
+    private static final Logger                                                  LOG                     = LoggerFactory
+                                                                                                             .getLogger(PMemLogStorage.class);
+    static {
+        PersistentMemoryProvider.getDefaultProvider().getHeap().open();
+    }
 
-    private ConcurrentSkipListMap<Long, LogEntry> db                      = new ConcurrentSkipListMap<>();
-    private ConcurrentSkipListMap<Long, LogEntry> confDb                  = new ConcurrentSkipListMap<>();
-    private volatile long                         firstLogIndex           = DEFAULT_FIRST_LOG_INDEX;
-    private volatile boolean                      hasLoadFirstLogIndex    = false;
-    private final ReadWriteLock                   readWriteLock           = new ReentrantReadWriteLock();
-    private final Lock                            writeLock               = this.readWriteLock.writeLock();
+    private static final long                                                    DEFAULT_FIRST_LOG_INDEX = 1L;
 
-    public MemoryLogStorage(final RaftOptions raftOptions) {
+    private PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> db;
+    private PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> confDb;
+    private volatile long                                                        firstLogIndex           = DEFAULT_FIRST_LOG_INDEX;
+    private volatile boolean                                                     hasLoadFirstLogIndex    = false;
+    private final ReadWriteLock                                                  readWriteLock           = new ReentrantReadWriteLock();
+    private final Lock                                                           writeLock               = this.readWriteLock
+                                                                                                             .writeLock();
 
+    private LogEntryEncoder                                                      logEntryEncoder;
+    private LogEntryDecoder                                                      logEntryDecoder;
+
+    public PMemLogStorage(final RaftOptions raftOptions) {
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> createOrLoadDB(String id) {
+        PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> map = ObjectDirectory.get(id,
+            PersistentSkipListMap2.class);
+        if (map == null) {
+            //map = new PersistentFPTree2<>(8, 64);
+            map = new PersistentSkipListMap2<>();
+            ObjectDirectory.put(id, map);
+            this.firstLogIndex = DEFAULT_FIRST_LOG_INDEX;
+            this.hasLoadFirstLogIndex = false;
+            LOG.info("created PMem Log Storage {} {}", id, map.getClass().getSimpleName());
+        } else {
+            LOG.info("loaded PMem Log Storage {} {}", id, map.getClass().getSimpleName());
+        }
+        return map;
     }
 
     @Override
     public boolean init(final LogStorageOptions opts) {
-        if (this.db == null) {
-            this.db = new ConcurrentSkipListMap<>();
-            this.firstLogIndex = DEFAULT_FIRST_LOG_INDEX;
-            this.hasLoadFirstLogIndex = false;
-            this.confDb = new ConcurrentSkipListMap<>();
+        this.db = createOrLoadDB("persistent_log");
+        this.confDb = createOrLoadDB("persistent_config");
 
-        }
         if (opts != null) {
+            this.logEntryDecoder = opts.getLogEntryCodecFactory().decoder();
+            this.logEntryEncoder = opts.getLogEntryCodecFactory().encoder();
             load(opts.getConfigurationManager());
         }
-        LOG.info("Memory Log Storage is initialized successfully");
+        LOG.info("PMem Log Storage is initialized successfully");
         return true;
     }
 
@@ -84,7 +113,7 @@ public class MemoryLogStorage implements LogStorage, Describer {
         this.db = null;
         this.confDb = null;
         this.hasLoadFirstLogIndex = false;
-        LOG.info("Memory Log Storage is shutdown");
+        LOG.info("PMem Log Storage is shutdown");
     }
 
     /**
@@ -93,9 +122,9 @@ public class MemoryLogStorage implements LogStorage, Describer {
     public static final Long FIRST_LOG_IDX_KEY = Long.MIN_VALUE;
 
     private void load(final ConfigurationManager confManager) {
-        for (Map.Entry<Long, LogEntry> e : this.confDb.entrySet()) {
-            Long k = e.getKey();
-            LogEntry entry = e.getValue();
+        for (Map.Entry<PersistentLong, PersistentImmutableByteArray> e : this.confDb.entrySet()) {
+            Long k = e.getKey().longValue();
+            final LogEntry entry = this.logEntryDecoder.decode(e.getValue().toArray());
             if (k.equals(FIRST_LOG_IDX_KEY)) {
                 setFirstLogIndex(entry.getId().getIndex());
                 truncatePrefixInBackground(0, this.firstLogIndex);
@@ -125,7 +154,8 @@ public class MemoryLogStorage implements LogStorage, Describer {
     private boolean saveFirstLogIndex(final long firstLogIndex) {
         LogEntry entry = new LogEntry(ENTRY_TYPE_NO_OP);
         entry.setId(new LogId(firstLogIndex, 0L)); // term not used
-        this.confDb.put(FIRST_LOG_IDX_KEY, entry);
+        final byte[] content = this.logEntryEncoder.encode(entry);
+        this.confDb.put(new PersistentLong(FIRST_LOG_IDX_KEY), new PersistentImmutableByteArray(content));
         return true;
     }
 
@@ -134,13 +164,14 @@ public class MemoryLogStorage implements LogStorage, Describer {
         if (this.hasLoadFirstLogIndex) {
             return this.firstLogIndex;
         }
-        if (!this.db.isEmpty()) {
-            long logIndex = this.db.firstKey();
-            saveFirstLogIndex(logIndex);
-            setFirstLogIndex(logIndex);
-            return logIndex;
+        if (this.db.isEmpty()) {
+            LOG.info("Get first log index from empty db where log index starts from {}", DEFAULT_FIRST_LOG_INDEX);
+            return DEFAULT_FIRST_LOG_INDEX;
         }
-        return DEFAULT_FIRST_LOG_INDEX;
+        long logIndex = this.db.firstKey().longValue();
+        saveFirstLogIndex(logIndex);
+        setFirstLogIndex(logIndex);
+        return logIndex;
     }
 
     @Override
@@ -148,7 +179,7 @@ public class MemoryLogStorage implements LogStorage, Describer {
         if (db.isEmpty()) {
             return 0L;
         }
-        return db.lastKey();
+        return db.lastKey().longValue();
     }
 
     @Override
@@ -156,16 +187,25 @@ public class MemoryLogStorage implements LogStorage, Describer {
         if (this.hasLoadFirstLogIndex && index < this.firstLogIndex) {
             return null;
         }
-        return this.db.get(index);
+        final PersistentLong pindex = new PersistentLong(index);
+        if (!this.db.containsKey(pindex)) {
+            return null;
+        }
+        return this.logEntryDecoder.decode(this.db.get(pindex).toArray());
     }
 
+    // This is not suggested to use to get term.
     @Deprecated
     @Override
     public long getTerm(final long index) {
         if (this.hasLoadFirstLogIndex && index < this.firstLogIndex) {
             return 0L;
         }
-        LogEntry entry = this.db.get(index);
+        final PersistentLong pindex = new PersistentLong(index);
+        if (!this.db.containsKey(pindex)) {
+            return 0L;
+        }
+        LogEntry entry = this.logEntryDecoder.decode(this.db.get(pindex).toArray());
         if (entry == null) {
             return 0L;
         }
@@ -182,7 +222,11 @@ public class MemoryLogStorage implements LogStorage, Describer {
         }
 
         long index = entry.getId().getIndex();
-        this.db.put(index, entry);
+        this.db.put(new PersistentLong(index), new PersistentImmutableByteArray(this.logEntryEncoder.encode(entry)));
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("appended LogEntry {}", entry);
+        }
         return true;
     }
 
@@ -194,7 +238,8 @@ public class MemoryLogStorage implements LogStorage, Describer {
         }
         long currentIndex = entry.getId().getIndex();
         if (entry.getType() == EnumOutter.EntryType.ENTRY_TYPE_CONFIGURATION) {
-            this.confDb.put(currentIndex, entry);
+            this.confDb.put(new PersistentLong(currentIndex),
+                new PersistentImmutableByteArray(this.logEntryEncoder.encode(entry)));
         }
         return currentIndex == (getLastLogIndex() + 1);
     }
@@ -208,10 +253,14 @@ public class MemoryLogStorage implements LogStorage, Describer {
         }
 
         if (!this.db.isEmpty()) {
-            setFirstLogIndex(this.db.firstKey()); // to remove
+            setFirstLogIndex(this.db.firstKey().longValue()); // to remove
         }
         for (LogEntry entry : entries) {
-            this.db.put(entry.getId().getIndex(), entry);
+            this.db.put(new PersistentLong(entry.getId().getIndex()), new PersistentImmutableByteArray(
+                this.logEntryEncoder.encode(entry)));
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("appended {} LogEntries. Last Log Index reaches {}", entries.size(), getLastLogIndex());
         }
         return entries.size();
     }
@@ -232,7 +281,8 @@ public class MemoryLogStorage implements LogStorage, Describer {
                     "Non-consecutive log index appending attempted %d -> %d", lastIndex, currentIndex)));
             }
             if (entry.getType() == EnumOutter.EntryType.ENTRY_TYPE_CONFIGURATION) {
-                this.confDb.put(currentIndex, entry);
+                this.confDb.put(new PersistentLong(currentIndex),
+                    new PersistentImmutableByteArray(this.logEntryEncoder.encode(entry)));
             }
             lastIndex = currentIndex;
         }
@@ -265,8 +315,12 @@ public class MemoryLogStorage implements LogStorage, Describer {
                 }
                 onTruncatePrefix(startIndex, firstIndexKept);
                 for (long i = startIndex; i < firstIndexKept; i++) {
-                    this.db.remove(i);
-                    this.confDb.remove(i);
+                    final PersistentLong index = new PersistentLong(i);
+                    this.db.remove(index);
+                    this.confDb.remove(index);
+                }
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Log Entries [{} - {}] have been truncated", startIndex, firstIndexKept - 1);
                 }
             } finally {
                 this.writeLock.unlock();
@@ -277,11 +331,20 @@ public class MemoryLogStorage implements LogStorage, Describer {
     @Override
     public boolean truncateSuffix(final long lastIndexKept) {
         onTruncateSuffix(lastIndexKept);
-        for (Long i = lastIndexKept + 1; i <= getLastLogIndex(); i++) {
-            this.db.remove(i);
-            this.confDb.remove(i);
+        for (long i = lastIndexKept + 1; i <= getLastLogIndex(); i++) {
+            final PersistentLong index = new PersistentLong(i);
+            this.db.remove(index);
+            this.confDb.remove(index);
         }
-        return false;
+        boolean success = getLastLogIndex() == lastIndexKept;
+        if (!success) {
+            LOG.warn("Failed to truncate suffix Log Entries [{},] potentially concurrent update", lastIndexKept + 1);
+            //throw new NullPointerException("Failed to truncate suffix Log Entries " + (lastIndexKept+1));
+        }
+        if (LOG.isInfoEnabled()) {
+            LOG.info("truncated suffix Log Entries [{}+] successfully", lastIndexKept + 1);
+        }
+        return success;
     }
 
     @Override
@@ -344,7 +407,7 @@ public class MemoryLogStorage implements LogStorage, Describer {
     @Override
     public void describe(final Printer out) {
         StringBuilder sb = new StringBuilder();
-        sb.append("MemoryLogStorage").append("\r\n").append("FirstLogIndex        : ").append(firstLogIndex)
+        sb.append("PMemLogStorage").append("\r\n").append("FirstLogIndex        : ").append(firstLogIndex)
             .append("\r\n").append("HasLoadFirstLogIndex : ").append(hasLoadFirstLogIndex).append("\r\n")
             .append("LastLogIndex         : ").append(getLastLogIndex()).append("\r\n")
             .append("LogEntries Size      : ").append(this.db.size()).append("\r\n");

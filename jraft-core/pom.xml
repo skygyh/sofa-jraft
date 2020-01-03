@@ -123,5 +123,10 @@
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
         </dependency>
+        <dependency>
+            <groupId>lib.util.persistent</groupId>
+            <artifactId>jraft-pcj</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
