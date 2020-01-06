@@ -30,7 +30,7 @@ import com.alipay.sofa.jraft.util.Utils;
  */
 public class StoreEngineOptions {
 
-    private StorageType               storageType                   = StorageType.RocksDB;
+    private StorageType               storageType                   = StorageType.PMem;
     private RocksDBOptions            rocksDBOptions;
     private MemoryDBOptions           memoryDBOptions;
     private PMemDBOptions             pmemDBOptions;
