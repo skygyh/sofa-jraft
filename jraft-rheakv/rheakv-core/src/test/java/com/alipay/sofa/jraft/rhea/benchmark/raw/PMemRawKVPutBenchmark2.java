@@ -22,20 +22,20 @@ import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.TearDown;
 
-import java.nio.file.Paths;
-
 public class PMemRawKVPutBenchmark2 extends RawKVPutBenchmark {
     private PMemRawKVStore2 pmemRawKVStore;
 
     @Override
     protected RawKVStore initRawKVStore() {
-        PMemDBOptions pmemOpts = new PMemDBOptions();
-        final String childPath = "PMemRawKVPutBenchmark2_db";
-        pmemOpts.setDbPath(Paths.get(
-            pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
-        this.pmemRawKVStore = new PMemRawKVStore2();
-        this.pmemRawKVStore.init(pmemOpts);
-        return this.pmemRawKVStore;
+        try {
+            this.pmemRawKVStore = new PMemRawKVStore2();
+            this.pmemRawKVStore.init(new PMemDBOptions());
+            return this.pmemRawKVStore;
+        } catch (Exception e) {
+            System.out.println("initRawKVStore PMemRawKVStore2 failed : " + e);
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
