@@ -68,6 +68,7 @@ public class RheaBenchmarkCluster {
         String raftPath = System.getenv("RAFT_PATH");
         if (raftPath == null || raftPath.isEmpty()) {
             raftPath = DefaultBenchMarkRaftPath;
+            System.out.println("make dir: " + this.tempRaftPath);
         }
         file = new File(raftPath);
         if (file.exists()) {
@@ -76,7 +77,6 @@ public class RheaBenchmarkCluster {
         file = new File(raftPath);
         if (file.mkdir()) {
             this.tempRaftPath = file.getAbsolutePath();
-            System.out.println("make dir: " + this.tempRaftPath);
         }
         for (String c : CONF) {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -84,6 +84,7 @@ public class RheaBenchmarkCluster {
             RheaKVStore rheaKVStore = new DefaultRheaKVStore();
             if (rheaKVStore.init(opts)) {
                 stores.add(rheaKVStore);
+                System.out.println("RheaKVStoreOptions : " + opts);
             } else {
                 throw new RuntimeException("Fail to init rhea kv store witch conf: " + c);
             }

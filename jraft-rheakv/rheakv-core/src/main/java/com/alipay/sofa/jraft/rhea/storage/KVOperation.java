@@ -20,10 +20,11 @@ import com.alipay.sofa.jraft.rhea.util.Pair;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Requires;
-import com.sun.org.apache.xpath.internal.operations.Operation;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
 
 /**
  * The KV store operation
@@ -117,15 +118,25 @@ public class KVOperation implements Serializable {
      * Contains key operation
      */
     public static final byte    CONTAINS_KEY     = 0x13;
-
+    /**
+     * batch key operation
+     */
     public static final byte    BATCH_OP         = 0x14;
+    /**
+     * destroy the kv store
+     */
+    public static final byte    DESTROY          = 0x15;
+    /**
+     * seal the kv store
+     */
+    public static final byte    SEAL             = 0x16;
 
-    public static final byte    EOF              = 0x15;
+    public static final byte    EOF              = 0x17;
 
     private static final byte[] VALID_OPS;
 
     static {
-        VALID_OPS = new byte[20];
+        VALID_OPS = new byte[22];
         VALID_OPS[0] = PUT;
         VALID_OPS[1] = PUT_IF_ABSENT;
         VALID_OPS[2] = DELETE;
@@ -146,8 +157,11 @@ public class KVOperation implements Serializable {
         VALID_OPS[17] = DELETE_LIST;
         VALID_OPS[18] = CONTAINS_KEY;
         VALID_OPS[19] = BATCH_OP;
+        VALID_OPS[20] = DESTROY;
+        VALID_OPS[21] = SEAL;
     }
 
+    private long                regionId         = ANY_REGION_ID;
     private byte[]              key;                                    // also startKey for DELETE_RANGE
     private byte[]              value;                                  // also endKey for DELETE_RANGE
     private Object              attach;
@@ -156,6 +170,13 @@ public class KVOperation implements Serializable {
 
     public static boolean isValidOp(final byte op) {
         return op > MAGIC && op < EOF;
+    }
+
+    public boolean isWriteOp() {
+        return this.op == PUT || this.op == PUT_IF_ABSENT || this.op == DELETE || this.op == PUT_LIST
+               || this.op == DELETE_RANGE || this.op == NODE_EXECUTE || this.op == KEY_LOCK
+               || this.op == KEY_LOCK_RELEASE || this.op == GET_PUT || this.op == MERGE || this.op == RESET_SEQUENCE
+               || this.op == RANGE_SPLIT || this.op == COMPARE_PUT || this.op == DELETE_LIST || this.op == BATCH_OP;
     }
 
     /**
@@ -280,19 +301,38 @@ public class KVOperation implements Serializable {
         return new KVOperation(splitKey, BytesUtil.EMPTY_BYTES, Pair.of(currentRegionId, newRegionId), RANGE_SPLIT);
     }
 
+    public static KVOperation createDestroy(final long regionId) {
+        Requires.requireTrue(regionId != ANY_REGION_ID, "invalid region id");
+        return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, DESTROY);
+    }
+
+    public static KVOperation createSeal(final long regionId) {
+        Requires.requireTrue(regionId != ANY_REGION_ID, "invalid region id");
+        return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, SEAL);
+    }
+
     public KVOperation() {
     }
 
-    public KVOperation(byte[] key, byte[] value, Object attach, byte op) {
+    public KVOperation(long regionId, byte[] key, byte[] value, Object attach, byte op) {
+        this.regionId = regionId;
         this.key = key;
         this.value = value;
         this.attach = attach;
         this.op = op;
     }
 
+    public KVOperation(byte[] key, byte[] value, Object attach, byte op) {
+        this(ANY_REGION_ID, key, value, attach, op);
+    }
+
     public KVOperation(List<KVOperation> operations) {
         this.attach = operations;
         this.op = BATCH_OP;
+    }
+
+    public long getRegionId() {
+        return regionId;
     }
 
     public byte[] getKey() {
@@ -436,6 +476,10 @@ public class KVOperation implements Serializable {
                 return "RANGE_SPLIT";
             case BATCH_OP:
                 return "BATCH_OP";
+            case DESTROY:
+                return "DESTROY";
+            case SEAL:
+                return "SEAL";
             default:
                 return "UNKNOWN" + op;
         }

@@ -24,7 +24,7 @@ import com.alipay.sofa.jraft.rhea.options.MemoryDBOptions;
 import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
 import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
 import com.alipay.sofa.jraft.rhea.options.StoreEngineOptions;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.rhea.util.Configured;
 import com.alipay.sofa.jraft.util.Endpoint;
 

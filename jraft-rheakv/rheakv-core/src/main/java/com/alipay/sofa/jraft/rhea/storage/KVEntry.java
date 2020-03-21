@@ -27,15 +27,25 @@ public class KVEntry implements Serializable {
 
     private static final long serialVersionUID = -5678680976506834026L;
 
+    private long              regionId         = -1;
     private byte[]            key;
     private byte[]            value;
 
     public KVEntry() {
     }
 
-    public KVEntry(byte[] key, byte[] value) {
+    public KVEntry(long regionId, byte[] key, byte[] value) {
+        this.regionId = regionId;
         this.key = key;
         this.value = value;
+    }
+
+    public KVEntry(byte[] key, byte[] value) {
+        this(-1, key, value);
+    }
+
+    public long getRegionId() {
+        return regionId;
     }
 
     public byte[] getKey() {
@@ -60,6 +70,7 @@ public class KVEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "KVEntry{" + "key=" + BytesUtil.toHex(key) + ", value=" + BytesUtil.toHex(value) + '}';
+        return "KVEntry{" + "key=" + BytesUtil.toHex(key) + ", value=" + BytesUtil.toHex(value) + ", regionId="
+               + regionId + '}';
     }
 }

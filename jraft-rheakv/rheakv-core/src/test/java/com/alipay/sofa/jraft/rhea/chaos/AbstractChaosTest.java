@@ -37,7 +37,7 @@ import com.alipay.sofa.jraft.rhea.TestUtil;
 import com.alipay.sofa.jraft.rhea.client.FutureGroup;
 import com.alipay.sofa.jraft.rhea.client.RheaKVCliService;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.rhea.util.Constants;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.ExecutorServiceHelper;

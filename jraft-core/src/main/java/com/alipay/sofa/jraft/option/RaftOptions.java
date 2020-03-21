@@ -17,6 +17,7 @@
 package com.alipay.sofa.jraft.option;
 
 import com.alipay.sofa.jraft.util.Copiable;
+import com.alipay.sofa.jraft.util.StorageType;
 
 /**
  * Raft options.
@@ -27,6 +28,8 @@ import com.alipay.sofa.jraft.util.Copiable;
  */
 public class RaftOptions implements Copiable<RaftOptions> {
 
+    /** Raft Log Type */
+    private StorageType    logType                              = StorageType.RocksDB;
     /** Maximum of block size per RPC */
     private int            maxByteCountPerRpc                   = 128 * 1024;
     /** File service check hole switch, default disable */
@@ -80,6 +83,14 @@ public class RaftOptions implements Copiable<RaftOptions> {
      * in that case.
      */
     private ReadOnlyOption readOnlyOptions                      = ReadOnlyOption.ReadOnlySafe;
+
+    public StorageType getLogType() {
+        return this.logType;
+    }
+
+    public void setLogType(StorageType logType) {
+        this.logType = logType;
+    }
 
     public int getDisruptorPublishEventWaitTimeoutSecs() {
         return this.disruptorPublishEventWaitTimeoutSecs;
@@ -220,6 +231,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
     @Override
     public RaftOptions copy() {
         final RaftOptions raftOptions = new RaftOptions();
+        raftOptions.setLogType(this.logType);
         raftOptions.setMaxByteCountPerRpc(this.maxByteCountPerRpc);
         raftOptions.setFileCheckHole(this.fileCheckHole);
         raftOptions.setMaxEntriesSize(this.maxEntriesSize);
@@ -240,13 +252,14 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     @Override
     public String toString() {
-        return "RaftOptions{" + "maxByteCountPerRpc=" + maxByteCountPerRpc + ", fileCheckHole=" + fileCheckHole
-               + ", maxEntriesSize=" + maxEntriesSize + ", maxBodySize=" + maxBodySize + ", maxAppendBufferSize="
-               + maxAppendBufferSize + ", maxElectionDelayMs=" + maxElectionDelayMs + ", electionHeartbeatFactor="
-               + electionHeartbeatFactor + ", applyBatch=" + applyBatch + ", sync=" + sync + ", syncMeta=" + syncMeta
-               + ", openStatistics=" + openStatistics + ", replicatorPipeline=" + replicatorPipeline
-               + ", maxReplicatorInflightMsgs=" + maxReplicatorInflightMsgs + ", disruptorBufferSize="
-               + disruptorBufferSize + ", disruptorPublishEventWaitTimeoutSecs=" + disruptorPublishEventWaitTimeoutSecs
+        return "RaftOptions{" + "logType=" + logType + ", maxByteCountPerRpc=" + maxByteCountPerRpc
+               + ", fileCheckHole=" + fileCheckHole + ", maxEntriesSize=" + maxEntriesSize + ", maxBodySize="
+               + maxBodySize + ", maxAppendBufferSize=" + maxAppendBufferSize + ", maxElectionDelayMs="
+               + maxElectionDelayMs + ", electionHeartbeatFactor=" + electionHeartbeatFactor + ", applyBatch="
+               + applyBatch + ", sync=" + sync + ", syncMeta=" + syncMeta + ", openStatistics=" + openStatistics
+               + ", replicatorPipeline=" + replicatorPipeline + ", maxReplicatorInflightMsgs="
+               + maxReplicatorInflightMsgs + ", disruptorBufferSize=" + disruptorBufferSize
+               + ", disruptorPublishEventWaitTimeoutSecs=" + disruptorPublishEventWaitTimeoutSecs
                + ", enableLogEntryChecksum=" + enableLogEntryChecksum + ", readOnlyOptions=" + readOnlyOptions + '}';
     }
 }

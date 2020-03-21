@@ -40,8 +40,6 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-//import com.codahale.metrics.Timer;
-
 /**
  * @author Jerry Yang
  * TODO :
@@ -50,24 +48,33 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 3. use more persistent data structure
  */
 public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
-    private static final Logger LOG       = LoggerFactory.getLogger(PMemRawKVStore2.class);
-    private static final byte   DELIMITER = (byte) ',';
+    private static final Logger                                                 LOG          = LoggerFactory
+                                                                                                 .getLogger(PMemRawKVStore2.class);
+    private static final byte                                                   DELIMITER    = (byte) ',';
 
     static {
         PersistentMemoryProvider.getDefaultProvider().getHeap().open();
     }
 
-    public PMemRawKVStore2() {
-        super();
-    }
-
     private final ReadWriteLock                                                 snapshotLock = new ReentrantReadWriteLock();
     private final Serializer                                                    serializer   = Serializers.getDefault();
+
+    private final long                                                          regionId;
+    private boolean                                                             writable     = true;
     private PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray>   defaultDB;
-    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong>               sequenceDB;                                 // key -> sequence long
-    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong>               fencingKeyDB;                               // key -> fencing id long
-    private PersistentSIHashMap<PMemDecoratedKey, PersistentImmutableByteArray> lockerDB;                                   // key -> DistributedLock.Owner
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong>               sequenceDB;                                        // key -> sequence long
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentLong>               fencingKeyDB;                                      // key -> fencing id long
+    private PersistentSIHashMap<PMemDecoratedKey, PersistentImmutableByteArray> lockerDB;                                          // key -> DistributedLock.Owner
     private volatile PMemDBOptions                                              opts;
+
+    public PMemRawKVStore2() {
+        this(-1L);
+    }
+
+    public PMemRawKVStore2(final long regionId) {
+        super();
+        this.regionId = regionId;
+    }
 
     @SuppressWarnings("unchecked")
     private static PersistentFPTree2<PMemDecoratedKey, PersistentImmutableByteArray> createSortedMap(String dbName,
@@ -833,6 +840,16 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
         } finally {
             //timeCtx.stop();
         }
+    }
+
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        throw new UnsupportedOperationException("destroy is not implemented yet");
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        throw new UnsupportedOperationException("seal is not implemented yet");
     }
 
     @Override

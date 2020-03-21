@@ -16,13 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea.metadata;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
-
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Copiable;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Region is the most basic kv data unit.  Each region has a left-closed
@@ -47,6 +47,7 @@ public class Region implements Copiable<Region>, Serializable {
     public static final long  MIN_ID_WITH_MANUAL_CONF = -1L;
     public static final long  MAX_ID_WITH_MANUAL_CONF = 1000000L;
 
+    public static final long  ANY_REGION_ID           = -1L;
     private long              id;                                             // region id
     // Region key range [startKey, endKey)
     private byte[]            startKey;                                       // inclusive

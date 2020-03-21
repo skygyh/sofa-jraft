@@ -16,24 +16,23 @@
  */
 package com.alipay.sofa.jraft.rhea.storage.rhea;
 
+import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
+import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
+import com.alipay.sofa.jraft.rhea.errors.NotLeaderException;
+import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
+import com.alipay.sofa.jraft.util.StorageType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
-import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
-import com.alipay.sofa.jraft.rhea.errors.NotLeaderException;
-import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  *
@@ -47,7 +46,8 @@ public class RheaKVTestCluster {
     public static String          RAFT_DATA_PATH = "rhea_raft";
     public static Long[]          REGION_IDS     = new Long[] { 1L, 2L };
 
-    private static final String[] CONF           = { "/conf/rhea_test_cluster_1.yaml", "/conf/rhea_test_cluster_2.yaml" };
+    private static final String[] CONF           = { "/conf/rhea_test_cluster_1.yaml",
+            "/conf/rhea_test_cluster_2.yaml", "/conf/rhea_test_cluster_3.yaml" };
 
     private List<RheaKVStore>     stores         = new CopyOnWriteArrayList<>();
 
@@ -56,15 +56,22 @@ public class RheaKVTestCluster {
     }
 
     protected void start(final StorageType storageType, final boolean deleteFiles) throws Exception {
+        start(storageType, deleteFiles, false);
+    }
+
+    protected void start(final StorageType storageType, final boolean deleteFiles, final boolean hashRoute)
+                                                                                                           throws Exception {
         if (deleteFiles) {
             deleteFiles();
         }
         for (final String c : CONF) {
             final RheaKVStoreOptions opts = readOpts(c);
             opts.getStoreEngineOptions().setStorageType(storageType);
+            opts.getPlacementDriverOptions().setHashRoute(hashRoute);
             final RheaKVStore rheaKVStore = new DefaultRheaKVStore();
             if (rheaKVStore.init(opts)) {
                 stores.add(rheaKVStore);
+                LOG.info(opts.toString());
             } else {
                 throw new RuntimeException("Fail to init rhea kv store witch conf: " + c);
             }

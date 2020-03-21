@@ -16,9 +16,9 @@
  */
 package com.alipay.sofa.jraft.rhea.options;
 
-import java.util.List;
-
 import com.alipay.sofa.jraft.option.CliOptions;
+
+import java.util.List;
 
 /**
  *
@@ -31,6 +31,7 @@ public class PlacementDriverOptions {
     private RpcOptions                    pdRpcOptions;
     // placement driver raft group id
     private String                        pdGroupId;
+    private boolean                       hashRoute;
     private List<RegionRouteTableOptions> regionRouteTableOptionsList;
     private String                        initialServerList;
     // placement driver server address list, with ',' as a separator
@@ -66,6 +67,14 @@ public class PlacementDriverOptions {
 
     public void setPdGroupId(String pdGroupId) {
         this.pdGroupId = pdGroupId;
+    }
+
+    public void setHashRoute(boolean hashRoute) {
+        this.hashRoute = hashRoute;
+    }
+
+    public boolean getHashRoute() {
+        return hashRoute;
     }
 
     public List<RegionRouteTableOptions> getRegionRouteTableOptionsList() {

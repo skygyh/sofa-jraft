@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.options.MemoryDBOptions;
 import com.alipay.sofa.jraft.rhea.storage.MemoryKVStoreSnapshotFile.*;
@@ -38,17 +39,29 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
 
-    private static final Logger                          LOG          = LoggerFactory.getLogger(MemoryRawKVStore.class);
+    private static final Logger                    LOG          = LoggerFactory.getLogger(MemoryRawKVStore.class);
 
-    private static final byte                            DELIMITER    = (byte) ',';
-    private static final Comparator<byte[]>              COMPARATOR   = BytesUtil.getDefaultByteArrayComparator();
+    private static final byte                      DELIMITER    = (byte) ',';
+    private static final Comparator<byte[]>        COMPARATOR   = BytesUtil.getDefaultByteArrayComparator();
 
-    private final ConcurrentNavigableMap<byte[], byte[]> defaultDB    = new ConcurrentSkipListMap<>(COMPARATOR);
-    private final Map<ByteArray, Long>                   sequenceDB   = new ConcurrentHashMap<>();
-    private final Map<ByteArray, Long>                   fencingKeyDB = new ConcurrentHashMap<>();
-    private final Map<ByteArray, DistributedLock.Owner>  lockerDB     = new ConcurrentHashMap<>();
+    private final long                             regionId;
+    private boolean                                writable     = true;
 
-    private volatile MemoryDBOptions                     opts;
+    private ConcurrentNavigableMap<byte[], byte[]> defaultDB    = new ConcurrentSkipListMap<>(COMPARATOR);
+    private Map<ByteArray, Long>                   sequenceDB   = new ConcurrentHashMap<>();
+    private Map<ByteArray, Long>                   fencingKeyDB = new ConcurrentHashMap<>();
+    private Map<ByteArray, DistributedLock.Owner>  lockerDB     = new ConcurrentHashMap<>();
+
+    private volatile MemoryDBOptions               opts;
+
+    public MemoryRawKVStore() {
+        this(-1L);
+    }
+
+    public MemoryRawKVStore(final long regionId) {
+        super();
+        this.regionId = regionId;
+    }
 
     @Override
     public boolean init(final MemoryDBOptions opts) {
@@ -59,10 +72,22 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
 
     @Override
     public void shutdown() {
-        this.defaultDB.clear();
-        this.sequenceDB.clear();
-        this.fencingKeyDB.clear();
-        this.lockerDB.clear();
+        if (this.defaultDB != null) {
+            this.defaultDB.clear();
+            this.defaultDB = null;
+        }
+        if (this.sequenceDB != null) {
+            this.sequenceDB.clear();
+            this.sequenceDB = null;
+        }
+        if (this.fencingKeyDB != null) {
+            this.fencingKeyDB.clear();
+            this.fencingKeyDB = null;
+        }
+        if (this.lockerDB != null) {
+            this.lockerDB.clear();
+            this.lockerDB = null;
+        }
     }
 
     @Override
@@ -93,9 +118,6 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
             final Map<ByteArray, byte[]> resultMap = Maps.newHashMap();
             for (final byte[] key : keys) {
                 final byte[] value = this.defaultDB.get(key);
-                if (value == null) {
-                    continue;
-                }
                 resultMap.put(ByteArray.wrap(key), value);
             }
             setSuccess(closure, resultMap);
@@ -133,14 +155,14 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
         // numbers.  In the case of 0, only 1 byte is occupied, and Integer.MAX_VALUE
         // takes 5 bytes.
         final int maxCount = limit > 0 ? limit : Integer.MAX_VALUE;
-        final ConcurrentNavigableMap<byte[], byte[]> subMap;
-        final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
-        if (endKey == null) {
-            subMap = this.defaultDB.tailMap(realStartKey);
-        } else {
-            subMap = this.defaultDB.subMap(realStartKey, endKey);
-        }
         try {
+            final ConcurrentNavigableMap<byte[], byte[]> subMap;
+            final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
+            if (endKey == null) {
+                subMap = this.defaultDB.tailMap(realStartKey);
+            } else {
+                subMap = this.defaultDB.subMap(realStartKey, endKey);
+            }
             for (final Map.Entry<byte[], byte[]> entry : subMap.entrySet()) {
                 entries.add(new KVEntry(entry.getKey(), returnValue ? entry.getValue() : null));
                 if (entries.size() >= maxCount) {
@@ -191,6 +213,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void resetSequence(final byte[] seqKey, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("RESET_SEQUENCE");
         try {
+            checkWritable();
             this.sequenceDB.remove(ByteArray.wrap(seqKey));
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -206,6 +229,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void put(final byte[] key, final byte[] value, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("PUT");
         try {
+            checkWritable();
             this.defaultDB.put(key, value);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -221,6 +245,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void getAndPut(final byte[] key, final byte[] value, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("GET_PUT");
         try {
+            checkWritable();
             final byte[] prevVal = this.defaultDB.put(key, value);
             setSuccess(closure, prevVal);
         } catch (final Exception e) {
@@ -236,6 +261,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void compareAndPut(final byte[] key, final byte[] expect, final byte[] update, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("COMPARE_PUT");
         try {
+            checkWritable();
             final byte[] actual = this.defaultDB.get(key);
             if (Arrays.equals(expect, actual)) {
                 this.defaultDB.put(key, update);
@@ -256,6 +282,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void merge(final byte[] key, final byte[] value, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("MERGE");
         try {
+            checkWritable();
             this.defaultDB.compute(key, (ignored, oldVal) -> {
                 if (oldVal == null) {
                     return value;
@@ -281,6 +308,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void put(final List<KVEntry> entries, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("PUT_LIST");
         try {
+            checkWritable();
             for (final KVEntry entry : entries) {
                 this.defaultDB.put(entry.getKey(), entry.getValue());
             }
@@ -297,6 +325,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void putIfAbsent(final byte[] key, final byte[] value, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("PUT_IF_ABSENT");
         try {
+            checkWritable();
             final byte[] prevValue = this.defaultDB.putIfAbsent(key, value);
             setSuccess(closure, prevValue);
         } catch (final Exception e) {
@@ -313,6 +342,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
                             final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("TRY_LOCK");
         try {
+            checkWritable();
             // The algorithm relies on the assumption that while there is no
             // synchronized clock across the processes, still the local time in
             // every process flows approximately at the same rate, with an error
@@ -469,6 +499,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void releaseLockWith(final byte[] key, final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("RELEASE_LOCK");
         try {
+            checkWritable();
             final ByteArray wrappedKey = ByteArray.wrap(key);
             final DistributedLock.Owner prevOwner = this.lockerDB.get(wrappedKey);
 
@@ -561,6 +592,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void delete(final byte[] key, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DELETE");
         try {
+            checkWritable();
             this.defaultDB.remove(key);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -575,6 +607,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void deleteRange(final byte[] startKey, final byte[] endKey, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DELETE_RANGE");
         try {
+            checkWritable();
             final ConcurrentNavigableMap<byte[], byte[]> subMap = this.defaultDB.subMap(startKey, endKey);
             if (!subMap.isEmpty()) {
                 subMap.clear();
@@ -593,6 +626,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void delete(final List<byte[]> keys, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DELETE_LIST");
         try {
+            checkWritable();
             for (final byte[] key : keys) {
                 this.defaultDB.remove(key);
             }
@@ -611,11 +645,52 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
         //final Lock readLock = this.readWriteLock.readLock();
         //readLock.lock();
         try {
+            if (kvOperations.stream().anyMatch(KVOperation::isWriteOp)) {
+                checkWritable();
+            }
             doBatch(kvOperations, closure);
         } catch (final Exception e) {
             LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
             //readLock.unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("DESTROY");
+        try {
+            if (regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            shutdown();
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("destroyed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [DESTROY]", e);
+        } finally {
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("SEAL");
+        try {
+            if (regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            this.writable = false;
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("sealed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [SEAL]", e);
+        } finally {
             timeCtx.stop();
         }
     }
@@ -765,5 +840,11 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
             }
         }
         return output;
+    }
+
+    private void checkWritable() {
+        if (!writable) {
+            throw new RheaRuntimeException("region " + regionId + " is sealed");
+        }
     }
 }

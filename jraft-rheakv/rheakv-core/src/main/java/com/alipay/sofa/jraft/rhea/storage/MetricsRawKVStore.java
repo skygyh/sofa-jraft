@@ -213,6 +213,18 @@ public class MetricsRawKVStore implements RawKVStore {
         this.rawKVStore.execute(nodeExecutor, isLeader, c);
     }
 
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, DESTROY, 0, 0);
+        this.rawKVStore.destroy(regionId, c);
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, SEAL, 0, 0);
+        this.rawKVStore.seal(regionId, c);
+    }
+
     private MetricsKVClosureAdapter metricsAdapter(final KVStoreClosure closure, final byte op, final long keysCount,
                                                    final long bytesWritten) {
         return new MetricsKVClosureAdapter(closure, this.regionId, op, keysCount, bytesWritten, timeCtx());

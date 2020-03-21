@@ -18,15 +18,15 @@ package com.alipay.sofa.jraft.core;
 
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.LogStorage;
-import com.alipay.sofa.jraft.storage.impl.MemoryLogStorage;
+import com.alipay.sofa.jraft.storage.impl.RocksDBLogStorage;
 
 public class TestJRaftServiceFactory extends DefaultJRaftServiceFactory {
 
     @Override
     public LogStorage createLogStorage(final String uri, final RaftOptions raftOptions) {
 
-        //return new RocksDBLogStorage(uri, raftOptions);
-        return new MemoryLogStorage(raftOptions);
+        return new RocksDBLogStorage(uri, raftOptions);
+        //return new MemoryLogStorage(raftOptions);
     }
 
 }
