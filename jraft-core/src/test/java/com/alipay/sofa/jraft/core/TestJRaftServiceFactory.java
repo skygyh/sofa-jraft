@@ -32,6 +32,9 @@ public class TestJRaftServiceFactory extends DefaultJRaftServiceFactory {
             .setMaxSegmentFileSize(512 * 1024) //
             .setValueSizeThreshold(0) //
             .build();
+
+        //return new RocksDBLogStorage(uri, raftOptions);
+        //return new MemoryLogStorage(raftOptions);
     }
 
 }
