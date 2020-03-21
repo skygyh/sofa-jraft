@@ -16,8 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import com.alipay.sofa.jraft.Status;
-import com.alipay.sofa.jraft.rhea.errors.Errors;
+import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.rhea.errors.StorageException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
@@ -73,19 +72,28 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
 
     private final List<ColumnFamilyOptions> cfOptionsList = Lists.newArrayList();
     private final List<ColumnFamilyDescriptor> cfDescriptors = Lists.newArrayList();
-
+    private final long regionId;
     private ColumnFamilyHandle defaultHandle;
     private ColumnFamilyHandle sequenceHandle;
     private ColumnFamilyHandle lockingHandle;
     private ColumnFamilyHandle fencingHandle;
-
     private RocksDB db;
+    private boolean writable = true;
 
     private RocksDBOptions opts;
     private DBOptions options;
     private WriteOptions writeOptions;
     private DebugStatistics statistics;
     private RocksStatisticsCollector statisticsCollector;
+
+    public RocksRawKVStore() {
+        this(-1L);
+    }
+
+    public RocksRawKVStore(final long regionId) {
+        super();
+        this.regionId = regionId;
+    }
 
     // Creates the rocksDB options, the user must take care
     // to close it after closing db.
@@ -372,6 +380,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             this.db.delete(this.sequenceHandle, seqKey);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -397,6 +406,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     for (final KVState kvState : segment) {
                         batch.delete(sequenceHandle, kvState.getOp().getKey());
                     }
@@ -423,6 +433,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             this.db.put(this.writeOptions, key, value);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -449,6 +460,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     for (final KVState kvState : segment) {
                         final KVOperation op = kvState.getOp();
                         batch.put(op.getKey(), op.getValue());
@@ -475,6 +487,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             final byte[] prevVal = this.db.get(key);
             this.db.put(this.writeOptions, key, value);
             setSuccess(closure, prevVal);
@@ -502,6 +515,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     final List<byte[]> keys = Lists.newArrayListWithCapacity(segment.size());
                     for (final KVState kvState : segment) {
                         final KVOperation op = kvState.getOp();
@@ -534,6 +548,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             final byte[] actual = this.db.get(key);
             if (Arrays.equals(expect, actual)) {
                 this.db.put(this.writeOptions, key, update);
@@ -565,6 +580,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     final Map<byte[], byte[]> expects = Maps.newHashMapWithExpectedSize(segment.size());
                     final Map<byte[], byte[]> updates = Maps.newHashMapWithExpectedSize(segment.size());
                     for (final KVState kvState : segment) {
@@ -610,6 +626,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             this.db.merge(this.writeOptions, key, value);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -636,6 +653,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     for (final KVState kvState : segment) {
                         final KVOperation op = kvState.getOp();
                         batch.merge(op.getKey(), op.getValue());
@@ -662,6 +680,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try (final WriteBatch batch = new WriteBatch()) {
+            checkWritable();
             for (final KVEntry entry : entries) {
                 batch.put(entry.getKey(), entry.getValue());
             }
@@ -682,6 +701,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             final byte[] prevVal = this.db.get(key);
             if (prevVal == null) {
                 this.db.put(this.writeOptions, key, value);
@@ -711,6 +731,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     final List<byte[]> keys = Lists.newArrayListWithCapacity(segment.size());
                     final Map<byte[], byte[]> values = Maps.newHashMapWithExpectedSize(segment.size());
                     for (final KVState kvState : segment) {
@@ -755,6 +776,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             // The algorithm relies on the assumption that while there is no
             // synchronized clock across the processes, still the local time in
             // every process flows approximately at the same rate, with an error
@@ -915,6 +937,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             final byte[] prevBytesVal = this.db.get(this.lockingHandle, key);
 
             final DistributedLock.Owner owner;
@@ -1021,6 +1044,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             this.db.delete(this.writeOptions, key);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -1045,6 +1069,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try {
             Partitions.manyToOne(kvStates, MAX_BATCH_WRITE_SIZE, (Function<List<KVState>, Void>) segment -> {
                 try (final WriteBatch batch = new WriteBatch()) {
+                    checkWritable();
                     for (final KVState kvState : segment) {
                         batch.delete(kvState.getOp().getKey());
                     }
@@ -1071,6 +1096,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try {
+            checkWritable();
             this.db.deleteRange(this.writeOptions, startKey, endKey);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -1089,6 +1115,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         final Lock readLock = this.readWriteLock.readLock();
         readLock.lock();
         try (final WriteBatch batch = new WriteBatch()) {
+            checkWritable();
             for (final byte[] key : keys) {
                 batch.delete(key);
             }
@@ -1110,11 +1137,50 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         //final Lock readLock = this.readWriteLock.readLock();
         //readLock.lock();
         try {
+            if (kvOperations.stream().anyMatch(KVOperation::isWriteOp)) {
+                checkWritable();
+            }
             doBatch(kvOperations, closure);
         } catch (final Exception e) {
             LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
             //readLock.unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("DESTROY");
+        final Lock writeLock = this.readWriteLock.writeLock();
+        writeLock.lock();
+        try {
+            destroyRocksDB(this.opts);
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("destroyed RocksRawKVStore [regionId = {}] successfully", regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [DESTROY], [region = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [DESTROY]", e);
+        } finally {
+            writeLock.unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("SEAL");
+        final Lock readLock = this.readWriteLock.readLock();
+        readLock.lock();
+        try {
+            this.writable = false;
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("sealed RocksRawKVStore [regionId = {}] successfully", regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [SEAL], [region = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [SEAL]", e);
+        } finally {
+            readLock.unlock();
             timeCtx.stop();
         }
     }
@@ -1572,6 +1638,12 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
             out.println(e);
         } finally {
             readLock.unlock();
+        }
+    }
+
+    private void checkWritable() {
+        if (!writable) {
+            throw new RheaRuntimeException("region " + regionId + " is sealed");
         }
     }
 }

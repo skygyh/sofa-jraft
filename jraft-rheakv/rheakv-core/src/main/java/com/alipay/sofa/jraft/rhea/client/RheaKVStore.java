@@ -85,10 +85,14 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<byte[]> get(final byte[] key);
 
+    CompletableFuture<byte[]> get(final long regionId, final byte[] key);
+
     /**
      * @see #get(byte[])
      */
     CompletableFuture<byte[]> get(final String key);
+
+    CompletableFuture<byte[]> get(final long regionId, final String key);
 
     /**
      * Get which returns a new byte array storing the value associated
@@ -103,35 +107,49 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<byte[]> get(final byte[] key, final boolean readOnlySafe);
 
+    CompletableFuture<byte[]> get(final long regionId, final byte[] key, final boolean readOnlySafe);
+
     /**
      * @see #get(byte[], boolean)
      */
     CompletableFuture<byte[]> get(final String key, final boolean readOnlySafe);
+
+    CompletableFuture<byte[]> get(final long regionId, final String key, final boolean readOnlySafe);
 
     /**
      * @see #get(byte[])
      */
     byte[] bGet(final byte[] key);
 
+    byte[] bGet(final long regionId, final byte[] key);
+
     /**
      * @see #get(String)
      */
     byte[] bGet(final String key);
+
+    byte[] bGet(final long regionId, final String key);
 
     /**
      * @see #get(byte[], boolean)
      */
     byte[] bGet(final byte[] key, final boolean readOnlySafe);
 
+    byte[] bGet(final long regionId, final byte[] key, final boolean readOnlySafe);
+
     /**
      * @see #get(String, boolean)
      */
     byte[] bGet(final String key, final boolean readOnlySafe);
 
+    byte[] bGet(final long regionId, final String key, final boolean readOnlySafe);
+
     /**
      * Equivalent to {@code multiGet(keys, true)}.
      */
     CompletableFuture<Map<ByteArray, byte[]>> multiGet(final List<byte[]> keys);
+
+    CompletableFuture<Map<ByteArray, byte[]>> multiGet(final long regionId, final List<byte[]> keys);
 
     /**
      * Returns a map of keys for which values were found in database.
@@ -144,15 +162,22 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Map<ByteArray, byte[]>> multiGet(final List<byte[]> keys, final boolean readOnlySafe);
 
+    CompletableFuture<Map<ByteArray, byte[]>> multiGet(final long regionId, final List<byte[]> keys,
+                                                       final boolean readOnlySafe);
+
     /**
      * @see #multiGet(List)
      */
     Map<ByteArray, byte[]> bMultiGet(final List<byte[]> keys);
 
+    Map<ByteArray, byte[]> bMultiGet(final long regionId, final List<byte[]> keys);
+
     /**
      * @see #multiGet(List, boolean)
      */
     Map<ByteArray, byte[]> bMultiGet(final List<byte[]> keys, final boolean readOnlySafe);
+
+    Map<ByteArray, byte[]> bMultiGet(final long regionId, final List<byte[]> keys, final boolean readOnlySafe);
 
     /**
      * Returns whether database contains the specified input key.
@@ -162,40 +187,58 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> containsKey(final byte[] key);
 
+    CompletableFuture<Boolean> containsKey(final long regionId, final byte[] key);
+
     /**
      * @see #containsKey(byte[])
      */
     CompletableFuture<Boolean> containsKey(final String key);
+
+    CompletableFuture<Boolean> containsKey(final long regionId, final String key);
 
     /**
      * @see #containsKey(byte[])
      */
     Boolean bContainsKey(final byte[] key);
 
+    Boolean bContainsKey(final long regionId, final byte[] key);
+
     /**
      * @see #containsKey(byte[])
      */
     Boolean bContainsKey(final String key);
+
+    Boolean bContainsKey(final long regionId, final String key);
 
     /**
      * Equivalent to {@code scan(startKey, endKey, true)}.
      */
     CompletableFuture<List<KVEntry>> scan(final byte[] startKey, final byte[] endKey);
 
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final byte[] startKey, final byte[] endKey);
+
     /**
      * @see #scan(byte[], byte[])
      */
     CompletableFuture<List<KVEntry>> scan(final String startKey, final String endKey);
+
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final String startKey, final String endKey);
 
     /**
      * Equivalent to {@code scan(startKey, endKey, readOnlySafe, true)}.
      */
     CompletableFuture<List<KVEntry>> scan(final byte[] startKey, final byte[] endKey, final boolean readOnlySafe);
 
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final byte[] startKey, final byte[] endKey,
+                                          final boolean readOnlySafe);
+
     /**
      * @see #scan(byte[], byte[], boolean)
      */
     CompletableFuture<List<KVEntry>> scan(final String startKey, final String endKey, final boolean readOnlySafe);
+
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final String startKey, final String endKey,
+                                          final boolean readOnlySafe);
 
     /**
      * Query all data in the key of range [startKey, endKey).
@@ -217,36 +260,53 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     CompletableFuture<List<KVEntry>> scan(final byte[] startKey, final byte[] endKey, final boolean readOnlySafe,
                                           final boolean returnValue);
 
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final byte[] startKey, final byte[] endKey,
+                                          final boolean readOnlySafe, final boolean returnValue);
+
     /**
      * @see #scan(byte[], byte[], boolean, boolean)
      */
     CompletableFuture<List<KVEntry>> scan(final String startKey, final String endKey, final boolean readOnlySafe,
                                           final boolean returnValue);
 
+    CompletableFuture<List<KVEntry>> scan(final long regionId, final String startKey, final String endKey,
+                                          final boolean readOnlySafe, final boolean returnValue);
+
     /**
      * @see #scan(byte[], byte[])
      */
     List<KVEntry> bScan(final byte[] startKey, final byte[] endKey);
+
+    List<KVEntry> bScan(final long regionId, final byte[] startKey, final byte[] endKey);
 
     /**
      * @see #scan(String, String)
      */
     List<KVEntry> bScan(final String startKey, final String endKey);
 
+    List<KVEntry> bScan(final long regionId, final String startKey, final String endKey);
+
     /**
      * @see #scan(String, String, boolean)
      */
     List<KVEntry> bScan(final byte[] startKey, final byte[] endKey, final boolean readOnlySafe);
+
+    List<KVEntry> bScan(final long regionId, final byte[] startKey, final byte[] endKey, final boolean readOnlySafe);
 
     /**
      * @see #scan(String, String, boolean)
      */
     List<KVEntry> bScan(final String startKey, final String endKey, final boolean readOnlySafe);
 
+    List<KVEntry> bScan(final long regionId, final String startKey, final String endKey, final boolean readOnlySafe);
+
     /**
      * @see #scan(String, String, boolean, boolean)
      */
     List<KVEntry> bScan(final byte[] startKey, final byte[] endKey, final boolean readOnlySafe,
+                        final boolean returnValue);
+
+    List<KVEntry> bScan(final long regionId, final byte[] startKey, final byte[] endKey, final boolean readOnlySafe,
                         final boolean returnValue);
 
     /**
@@ -255,15 +315,22 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     List<KVEntry> bScan(final String startKey, final String endKey, final boolean readOnlySafe,
                         final boolean returnValue);
 
+    List<KVEntry> bScan(final long regionId, final String startKey, final String endKey, final boolean readOnlySafe,
+                        final boolean returnValue);
+
     /**
      * Equivalent to {@code iterator(startKey, endKey, bufSize, true)}.
      */
     RheaIterator<KVEntry> iterator(final byte[] startKey, final byte[] endKey, final int bufSize);
 
+    RheaIterator<KVEntry> iterator(final long regionId, final byte[] startKey, final byte[] endKey, final int bufSize);
+
     /**
      * @see #iterator(byte[], byte[], int)
      */
     RheaIterator<KVEntry> iterator(final String startKey, final String endKey, final int bufSize);
+
+    RheaIterator<KVEntry> iterator(final long regionId, final String startKey, final String endKey, final int bufSize);
 
     /**
      * Equivalent to {@code iterator(startKey, endKey, bufSize, true, true)}.
@@ -271,10 +338,16 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     RheaIterator<KVEntry> iterator(final byte[] startKey, final byte[] endKey, final int bufSize,
                                    final boolean readOnlySafe);
 
+    RheaIterator<KVEntry> iterator(final long regionId, final byte[] startKey, final byte[] endKey, final int bufSize,
+                                   final boolean readOnlySafe);
+
     /**
      * @see #iterator(byte[], byte[], int, boolean)
      */
     RheaIterator<KVEntry> iterator(final String startKey, final String endKey, final int bufSize,
+                                   final boolean readOnlySafe);
+
+    RheaIterator<KVEntry> iterator(final long regionId, final String startKey, final String endKey, final int bufSize,
                                    final boolean readOnlySafe);
 
     /**
@@ -298,10 +371,16 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     RheaIterator<KVEntry> iterator(final byte[] startKey, final byte[] endKey, final int bufSize,
                                    final boolean readOnlySafe, final boolean returnValue);
 
+    RheaIterator<KVEntry> iterator(final long regionId, final byte[] startKey, final byte[] endKey, final int bufSize,
+                                   final boolean readOnlySafe, final boolean returnValue);
+
     /**
      * @see #iterator(byte[], byte[], int, boolean, boolean)
      */
     RheaIterator<KVEntry> iterator(final String startKey, final String endKey, final int bufSize,
+                                   final boolean readOnlySafe, final boolean returnValue);
+
+    RheaIterator<KVEntry> iterator(final long regionId, final String startKey, final String endKey, final int bufSize,
                                    final boolean readOnlySafe, final boolean returnValue);
 
     /**
@@ -389,20 +468,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> put(final byte[] key, final byte[] value);
 
+    CompletableFuture<Boolean> put(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #put(byte[], byte[])
      */
     CompletableFuture<Boolean> put(final String key, final byte[] value);
+
+    CompletableFuture<Boolean> put(final long regionId, final String key, final byte[] value);
 
     /**
      * @see #put(byte[], byte[])
      */
     Boolean bPut(final byte[] key, final byte[] value);
 
+    Boolean bPut(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #put(byte[], byte[])
      */
     Boolean bPut(final String key, final byte[] value);
+
+    Boolean bPut(final long regionId, final String key, final byte[] value);
 
     /**
      * Set the database entry for "key" to "value", and return the
@@ -415,20 +502,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<byte[]> getAndPut(final byte[] key, final byte[] value);
 
+    CompletableFuture<byte[]> getAndPut(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #getAndPut(byte[], byte[])
      */
     CompletableFuture<byte[]> getAndPut(final String key, final byte[] value);
+
+    CompletableFuture<byte[]> getAndPut(final long regionId, final String key, final byte[] value);
 
     /**
      * @see #getAndPut(byte[], byte[])
      */
     byte[] bGetAndPut(final byte[] key, final byte[] value);
 
+    byte[] bGetAndPut(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #getAndPut(byte[], byte[])
      */
     byte[] bGetAndPut(final String key, final byte[] value);
+
+    byte[] bGetAndPut(final long regionId, final String key, final byte[] value);
 
     /**
      * Atomically sets the value to the given updated value
@@ -442,20 +537,30 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> compareAndPut(final byte[] key, final byte[] expect, final byte[] update);
 
+    CompletableFuture<Boolean> compareAndPut(final long regionId, final byte[] key, final byte[] expect,
+                                             final byte[] update);
+
     /**
      * @see #compareAndPut(byte[], byte[], byte[])
      */
     CompletableFuture<Boolean> compareAndPut(final String key, final byte[] expect, final byte[] update);
+
+    CompletableFuture<Boolean> compareAndPut(final long regionId, final String key, final byte[] expect,
+                                             final byte[] update);
 
     /**
      * @see #compareAndPut(byte[], byte[], byte[])
      */
     Boolean bCompareAndPut(final byte[] key, final byte[] expect, final byte[] update);
 
+    Boolean bCompareAndPut(final long regionId, final byte[] key, final byte[] expect, final byte[] update);
+
     /**
      * @see #compareAndPut(byte[], byte[], byte[])
      */
     Boolean bCompareAndPut(final String key, final byte[] expect, final byte[] update);
+
+    Boolean bCompareAndPut(final long regionId, final String key, final byte[] expect, final byte[] update);
 
     /**
      * Add merge operand for key/value pair.
@@ -477,10 +582,14 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> merge(final String key, final String value);
 
+    CompletableFuture<Boolean> merge(final long regionId, final String key, final String value);
+
     /**
      * @see #merge(String, String)
      */
     Boolean bMerge(final String key, final String value);
+
+    Boolean bMerge(final long regionId, final String key, final String value);
 
     /**
      * The batch method of {@link #put(byte[], byte[])}
@@ -506,20 +615,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<byte[]> putIfAbsent(final byte[] key, final byte[] value);
 
+    CompletableFuture<byte[]> putIfAbsent(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #putIfAbsent(byte[], byte[])
      */
     CompletableFuture<byte[]> putIfAbsent(final String key, final byte[] value);
+
+    CompletableFuture<byte[]> putIfAbsent(final long regionId, final String key, final byte[] value);
 
     /**
      * @see #putIfAbsent(byte[], byte[])
      */
     byte[] bPutIfAbsent(final byte[] key, final byte[] value);
 
+    byte[] bPutIfAbsent(final long regionId, final byte[] key, final byte[] value);
+
     /**
      * @see #putIfAbsent(byte[], byte[])
      */
     byte[] bPutIfAbsent(final String key, final byte[] value);
+
+    byte[] bPutIfAbsent(final long regionId, final String key, final byte[] value);
 
     /**
      * Delete the database entry (if any) for "key".
@@ -529,20 +646,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> delete(final byte[] key);
 
+    CompletableFuture<Boolean> delete(final long regionId, final byte[] key);
+
     /**
      * @see #delete(byte[])
      */
     CompletableFuture<Boolean> delete(final String key);
+
+    CompletableFuture<Boolean> delete(final long regionId, final String key);
 
     /**
      * @see #delete(byte[])
      */
     Boolean bDelete(final byte[] key);
 
+    Boolean bDelete(final long regionId, final byte[] key);
+
     /**
      * @see #delete(byte[])
      */
     Boolean bDelete(final String key);
+
+    Boolean bDelete(final long regionId, final String key);
 
     /**
      * Removes the database entries in the range ["startKey", "endKey"), i.e.,
@@ -554,30 +679,42 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> deleteRange(final byte[] startKey, final byte[] endKey);
 
+    CompletableFuture<Boolean> deleteRange(final long regionId, final byte[] startKey, final byte[] endKey);
+
     /**
      * @see #deleteRange(byte[], byte[])
      */
     CompletableFuture<Boolean> deleteRange(final String startKey, final String endKey);
+
+    CompletableFuture<Boolean> deleteRange(final long regionId, final String startKey, final String endKey);
 
     /**
      * @see #deleteRange(byte[], byte[])
      */
     Boolean bDeleteRange(final byte[] startKey, final byte[] endKey);
 
+    Boolean bDeleteRange(final long regionId, final byte[] startKey, final byte[] endKey);
+
     /**
      * @see #deleteRange(byte[], byte[])
      */
     Boolean bDeleteRange(final String startKey, final String endKey);
+
+    Boolean bDeleteRange(final long regionId, final String startKey, final String endKey);
 
     /**
      * The batch method of {@link #delete(byte[])}
      */
     CompletableFuture<Boolean> delete(final List<byte[]> keys);
 
+    CompletableFuture<Boolean> delete(final long regionId, final List<byte[]> keys);
+
     /**
      * @see #delete(List)
      */
     Boolean bDelete(final List<byte[]> keys);
+
+    Boolean bDelete(final long regionId, final List<byte[]> keys);
 
     /**
      * Sync call of batch method
@@ -672,4 +809,18 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      * then regionId = -1 as the input parameter.
      */
     void addStateListener(final long regionId, final StateListener listener);
+
+    /**
+     * Clear the data and KVRawStore files in region.
+     * Specially, if regionId = -1, destroy the whole cluster.
+     * @param regionId
+     */
+    CompletableFuture<Boolean> destroyRegion(final long regionId);
+
+    /**
+     * set read only for the region
+     * Specially, if regionId = -1, disable write of all regions in the whole cluster.
+     * @param regionId
+     */
+    CompletableFuture<Boolean> sealRegion(final long regionId);
 }

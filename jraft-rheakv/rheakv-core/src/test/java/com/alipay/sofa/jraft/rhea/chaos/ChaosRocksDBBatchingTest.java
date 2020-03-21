@@ -16,7 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.chaos;
 
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 
 /**
  *

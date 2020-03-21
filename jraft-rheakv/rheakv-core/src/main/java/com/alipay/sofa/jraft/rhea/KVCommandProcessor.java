@@ -16,8 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import java.util.concurrent.Executor;
-
 import com.alipay.remoting.AsyncContext;
 import com.alipay.remoting.BizContext;
 import com.alipay.remoting.rpc.protocol.AsyncUserProcessor;
@@ -25,6 +23,8 @@ import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.util.Requires;
+
+import java.util.concurrent.Executor;
 
 /**
  * Rhea KV store RPC request processing service.
@@ -115,6 +115,12 @@ public class KVCommandProcessor<T extends BaseRequest> extends AsyncUserProcesso
                 break;
             case BaseRequest.BATCH_COMPOSITE:
                 regionKVService.handleBatchCompositeRequest((BatchCompositeRequest) request, closure);
+                break;
+            case BaseRequest.DESTROY_REGION:
+                regionKVService.handleDestroyRegionRequest((DestroyRegionRequest) request, closure);
+                break;
+            case BaseRequest.SEAL_REGION:
+                regionKVService.handleSealRegionRequest((SealRegionRequest) request, closure);
                 break;
             default:
                 throw new RheaRuntimeException("Unsupported request type: " + request.getClass().getName());

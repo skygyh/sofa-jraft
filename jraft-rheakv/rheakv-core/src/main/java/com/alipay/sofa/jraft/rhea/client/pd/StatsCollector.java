@@ -30,7 +30,7 @@ import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
 import com.alipay.sofa.jraft.rhea.rocks.support.RocksStatistics;
 import com.alipay.sofa.jraft.rhea.storage.BaseRawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 import com.codahale.metrics.Counter;
 
 import static org.rocksdb.TickerType.BYTES_READ;

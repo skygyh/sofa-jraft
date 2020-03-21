@@ -31,7 +31,7 @@ import org.junit.rules.TestName;
 
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.errors.InvalidLockAcquirerException;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.ExecutorServiceHelper;

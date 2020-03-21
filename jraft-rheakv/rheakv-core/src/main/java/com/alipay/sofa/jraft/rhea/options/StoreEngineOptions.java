@@ -16,13 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea.options;
 
+import com.alipay.sofa.jraft.option.NodeOptions;
+import com.alipay.sofa.jraft.util.Endpoint;
+import com.alipay.sofa.jraft.util.StorageType;
+import com.alipay.sofa.jraft.util.Utils;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import com.alipay.sofa.jraft.option.NodeOptions;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
-import com.alipay.sofa.jraft.util.Endpoint;
-import com.alipay.sofa.jraft.util.Utils;
 
 /**
  *

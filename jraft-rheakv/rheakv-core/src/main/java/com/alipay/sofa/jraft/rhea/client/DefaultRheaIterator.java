@@ -16,14 +16,14 @@
  */
 package com.alipay.sofa.jraft.rhea.client;
 
+import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
+import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.util.BytesUtil;
+
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-
-import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
-import com.alipay.sofa.jraft.rhea.storage.KVEntry;
-import com.alipay.sofa.jraft.util.BytesUtil;
 
 /**
  *
@@ -41,9 +41,15 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
     private final Queue<KVEntry>        buf;
 
     private byte[]                      cursorKey;
+    private final long                  regionId;    // specify the regionId to the region only.
 
     public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,
                                boolean readOnlySafe, boolean returnValue) {
+        this(rheaKVStore, startKey, endKey, bufSize, readOnlySafe, returnValue, -1L);
+    }
+
+    public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,
+                               boolean readOnlySafe, boolean returnValue, long regionId) {
         this.rheaKVStore = rheaKVStore;
         this.pdClient = rheaKVStore.getPlacementDriverClient();
         this.startKey = BytesUtil.nullToEmpty(startKey);
@@ -53,20 +59,49 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
         this.returnValue = returnValue;
         this.buf = new ArrayDeque<>(bufSize);
         this.cursorKey = this.startKey;
+        this.regionId = regionId;
     }
 
     @Override
     public synchronized boolean hasNext() {
+        if (this.regionId == -1L) {
+            return hasNextGlobal();
+        }
+        return hasNextInSingleRegion();
+    }
+
+    // when regionId = -1, it indicated the whole cluster is range sharded.
+    private boolean hasNextGlobal() {
         if (this.buf.isEmpty()) {
             while (this.endKey == null || BytesUtil.compare(this.cursorKey, this.endKey) < 0) {
-                final List<KVEntry> kvEntries = this.rheaKVStore.singleRegionScan(this.cursorKey, this.endKey,
-                    this.bufSize, this.readOnlySafe, this.returnValue);
+                final List<KVEntry> kvEntries = this.rheaKVStore.singleScan(this.cursorKey, this.endKey, this.bufSize,
+                    this.readOnlySafe, this.returnValue, this.regionId);
                 if (kvEntries.isEmpty()) {
                     // cursorKey jump to next region's startKey
                     this.cursorKey = this.pdClient.findStartKeyOfNextRegion(this.cursorKey, false);
                     if (cursorKey == null) { // current is the last region
                         break;
                     }
+                } else {
+                    final KVEntry last = kvEntries.get(kvEntries.size() - 1);
+                    this.cursorKey = BytesUtil.nextBytes(last.getKey()); // cursorKey++
+                    this.buf.addAll(kvEntries);
+                    break;
+                }
+            }
+            return !this.buf.isEmpty();
+        }
+        return true;
+    }
+
+    private boolean hasNextInSingleRegion() {
+        assert regionId != -1L;
+        if (this.buf.isEmpty()) {
+            while (this.endKey == null || BytesUtil.compare(this.cursorKey, this.endKey) < 0) {
+                final List<KVEntry> kvEntries = this.rheaKVStore.singleScan(this.cursorKey, this.endKey, this.bufSize,
+                    this.readOnlySafe, this.returnValue, this.regionId);
+                if (kvEntries.isEmpty()) {
+                    break;
                 } else {
                     final KVEntry last = kvEntries.get(kvEntries.size() - 1);
                     this.cursorKey = BytesUtil.nextBytes(last.getKey()); // cursorKey++
@@ -101,5 +136,9 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
 
     public int getBufSize() {
         return bufSize;
+    }
+
+    public long getRegionId() {
+        return regionId;
     }
 }

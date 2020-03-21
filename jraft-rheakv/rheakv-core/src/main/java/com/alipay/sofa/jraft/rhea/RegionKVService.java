@@ -150,4 +150,16 @@ public interface RegionKVService {
      */
     void handleBatchCompositeRequest(final BatchCompositeRequest request,
                                      final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
+
+    /**
+     * {@link BaseRequest#DESTROY_REGION}
+     */
+    void handleDestroyRegionRequest(final DestroyRegionRequest request,
+                                    final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
+
+    /**
+     * {@link BaseRequest#SEAL_REGION}
+     */
+    void handleSealRegionRequest(final SealRegionRequest request,
+                                 final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
 }

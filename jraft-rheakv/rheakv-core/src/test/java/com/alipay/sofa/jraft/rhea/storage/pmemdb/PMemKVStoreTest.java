@@ -20,6 +20,8 @@ import com.alipay.sofa.jraft.Closure;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.rhea.StoreEngineHelper;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
+import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
+import com.alipay.sofa.jraft.rhea.options.configured.PMemDBOptionsConfigured;
 import com.alipay.sofa.jraft.rhea.storage.*;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.alipay.sofa.jraft.rhea.util.Lists;
@@ -28,11 +30,13 @@ import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.ExecutorServiceHelper;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -836,5 +840,35 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
             assertEquals(3L, getNextFencingMethod.invoke(this.kvStore, (Object) childKey));
             assertEquals(4L, getNextFencingMethod.invoke(this.kvStore, (Object) childKey));
         }
+    }
+
+    @Test
+    public void sealAndDestroyTest() {
+        final long id = 1L;
+        final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest2", "RawKV" + id);
+        PMemRawKVStore store = new PMemRawKVStore(id);
+        store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
+            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
+        Assert.assertTrue(Files.exists(testDbPath));
+
+        final byte[] key = makeKey("key100");
+        final byte[] value = makeValue("value100");
+        store.put(key, value, null);
+        store.seal(id, null);
+        try {
+            store.put(key, makeValue("unexpected value"), null);
+            Assert.fail("Put on sealed store must fail");
+        } catch (RuntimeException rte) {
+            // expect to fail here
+        }
+        byte[] newValue = new SyncKVStore<byte[]>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.get(key, closure);
+            }
+        }.apply(store);
+        assertArrayEquals(value, newValue);
+        store.destroy(id, null);
+        Assert.assertFalse(Files.exists(testDbPath));
     }
 }

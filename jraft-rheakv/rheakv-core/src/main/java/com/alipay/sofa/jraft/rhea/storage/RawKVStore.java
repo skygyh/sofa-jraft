@@ -212,4 +212,14 @@ public interface RawKVStore {
      * state machine is applied.
      */
     void execute(final NodeExecutor nodeExecutor, final boolean isLeader, final KVStoreClosure closure);
+
+    /**
+     * destroy the local raw kv store including the files
+     */
+    void destroy(final long regionId, final KVStoreClosure closure);
+
+    /**
+     * disable write of the raw kv store
+     */
+    void seal(final long regionId, final KVStoreClosure closure);
 }

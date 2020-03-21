@@ -16,25 +16,22 @@
  */
 package com.alipay.sofa.jraft.rhea.client;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.concurrent.locks.StampedLock;
-
-import com.alipay.sofa.jraft.rhea.storage.KVOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.rhea.errors.RouteTableException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.rhea.util.Maps;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Requires;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.locks.StampedLock;
+
+import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
 
 /**
  * Region routing table.
@@ -230,7 +227,9 @@ public class RegionRouteTable {
         final long stamp = stampedLock.readLock();
         try {
             for (final E kvEntry : kvEntries) {
-                final Region region = findRegionByKeyWithoutLock(kvEntry.getKey());
+                final Region region = (kvEntry.getRegionId() == ANY_REGION_ID) ?
+                        findRegionByKeyWithoutLock(kvEntry.getKey()) :
+                        this.regionTable.get(kvEntry.getRegionId());
                 regionMap.computeIfAbsent(region, k -> Lists.newArrayList()).add(kvEntry);
             }
             return regionMap;

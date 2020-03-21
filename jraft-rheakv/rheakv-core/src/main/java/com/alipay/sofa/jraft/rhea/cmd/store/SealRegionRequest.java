@@ -14,11 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alipay.sofa.jraft.rhea.storage;
+package com.alipay.sofa.jraft.rhea.cmd.store;
+
+import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
 
 /**
- * @author jiachun.fjc
+ *
+ * @author Jerry Yang
  */
-public enum StorageType {
-    RocksDB, Memory, PMem
+public class SealRegionRequest extends BaseRequest {
+
+    private static final long serialVersionUID = 4301415966181665577L;
+
+    public SealRegionRequest() {
+    }
+
+    public SealRegionRequest(long regionId, RegionEpoch regionEpoch) {
+        super(regionId, regionEpoch);
+    }
+
+    @Override
+    public byte magic() {
+        return SEAL_REGION;
+    }
+
+    @Override
+    public String toString() {
+        return "SealRegionRequest{" + "regionId=" + getRegionId() + ", regionEpoch=" + getRegionEpoch() + "} ";
+    }
 }

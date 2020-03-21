@@ -123,6 +123,10 @@ public abstract class BaseLogStorageTest extends BaseStorageTest {
         this.logStorage = newLogStorage();
         this.logStorage.init(newLogStorageOptions());
 
+        // Skip MemoryLogStore since it's volatile.
+        if (logStorage instanceof MemoryLogStorage) {
+            return;
+        }
         ConfigurationEntry conf = this.confManager.getLastConfiguration();
         assertNotNull(conf);
         assertFalse(conf.isEmpty());
@@ -181,7 +185,7 @@ public abstract class BaseLogStorageTest extends BaseStorageTest {
         appendLargeEntries(10000, 1024, 10);
 
         final long start = Utils.monotonicMs();
-        final int totalLogs = 100000;
+        final int totalLogs = 50000;
         final int logSize = 16 * 1024;
         final int batch = 100;
 
@@ -200,12 +204,15 @@ public abstract class BaseLogStorageTest extends BaseStorageTest {
         this.logStorage.shutdown();
         this.logStorage.init(newLogStorageOptions());
 
-        for (int i = 0; i < totalLogs; i++) {
-            final LogEntry log = this.logStorage.getEntry(i);
-            assertNotNull(log);
-            assertEquals(i, log.getId().getIndex());
-            assertEquals(i, log.getId().getTerm());
-            assertEquals(logSize, log.getData().remaining());
+        // Skip MemoryLogStorage since it's volatile.
+        if (!(logStorage instanceof MemoryLogStorage)) {
+            for (int i = 0; i < totalLogs; i++) {
+                final LogEntry log = this.logStorage.getEntry(i);
+                assertNotNull(log);
+                assertEquals(i, log.getId().getIndex());
+                assertEquals(i, log.getId().getTerm());
+                assertEquals(logSize, log.getData().remaining());
+            }
         }
     }
 

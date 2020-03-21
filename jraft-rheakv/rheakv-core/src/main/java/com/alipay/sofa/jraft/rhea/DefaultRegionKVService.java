@@ -16,22 +16,21 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import com.alipay.sofa.jraft.rhea.cmd.store.*;
-import com.alipay.sofa.jraft.rhea.storage.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.Status;
+import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
+import com.alipay.sofa.jraft.rhea.storage.*;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.alipay.sofa.jraft.rhea.util.KVParameterRequires;
 import com.alipay.sofa.jraft.rhea.util.StackTraceUtil;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Rhea KV region RPC request processing service.
@@ -642,6 +641,60 @@ public class DefaultRegionKVService implements RegionKVService {
         }
     }
 
+    @Override
+    public void handleDestroyRegionRequest(final DestroyRegionRequest request,
+                                           final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure) {
+        final DestroyRegionResponse response = new DestroyRegionResponse();
+        response.setRegionId(getRegionId());
+        response.setRegionEpoch(getRegionEpoch());
+        try {
+            KVParameterRequires.requireSameEpoch(request, getRegionEpoch());
+            this.rawKVStore.destroy(request.getRegionId(), new BaseKVStoreClosure() {
+
+                @Override
+                public void run(final Status status) {
+                    if (status.isOk()) {
+                        response.setValue((Boolean) getData());
+                    } else {
+                        setFailure(request, response, status, getError());
+                    }
+                    closure.sendResponse(response);
+                }
+            });
+        } catch (final Throwable t) {
+            LOG.error("Failed to handle: {}, {}.", request, StackTraceUtil.stackTrace(t));
+            response.setError(Errors.forException(t));
+            closure.sendResponse(response);
+        }
+    }
+
+    @Override
+    public void handleSealRegionRequest(final SealRegionRequest request,
+                                        final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure) {
+        final SealRegionResponse response = new SealRegionResponse();
+        response.setRegionId(getRegionId());
+        response.setRegionEpoch(getRegionEpoch());
+        try {
+            KVParameterRequires.requireSameEpoch(request, getRegionEpoch());
+            this.rawKVStore.seal(request.getRegionId(), new BaseKVStoreClosure() {
+
+                @Override
+                public void run(final Status status) {
+                    if (status.isOk()) {
+                        response.setValue((Boolean) getData());
+                    } else {
+                        setFailure(request, response, status, getError());
+                    }
+                    closure.sendResponse(response);
+                }
+            });
+        } catch (final Throwable t) {
+            LOG.error("Failed to handle: {}, {}.", request, StackTraceUtil.stackTrace(t));
+            response.setError(Errors.forException(t));
+            closure.sendResponse(response);
+        }
+    }
+
     private List<KVOperation> getKvOperations(BatchCompositeRequest request) {
         List<KVOperation> kvOperations = new ArrayList<>();
         for (BaseRequest subRequest : request.getCompositeRequests()) {
@@ -714,6 +767,10 @@ public class DefaultRegionKVService implements RegionKVService {
                 case BaseRequest.BATCH_COMPOSITE:
                     kvOperations.addAll(getKvOperations((BatchCompositeRequest) subRequest));
                     break;
+                case BaseRequest.DESTROY_REGION:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                case BaseRequest.SEAL_REGION:
+                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
                 default:
                     throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
             }

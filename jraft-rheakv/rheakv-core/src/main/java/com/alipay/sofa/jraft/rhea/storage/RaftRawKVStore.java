@@ -315,6 +315,16 @@ public class RaftRawKVStore implements RawKVStore {
         applyOperation(KVOperation.createNodeExecutor(nodeExecutor), closure);
     }
 
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        applyOperation(KVOperation.createDestroy(regionId), closure);
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        applyOperation(KVOperation.createSeal(regionId), closure);
+    }
+
     private void applyOperation(final KVOperation op, final KVStoreClosure closure) {
         if (!isLeader()) {
             closure.setError(Errors.NOT_LEADER);

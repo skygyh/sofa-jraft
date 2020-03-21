@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
 import com.alipay.sofa.jraft.rhea.serialization.Serializer;
@@ -58,11 +59,25 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     private static final byte               DELIMITER     = (byte) ',';
     private static final Comparator<byte[]> COMPARATOR    = BytesUtil.getDefaultByteArrayComparator();
 
+    private final long                      regionId;
+    private boolean                         writable      = true;
+
+    private static final String[]           DB_FILE_NAMES = new String[] { "defaultDB", "sequenceDB", "fencingKeyDB",
+            "lockerDB"                                   };
     private Database                        defaultDB;
     private Database                        sequenceDB;
     private Database                        fencingKeyDB;
     private Database                        lockerDB;
     private volatile PMemDBOptions          opts;
+
+    public PMemRawKVStore() {
+        this(-1L);
+    }
+
+    public PMemRawKVStore(final long regionId) {
+        super();
+        this.regionId = regionId;
+    }
 
     @Override
     public boolean init(final PMemDBOptions opts) {
@@ -71,14 +86,18 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(hasEnoughSpace(opts), "No enough space for Persistent Memory on "
                                                    + PMemDBOptions.PMEM_ROOT_PATH);
 
-        this.defaultDB = new Database(opts.getOrderedEngine(), generateConf(opts.getOrderedEngine(), opts.getDbPath(),
-            "defaultDB", opts.getPmemDataSize(), opts.getForceCreate() ? 1 : 0));
-        this.sequenceDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
-            "sequenceDB", opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
-        this.fencingKeyDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
-            "fencingKeyDB", opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
-        this.lockerDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
-            "lockerDB", opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+        if (opts.getPmemDataSize() > 0) {
+            this.defaultDB = new Database(opts.getOrderedEngine(), generateConf(opts.getOrderedEngine(),
+                opts.getDbPath(), DB_FILE_NAMES[0], opts.getPmemDataSize(), opts.getForceCreate() ? 1 : 0));
+        }
+        if (opts.getPmemMetaSize() > 0) {
+            this.sequenceDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
+                DB_FILE_NAMES[1], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+            this.fencingKeyDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
+                DB_FILE_NAMES[2], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+            this.lockerDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), opts.getDbPath(),
+                DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+        }
         LOG.info("[PMemRawKVStore] start successfully, options: {}.", opts);
         return true;
     }
@@ -116,7 +135,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                         Files.createDirectory(fullPath);
                     } else {
                         if (Files.notExists(Paths.get(parentPath))) {
-                            Files.createDirectory(Paths.get(parentPath));
+                            Files.createDirectories(Paths.get(parentPath));
                         }
                     }
                 } catch (IOException ioe) {
@@ -132,15 +151,19 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void shutdown() {
         if (this.defaultDB != null) {
             this.defaultDB.stop();
+            this.defaultDB = null;
         }
         if (this.sequenceDB != null) {
             this.sequenceDB.stop();
+            this.sequenceDB = null;
         }
         if (this.fencingKeyDB != null) {
             this.fencingKeyDB.stop();
+            this.fencingKeyDB = null;
         }
         if (this.lockerDB != null) {
             this.lockerDB.stop();
+            this.lockerDB = null;
         }
     }
 
@@ -177,9 +200,6 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             for (final byte[] key : keys) {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
                 final byte[] value = this.defaultDB.get(key);
-                if (value == null) {
-                    continue;
-                }
                 resultMap.put(ByteArray.wrap(key), value);
             }
             setSuccess(closure, resultMap);
@@ -286,6 +306,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(seqKey == null || seqKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("RESET_SEQUENCE");
         try {
+            checkWritable();
             this.sequenceDB.remove(seqKey);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -303,6 +324,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("PUT");
         writeLock().lock();
         try {
+            checkWritable();
             this.defaultDB.put(key, value);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -323,6 +345,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         // TODO : check if the pmemkv doesn't support concurrent write
         writeLock().lock();
         try {
+            checkWritable();
             final byte[] prevVal = this.defaultDB.get(key);
             this.defaultDB.put(key, value);
             setSuccess(closure, prevVal);
@@ -345,6 +368,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         // TODO : check if the pmemkv doesn't support concurrent write
         writeLock().lock();
         try {
+            checkWritable();
             final byte[] actual = this.defaultDB.get(key);
             if (Arrays.equals(expect, actual)) {
                 this.defaultDB.put(key, update);
@@ -369,6 +393,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("MERGE");
         writeLock().lock();
         try {
+            checkWritable();
             byte[] newVal = null;
             byte[] oldVal = this.defaultDB.get(key);
             if (oldVal == null) {
@@ -398,6 +423,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("PUT_LIST");
         writeLock().lock();
         try {
+            checkWritable();
             for (final KVEntry entry : entries) {
                 final byte[] key = entry.getKey();
                 final byte[] value = entry.getValue();
@@ -422,6 +448,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("PUT_IF_ABSENT");
         writeLock().lock();
         try {
+            checkWritable();
             final byte[] prevVal = this.defaultDB.get(key);
             Requires.requireTrue(prevVal == null || prevVal.length <= PMemDBOptions.MAX_VALUE_SIZE);
             if (prevVal == null) {
@@ -444,6 +471,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("TRY_LOCK");
         try {
+            checkWritable();
             // The algorithm relies on the assumption that while there is no
             // synchronized clock across the processes, still the local time in
             // every process flows approximately at the same rate, with an error
@@ -602,6 +630,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("RELEASE_LOCK");
         try {
+            checkWritable();
             final byte[] prevBytesVal = this.lockerDB.get(key);
 
             final DistributedLock.Owner owner;
@@ -703,6 +732,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("DELETE");
         writeLock().lock();
         try {
+            checkWritable();
             this.defaultDB.remove(key);
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
@@ -721,6 +751,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("DELETE_RANGE");
         writeLock().lock();
         try {
+            checkWritable();
             List<byte[]> toDeleteKeys = new LinkedList<>();
             final GetAllByteArrayCallback getKVCallback = (byte[] k, byte[] v) -> {
                 if (k == null || COMPARATOR.compare(k, endKey) >= 0) {
@@ -748,6 +779,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("DELETE_LIST");
         writeLock().lock();
         try {
+            checkWritable();
             for (final byte[] key : keys) {
                 Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
                 this.defaultDB.remove(key);
@@ -767,6 +799,9 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("BATCH_OP");
         writeLock().lock();
         try {
+            if (kvOperations.stream().anyMatch(KVOperation::isWriteOp)) {
+                checkWritable();
+            }
             doBatch(kvOperations, closure);
         } catch (final Exception e) {
             LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
@@ -774,6 +809,53 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             writeLock().unlock();
             timeCtx.stop();
         }
+    }
+
+    @Override
+    public void destroy(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("DESTROY");
+        try {
+            if (regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            shutdown();
+            for (String fileName : DB_FILE_NAMES) {
+                Path fullPath = Paths.get(this.opts.getDbPath(), fileName);
+                if (Files.exists(fullPath)) {
+                    LOG.info("deleting {} [regionId = {}]", fullPath, this.regionId);
+                    Files.deleteIfExists(fullPath);
+                }
+            }
+            Files.delete(Paths.get(this.opts.getDbPath()));
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("destroyed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [DESTROY]", e);
+        } finally {
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void seal(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("SEAL");
+        try {
+            if (regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            this.writable = false;
+            setSuccess(closure, Boolean.TRUE);
+            LOG.info("sealed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [SEAL]", e);
+        } finally {
+            timeCtx.stop();
+        }
+
     }
 
     @Override
@@ -990,5 +1072,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
 
     private Lock writeLock() {
         return this.readWriteLock.writeLock();
+    }
+
+    private void checkWritable() {
+        if (!writable) {
+            throw new RheaRuntimeException("region " + regionId + " is sealed");
+        }
     }
 }

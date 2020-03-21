@@ -16,9 +16,9 @@
  */
 package com.alipay.sofa.jraft.rhea.cmd.store;
 
-import java.io.Serializable;
-
 import com.alipay.sofa.jraft.rhea.metadata.RegionEpoch;
+
+import java.io.Serializable;
 
 /**
  * RPC request header
@@ -49,6 +49,8 @@ public abstract class BaseRequest implements Serializable {
     public static final byte  BATCH_DELETE     = 0x12;
     public static final byte  CONTAINS_KEY     = 0x13;
     public static final byte  BATCH_COMPOSITE  = 0x14;
+    public static final byte  DESTROY_REGION   = 0x15;
+    public static final byte  SEAL_REGION      = 0x16;
 
     private long              regionId;
     private RegionEpoch       regionEpoch;

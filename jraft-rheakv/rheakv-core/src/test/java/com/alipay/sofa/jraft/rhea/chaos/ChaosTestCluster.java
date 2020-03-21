@@ -45,7 +45,7 @@ import com.alipay.sofa.jraft.rhea.options.configured.PlacementDriverOptionsConfi
 import com.alipay.sofa.jraft.rhea.options.configured.RheaKVStoreOptionsConfigured;
 import com.alipay.sofa.jraft.rhea.options.configured.RocksDBOptionsConfigured;
 import com.alipay.sofa.jraft.rhea.options.configured.StoreEngineOptionsConfigured;
-import com.alipay.sofa.jraft.rhea.storage.StorageType;
+import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.rhea.util.Constants;
 import com.alipay.sofa.jraft.util.Endpoint;
 
