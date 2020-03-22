@@ -40,13 +40,13 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class RheaKVTestCluster {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RheaKVTestCluster.class);
-    private static final String[] CONF = {"/conf/rhea_test_cluster_1.yaml",
-            "/conf/rhea_test_cluster_2.yaml", "/conf/rhea_test_cluster_3.yaml"};
-    public static String DB_PATH = "rhea_db";
-    public static String RAFT_DATA_PATH = "rhea_raft";
-    public static Long[] REGION_IDS = new Long[]{1L, 2L};
-    private List<RheaKVStore> stores = new CopyOnWriteArrayList<>();
+    private static final Logger   LOG            = LoggerFactory.getLogger(RheaKVTestCluster.class);
+    private static final String[] CONF           = { "/conf/rhea_test_cluster_1.yaml",
+            "/conf/rhea_test_cluster_2.yaml", "/conf/rhea_test_cluster_3.yaml" };
+    public static String          DB_PATH        = "rhea_db";
+    public static String          RAFT_DATA_PATH = "rhea_raft";
+    public static Long[]          REGION_IDS     = new Long[] { 1L, 2L };
+    private List<RheaKVStore>     stores         = new CopyOnWriteArrayList<>();
 
     protected void start(final StorageType storageType) throws Exception {
         start(storageType, true);
@@ -57,7 +57,7 @@ public class RheaKVTestCluster {
     }
 
     protected void start(final StorageType storageType, final boolean deleteFiles, final boolean hashRoute)
-            throws Exception {
+                                                                                                           throws Exception {
         if (deleteFiles) {
             deleteFiles();
         }

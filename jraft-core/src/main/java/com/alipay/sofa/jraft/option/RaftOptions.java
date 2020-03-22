@@ -267,9 +267,9 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     @Override
     public String toString() {
-        return "RaftOptions{logType=" + logType + ", maxByteCountPerRpc=" + this.maxByteCountPerRpc + ", fileCheckHole="
-               + this.fileCheckHole + ", maxEntriesSize=" + this.maxEntriesSize + ", maxBodySize=" + this.maxBodySize
-               + ", maxAppendBufferSize=" + this.maxAppendBufferSize + ", maxElectionDelayMs="
+        return "RaftOptions{logType=" + logType + ", maxByteCountPerRpc=" + this.maxByteCountPerRpc
+               + ", fileCheckHole=" + this.fileCheckHole + ", maxEntriesSize=" + this.maxEntriesSize + ", maxBodySize="
+               + this.maxBodySize + ", maxAppendBufferSize=" + this.maxAppendBufferSize + ", maxElectionDelayMs="
                + this.maxElectionDelayMs + ", electionHeartbeatFactor=" + this.electionHeartbeatFactor
                + ", applyBatch=" + this.applyBatch + ", sync=" + this.sync + ", syncMeta=" + this.syncMeta
                + ", openStatistics=" + this.openStatistics + ", replicatorPipeline=" + this.replicatorPipeline
