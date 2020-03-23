@@ -16,84 +16,19 @@
  */
 package com.alipay.sofa.jraft.core;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alipay.sofa.jraft.Closure;
-import com.alipay.sofa.jraft.FSMCaller;
-import com.alipay.sofa.jraft.JRaftServiceFactory;
-import com.alipay.sofa.jraft.Node;
-import com.alipay.sofa.jraft.NodeManager;
-import com.alipay.sofa.jraft.ReadOnlyService;
-import com.alipay.sofa.jraft.ReplicatorGroup;
-import com.alipay.sofa.jraft.Status;
-import com.alipay.sofa.jraft.closure.CatchUpClosure;
-import com.alipay.sofa.jraft.closure.ClosureQueue;
-import com.alipay.sofa.jraft.closure.ClosureQueueImpl;
-import com.alipay.sofa.jraft.closure.ReadIndexClosure;
-import com.alipay.sofa.jraft.closure.SynchronizedClosure;
+import com.alipay.sofa.jraft.*;
+import com.alipay.sofa.jraft.closure.*;
 import com.alipay.sofa.jraft.conf.Configuration;
 import com.alipay.sofa.jraft.conf.ConfigurationEntry;
 import com.alipay.sofa.jraft.conf.ConfigurationManager;
-import com.alipay.sofa.jraft.entity.Ballot;
-import com.alipay.sofa.jraft.entity.EnumOutter;
-import com.alipay.sofa.jraft.entity.LeaderChangeContext;
-import com.alipay.sofa.jraft.entity.LogEntry;
-import com.alipay.sofa.jraft.entity.LogId;
-import com.alipay.sofa.jraft.entity.NodeId;
-import com.alipay.sofa.jraft.entity.PeerId;
-import com.alipay.sofa.jraft.entity.RaftOutter;
-import com.alipay.sofa.jraft.entity.Task;
-import com.alipay.sofa.jraft.entity.UserLog;
+import com.alipay.sofa.jraft.entity.*;
 import com.alipay.sofa.jraft.error.LogIndexOutOfBoundsException;
 import com.alipay.sofa.jraft.error.LogNotFoundException;
 import com.alipay.sofa.jraft.error.RaftError;
 import com.alipay.sofa.jraft.error.RaftException;
-import com.alipay.sofa.jraft.option.BallotBoxOptions;
-import com.alipay.sofa.jraft.option.BootstrapOptions;
-import com.alipay.sofa.jraft.option.FSMCallerOptions;
-import com.alipay.sofa.jraft.option.LogManagerOptions;
-import com.alipay.sofa.jraft.option.NodeOptions;
-import com.alipay.sofa.jraft.option.RaftMetaStorageOptions;
-import com.alipay.sofa.jraft.option.RaftOptions;
-import com.alipay.sofa.jraft.option.ReadOnlyOption;
-import com.alipay.sofa.jraft.option.ReadOnlyServiceOptions;
-import com.alipay.sofa.jraft.option.ReplicatorGroupOptions;
-import com.alipay.sofa.jraft.option.SnapshotExecutorOptions;
-import com.alipay.sofa.jraft.rpc.RaftClientService;
-import com.alipay.sofa.jraft.rpc.RaftServerService;
-import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
-import com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest;
-import com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse;
-import com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest;
-import com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse;
-import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest;
-import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse;
-import com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest;
-import com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse;
-import com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest;
-import com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse;
-import com.alipay.sofa.jraft.rpc.RpcResponseClosure;
-import com.alipay.sofa.jraft.rpc.RpcResponseClosureAdapter;
-import com.alipay.sofa.jraft.rpc.RpcResponseFactory;
+import com.alipay.sofa.jraft.option.*;
+import com.alipay.sofa.jraft.rpc.*;
+import com.alipay.sofa.jraft.rpc.RpcRequests.*;
 import com.alipay.sofa.jraft.rpc.impl.core.BoltRaftClientService;
 import com.alipay.sofa.jraft.storage.LogManager;
 import com.alipay.sofa.jraft.storage.LogStorage;
@@ -101,29 +36,22 @@ import com.alipay.sofa.jraft.storage.RaftMetaStorage;
 import com.alipay.sofa.jraft.storage.SnapshotExecutor;
 import com.alipay.sofa.jraft.storage.impl.LogManagerImpl;
 import com.alipay.sofa.jraft.storage.snapshot.SnapshotExecutorImpl;
-import com.alipay.sofa.jraft.util.Describer;
-import com.alipay.sofa.jraft.util.DisruptorBuilder;
-import com.alipay.sofa.jraft.util.DisruptorMetricSet;
-import com.alipay.sofa.jraft.util.JRaftServiceLoader;
-import com.alipay.sofa.jraft.util.JRaftSignalHandler;
-import com.alipay.sofa.jraft.util.LogExceptionHandler;
-import com.alipay.sofa.jraft.util.NamedThreadFactory;
-import com.alipay.sofa.jraft.util.OnlyForTest;
-import com.alipay.sofa.jraft.util.Platform;
-import com.alipay.sofa.jraft.util.RepeatedTimer;
-import com.alipay.sofa.jraft.util.Requires;
-import com.alipay.sofa.jraft.util.SignalHelper;
-import com.alipay.sofa.jraft.util.ThreadHelper;
-import com.alipay.sofa.jraft.util.ThreadId;
-import com.alipay.sofa.jraft.util.Utils;
+import com.alipay.sofa.jraft.util.*;
 import com.google.protobuf.Message;
-import com.lmax.disruptor.BlockingWaitStrategy;
-import com.lmax.disruptor.EventFactory;
-import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.EventTranslator;
-import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * The raft replica node implementation.
@@ -939,7 +867,7 @@ public class NodeImpl implements Node, RaftServerService {
             .setEventFactory(new LogEntryAndClosureFactory()) //
             .setThreadFactory(new NamedThreadFactory("JRaft-NodeImpl-Disruptor-", true)) //
             .setProducerType(ProducerType.MULTI) //
-            .setWaitStrategy(new BlockingWaitStrategy()) //
+            .setWaitStrategy(new BusySpinWaitStrategy()) //
             .build();
         this.applyDisruptor.handleEventsWith(new LogEntryAndClosureHandler());
         this.applyDisruptor.setDefaultExceptionHandler(new LogExceptionHandler<Object>(getClass().getSimpleName()));

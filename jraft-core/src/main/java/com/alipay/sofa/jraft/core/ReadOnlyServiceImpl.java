@@ -16,21 +16,6 @@
  */
 package com.alipay.sofa.jraft.core;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.FSMCaller;
 import com.alipay.sofa.jraft.FSMCaller.LastAppliedLogIndexListener;
 import com.alipay.sofa.jraft.ReadOnlyService;
@@ -45,22 +30,21 @@ import com.alipay.sofa.jraft.option.ReadOnlyServiceOptions;
 import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest;
 import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse;
 import com.alipay.sofa.jraft.rpc.RpcResponseClosureAdapter;
-import com.alipay.sofa.jraft.util.Bytes;
-import com.alipay.sofa.jraft.util.DisruptorBuilder;
-import com.alipay.sofa.jraft.util.DisruptorMetricSet;
-import com.alipay.sofa.jraft.util.LogExceptionHandler;
-import com.alipay.sofa.jraft.util.NamedThreadFactory;
-import com.alipay.sofa.jraft.util.OnlyForTest;
-import com.alipay.sofa.jraft.util.ThreadHelper;
-import com.alipay.sofa.jraft.util.Utils;
+import com.alipay.sofa.jraft.util.*;
 import com.google.protobuf.ZeroByteStringHelper;
-import com.lmax.disruptor.BlockingWaitStrategy;
-import com.lmax.disruptor.EventFactory;
-import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.EventTranslator;
-import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Read-only service implementation.
@@ -247,7 +231,7 @@ public class ReadOnlyServiceImpl implements ReadOnlyService, LastAppliedLogIndex
                 .setEventFactory(new ReadIndexEventFactory()) //
                 .setRingBufferSize(this.raftOptions.getDisruptorBufferSize()) //
                 .setThreadFactory(new NamedThreadFactory("JRaft-ReadOnlyService-Disruptor-", true)) //
-                .setWaitStrategy(new BlockingWaitStrategy()) //
+                .setWaitStrategy(new BusySpinWaitStrategy()) //BlockingWaitStrategy
                 .setProducerType(ProducerType.MULTI) //
                 .build();
         this.readIndexDisruptor.handleEventsWith(new ReadIndexEventHandler());

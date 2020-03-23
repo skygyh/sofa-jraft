@@ -23,6 +23,6 @@ public class PMemLogStorageTest extends BaseLogStorageTest {
 
     @Override
     protected LogStorage newLogStorage() {
-        return new PMemLogStorage(new RaftOptions());
+        return new PMemLogStorage(this.path, new RaftOptions());
     }
 }

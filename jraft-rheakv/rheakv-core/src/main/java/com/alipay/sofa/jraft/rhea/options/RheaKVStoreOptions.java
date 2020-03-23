@@ -44,7 +44,7 @@ public class RheaKVStoreOptions {
     private boolean                onlyLeaderRead        = true;
     private RpcOptions             rpcOptions            = RpcOptionsConfigured.newDefaultConfig();
     private int                    failoverRetries       = 2;
-    private long                   futureTimeoutMillis   = 5000;
+    private long                   futureTimeoutMillis   = 10000;
     private boolean                useParallelKVExecutor = true;
     private BatchingOptions        batchingOptions       = BatchingOptionsConfigured.newDefaultConfig();
 

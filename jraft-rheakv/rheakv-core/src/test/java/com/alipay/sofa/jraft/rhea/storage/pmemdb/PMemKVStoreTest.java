@@ -845,16 +845,23 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
     @Test
     public void sealAndDestroyTest() {
         final long id = 1L;
-        final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest2", "RawKV" + id);
+        final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "sealAndDestroyTest", "RawKV" + id);
         PMemRawKVStore store = new PMemRawKVStore(id);
         store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
             .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
         Assert.assertTrue(Files.exists(testDbPath));
 
-        final byte[] key = makeKey("key100");
-        final byte[] value = makeValue("value100");
+        final byte[] key = makeKey("seal_and_destory_store_key");
+        final byte[] value = makeValue("seal_and_destory_store_value");
         store.put(key, value, null);
-        store.seal(id, null);
+        // seal the store
+        boolean success = new SyncKVStore<Boolean>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.seal(id, closure);
+            }
+        }.apply(store);
+        Assert.assertTrue(success);
         try {
             store.put(key, makeValue("unexpected value"), null);
             Assert.fail("Put on sealed store must fail");
@@ -868,7 +875,15 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
             }
         }.apply(store);
         assertArrayEquals(value, newValue);
-        store.destroy(id, null);
+
+        //destroy the store
+        success = new SyncKVStore<Boolean>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.destroy(id, closure);
+            }
+        }.apply(store);
+        Assert.assertTrue(success);
         Assert.assertFalse(Files.exists(testDbPath));
     }
 }

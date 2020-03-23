@@ -28,6 +28,7 @@ import com.alipay.sofa.jraft.option.LogStorageOptions;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.LogStorage;
 import com.alipay.sofa.jraft.util.Describer;
+import com.alipay.sofa.jraft.util.StorageType;
 import lib.util.persistent.ObjectDirectory;
 import lib.util.persistent.PersistentSkipListMap2;
 import lib.util.persistent.PersistentImmutableByteArray;
@@ -61,6 +62,7 @@ public class PMemLogStorage implements LogStorage, Describer {
 
     private static final long                                                    DEFAULT_FIRST_LOG_INDEX = 1L;
 
+    private final String                                                         path;
     private PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> db;
     private PersistentSkipListMap2<PersistentLong, PersistentImmutableByteArray> confDb;
     private volatile long                                                        firstLogIndex           = DEFAULT_FIRST_LOG_INDEX;
@@ -72,8 +74,9 @@ public class PMemLogStorage implements LogStorage, Describer {
     private LogEntryEncoder                                                      logEntryEncoder;
     private LogEntryDecoder                                                      logEntryDecoder;
 
-    public PMemLogStorage(final RaftOptions raftOptions) {
-
+    public PMemLogStorage(final String uri, final RaftOptions raftOptions) {
+        assert uri != null;
+        this.path = uri;
     }
 
     @SuppressWarnings("unchecked")
@@ -95,8 +98,8 @@ public class PMemLogStorage implements LogStorage, Describer {
 
     @Override
     public boolean init(final LogStorageOptions opts) {
-        this.db = createOrLoadDB("persistent_log");
-        this.confDb = createOrLoadDB("persistent_config");
+        this.db = createOrLoadDB(this.path + "_persistent_log");
+        this.confDb = createOrLoadDB(this.path + "_persistent_config");
 
         if (opts != null) {
             this.logEntryDecoder = opts.getLogEntryCodecFactory().decoder();
@@ -215,19 +218,25 @@ public class PMemLogStorage implements LogStorage, Describer {
 
     @Override
     public boolean appendEntry(final LogEntry entry) {
-        if (!validateConsecutive(entry)) {
-            LOG.warn("Appending entries are not consecutive as last log index {}.", getLastLogIndex());
-            truncateSuffix(entry.getId().getIndex() - 1);
-            LOG.warn("Truncated suffix {}", entry.getId());
-        }
+        try {
+            if (!validateConsecutive(entry)) {
+                LOG.warn("Appending entries are not consecutive as last log index {}.", getLastLogIndex());
+                truncateSuffix(entry.getId().getIndex() - 1);
+                LOG.warn("Truncated suffix {}", entry.getId());
+            }
 
-        long index = entry.getId().getIndex();
-        this.db.put(new PersistentLong(index), new PersistentImmutableByteArray(this.logEntryEncoder.encode(entry)));
+            long index = entry.getId().getIndex();
+            this.db
+                .put(new PersistentLong(index), new PersistentImmutableByteArray(this.logEntryEncoder.encode(entry)));
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("appended LogEntry {}", entry);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("appended LogEntry {}", entry);
+            }
+            return true;
+        } catch (Exception e) {
+            LOG.error("failed to appendEntry {}, db.size={}", entry, this.db.size(), e);
+            throw e;
         }
-        return true;
     }
 
     // return true if the entries.get(0).index == getLastLogIndex + 1
@@ -246,23 +255,28 @@ public class PMemLogStorage implements LogStorage, Describer {
 
     @Override
     public int appendEntries(final List<LogEntry> entries) {
-        if (!validateConsecutive(entries)) {
-            LOG.warn("Appending entries are not consecutive as last log index {}.", getLastLogIndex());
-            truncateSuffix(entries.get(0).getId().getIndex() - 1);
-            LOG.warn("Truncated suffix {}", entries.get(0).getId());
-        }
+        try {
+            if (!validateConsecutive(entries)) {
+                LOG.warn("Appending entries are not consecutive as last log index {}.", getLastLogIndex());
+                truncateSuffix(entries.get(0).getId().getIndex() - 1);
+                LOG.warn("Truncated suffix {}", entries.get(0).getId());
+            }
 
-        if (!this.db.isEmpty()) {
-            setFirstLogIndex(this.db.firstKey().longValue()); // to remove
+            if (!this.db.isEmpty()) {
+                setFirstLogIndex(this.db.firstKey().longValue()); // to remove
+            }
+            for (LogEntry entry : entries) {
+                this.db.put(new PersistentLong(entry.getId().getIndex()), new PersistentImmutableByteArray(
+                    this.logEntryEncoder.encode(entry)));
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("appended {} LogEntries. Last Log Index reaches {}", entries.size(), getLastLogIndex());
+            }
+            return entries.size();
+        } catch (Exception e) {
+            LOG.error("failed to appendEntries {}, db.size={}", entries.size(), this.db.size(), e);
+            throw e;
         }
-        for (LogEntry entry : entries) {
-            this.db.put(new PersistentLong(entry.getId().getIndex()), new PersistentImmutableByteArray(
-                this.logEntryEncoder.encode(entry)));
-        }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("appended {} LogEntries. Last Log Index reaches {}", entries.size(), getLastLogIndex());
-        }
-        return entries.size();
     }
 
     // validate entires, add conf into confDb if there is CONFIGURATION logEntry.

@@ -22,6 +22,6 @@ import com.alipay.sofa.jraft.storage.LogStorage;
 public class PMemLogManagerTest extends LogManagerTest {
     @Override
     public LogStorage newLogStorage(final RaftOptions raftOptions) {
-        return new PMemLogStorage(raftOptions);
+        return new PMemLogStorage(this.path, raftOptions);
     }
 }

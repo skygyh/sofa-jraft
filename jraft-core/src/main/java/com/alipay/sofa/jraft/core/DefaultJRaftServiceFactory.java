@@ -52,7 +52,7 @@ public class DefaultJRaftServiceFactory implements JRaftServiceFactory {
         if (raftOptions.getLogType() == StorageType.Memory) {
             return new MemoryLogStorage(raftOptions);
         } else if (raftOptions.getLogType() == StorageType.PMem) {
-            return new PMemLogStorage(raftOptions);
+            return new PMemLogStorage(uri, raftOptions);
         } else {
             return new RocksDBLogStorage(uri, raftOptions);
         }

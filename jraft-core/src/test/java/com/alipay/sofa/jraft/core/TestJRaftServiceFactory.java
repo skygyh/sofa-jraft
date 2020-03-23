@@ -18,23 +18,24 @@ package com.alipay.sofa.jraft.core;
 
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.LogStorage;
-import com.alipay.sofa.jraft.storage.log.RocksDBSegmentLogStorage;
 import com.alipay.sofa.jraft.storage.impl.MemoryLogStorage;
-import com.alipay.sofa.jraft.storage.impl.RocksDBLogStorage;
+import com.alipay.sofa.jraft.storage.impl.PMemLogStorage;
+import com.alipay.sofa.jraft.storage.log.RocksDBSegmentLogStorage;
+import com.alipay.sofa.jraft.util.StorageType;
 
 public class TestJRaftServiceFactory extends DefaultJRaftServiceFactory {
 
     @Override
     public LogStorage createLogStorage(final String uri, final RaftOptions raftOptions) {
-        return RocksDBSegmentLogStorage.builder(uri, raftOptions) //
-            .setPreAllocateSegmentCount(1) //
-            .setKeepInMemorySegmentCount(2) //
-            .setMaxSegmentFileSize(512 * 1024) //
-            .setValueSizeThreshold(0) //
-            .build();
-
-        //return new RocksDBLogStorage(uri, raftOptions);
-        //return new MemoryLogStorage(raftOptions);
+        if (raftOptions.getLogType() == StorageType.Memory) {
+            return new MemoryLogStorage(raftOptions);
+        } else if (raftOptions.getLogType() == StorageType.PMem) {
+            return new PMemLogStorage(uri, raftOptions);
+        } else {
+            //return new RocksDBLogStorage(uri, raftOptions);
+            return RocksDBSegmentLogStorage.builder(uri, raftOptions).setPreAllocateSegmentCount(1)
+                .setKeepInMemorySegmentCount(2).setMaxSegmentFileSize(512 * 1024).setValueSizeThreshold(0).build();
+        }
     }
 
 }
