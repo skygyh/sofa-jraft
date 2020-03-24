@@ -921,11 +921,16 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
     @Override
     public CompletableFuture<Sequence> getSequence(final byte[] seqKey, final int step) {
+        return getSequence(ANY_REGION_ID, seqKey, step);
+    }
+
+    @Override
+    public CompletableFuture<Sequence> getSequence(final long regionId, final byte[] seqKey, final int step) {
         checkState();
         Requires.requireNonNull(seqKey, "seqKey");
         Requires.requireTrue(step >= 0, "step must >= 0");
         final CompletableFuture<Sequence> future = new CompletableFuture<>();
-        internalGetSequence(seqKey, step, future, this.failoverRetries, null);
+        internalGetSequence(seqKey, step, future, this.failoverRetries, null, regionId);
         return future;
     }
 
@@ -935,13 +940,28 @@ public class DefaultRheaKVStore implements RheaKVStore {
     }
 
     @Override
+    public CompletableFuture<Sequence> getSequence(final long regionId, final String seqKey, final int step) {
+        return getSequence(regionId, BytesUtil.writeUtf8(seqKey), step);
+    }
+
+    @Override
     public Sequence bGetSequence(final byte[] seqKey, final int step) {
         return FutureHelper.get(getSequence(seqKey, step), this.futureTimeoutMillis);
     }
 
     @Override
+    public Sequence bGetSequence(final long regionId, final byte[] seqKey, final int step) {
+        return FutureHelper.get(getSequence(regionId, seqKey, step), this.futureTimeoutMillis);
+    }
+
+    @Override
     public Sequence bGetSequence(final String seqKey, final int step) {
         return FutureHelper.get(getSequence(seqKey, step), this.futureTimeoutMillis);
+    }
+
+    @Override
+    public Sequence bGetSequence(final long regionId, final String seqKey, final int step) {
+        return FutureHelper.get(getSequence(regionId, seqKey, step), this.futureTimeoutMillis);
     }
 
     @Override
@@ -958,8 +978,26 @@ public class DefaultRheaKVStore implements RheaKVStore {
     }
 
     @Override
+    public CompletableFuture<Long> getLatestSequence(final long regionId, final byte[] seqKey) {
+        final CompletableFuture<Long> cf = new CompletableFuture<>();
+        getSequence(regionId, seqKey, 0).whenComplete((sequence, throwable) -> {
+            if (throwable == null) {
+                cf.complete(sequence.getStartValue());
+            } else {
+                cf.completeExceptionally(throwable);
+            }
+        });
+        return cf;
+    }
+
+    @Override
     public CompletableFuture<Long> getLatestSequence(final String seqKey) {
         return getLatestSequence(BytesUtil.writeUtf8(seqKey));
+    }
+
+    @Override
+    public CompletableFuture<Long> getLatestSequence(final long regionId, final String seqKey) {
+        return getLatestSequence(regionId, BytesUtil.writeUtf8(seqKey));
     }
 
     @Override
@@ -968,16 +1006,27 @@ public class DefaultRheaKVStore implements RheaKVStore {
     }
 
     @Override
+    public Long bGetLatestSequence(final long regionId, final byte[] seqKey) {
+        return FutureHelper.get(getLatestSequence(regionId, seqKey), this.futureTimeoutMillis);
+    }
+
+    @Override
     public Long bGetLatestSequence(final String seqKey) {
         return FutureHelper.get(getLatestSequence(seqKey), this.futureTimeoutMillis);
     }
 
+    @Override
+    public Long bGetLatestSequence(final long regionId, final String seqKey) {
+        return FutureHelper.get(getLatestSequence(regionId, seqKey), this.futureTimeoutMillis);
+    }
+
     private void internalGetSequence(final byte[] seqKey, final int step, final CompletableFuture<Sequence> future,
-                                     final int retriesLeft, final Errors lastCause) {
-        final Region region = this.pdClient.findRegionByKey(seqKey, ErrorsHelper.isInvalidEpoch(lastCause));
+                                     final int retriesLeft, final Errors lastCause, final long regionId) {
+        final Region region = (regionId == ANY_REGION_ID) ? this.pdClient.findRegionByKey(seqKey, ErrorsHelper.isInvalidEpoch(lastCause)) :
+                this.pdClient.getRegionById(regionId);
         final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
         final RetryRunner retryRunner = retryCause -> internalGetSequence(seqKey, step, future,
-                retriesLeft - 1, retryCause);
+                retriesLeft - 1, retryCause, regionId);
         final FailoverClosure<Sequence> closure = new FailoverClosureImpl<>(future, retriesLeft, retryRunner);
         if (regionEngine != null) {
             if (ensureOnValidEpoch(region, regionEngine, closure)) {
@@ -995,10 +1044,15 @@ public class DefaultRheaKVStore implements RheaKVStore {
 
     @Override
     public CompletableFuture<Boolean> resetSequence(final byte[] seqKey) {
+        return resetSequence(ANY_REGION_ID, seqKey);
+    }
+
+    @Override
+    public CompletableFuture<Boolean> resetSequence(final long regionId, final byte[] seqKey) {
         checkState();
         Requires.requireNonNull(seqKey, "seqKey");
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
-        internalResetSequence(seqKey, future, this.failoverRetries, null);
+        internalResetSequence(seqKey, future, this.failoverRetries, null, regionId);
         return future;
     }
 
@@ -1008,8 +1062,18 @@ public class DefaultRheaKVStore implements RheaKVStore {
     }
 
     @Override
+    public CompletableFuture<Boolean> resetSequence(final long regionId, final String seqKey) {
+        return resetSequence(regionId, BytesUtil.writeUtf8(seqKey));
+    }
+
+    @Override
     public Boolean bResetSequence(final byte[] seqKey) {
         return FutureHelper.get(resetSequence(seqKey), this.futureTimeoutMillis);
+    }
+
+    @Override
+    public Boolean bResetSequence(final long regionId, final byte[] seqKey) {
+        return FutureHelper.get(resetSequence(regionId, seqKey), this.futureTimeoutMillis);
     }
 
     @Override
@@ -1017,12 +1081,18 @@ public class DefaultRheaKVStore implements RheaKVStore {
         return FutureHelper.get(resetSequence(seqKey), this.futureTimeoutMillis);
     }
 
+    @Override
+    public Boolean bResetSequence(final long regionId, final String seqKey) {
+        return FutureHelper.get(resetSequence(regionId, seqKey), this.futureTimeoutMillis);
+    }
+
     private void internalResetSequence(final byte[] seqKey, final CompletableFuture<Boolean> future,
-                                       final int retriesLeft, final Errors lastCause) {
-        final Region region = this.pdClient.findRegionByKey(seqKey, ErrorsHelper.isInvalidEpoch(lastCause));
+                                       final int retriesLeft, final Errors lastCause, final long regionId) {
+        final Region region = (regionId == ANY_REGION_ID) ? this.pdClient.findRegionByKey(seqKey, ErrorsHelper.isInvalidEpoch(lastCause)) :
+                this.pdClient.getRegionById(regionId);
         final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
         final RetryRunner retryRunner = retryCause -> internalResetSequence(seqKey, future, retriesLeft - 1,
-                retryCause);
+                retryCause, regionId);
         final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft, retryRunner);
         if (regionEngine != null) {
             if (ensureOnValidEpoch(region, regionEngine, closure)) {

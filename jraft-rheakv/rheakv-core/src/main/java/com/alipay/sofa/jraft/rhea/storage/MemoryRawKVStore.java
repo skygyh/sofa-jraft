@@ -661,13 +661,14 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void destroy(final long regionId, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DESTROY");
         try {
-            if (regionId != this.regionId) {
+            LOG.warn("Start to destroy MemoryRawKVStore [regionId = {}]", regionId);
+            if (this.regionId != -1L && regionId != this.regionId) {
                 throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
                     this.regionId));
             }
             shutdown();
             setSuccess(closure, Boolean.TRUE);
-            LOG.info("destroyed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+            LOG.warn("Destroyed MemoryRawKVStore [regionId = {}] successfully", this.regionId);
         } catch (final Exception e) {
             LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DESTROY]", e);
@@ -680,13 +681,14 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     public void seal(final long regionId, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("SEAL");
         try {
-            if (regionId != this.regionId) {
+            LOG.warn("Start to seal MemoryRawKVStore [regionId = {}]", regionId);
+            if (this.regionId != -1L && regionId != this.regionId) {
                 throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
                     this.regionId));
             }
             this.writable = false;
             setSuccess(closure, Boolean.TRUE);
-            LOG.info("sealed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+            LOG.warn("Sealed MemoryRawKVStore [regionId = {}] successfully", this.regionId);
         } catch (final Exception e) {
             LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [SEAL]", e);

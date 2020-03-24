@@ -214,6 +214,12 @@ public class KVStoreStateMachine extends StateMachineAdapter {
             case KVOperation.BATCH_OP:
                 this.rawKVStore.batchComposite(kvStates);
                 break;
+            case KVOperation.DESTROY:
+                this.rawKVStore.batchDestroy(kvStates);
+                break;
+            case KVOperation.SEAL:
+                this.rawKVStore.batchSeal(kvStates);
+                break;
             default:
                 throw new IllegalKVOperationException("Unknown operation: " + opType);
         }

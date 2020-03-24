@@ -178,6 +178,20 @@ public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
         }
     }
 
+    public void batchDestroy(final KVStateOutputList kvStates) {
+        for (int i = 0, l = kvStates.size(); i < l; i++) {
+            final KVState kvState = kvStates.get(i);
+            destroy(kvState.getOp().getRegionId(), kvState.getDone());
+        }
+    }
+
+    public void batchSeal(final KVStateOutputList kvStates) {
+        for (int i = 0, l = kvStates.size(); i < l; i++) {
+            final KVState kvState = kvStates.get(i);
+            seal(kvState.getOp().getRegionId(), kvState.getDone());
+        }
+    }
+
     // called by batch in subclass RawKVStore
     protected void doBatch(final List<KVOperation> kvOperations, final KVStoreClosure closure) throws StorageException {
         final List<KVStoreClosure> subClosures = new ArrayList<>(kvOperations.size());
@@ -266,6 +280,12 @@ public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
             case KVOperation.BATCH_OP:
                 // seriously
                 doSingleOperation(op, closure);
+                break;
+            case KVOperation.DESTROY:
+                destroy(op.getRegionId(), closure);
+                break;
+            case KVOperation.SEAL:
+                seal(op.getRegionId(), closure);
                 break;
             default:
                 closure.setError(Errors.INVALID_PARAMETER);

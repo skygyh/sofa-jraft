@@ -765,12 +765,15 @@ public class DefaultRegionKVService implements RegionKVService {
                     kvOperations.add(KVOperation.createContainsKey(((ContainsKeyRequest) subRequest).getKey()));
                     break;
                 case BaseRequest.BATCH_COMPOSITE:
+                    LOG.warn("Recursive BATCH_COMPOSITE should not be used");
                     kvOperations.addAll(getKvOperations((BatchCompositeRequest) subRequest));
                     break;
                 case BaseRequest.DESTROY_REGION:
-                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                    kvOperations.add(KVOperation.createDestroy(((DestroyRegionRequest) subRequest).getRegionId()));
+                    break;
                 case BaseRequest.SEAL_REGION:
-                    throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
+                    kvOperations.add(KVOperation.createSeal(((SealRegionRequest) subRequest).getRegionId()));
+                    break;
                 default:
                     throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
             }

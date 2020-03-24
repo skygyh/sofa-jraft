@@ -395,20 +395,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Sequence> getSequence(final byte[] seqKey, final int step);
 
+    CompletableFuture<Sequence> getSequence(final long regionId, final byte[] seqKey, final int step);
+
     /**
      * @see #getSequence(byte[], int)
      */
     CompletableFuture<Sequence> getSequence(final String seqKey, final int step);
+
+    CompletableFuture<Sequence> getSequence(final long regionId, final String seqKey, final int step);
 
     /**
      * @see #getSequence(byte[], int)
      */
     Sequence bGetSequence(final byte[] seqKey, final int step);
 
+    Sequence bGetSequence(final long regionId, final byte[] seqKey, final int step);
+
     /**
      * @see #getSequence(byte[], int)
      */
     Sequence bGetSequence(final String seqKey, final int step);
+
+    Sequence bGetSequence(final long regionId, final String seqKey, final int step);
 
     /**
      * Gets the latest sequence start value, this is a read-only operation.
@@ -422,20 +430,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Long> getLatestSequence(final byte[] seqKey);
 
+    CompletableFuture<Long> getLatestSequence(final long regionId, final byte[] seqKey);
+
     /**
      * @see #getLatestSequence(byte[])
      */
     CompletableFuture<Long> getLatestSequence(final String seqKey);
+
+    CompletableFuture<Long> getLatestSequence(final long regionId, final String seqKey);
 
     /**
      * @see #getLatestSequence(byte[])
      */
     Long bGetLatestSequence(final byte[] seqKey);
 
+    Long bGetLatestSequence(final long regionId, final byte[] seqKey);
+
     /**
      * @see #getLatestSequence(byte[])
      */
     Long bGetLatestSequence(final String seqKey);
+
+    Long bGetLatestSequence(final long regionId, final String seqKey);
 
     /**
      * Reset the sequence to 0.
@@ -444,20 +460,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     CompletableFuture<Boolean> resetSequence(final byte[] seqKey);
 
+    CompletableFuture<Boolean> resetSequence(final long regionId, final byte[] seqKey);
+
     /**
      * @see #resetSequence(byte[])
      */
     CompletableFuture<Boolean> resetSequence(final String seqKey);
+
+    CompletableFuture<Boolean> resetSequence(final long regionId, final String seqKey);
 
     /**
      * @see #resetSequence(byte[])
      */
     Boolean bResetSequence(final byte[] seqKey);
 
+    Boolean bResetSequence(final long regionId, final byte[] seqKey);
+
     /**
      * @see #resetSequence(byte[])
      */
     Boolean bResetSequence(final String seqKey);
+
+    Boolean bResetSequence(final long regionId, final String seqKey);
 
     /**
      * Set the database entry for "key" to "value".

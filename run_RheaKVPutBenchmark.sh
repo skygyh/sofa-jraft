@@ -7,7 +7,7 @@ export VERSION=`awk -F '[<>]' '/<version>/{print $3}' pom.xml | head -n 1`
 export BOLTVER=`awk -F '[<>]' '/<bolt.version>/{print $3}' pom.xml | head -n 1`
 export DATABIND_VER=`awk -F '[<>]' '/<jackson.databind.version>/{print $3}' jraft-rheakv/rheakv-core/pom.xml | head -n 1` # 2.9.10.1
 export DATAFORMAT_VER=`awk -F '[<>]' '/<jackson.dataformat.version>/{print $3}' jraft-rheakv/rheakv-core/pom.xml | head -n 1`
-export NETTY_VER=4.1.25 #42
+export NETTY_VER=4.1.42
 echo "HOME=$HOME"
 pushd `pwd`
 cd jraft-rheakv/rheakv-core/target/test-classes

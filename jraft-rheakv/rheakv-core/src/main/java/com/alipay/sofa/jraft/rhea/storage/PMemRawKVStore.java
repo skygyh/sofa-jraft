@@ -815,7 +815,9 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void destroy(final long regionId, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DESTROY");
         try {
-            if (regionId != this.regionId) {
+            LOG.warn("Start to destroy PMemRawKVStore [regionId = {}]", regionId);
+            // Don't check if regionId is -1L,which indicates it belongs to ANY region.
+            if (this.regionId != -1L && regionId != this.regionId) {
                 throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
                     this.regionId));
             }
@@ -823,13 +825,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             for (String fileName : DB_FILE_NAMES) {
                 Path fullPath = Paths.get(this.opts.getDbPath(), fileName);
                 if (Files.exists(fullPath)) {
-                    LOG.info("deleting {} [regionId = {}]", fullPath, this.regionId);
+                    LOG.warn("deleting {} [regionId = {}]", fullPath, this.regionId);
                     Files.deleteIfExists(fullPath);
                 }
             }
             Files.delete(Paths.get(this.opts.getDbPath()));
             setSuccess(closure, Boolean.TRUE);
-            LOG.info("destroyed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+            LOG.warn("Destroyed PMemRawKVStore [regionId = {}] successfully", this.regionId);
         } catch (final Exception e) {
             LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DESTROY]", e);
@@ -842,20 +844,21 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void seal(final long regionId, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("SEAL");
         try {
-            if (regionId != this.regionId) {
+            LOG.warn("Start to seal PMemRawKVStore [regionId = {}]", regionId);
+            // Don't check if regionId is -1L,which indicates it belongs to ANY region.
+            if (this.regionId != -1L && regionId != this.regionId) {
                 throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
                     this.regionId));
             }
             this.writable = false;
             setSuccess(closure, Boolean.TRUE);
-            LOG.info("sealed PMemRawKVStore [regionId = {}] successfully", this.regionId);
+            LOG.warn("Sealed PMemRawKVStore [regionId = {}] successfully", this.regionId);
         } catch (final Exception e) {
             LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [SEAL]", e);
         } finally {
             timeCtx.stop();
         }
-
     }
 
     @Override
