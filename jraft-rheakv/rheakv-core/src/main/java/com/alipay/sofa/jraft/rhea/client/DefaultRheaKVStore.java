@@ -280,6 +280,9 @@ public class DefaultRheaKVStore implements RheaKVStore {
         if (this.putBatching != null) {
             this.putBatching.shutdown();
         }
+        if (this.compositeBatching != null) {
+            this.compositeBatching.shutdown();
+        }
         this.stateListenerContainer.clear();
         LOG.info("[DefaultRheaKVStore] shutdown successfully.");
     }
@@ -824,7 +827,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
         final Region region = (regionId == ANY_REGION_ID) ? this.pdClient.findRegionByKey(startKey, ErrorsHelper.isInvalidEpoch(lastCause)) :
                 this.pdClient.getRegionById(regionId);
         final byte[] regionEndKey = region.getEndKey();
-        final byte[] realEndKey = regionEndKey == null ? endKey :
+        final byte[] realEndKey = (regionId != ANY_REGION_ID || regionEndKey == null) ? endKey :
                 (endKey == null ? regionEndKey : BytesUtil.min(regionEndKey, endKey));
         final RegionEngine regionEngine = getRegionEngine(region.getId(), requireLeader);
         // require leader on retry
