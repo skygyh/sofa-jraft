@@ -16,24 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.alipay.sofa.jraft.Node;
 import com.alipay.sofa.jraft.RaftGroupService;
 import com.alipay.sofa.jraft.Status;
@@ -48,11 +30,24 @@ import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.util.ThrowUtil;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Endpoint;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 import static com.alipay.sofa.jraft.core.State.STATE_ERROR;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author jiachun.fjc
@@ -107,7 +102,7 @@ public class KVStateMachineTest {
             Thread.sleep(100);
         }
 
-        final RawKVStore rawKVStore = storeEngine.getRawKVStore();
+        final RawKVStore rawKVStore = storeEngine.getRawKVStore(region.getId());
         this.raftRawKVStore = new RaftRawKVStore(node, rawKVStore, null);
     }
 
@@ -197,6 +192,10 @@ public class KVStateMachineTest {
 
         private int putIndex = 0;
 
+        MockKVStore(final long regionId) {
+            super(regionId);
+        }
+
         @Override
         public void put(byte[] key, byte[] value, KVStoreClosure closure) {
             if (this.putIndex++ < SUCCESS_COUNT) {
@@ -245,16 +244,16 @@ public class KVStateMachineTest {
 
     static class MockStoreEngine extends StoreEngine {
 
-        private final MockKVStore     mockKVStore        = new MockKVStore();
-        private final ExecutorService leaderStateTrigger = Executors.newSingleThreadExecutor();
+        private final Map<Long, MockKVStore> mockKVStores       = new HashMap<>();
+        private final ExecutorService        leaderStateTrigger = Executors.newSingleThreadExecutor();
 
         public MockStoreEngine() {
             super(new MockPlacementDriverClient(), new StateListenerContainer<>());
         }
 
         @Override
-        public BatchRawKVStore<?> getRawKVStore() {
-            return this.mockKVStore;
+        public BatchRawKVStore<?> getRawKVStore(final long regionId) {
+            return this.mockKVStores.computeIfAbsent(regionId, k -> new MockKVStore(regionId));
         }
 
         @Override

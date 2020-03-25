@@ -70,7 +70,7 @@ public class KVStoreStateMachine extends StateMachineAdapter {
     public KVStoreStateMachine(Region region, StoreEngine storeEngine) {
         this.region = region;
         this.storeEngine = storeEngine;
-        this.rawKVStore = storeEngine.getRawKVStore();
+        this.rawKVStore = storeEngine.getRawKVStore(region.getId());
         this.storeSnapshotFile = KVStoreSnapshotFileFactory.getKVStoreSnapshotFile(this.rawKVStore);
         final String regionStr = String.valueOf(this.region.getId());
         this.applyMeter = KVMetrics.meter(STATE_MACHINE_APPLY_QPS, regionStr);

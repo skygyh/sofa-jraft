@@ -9,6 +9,8 @@ storeEngineOptions:
   rocksDBOptions:
     sync: false
     dbPath: /mnt/mem/benchmark_rhea_db/
+  pmemDBOptions:
+    dbPath: /mnt/mem/benchmark_rhea_db/
   raftDataPath: /mnt/mem/benchmark_rhea_raft/
   serverAddress:
     ip: 127.0.0.1

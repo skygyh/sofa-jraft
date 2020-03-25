@@ -24,11 +24,11 @@ import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import com.alipay.sofa.jraft.rhea.storage.Sequence;
-import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.rhea.util.ByteArray;
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.rhea.util.concurrent.DistributedLock;
 import com.alipay.sofa.jraft.util.BytesUtil;
+import com.alipay.sofa.jraft.util.StorageType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -258,11 +258,11 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
      * Test method: {@link RheaKVStore#scan(byte[], byte[])}
      */
     private void scanTest(RheaKVStore store) {
-        // regions: 1 -> [0, 10) : scan_test_key_0~10, no_scan_test_key_0~10
-        //          2 -> [5, 15) : scan_test_key_5~15, no_scan_test_key_5~15
+        // regions: 1 -> [0, 8) : scan_test_key_0~8, no_scan_test_key_0~8
+        //          2 -> [2, 10) : scan_test_key_2~10, no_scan_test_key_2~10
         List<byte[]> keyList1 = Lists.newArrayList();
         List<byte[]> valueList1 = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             byte[] key = makeKey("scan_test_key_" + i);
             assertFalse(store.bContainsKey(1L, key));
             byte[] value = makeValue("scan_test_value_" + i);
@@ -271,7 +271,7 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             store.bPut(1L, key, value);
             assertTrue(store.bContainsKey(1L, key));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             byte[] key = makeKey("no_scan_test_key_" + i);
             assertFalse(store.bContainsKey(1L, key));
             byte[] value = makeValue("no_scan_test_value_" + i);
@@ -281,7 +281,7 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
 
         List<byte[]> keyList2 = Lists.newArrayList();
         List<byte[]> valueList2 = Lists.newArrayList();
-        for (int i = 5; i < 15; i++) {
+        for (int i = 2; i < 10; i++) {
             byte[] key = makeKey("scan_test_key_" + i);
             assertFalse(store.bContainsKey(2L, key));
             byte[] value = makeValue("scan_test_value_" + i);
@@ -290,7 +290,7 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             store.bPut(2L, key, value);
             assertTrue(store.bContainsKey(2L, key));
         }
-        for (int i = 5; i < 15; i++) {
+        for (int i = 2; i < 10; i++) {
             byte[] key = makeKey("no_scan_test_key_" + i);
             assertFalse(store.bContainsKey(2L, key));
             byte[] value = makeValue("no_scan_test_value_" + i);
@@ -376,10 +376,10 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
 
         {
             List<KVEntry> entries = store.bScan(1L, null, makeKey("no_scan_test_key_" + 99));
-            assertEquals(entries.size(), 10);
+            assertEquals(entries.size(), 8);
 
             entries = store.bScan(1L, "no_", null);
-            assertEquals(entries.size(), 10);
+            assertEquals(entries.size(), 16);
         }
 
         /// Region 2
@@ -450,10 +450,10 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
 
         {
             List<KVEntry> entries = store.bScan(2L, null, makeKey("no_scan_test_key_" + 99));
-            assertEquals(entries.size(), 10);
+            assertEquals(entries.size(), 8);
 
             entries = store.bScan(2L, "no_", null);
-            assertEquals(entries.size(), 10);
+            assertEquals(entries.size(), 16);
         }
     }
 
@@ -976,8 +976,12 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             entries.add(new KVEntry(2L, key, value));
         }
         store.bPut(entries);
+        dumpRegion(store, 1L, "after put del_range_test0~9 on both regions ");
+        dumpRegion(store, 2L, "after put del_range_test0~9 on both regions ");
         // delete region 1 [del_range_test5, del_range_test8)
         store.bDeleteRange(1L, makeKey("del_range_test5"), makeKey("del_range_test8"));
+        dumpRegion(store, 1L, "after bDeleteRange del_range_test567 in region1 ");
+        dumpRegion(store, 2L, "after bDeleteRange del_range_test567 in region1 ");
         List<KVEntry> entries2 = store.bScan(1L, makeKey("del_range_test"), makeKey("del_range_test" + 99));
         assertEquals(7, entries2.size());
         byte[] value = store.bGet(1L, makeKey("del_range_test5"));
@@ -1313,12 +1317,14 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         RheaKVStore store = getRandomLeaderStore();
         // regions: 1 -> [a, z], 2 -> [h]
         store.bPut(1L, "a_restart_all_with_leader_test", makeValue("a_restart_all_with_leader_test_value"));
-        store.bPut(2L, "h_restart_all_with_leader_test", makeValue("h_restart_all_with_leader_test_value"));
-        store.bPut(1L, "z_restart_all_with_leader_test", makeValue("z_restart_all_with_leader_test_value"));
+        store.bPut(2L, "b_restart_all_with_leader_test", makeValue("b_restart_all_with_leader_test_value"));
 
-        store.bGetSequence(1L, "a_restart_all_with_leader_test", 10);
-        store.bGetSequence(2L, "h_restart_all_with_leader_test", 11);
-        store.bGetSequence(1L, "z_restart_all_with_leader_test", 12);
+        store.resetSequence(1L, "a_restart_all_with_leader_seqTest");
+        store.resetSequence(2L, "b_restart_all_with_leader_seqTest");
+        assertEquals(0L, store.bGetSequence(1L, "a_restart_all_with_leader_seqTest", 10).getStartValue());
+        assertEquals(11L, store.bGetSequence(2L, "b_restart_all_with_leader_seqTest", 11).getEndValue());
+        assertEquals(10L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_seqTest").longValue());
+        assertEquals(11L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_seqTest").longValue());
 
         shutdown(false);
 
@@ -1326,18 +1332,23 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
 
         store = getRandomLeaderStore();
 
-        assertArrayEquals(makeValue("a_restart_all_with_leader_test"), store.bGet(1L, "a_restart_all_with_leader_test"));
-        assertArrayEquals(makeValue("h_restart_all_with_leader_test"), store.bGet(2L, "h_restart_all_with_leader_test"));
-        assertArrayEquals(makeValue("z_restart_all_with_leader_test"), store.bGet(1L, "z_restart_all_with_leader_test"));
+        assertArrayEquals(makeValue("a_restart_all_with_leader_test_value"),
+            store.bGet(1L, "a_restart_all_with_leader_test"));
+        assertArrayEquals(makeValue("b_restart_all_with_leader_test_value"),
+            store.bGet(2L, "b_restart_all_with_leader_test"));
 
         assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_leader_seqTest", 1).getStartValue());
-        assertEquals(11, store.bGetSequence(2L, "h_restart_all_with_leader_seqTest", 1).getStartValue());
-        assertEquals(12, store.bGetSequence(1L, "z_restart_all_with_leader_seqTest", 1).getStartValue());
+        assertEquals(11, store.bGetSequence(2L, "b_restart_all_with_leader_seqTest", 1).getStartValue());
+        assertEquals(11L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_seqTest").longValue());
+        assertEquals(12L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_seqTest").longValue());
     }
 
     @Test
     public void restartAllWithFollowerTest() throws Exception {
         RheaKVStore store = getRandomFollowerStore();
+        store.resetSequence(1L, "a_restart_all_with_follower_seqTest");
+        store.resetSequence(2L, "h_restart_all_with_follower_seqTest");
+        store.resetSequence(1L, "z_restart_all_with_follower_seqTest");
         // regions: 1 -> [a, z], 2 -> [h]
         store.bPut(1L, "a_restart_all_with_follower_test", makeValue("a_restart_all_with_follower_test_value"));
         store.bPut(2L, "h_restart_all_with_follower_test", makeValue("h_restart_all_with_follower_test_value"));
@@ -1354,11 +1365,11 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         store = getRandomFollowerStore();
 
         assertArrayEquals(makeValue("a_restart_all_with_follower_test_value"),
-            store.bGet(1L, "a_restart_all_with_follower_test_value"));
+            store.bGet(1L, "a_restart_all_with_follower_test"));
         assertArrayEquals(makeValue("h_restart_all_with_follower_test_value"),
-            store.bGet(2L, "h_restart_all_with_follower_test_value"));
+            store.bGet(2L, "h_restart_all_with_follower_test"));
         assertArrayEquals(makeValue("z_restart_all_with_follower_test_value"),
-            store.bGet(1L, "z_restart_all_with_follower_test_value"));
+            store.bGet(1L, "z_restart_all_with_follower_test"));
 
         assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_follower_seqTest", 1).getStartValue());
         assertEquals(11, store.bGetSequence(2L, "h_restart_all_with_follower_seqTest", 1).getStartValue());
@@ -1369,8 +1380,11 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         // duplicated key in two regions
         final String key1 = "a_destroy_region_test";
         final String key2 = "a_destroy_region_test";
-        assertTrue(store.bPut(1L, key1, makeValue("destroy_region_test_value")));
-        assertTrue(store.bPut(2L, key2, makeValue("destroy_region_test_value")));
+        final byte[] value = makeValue("a_destroy_region_test_value");
+        assertTrue(store.bPut(1L, key1, value));
+        assertTrue(store.bPut(2L, key2, value));
+        dumpRegion(store, 1L, "After put key in both regions");
+        dumpRegion(store, 2L, "After put key in both regions");
         boolean success = false;
         try {
             success = store.destroyRegion(1L).get();
@@ -1378,19 +1392,20 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             fail("failed to destroy region 1 : " + e.getMessage());
         }
         assertTrue(success);
-        byte[] value = store.bGet(1L, key1);
-        assertNull(value);
+        byte[] value1 = store.bGet(1L, key1);
+        assertNull(value1);
 
-        value = store.bGet(2L, key1);
-        assertNotNull(value);
+        byte[] value2 = store.bGet(2L, key2);
+        assertNotNull(value2);
+        assertArrayEquals(value2, value);
         try {
             success = store.destroyRegion(2L).get();
         } catch (InterruptedException | ExecutionException e) {
             fail("failed to destroy region 2 : " + e);
         }
         assertTrue(success);
-        value = store.bGet(2L, key1);
-        assertNull(value);
+        value2 = store.bGet(2L, key2);
+        assertNull(value2);
     }
 
     @Test
@@ -1407,16 +1422,16 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         final String key = "a_seal_region_test";
         final byte[] value = makeValue("seal_region_test_value");
         store.bPut(1L, key, value);
-        store.sealRegion(1L);
         boolean success = false;
         try {
             success = store.sealRegion(1L).get();
         } catch (InterruptedException | ExecutionException e) {
-            fail("failed to destroy region 1 : " + e);
+            fail("failed to seal region 1 : " + e);
         }
         assertTrue(success);
-        final byte[] update = makeValue("seal_region_test_update");
-        assertFalse(store.bPut(1L, key, update));
+        // update on sealed store would cause fatal error
+        //final byte[] update = makeValue("seal_region_test_update");
+        //assertFalse(store.bPut(1L, key, update));
         assertArrayEquals(value, store.bGet(1L, key));
     }
 

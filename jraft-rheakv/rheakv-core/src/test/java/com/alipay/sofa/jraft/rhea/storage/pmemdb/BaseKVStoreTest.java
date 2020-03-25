@@ -19,24 +19,29 @@ package com.alipay.sofa.jraft.rhea.storage.pmemdb;
 import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
 import com.alipay.sofa.jraft.rhea.options.configured.PMemDBOptionsConfigured;
 import com.alipay.sofa.jraft.rhea.storage.PMemRawKVStore;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class BaseKVStoreTest {
 
     protected PMemRawKVStore kvStore;
     protected PMemDBOptions  dbOptions;
+    protected final String   dbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest").toString();
 
-    protected void setup() throws Exception {
+    protected void setup(boolean forceCreate) throws Exception {
         this.kvStore = new PMemRawKVStore();
         this.dbOptions = PMemDBOptionsConfigured.newConfigured().withPmemDataSize(512 * 1024 * 1024)
-            .withPmemMetaSize(64 * 1024 * 1024)
-            .withDbPath(Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest").toString()).withForceCreate(true)
-            .config();
+            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(this.dbPath).withForceCreate(forceCreate).config();
         this.kvStore.init(this.dbOptions);
     }
 
-    protected void tearDown() throws Exception {
+    protected void tearDown(boolean deleteFiles) throws Exception {
         this.kvStore.shutdown();
+        if (deleteFiles && (Files.exists(Paths.get(this.dbPath)))) {
+            FileUtils.forceDelete(new File(this.dbPath));
+        }
     }
 }

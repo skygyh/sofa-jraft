@@ -9,8 +9,10 @@ placementDriverOptions:
 
 storeEngineOptions:
   rocksDBOptions:
-    dbPath: rhea_db/
-  raftDataPath: rhea_raft/
+    dbPath: /mnt/mem/rhea_db/
+  pmemDBOptions:
+    dbPath: /mnt/mem/rhea_db/
+  raftDataPath: /mnt/mem/rhea_raft/
   serverAddress:
     ip: 127.0.0.1
     port: 18283

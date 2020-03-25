@@ -44,7 +44,6 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     private static final byte                      DELIMITER    = (byte) ',';
     private static final Comparator<byte[]>        COMPARATOR   = BytesUtil.getDefaultByteArrayComparator();
 
-    private final long                             regionId;
     private boolean                                writable     = true;
 
     private ConcurrentNavigableMap<byte[], byte[]> defaultDB    = new ConcurrentSkipListMap<>(COMPARATOR);
@@ -59,8 +58,7 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     }
 
     public MemoryRawKVStore(final long regionId) {
-        super();
-        this.regionId = regionId;
+        super(regionId, null);
     }
 
     @Override
@@ -93,6 +91,16 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     @Override
     public KVIterator localIterator() {
         return new MemoryKVIterator(this.defaultDB);
+    }
+
+    @Override
+    public boolean isOpen() {
+        return this.defaultDB != null;
+    }
+
+    @Override
+    public boolean isSealed() {
+        return !this.writable;
     }
 
     @Override

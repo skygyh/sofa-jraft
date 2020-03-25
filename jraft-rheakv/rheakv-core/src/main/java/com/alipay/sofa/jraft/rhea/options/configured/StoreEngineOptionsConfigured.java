@@ -16,17 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea.options.configured;
 
-import java.util.List;
-
 import com.alipay.sofa.jraft.option.NodeOptions;
-import com.alipay.sofa.jraft.rhea.options.HeartbeatOptions;
-import com.alipay.sofa.jraft.rhea.options.MemoryDBOptions;
-import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
-import com.alipay.sofa.jraft.rhea.options.RocksDBOptions;
-import com.alipay.sofa.jraft.rhea.options.StoreEngineOptions;
-import com.alipay.sofa.jraft.util.StorageType;
+import com.alipay.sofa.jraft.rhea.options.*;
 import com.alipay.sofa.jraft.rhea.util.Configured;
 import com.alipay.sofa.jraft.util.Endpoint;
+import com.alipay.sofa.jraft.util.StorageType;
+
+import java.util.List;
 
 /**
  *
@@ -52,6 +48,11 @@ public final class StoreEngineOptionsConfigured implements Configured<StoreEngin
 
     public StoreEngineOptionsConfigured withMemoryDBOptions(final MemoryDBOptions memoryDBOptions) {
         this.opts.setMemoryDBOptions(memoryDBOptions);
+        return this;
+    }
+
+    public StoreEngineOptionsConfigured withPMemDBOptions(final PMemDBOptions pmemDBOptions) {
+        this.opts.setPMemDBOptions(pmemDBOptions);
         return this;
     }
 

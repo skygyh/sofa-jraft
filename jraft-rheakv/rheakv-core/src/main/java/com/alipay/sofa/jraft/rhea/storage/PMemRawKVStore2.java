@@ -220,6 +220,16 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     }
 
     @Override
+    public boolean isOpen() {
+        return this.defaultDB != null;
+    }
+
+    @Override
+    public boolean isSealed() {
+        return !this.writable;
+    }
+
+    @Override
     public void get(final byte[] key, @SuppressWarnings("unused") final boolean readOnlySafe,
                     final KVStoreClosure closure) {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);

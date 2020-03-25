@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
+
 /**
  *
  * @author jiachun.fjc
@@ -45,7 +47,7 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
 
     public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,
                                boolean readOnlySafe, boolean returnValue) {
-        this(rheaKVStore, startKey, endKey, bufSize, readOnlySafe, returnValue, -1L);
+        this(rheaKVStore, startKey, endKey, bufSize, readOnlySafe, returnValue, ANY_REGION_ID);
     }
 
     public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,
@@ -64,7 +66,7 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
 
     @Override
     public synchronized boolean hasNext() {
-        if (this.regionId == -1L) {
+        if (this.regionId == ANY_REGION_ID) {
             return hasNextGlobal();
         }
         return hasNextInSingleRegion();
@@ -95,7 +97,7 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
     }
 
     private boolean hasNextInSingleRegion() {
-        assert regionId != -1L;
+        assert regionId != ANY_REGION_ID;
         if (this.buf.isEmpty()) {
             while (this.endKey == null || BytesUtil.compare(this.cursorKey, this.endKey) < 0) {
                 final List<KVEntry> kvEntries = this.rheaKVStore.singleScan(this.cursorKey, this.endKey, this.bufSize,
