@@ -47,7 +47,7 @@ public class DefaultRheaIterator implements RheaIterator<KVEntry> {
 
     public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,
                                boolean readOnlySafe, boolean returnValue) {
-        this(rheaKVStore, startKey, endKey, bufSize, readOnlySafe, returnValue, -1L);
+        this(rheaKVStore, startKey, endKey, bufSize, readOnlySafe, returnValue, ANY_REGION_ID);
     }
 
     public DefaultRheaIterator(DefaultRheaKVStore rheaKVStore, byte[] startKey, byte[] endKey, int bufSize,

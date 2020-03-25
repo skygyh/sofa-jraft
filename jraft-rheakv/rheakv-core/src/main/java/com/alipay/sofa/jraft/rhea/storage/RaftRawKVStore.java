@@ -59,6 +59,17 @@ public class RaftRawKVStore implements RawKVStore {
     }
 
     @Override
+    public boolean isOpen() {
+        // always open
+        return this.kvStore != null;
+    }
+
+    @Override
+    public boolean isSealed() {
+        return false;
+    }
+
+    @Override
     public void get(final byte[] key, final KVStoreClosure closure) {
         get(key, true, closure);
     }

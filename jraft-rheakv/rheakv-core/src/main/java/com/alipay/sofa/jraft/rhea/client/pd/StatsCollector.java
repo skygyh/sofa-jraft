@@ -16,15 +16,9 @@
  */
 package com.alipay.sofa.jraft.rhea.client.pd;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.alipay.sofa.jraft.rhea.RegionEngine;
 import com.alipay.sofa.jraft.rhea.StoreEngine;
-import com.alipay.sofa.jraft.rhea.metadata.Peer;
-import com.alipay.sofa.jraft.rhea.metadata.Region;
-import com.alipay.sofa.jraft.rhea.metadata.RegionStats;
-import com.alipay.sofa.jraft.rhea.metadata.StoreStats;
-import com.alipay.sofa.jraft.rhea.metadata.TimeInterval;
+import com.alipay.sofa.jraft.rhea.metadata.*;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetricNames;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
 import com.alipay.sofa.jraft.rhea.rocks.support.RocksStatistics;
@@ -32,13 +26,13 @@ import com.alipay.sofa.jraft.rhea.storage.BaseRawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RocksRawKVStore;
 import com.alipay.sofa.jraft.util.StorageType;
 import com.codahale.metrics.Counter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.rocksdb.TickerType.BYTES_READ;
-import static org.rocksdb.TickerType.BYTES_WRITTEN;
-import static org.rocksdb.TickerType.NUMBER_KEYS_READ;
-import static org.rocksdb.TickerType.NUMBER_KEYS_WRITTEN;
-import static org.rocksdb.TickerType.NUMBER_MULTIGET_BYTES_READ;
-import static org.rocksdb.TickerType.NUMBER_MULTIGET_KEYS_READ;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static org.rocksdb.TickerType.*;
 
 /**
  *
@@ -46,20 +40,20 @@ import static org.rocksdb.TickerType.NUMBER_MULTIGET_KEYS_READ;
  */
 public class StatsCollector {
 
-    private static final Logger     LOG = LoggerFactory.getLogger(StatsCollector.class);
+    private static final Logger             LOG         = LoggerFactory.getLogger(StatsCollector.class);
 
-    private final StoreEngine       storeEngine;
-    private final BaseRawKVStore<?> rawKVStore;
-    private final RocksRawKVStore   rocksRawKVStore;
+    private final StorageType               storageType;
+    private final StoreEngine               storeEngine;
+    private final Map<Long, BaseRawKVStore> rawKVStores = new TreeMap<>();
 
     public StatsCollector(StoreEngine storeEngine) {
         this.storeEngine = storeEngine;
-        this.rawKVStore = storeEngine.getRawKVStore();
-        RocksRawKVStore store = null;
-        if (storeEngine.getStoreOpts().getStorageType() == StorageType.RocksDB) {
-            store = (RocksRawKVStore) rawKVStore;
+        this.storageType = storeEngine.getStoreOpts().getStorageType();
+        for (RegionEngine regionEngine : storeEngine.getAllRegionEngines()) {
+            final long regionId = regionEngine.getRegion().getId();
+            BaseRawKVStore rawKVStore = storeEngine.getRawKVStore(regionId);
+            this.rawKVStores.put(regionId, rawKVStore);
         }
-        this.rocksRawKVStore = store;
     }
 
     public StoreStats collectStoreStats(final TimeInterval timeInterval) {
@@ -119,7 +113,8 @@ public class StatsCollector {
         // Approximate region size
         // TODO very important
         // Approximate number of keys
-        stats.setApproximateKeys(this.rawKVStore.getApproximateKeysInRange(region.getStartKey(), region.getEndKey()));
+        stats.setApproximateKeys(this.rawKVStores.get(region.getId()).getApproximateKeysInRange(region.getStartKey(),
+            region.getEndKey()));
         // Actually reported time interval
         stats.setInterval(timeInterval);
         LOG.info("Collect [RegionStats]: {}.", stats);
@@ -127,47 +122,75 @@ public class StatsCollector {
     }
 
     public long getStoreBytesWritten(final boolean reset) {
-        if (this.rocksRawKVStore == null) {
-            return 0; // TODO memory db statistics
+        long count = 0L;
+        if (this.storageType == StorageType.RocksDB) {
+            for (Long regionId : rawKVStores.keySet()) {
+                RocksRawKVStore rocksRawKVStore = (RocksRawKVStore) rawKVStores.get(regionId);
+                if (reset) {
+                    count += RocksStatistics.getAndResetTickerCount(rocksRawKVStore, BYTES_WRITTEN);
+                } else {
+                    count += RocksStatistics.getTickerCount(rocksRawKVStore, BYTES_WRITTEN);
+                }
+            }
+        } else {
+            // TODO memory db statistics
         }
-        if (reset) {
-            return RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, BYTES_WRITTEN);
-        }
-        return RocksStatistics.getTickerCount(this.rocksRawKVStore, BYTES_WRITTEN);
+        return count;
     }
 
     public long getStoreBytesRead(final boolean reset) {
-        if (this.rocksRawKVStore == null) {
-            return 0; // TODO memory db statistics
+        long count = 0L;
+        if (this.storageType == StorageType.RocksDB) {
+            for (Long regionId : rawKVStores.keySet()) {
+                RocksRawKVStore rocksRawKVStore = (RocksRawKVStore) rawKVStores.get(regionId);
+                if (reset) {
+                    count += RocksStatistics.getAndResetTickerCount(rocksRawKVStore, BYTES_READ)
+                             + RocksStatistics.getAndResetTickerCount(rocksRawKVStore, NUMBER_MULTIGET_BYTES_READ);
+                } else {
+                    count += RocksStatistics.getTickerCount(rocksRawKVStore, BYTES_READ)
+                             + RocksStatistics.getTickerCount(rocksRawKVStore, NUMBER_MULTIGET_BYTES_READ);
+                }
+            }
+        } else {
+            // TODO memory db statistics
         }
-        if (reset) {
-            return RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, BYTES_READ)
-                   + RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, NUMBER_MULTIGET_BYTES_READ);
-        }
-        return RocksStatistics.getTickerCount(this.rocksRawKVStore, BYTES_READ)
-               + RocksStatistics.getTickerCount(this.rocksRawKVStore, NUMBER_MULTIGET_BYTES_READ);
+        return count;
     }
 
     public long getStoreKeysWritten(final boolean reset) {
-        if (this.rocksRawKVStore == null) {
-            return 0; // TODO memory db statistics
+        long count = 0L;
+        if (this.storageType == StorageType.RocksDB) {
+            for (Long regionId : rawKVStores.keySet()) {
+                RocksRawKVStore rocksRawKVStore = (RocksRawKVStore) rawKVStores.get(regionId);
+                if (reset) {
+                    count += RocksStatistics.getAndResetTickerCount(rocksRawKVStore, NUMBER_KEYS_WRITTEN);
+                } else {
+                    count += RocksStatistics.getTickerCount(rocksRawKVStore, NUMBER_KEYS_WRITTEN);
+                }
+            }
+        } else {
+            // TODO memory db statistics
         }
-        if (reset) {
-            return RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, NUMBER_KEYS_WRITTEN);
-        }
-        return RocksStatistics.getTickerCount(this.rocksRawKVStore, NUMBER_KEYS_WRITTEN);
+        return count;
     }
 
     public long getStoreKeysRead(final boolean reset) {
-        if (this.rocksRawKVStore == null) {
-            return 0; // TODO memory db statistics
+        long count = 0L;
+        if (this.storageType == StorageType.RocksDB) {
+            for (Long regionId : rawKVStores.keySet()) {
+                RocksRawKVStore rocksRawKVStore = (RocksRawKVStore) rawKVStores.get(regionId);
+                if (reset) {
+                    count += RocksStatistics.getAndResetTickerCount(rocksRawKVStore, NUMBER_KEYS_READ)
+                             + RocksStatistics.getAndResetTickerCount(rocksRawKVStore, NUMBER_MULTIGET_KEYS_READ);
+                } else {
+                    count += RocksStatistics.getTickerCount(rocksRawKVStore, NUMBER_KEYS_READ)
+                             + RocksStatistics.getTickerCount(rocksRawKVStore, NUMBER_MULTIGET_KEYS_READ);
+                }
+            }
+        } else {
+            // TODO memory db statistics
         }
-        if (reset) {
-            return RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, NUMBER_KEYS_READ)
-                   + RocksStatistics.getAndResetTickerCount(this.rocksRawKVStore, NUMBER_MULTIGET_KEYS_READ);
-        }
-        return RocksStatistics.getTickerCount(this.rocksRawKVStore, NUMBER_KEYS_READ)
-               + RocksStatistics.getTickerCount(this.rocksRawKVStore, NUMBER_MULTIGET_KEYS_READ);
+        return count;
     }
 
     public long getRegionBytesWritten(final Region region, final boolean reset) {

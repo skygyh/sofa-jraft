@@ -72,7 +72,6 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
 
     private final List<ColumnFamilyOptions>    cfOptionsList        = Lists.newArrayList();
     private final List<ColumnFamilyDescriptor> cfDescriptors        = Lists.newArrayList();
-    private final long                         regionId;
     private ColumnFamilyHandle                 defaultHandle;
     private ColumnFamilyHandle                 sequenceHandle;
     private ColumnFamilyHandle                 lockingHandle;
@@ -87,12 +86,11 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
     private RocksStatisticsCollector           statisticsCollector;
 
     public RocksRawKVStore() {
-        this(-1L);
+        super();
     }
 
-    public RocksRawKVStore(final long regionId) {
-        super();
-        this.regionId = regionId;
+    public RocksRawKVStore(final long regionId, final String dbPath) {
+        super(regionId, dbPath);
     }
 
     // Creates the rocksDB options, the user must take care
@@ -130,6 +128,9 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
             }
             this.opts = opts;
             this.options = createDBOptions();
+            if (dbPath == null) {
+                dbPath = opts.getDbPath();
+            }
             if (opts.isOpenStatisticsCollector()) {
                 this.statistics = new DebugStatistics();
                 this.options.setStatistics(this.statistics);
@@ -161,7 +162,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
             LOG.info("[RocksRawKVStore] start successfully, options: {}.", opts);
             return true;
         } catch (final Exception e) {
-            LOG.error("Fail to open rocksDB at path {}, {}.", opts.getDbPath(), StackTraceUtil.stackTrace(e));
+            LOG.error("Fail to open rocksDB at path {}, {}.", dbPath, StackTraceUtil.stackTrace(e));
         } finally {
             writeLock.unlock();
         }
@@ -233,6 +234,16 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         } finally {
             readLock.unlock();
         }
+    }
+
+    @Override
+    public boolean isOpen() {
+        return this.db != null;
+    }
+
+    @Override
+    public boolean isSealed() {
+        return !this.writable;
     }
 
     @Override
@@ -1452,7 +1463,6 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         try (final BackupableDBOptions backupOpts = createBackupDBOptions(backupDBPath);
                 final BackupEngine backupEngine = BackupEngine.open(this.options.getEnv(), backupOpts);
                 final RestoreOptions restoreOpts = new RestoreOptions(false)) {
-            final String dbPath = this.opts.getDbPath();
             backupEngine.restoreDbFromBackup(rocksBackupInfo.getBackupId(), dbPath, dbPath, restoreOpts);
             LOG.info("Restored rocksDB from {} with {}.", backupDBPath, rocksBackupInfo);
             // reopen the db
@@ -1500,7 +1510,6 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
                 return;
             }
             closeRocksDB();
-            final String dbPath = this.opts.getDbPath();
             final File dbFile = new File(dbPath);
             FileUtils.deleteDirectory(dbFile);
             if (!snapshotFile.renameTo(dbFile)) {
@@ -1597,7 +1606,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
     private void openRocksDB(final RocksDBOptions opts) throws RocksDBException {
         final List<ColumnFamilyHandle> cfHandles = Lists.newArrayList();
         this.databaseVersion.incrementAndGet();
-        this.db = RocksDB.open(this.options, opts.getDbPath(), this.cfDescriptors, cfHandles);
+        this.db = RocksDB.open(this.options, dbPath, this.cfDescriptors, cfHandles);
         this.defaultHandle = cfHandles.get(0);
         this.sequenceHandle = cfHandles.get(1);
         this.lockingHandle = cfHandles.get(2);
@@ -1618,7 +1627,7 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
         // its data in multiple directories by specifying different paths to
         // DBOptions::db_paths, DBOptions::db_log_dir, and DBOptions::wal_dir.
         try (final Options opt = new Options()) {
-            RocksDB.destroyDB(opts.getDbPath(), opt);
+            RocksDB.destroyDB(dbPath, opt);
         }
     }
 

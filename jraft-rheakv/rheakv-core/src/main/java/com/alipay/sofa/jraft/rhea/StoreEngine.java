@@ -45,13 +45,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
 
 /**
  * Storage engine, there is only one instance in a node,
@@ -80,7 +82,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
     private long                                       startTime            = System.currentTimeMillis();
     private File                                       dbPath;
     private RpcServer                                  rpcServer;
-    private BatchRawKVStore<?>                         rawKVStore;
+    private Map<Long, BatchRawKVStore<?>>              rawKVStores          = new ConcurrentHashMap<>();
     private HeartbeatSender                            heartbeatSender;
     private StoreEngineOptions                         storeOpts;
 
@@ -190,8 +192,12 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         if (!initRawKVStore(opts)) {
             return false;
         }
-        if (this.rawKVStore instanceof Describer) {
-            DescriberManager.getInstance().addDescriber((Describer) this.rawKVStore);
+        if (!this.rawKVStores.isEmpty()) {
+            for (BatchRawKVStore<?> rawKVStore : rawKVStores.values()) {
+                if (rawKVStore instanceof Describer) {
+                    DescriberManager.getInstance().addDescriber((Describer) rawKVStore);
+                }
+            }
         }
         // init all region engine
         if (!initAllRegionEngine(opts, store)) {
@@ -229,8 +235,12 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             }
             this.regionEngineTable.clear();
         }
-        if (this.rawKVStore != null) {
-            this.rawKVStore.shutdown();
+        if (!this.rawKVStores.isEmpty()) {
+            for (BatchRawKVStore<?> rawKVStore : rawKVStores.values()) {
+                if (rawKVStore != null) {
+                    rawKVStore.shutdown();
+                }
+            }
         }
         if (this.heartbeatSender != null) {
             this.heartbeatSender.shutdown();
@@ -277,8 +287,11 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         return rpcServer;
     }
 
-    public BatchRawKVStore<?> getRawKVStore() {
-        return rawKVStore;
+    public BatchRawKVStore<?> getRawKVStore(final long regionId) {
+        if (regionId == ANY_REGION_ID) {
+            throw new RheaRuntimeException("getRawKVStore must specify valid region id");
+        }
+        return rawKVStores.get(regionId);
     }
 
     public RegionKVService getRegionKVService(final long regionId) {
@@ -461,7 +474,8 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         final Region parentRegion = parentEngine.getRegion();
         final byte[] startKey = BytesUtil.nullToEmpty(parentRegion.getStartKey());
         final byte[] endKey = parentRegion.getEndKey();
-        final long approximateKeys = this.rawKVStore.getApproximateKeysInRange(startKey, endKey);
+        BatchRawKVStore<?> rawKVStore = getRawKVStore(parentRegion.getId());
+        final long approximateKeys = rawKVStore.getApproximateKeysInRange(startKey, endKey);
         final long leastKeysOnSplit = this.storeOpts.getLeastKeysOnSplit();
         if (approximateKeys < leastKeysOnSplit) {
             closure.setError(Errors.TOO_SMALL_TO_SPLIT);
@@ -469,7 +483,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             this.splitting.set(false);
             return;
         }
-        final byte[] splitKey = this.rawKVStore.jumpOver(startKey, approximateKeys >> 1);
+        final byte[] splitKey = rawKVStore.jumpOver(startKey, approximateKeys >> 1);
         if (splitKey == null) {
             closure.setError(Errors.STORAGE_ERROR);
             closure.run(new Status(-1, "Fail to scan split key"));
@@ -587,26 +601,31 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             rocksOpts = new RocksDBOptions();
             opts.setRocksDBOptions(rocksOpts);
         }
-        String dbPath = rocksOpts.getDbPath();
-        if (Strings.isNotBlank(dbPath)) {
-            try {
-                FileUtils.forceMkdir(new File(dbPath));
-            } catch (final Throwable t) {
-                LOG.error("Fail to make dir for dbPath {}.", dbPath);
+        this.dbPath = new File(rocksOpts.getDbPath());
+        for (RegionEngineOptions regionEngineOptions : opts.getRegionEngineOptionsList()) {
+            final long regionId = regionEngineOptions.getRegionId();
+            final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
+            Path rockDbPath = Paths.get(rocksOpts.getDbPath() == null ? "" : rocksOpts.getDbPath(), childPath,
+                "region" + regionId);
+            if (Strings.isNotBlank(rockDbPath.toString()) && Files.notExists(rockDbPath)) {
+                try {
+                    FileUtils.forceMkdir(new File(rockDbPath.toString()));
+                } catch (final Throwable t) {
+                    LOG.error("Fail to make dir for dbPath {}.", rockDbPath);
+                    return false;
+                }
+            }
+            final RocksRawKVStore rocksRawKVStore = new RocksRawKVStore(regionId, rockDbPath.toString());
+            if (!rocksRawKVStore.init(rocksOpts)) {
+                LOG.error("Fail to init [RocksRawKVStore].");
                 return false;
             }
-        } else {
-            dbPath = "";
+            if (this.rawKVStores.containsKey(regionId)) {
+                throw new RheaRuntimeException("RocksRawKVStore[region=" + regionId
+                                               + "] has already been created, can not recreate again!");
+            }
+            this.rawKVStores.put(regionId, rocksRawKVStore);
         }
-        final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
-        rocksOpts.setDbPath(Paths.get(dbPath, childPath).toString());
-        this.dbPath = new File(rocksOpts.getDbPath());
-        final RocksRawKVStore rocksRawKVStore = new RocksRawKVStore();
-        if (!rocksRawKVStore.init(rocksOpts)) {
-            LOG.error("Fail to init [RocksRawKVStore].");
-            return false;
-        }
-        this.rawKVStore = rocksRawKVStore;
         return true;
     }
 
@@ -616,12 +635,19 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             memoryOpts = new MemoryDBOptions();
             opts.setMemoryDBOptions(memoryOpts);
         }
-        final MemoryRawKVStore memoryRawKVStore = new MemoryRawKVStore();
-        if (!memoryRawKVStore.init(memoryOpts)) {
-            LOG.error("Fail to init [MemoryRawKVStore].");
-            return false;
+        for (RegionEngineOptions regionEngineOptions : opts.getRegionEngineOptionsList()) {
+            final long regionId = regionEngineOptions.getRegionId();
+            final MemoryRawKVStore memoryRawKVStore = new MemoryRawKVStore(regionId);
+            if (!memoryRawKVStore.init(memoryOpts)) {
+                LOG.error("Fail to init [MemoryRawKVStore].");
+                return false;
+            }
+            if (this.rawKVStores.containsKey(regionId)) {
+                throw new RheaRuntimeException("MemoryRawKVStore[region=" + regionId
+                                               + "] has already been created, can not recreate again!");
+            }
+            this.rawKVStores.put(regionId, memoryRawKVStore);
         }
-        this.rawKVStore = memoryRawKVStore;
         return true;
     }
 
@@ -632,17 +658,31 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             pmemOpts = new PMemDBOptions();
             opts.setPMemDBOptions(pmemOpts);
         }
-        final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
-        pmemOpts.setDbPath(Paths.get(
-            pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
-        LOG.info("set PMem DBPath : {}", pmemOpts.getDbPath());
         this.dbPath = new File(pmemOpts.getDbPath());
-        final PMemRawKVStore pmemRawKVStore = new PMemRawKVStore();
-        if (!pmemRawKVStore.init(pmemOpts)) {
-            LOG.error("Fail to init [PMemRawKVStore].");
-            return false;
+        for (RegionEngineOptions regionEngineOptions : opts.getRegionEngineOptionsList()) {
+            final long regionId = regionEngineOptions.getRegionId();
+            final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
+            Path pmemDbPath = Paths
+                .get(pmemOpts.getDbPath() == null ? "" : pmemOpts.getDbPath(), childPath, "region" + regionId);
+            if (Strings.isNotBlank(pmemDbPath.toString()) && Files.notExists(pmemDbPath)) {
+                try {
+                    FileUtils.forceMkdir(new File(pmemDbPath.toString()));
+                } catch (final Throwable t) {
+                    LOG.error("Fail to make dir for dbPath {}.", pmemDbPath);
+                    return false;
+                }
+            }
+            final PMemRawKVStore pmemRawKVStore = new PMemRawKVStore(regionId, pmemDbPath.toString());
+            if (!pmemRawKVStore.init(pmemOpts)) {
+                LOG.error("Fail to init [PMemRawKVStore].");
+                return false;
+            }
+            if (this.rawKVStores.containsKey(regionId)) {
+                throw new RheaRuntimeException("PMemRawKVStore[region=" + regionId
+                                               + "] has already been created, can not recreate again!");
+            }
+            this.rawKVStores.put(regionId, pmemRawKVStore);
         }
-        this.rawKVStore = pmemRawKVStore;
         return true;
     }
 
@@ -691,6 +731,14 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         if (preService != null) {
             throw new RheaRuntimeException("RegionKVService[region=" + regionKVService.getRegionId()
                                            + "] has already been registered, can not register again!");
+        }
+    }
+
+    private void unregisterRegionKVService(final long regionId) {
+        final RegionKVService preService = this.regionKVServiceTable.remove(regionId);
+        if (preService == null) {
+            throw new RheaRuntimeException("RegionKVService[region=" + regionId
+                                           + "] has already been unregistered, can not unregister again!");
         }
     }
 

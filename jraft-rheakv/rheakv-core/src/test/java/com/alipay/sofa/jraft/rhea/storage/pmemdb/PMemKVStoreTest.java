@@ -846,7 +846,7 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
     public void sealAndDestroyTest() {
         final long id = 1L;
         final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "sealAndDestroyTest", "RawKV" + id);
-        PMemRawKVStore store = new PMemRawKVStore(id);
+        PMemRawKVStore store = new PMemRawKVStore(id, testDbPath.toString());
         store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
             .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
         Assert.assertTrue(Files.exists(testDbPath));

@@ -46,6 +46,16 @@ public class MetricsRawKVStore implements RawKVStore {
     }
 
     @Override
+    public boolean isOpen() {
+        return this.rawKVStore.isOpen();
+    }
+
+    @Override
+    public boolean isSealed() {
+        return this.rawKVStore.isSealed();
+    }
+
+    @Override
     public void get(final byte[] key, final KVStoreClosure closure) {
         get(key, true, closure);
     }

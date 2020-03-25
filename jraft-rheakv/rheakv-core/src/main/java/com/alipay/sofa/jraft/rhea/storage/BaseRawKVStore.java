@@ -29,12 +29,25 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
 import static com.alipay.sofa.jraft.rhea.metrics.KVMetricNames.DB_TIMER;
 
 /**
  * @author jiachun.fjc
  */
 public abstract class BaseRawKVStore<T> implements RawKVStore, Lifecycle<T> {
+
+    protected final long regionId;
+    protected String     dbPath;
+
+    protected BaseRawKVStore() {
+        this(ANY_REGION_ID, null);
+    }
+
+    protected BaseRawKVStore(final long regionId, final String dbPath) {
+        this.regionId = regionId;
+        this.dbPath = dbPath;
+    }
 
     @Override
     public void get(final byte[] key, final KVStoreClosure closure) {
@@ -191,9 +204,13 @@ public abstract class BaseRawKVStore<T> implements RawKVStore, Lifecycle<T> {
     }
 
     static void setClosureError(final KVStoreClosure closure) {
+        setClosureError(closure, Errors.STORAGE_ERROR);
+    }
+
+    static void setClosureError(final KVStoreClosure closure, Errors errors) {
         if (closure != null) {
             // closure is null on follower node
-            closure.setError(Errors.STORAGE_ERROR);
+            closure.setError(errors);
         }
     }
 

@@ -46,6 +46,10 @@ public interface RawKVStore {
      */
     KVIterator localIterator();
 
+    boolean isOpen();
+
+    boolean isSealed();
+
     /**
      * Equivalent to {@code get(key, true, closure)}.
      */

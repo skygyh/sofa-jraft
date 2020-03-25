@@ -48,7 +48,7 @@ public class PMemDBOptions {
     private String             hashEngine     = "cmap";
     private int                pmemDataSize   = 512 * 1024 * 1024;
     private int                pmemMetaSize   = 8 * 1024 * 1024;
-    private String             dbPath         = null;
+    private String             dbPath         = PMEM_ROOT_PATH;
     private boolean            forceCreate    = true;
 
     // for segment snapshot file size
@@ -119,7 +119,7 @@ public class PMemDBOptions {
     public String toString() {
         return new StringBuilder().append("PMemDBOptions{").append("orderedEngine=").append(orderedEngine).append(',')
             .append("hashEngine=").append(hashEngine).append(',').append("pmemDataSize=").append(pmemDataSize)
-            .append(',').append("pmemMetaSize=").append(pmemMetaSize).append(',').append("fullPath=").append(dbPath)
+            .append(',').append("pmemMetaSize=").append(pmemMetaSize).append(',').append("parentPath=").append(dbPath)
             .append(',').append("forceCreate=").append(forceCreate).append(',').append("keysPerSegment=")
             .append(keysPerSegment).append('}').toString();
     }

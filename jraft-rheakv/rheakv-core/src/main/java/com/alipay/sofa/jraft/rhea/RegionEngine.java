@@ -16,23 +16,8 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.remoting.rpc.RpcServer;
-import com.alipay.sofa.jraft.Lifecycle;
-import com.alipay.sofa.jraft.Node;
-import com.alipay.sofa.jraft.RaftGroupService;
-import com.alipay.sofa.jraft.RouteTable;
-import com.alipay.sofa.jraft.Status;
+import com.alipay.sofa.jraft.*;
 import com.alipay.sofa.jraft.conf.Configuration;
 import com.alipay.sofa.jraft.entity.PeerId;
 import com.alipay.sofa.jraft.option.NodeOptions;
@@ -49,6 +34,16 @@ import com.alipay.sofa.jraft.util.Requires;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Minimum execution/copy unit of RheaKVStore.
@@ -132,7 +127,7 @@ public class RegionEngine implements Lifecycle<RegionEngineOptions> {
         this.node = this.raftGroupService.start(false);
         RouteTable.getInstance().updateConfiguration(this.raftGroupService.getGroupId(), nodeOpts.getInitialConf());
         if (this.node != null) {
-            final RawKVStore rawKVStore = this.storeEngine.getRawKVStore();
+            final RawKVStore rawKVStore = this.storeEngine.getRawKVStore(this.region.getId());
             final Executor readIndexExecutor = this.storeEngine.getReadIndexExecutor();
             this.raftRawKVStore = new RaftRawKVStore(this.node, rawKVStore, readIndexExecutor);
             this.metricsRawKVStore = new MetricsRawKVStore(this.region.getId(), this.raftRawKVStore);

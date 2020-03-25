@@ -24,10 +24,7 @@ import com.alipay.sofa.jraft.rhea.client.failover.FailoverClosure;
 import com.alipay.sofa.jraft.rhea.client.failover.ListRetryCallable;
 import com.alipay.sofa.jraft.rhea.client.failover.RetryCallable;
 import com.alipay.sofa.jraft.rhea.client.failover.RetryRunner;
-import com.alipay.sofa.jraft.rhea.client.failover.impl.BoolFailoverFuture;
-import com.alipay.sofa.jraft.rhea.client.failover.impl.FailoverClosureImpl;
-import com.alipay.sofa.jraft.rhea.client.failover.impl.ListFailoverFuture;
-import com.alipay.sofa.jraft.rhea.client.failover.impl.MapFailoverFuture;
+import com.alipay.sofa.jraft.rhea.client.failover.impl.*;
 import com.alipay.sofa.jraft.rhea.client.pd.FakePlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.RemotePlacementDriverClient;
@@ -318,7 +315,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
         if (this.storeEngine == null) {
             throw new IllegalStateException("current node do not have store engine");
         }
-        return this.storeEngine.getRawKVStore().localIterator();
+        // [TODO] support aggregated iterator on multiple regions
+        return this.storeEngine.getRawKVStore(ANY_REGION_ID).localIterator();
     }
 
     @Override
@@ -759,8 +757,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
         for (final Region region : regionList) {
             final byte[] regionStartKey = region.getStartKey();
             final byte[] regionEndKey = region.getEndKey();
-            final byte[] subStartKey = regionStartKey == null ? startKey : BytesUtil.max(regionStartKey, startKey);
-            final byte[] subEndKey = regionEndKey == null ? endKey :
+            final byte[] subStartKey = (regionId != ANY_REGION_ID || regionStartKey == null) ? startKey : BytesUtil.max(regionStartKey, startKey);
+            final byte[] subEndKey = (regionId != ANY_REGION_ID || regionEndKey == null) ? endKey :
                     (endKey == null ? regionEndKey : BytesUtil.min(regionEndKey, endKey));
             final ListRetryCallable<KVEntry> retryCallable = retryCause -> internalScan(subStartKey, subEndKey,
                     readOnlySafe, returnValue, retriesLeft - 1, retryCause, regionId);
@@ -2028,7 +2026,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
         final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
         final RetryRunner retryRunner = retryCause -> internalDestroyRegion(future,
                 retriesLeft - 1, retryCause, regionId);
-        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft,
+        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, true, retriesLeft,
                 retryRunner);
         if (regionEngine != null) {
             if (ensureOnValidEpoch(region, regionEngine, closure)) {

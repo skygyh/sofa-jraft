@@ -33,6 +33,14 @@ import java.util.List;
  */
 public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
 
+    protected BatchRawKVStore() {
+        super();
+    }
+
+    protected BatchRawKVStore(final long regionId, final String dbPath) {
+        super(regionId, dbPath);
+    }
+
     public void batchPut(final KVStateOutputList kvStates) {
         for (int i = 0, l = kvStates.size(); i < l; i++) {
             final KVState kvState = kvStates.get(i);

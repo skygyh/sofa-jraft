@@ -976,8 +976,12 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             entries.add(new KVEntry(2L, key, value));
         }
         store.bPut(entries);
+        dumpRegion(store, 1L, "after put del_range_test0~9 on both regions ");
+        dumpRegion(store, 2L, "after put del_range_test0~9 on both regions ");
         // delete region 1 [del_range_test5, del_range_test8)
         store.bDeleteRange(1L, makeKey("del_range_test5"), makeKey("del_range_test8"));
+        dumpRegion(store, 1L, "after bDeleteRange del_range_test567 in region1 ");
+        dumpRegion(store, 2L, "after bDeleteRange del_range_test567 in region1 ");
         List<KVEntry> entries2 = store.bScan(1L, makeKey("del_range_test"), makeKey("del_range_test" + 99));
         assertEquals(7, entries2.size());
         byte[] value = store.bGet(1L, makeKey("del_range_test5"));
@@ -1369,8 +1373,11 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         // duplicated key in two regions
         final String key1 = "a_destroy_region_test";
         final String key2 = "a_destroy_region_test";
-        assertTrue(store.bPut(1L, key1, makeValue("destroy_region_test_value")));
-        assertTrue(store.bPut(2L, key2, makeValue("destroy_region_test_value")));
+        final byte[] value = makeValue("a_destroy_region_test_value");
+        assertTrue(store.bPut(1L, key1, value));
+        assertTrue(store.bPut(2L, key2, value));
+        dumpRegion(store, 1L, "After put key in both regions");
+        dumpRegion(store, 2L, "After put key in both regions");
         boolean success = false;
         try {
             success = store.destroyRegion(1L).get();
@@ -1378,19 +1385,20 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             fail("failed to destroy region 1 : " + e.getMessage());
         }
         assertTrue(success);
-        byte[] value = store.bGet(1L, key1);
-        assertNull(value);
+        byte[] value1 = store.bGet(1L, key1);
+        assertNull(value1);
 
-        value = store.bGet(2L, key1);
-        assertNotNull(value);
+        byte[] value2 = store.bGet(2L, key2);
+        assertNotNull(value2);
+        assertArrayEquals(value2, value);
         try {
             success = store.destroyRegion(2L).get();
         } catch (InterruptedException | ExecutionException e) {
             fail("failed to destroy region 2 : " + e);
         }
         assertTrue(success);
-        value = store.bGet(2L, key1);
-        assertNull(value);
+        value2 = store.bGet(2L, key2);
+        assertNull(value2);
     }
 
     @Test
@@ -1407,16 +1415,16 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         final String key = "a_seal_region_test";
         final byte[] value = makeValue("seal_region_test_value");
         store.bPut(1L, key, value);
-        store.sealRegion(1L);
         boolean success = false;
         try {
             success = store.sealRegion(1L).get();
         } catch (InterruptedException | ExecutionException e) {
-            fail("failed to destroy region 1 : " + e);
+            fail("failed to seal region 1 : " + e);
         }
         assertTrue(success);
-        final byte[] update = makeValue("seal_region_test_update");
-        assertFalse(store.bPut(1L, key, update));
+        // update on sealed store would cause fatal error
+        //final byte[] update = makeValue("seal_region_test_update");
+        //assertFalse(store.bPut(1L, key, update));
         assertArrayEquals(value, store.bGet(1L, key));
     }
 
