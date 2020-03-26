@@ -83,6 +83,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         if (dbPath == null) {
             dbPath = opts.getDbPath();
         }
+        try {
+            if (Files.notExists(Paths.get(dbPath))) {
+                FileUtils.forceMkdir(new File(dbPath));
+            }
+        } catch (IOException ioe) {
+            LOG.error("Unable to create {}", dbPath);
+        }
         if (!doInit(opts)) {
             LOG.error("[PMemRawKVStore] failed to start, path {}, options: {}.", dbPath, opts);
             return false;
@@ -112,7 +119,12 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     private static boolean hasEnoughSpace(final String dbPath, final PMemDBOptions opts) {
         File f = new File(dbPath);
         long pmemFreeSpace = f.getFreeSpace();
-        return pmemFreeSpace > (opts.getPmemDataSize() + opts.getPmemMetaSize() * 3);
+        long requiredSpace = opts.getPmemDataSize() + opts.getPmemMetaSize() * 3;
+        boolean enough = pmemFreeSpace > requiredSpace;
+        if (!enough) {
+            LOG.error("Free Space {} bytes vs required {} on {}", pmemFreeSpace, requiredSpace, dbPath);
+        }
+        return enough;
     }
 
     private static String generateConf(final String engine, final String parentPath, String tagName,
@@ -148,6 +160,10 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 } catch (IOException ioe) {
                     LOG.error("Failed to create {} : {}", fullPath.toString(), ioe.getMessage());
                 }
+            }
+        } else {
+            if (Files.notExists(fullPath)) {
+                throw new RheaRuntimeException("PMemRawKVStore path doesn't exist : " + confStr);
             }
         }
         LOG.info("Generated conf : {}", confStr);

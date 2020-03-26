@@ -58,16 +58,14 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
 
     private static final String SNAPSHOT_ARCHIVE = "kv.zip";
 
-    @Override
     @Before
     public void setup() throws Exception {
-        super.setup();
+        super.setup(true);
     }
 
-    @Override
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
+        super.tearDown(true);
     }
 
     /**
@@ -124,7 +122,7 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
     /**
      * Test method: {@link PMemRawKVStore#localIterator()}
      */
-    //@Test
+    @Test
     public void getLocalIteratorTest() {
         final List<byte[]> keyList = Lists.newArrayList();
         final List<byte[]> valueList = Lists.newArrayList();
@@ -803,7 +801,8 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
         }
         this.kvStore.put(entries, null);
 
-        long approximateKeys = this.kvStore.getApproximateKeysInRange(makeKey("approximate_test" + 9999), null);
+        // this is tricky range here, boundary is exclusive.
+        long approximateKeys = this.kvStore.getApproximateKeysInRange(makeKey("approximate_test" + 9998), null);
         assertEquals(1, approximateKeys);
         approximateKeys = this.kvStore.getApproximateKeysInRange(null, makeKey("approximate_test" + 9999));
         assertEquals(10000, approximateKeys, 1);
@@ -845,7 +844,9 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
     @Test
     public void sealAndDestroyTest() {
         final long id = 1L;
-        final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "sealAndDestroyTest", "RawKV" + id);
+        // create delicate store
+        final Path testDbPath = Paths.get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest_sealAndDestroyTest",
+            "Region" + id);
         PMemRawKVStore store = new PMemRawKVStore(id, testDbPath.toString());
         store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
             .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
@@ -862,12 +863,6 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
             }
         }.apply(store);
         Assert.assertTrue(success);
-        try {
-            store.put(key, makeValue("unexpected value"), null);
-            Assert.fail("Put on sealed store must fail");
-        } catch (RuntimeException rte) {
-            // expect to fail here
-        }
         byte[] newValue = new SyncKVStore<byte[]>() {
             @Override
             public void execute(RawKVStore kvStore, KVStoreClosure closure) {
@@ -884,6 +879,64 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
             }
         }.apply(store);
         Assert.assertTrue(success);
-        Assert.assertFalse(Files.exists(testDbPath));
+
+        byte[] nullValue = new SyncKVStore<byte[]>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.get(key, closure);
+            }
+        }.apply(store);
+        assertNull(nullValue);
+
+        store.shutdown();
+    }
+
+    private boolean isEmptyDir(final Path path) {
+        if (!Files.isDirectory(path)) {
+            return false;
+        }
+        String[] files = path.toFile().list();
+        return files == null || files.length == 0;
+    }
+
+    @Test
+    public void restartTest() {
+        final long id = 1L;
+        final Path testDbPath = Paths
+            .get(PMemDBOptions.PMEM_ROOT_PATH, "db_PMemKVStoreTest_restartTest", "Region" + id);
+        // create delicate store
+        PMemRawKVStore store = new PMemRawKVStore(id, testDbPath.toString());
+        store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
+            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
+        Assert.assertTrue(Files.exists(testDbPath));
+
+        final byte[] key = makeKey("restart_store_key");
+        final byte[] value = makeValue("restart_store_value");
+        store.put(key, value, null);
+        byte[] actualValue1 = new SyncKVStore<byte[]>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.get(key, closure);
+            }
+        }.apply(store);
+        assertArrayEquals(value, actualValue1);
+
+        //shutdown and restart the store
+        store.shutdown();
+        Assert.assertFalse(store.isOpen());
+        store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
+            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(false) // NOT RECREATE!
+            .config());
+        byte[] actualValue2 = new SyncKVStore<byte[]>() {
+            @Override
+            public void execute(RawKVStore kvStore, KVStoreClosure closure) {
+                kvStore.get(key, closure);
+            }
+        }.apply(store);
+        assertArrayEquals(value, actualValue2);
+        // check the db path is non empty
+        Assert.assertFalse(isEmptyDir(testDbPath));
+
+        store.shutdown();
     }
 }
