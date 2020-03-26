@@ -16,20 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-
 import com.alipay.remoting.rpc.RpcServer;
 import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.util.concurrent.CallerRunsPolicyWithReport;
 import com.alipay.sofa.jraft.rhea.util.concurrent.NamedThreadFactory;
 import com.alipay.sofa.jraft.util.ThreadPoolUtil;
+
+import java.util.concurrent.*;
 
 /**
  *
@@ -92,6 +85,8 @@ public final class StoreEngineHelper {
         rpcServer.registerUserProcessor(new KVCommandProcessor<>(NodeExecuteRequest.class, engine));
         rpcServer.registerUserProcessor(new KVCommandProcessor<>(RangeSplitRequest.class, engine));
         rpcServer.registerUserProcessor(new KVCommandProcessor<>(BatchCompositeRequest.class, engine));
+        rpcServer.registerUserProcessor(new KVCommandProcessor<>(DestroyRegionRequest.class, engine));
+        rpcServer.registerUserProcessor(new KVCommandProcessor<>(SealRegionRequest.class, engine));
     }
 
     private static ExecutorService newPool(final int coreThreads, final int maxThreads, final String name) {

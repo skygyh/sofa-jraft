@@ -246,7 +246,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
             this.compositeBatching = new CompositeBatching(KVCompositeEvent::new, "composite_batching",
                     new CompositeBatchingHandler("batch"));
         }
-        LOG.error("[DefaultRheaKVStore] start successfully, options: {}.", opts);
+        LOG.info("[DefaultRheaKVStore] start successfully, options: {}.", opts);
         return this.started = true;
     }
 
@@ -281,7 +281,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
             this.compositeBatching.shutdown();
         }
         this.stateListenerContainer.clear();
-        LOG.error("[DefaultRheaKVStore] shutdown successfully.");
+        LOG.warn("[DefaultRheaKVStore] shutdown successfully.");
     }
 
     private void checkRegionRoute(boolean isHashRouted) {
