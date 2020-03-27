@@ -1317,12 +1317,14 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         RheaKVStore store = getRandomLeaderStore();
         // regions: 1 -> [a, z], 2 -> [h]
         store.bPut(1L, "a_restart_all_with_leader_test", makeValue("a_restart_all_with_leader_test_value"));
-        store.bPut(2L, "h_restart_all_with_leader_test", makeValue("h_restart_all_with_leader_test_value"));
-        store.bPut(1L, "z_restart_all_with_leader_test", makeValue("z_restart_all_with_leader_test_value"));
+        store.bPut(2L, "b_restart_all_with_leader_test", makeValue("b_restart_all_with_leader_test_value"));
 
-        store.bGetSequence(1L, "a_restart_all_with_leader_test", 10);
-        store.bGetSequence(2L, "h_restart_all_with_leader_test", 11);
-        store.bGetSequence(1L, "z_restart_all_with_leader_test", 12);
+        store.resetSequence(1L, "a_restart_all_with_leader_test");
+        store.resetSequence(2L, "b_restart_all_with_leader_test");
+        assertEquals(0L, store.bGetSequence(1L, "a_restart_all_with_leader_test", 10).getStartValue());
+        assertEquals(11L, store.bGetSequence(2L, "b_restart_all_with_leader_test", 11).getEndValue());
+        assertEquals(10L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_test").longValue());
+        assertEquals(11L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_test").longValue());
 
         shutdown(false);
 
@@ -1332,14 +1334,13 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
 
         assertArrayEquals(makeValue("a_restart_all_with_leader_test_value"),
             store.bGet(1L, "a_restart_all_with_leader_test"));
-        assertArrayEquals(makeValue("h_restart_all_with_leader_test_value"),
-            store.bGet(2L, "h_restart_all_with_leader_test"));
-        assertArrayEquals(makeValue("z_restart_all_with_leader_test_value"),
-            store.bGet(1L, "z_restart_all_with_leader_test"));
+        assertArrayEquals(makeValue("b_restart_all_with_leader_test_value"),
+            store.bGet(2L, "b_restart_all_with_leader_test"));
 
-        assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_leader_seqTest", 1).getStartValue());
-        assertEquals(11, store.bGetSequence(2L, "h_restart_all_with_leader_seqTest", 1).getStartValue());
-        assertEquals(12, store.bGetSequence(1L, "z_restart_all_with_leader_seqTest", 1).getStartValue());
+        assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_leader_test", 1).getStartValue());
+        assertEquals(11, store.bGetSequence(2L, "b_restart_all_with_leader_test", 1).getStartValue());
+        assertEquals(11L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_test").longValue());
+        assertEquals(12L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_test").longValue());
     }
 
     @Test
