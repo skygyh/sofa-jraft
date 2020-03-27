@@ -128,16 +128,9 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     }
 
     private static String generateConf(final String engine, final String parentPath, String tagName,
-                                       final int pmemSize, final int forceCreate) {
+                                       final int pmemSize, int forceCreate) {
         boolean isVolatile = engine.equals("vsmap") || engine.equals("vcmap");
-        StringBuilder confStr = new StringBuilder();
         Path fullPath = Paths.get(parentPath, tagName);
-        confStr.append("{\"path\":\"").append(fullPath.toString()).append("\", \"size\":").append(pmemSize);
-        if (!isVolatile) {
-            confStr.append(", \"force_create\":").append(forceCreate);
-        }
-        confStr.append("}");
-
         if (forceCreate > 0) {
             if (Files.exists(fullPath)) {
                 if (!isVolatile) {
@@ -163,9 +156,23 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             }
         } else {
             if (Files.notExists(fullPath)) {
-                throw new RheaRuntimeException("PMemRawKVStore path doesn't exist : " + confStr);
+                LOG.info("force create needs to be enabled since {} is empty", fullPath);
+                forceCreate = 1;
+                try {
+                    Files.createDirectories(Paths.get(parentPath));
+                } catch (IOException ioe) {
+                    LOG.error("Failed to create {} : {}", fullPath.toString(), ioe.getMessage());
+                }
             }
         }
+
+        StringBuilder confStr = new StringBuilder();
+        confStr.append("{\"path\":\"").append(fullPath.toString()).append("\", \"size\":").append(pmemSize);
+        if (!isVolatile) {
+            confStr.append(", \"force_create\":").append(forceCreate);
+        }
+        confStr.append("}");
+
         LOG.info("Generated conf : {}", confStr);
         return confStr.toString();
     }

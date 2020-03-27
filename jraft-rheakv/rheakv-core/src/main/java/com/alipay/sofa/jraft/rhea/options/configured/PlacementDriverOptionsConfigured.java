@@ -16,13 +16,13 @@
  */
 package com.alipay.sofa.jraft.rhea.options.configured;
 
-import java.util.List;
-
 import com.alipay.sofa.jraft.option.CliOptions;
 import com.alipay.sofa.jraft.rhea.options.PlacementDriverOptions;
 import com.alipay.sofa.jraft.rhea.options.RegionRouteTableOptions;
 import com.alipay.sofa.jraft.rhea.options.RpcOptions;
 import com.alipay.sofa.jraft.rhea.util.Configured;
+
+import java.util.List;
 
 /**
  *
@@ -53,6 +53,11 @@ public final class PlacementDriverOptionsConfigured implements Configured<Placem
 
     public PlacementDriverOptionsConfigured withPdGroupId(final String pdGroupId) {
         this.opts.setPdGroupId(pdGroupId);
+        return this;
+    }
+
+    public PlacementDriverOptionsConfigured withHashRoute(final boolean hashRoute) {
+        this.opts.setHashRoute(hashRoute);
         return this;
     }
 

@@ -1319,12 +1319,12 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         store.bPut(1L, "a_restart_all_with_leader_test", makeValue("a_restart_all_with_leader_test_value"));
         store.bPut(2L, "b_restart_all_with_leader_test", makeValue("b_restart_all_with_leader_test_value"));
 
-        store.resetSequence(1L, "a_restart_all_with_leader_test");
-        store.resetSequence(2L, "b_restart_all_with_leader_test");
-        assertEquals(0L, store.bGetSequence(1L, "a_restart_all_with_leader_test", 10).getStartValue());
-        assertEquals(11L, store.bGetSequence(2L, "b_restart_all_with_leader_test", 11).getEndValue());
-        assertEquals(10L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_test").longValue());
-        assertEquals(11L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_test").longValue());
+        store.resetSequence(1L, "a_restart_all_with_leader_seqTest");
+        store.resetSequence(2L, "b_restart_all_with_leader_seqTest");
+        assertEquals(0L, store.bGetSequence(1L, "a_restart_all_with_leader_seqTest", 10).getStartValue());
+        assertEquals(11L, store.bGetSequence(2L, "b_restart_all_with_leader_seqTest", 11).getEndValue());
+        assertEquals(10L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_seqTest").longValue());
+        assertEquals(11L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_seqTest").longValue());
 
         shutdown(false);
 
@@ -1337,15 +1337,18 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         assertArrayEquals(makeValue("b_restart_all_with_leader_test_value"),
             store.bGet(2L, "b_restart_all_with_leader_test"));
 
-        assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_leader_test", 1).getStartValue());
-        assertEquals(11, store.bGetSequence(2L, "b_restart_all_with_leader_test", 1).getStartValue());
-        assertEquals(11L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_test").longValue());
-        assertEquals(12L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_test").longValue());
+        assertEquals(10, store.bGetSequence(1L, "a_restart_all_with_leader_seqTest", 1).getStartValue());
+        assertEquals(11, store.bGetSequence(2L, "b_restart_all_with_leader_seqTest", 1).getStartValue());
+        assertEquals(11L, store.bGetLatestSequence(1L, "a_restart_all_with_leader_seqTest").longValue());
+        assertEquals(12L, store.bGetLatestSequence(2L, "b_restart_all_with_leader_seqTest").longValue());
     }
 
     @Test
     public void restartAllWithFollowerTest() throws Exception {
         RheaKVStore store = getRandomFollowerStore();
+        store.resetSequence(1L, "a_restart_all_with_follower_seqTest");
+        store.resetSequence(2L, "h_restart_all_with_follower_seqTest");
+        store.resetSequence(1L, "z_restart_all_with_follower_seqTest");
         // regions: 1 -> [a, z], 2 -> [h]
         store.bPut(1L, "a_restart_all_with_follower_test", makeValue("a_restart_all_with_follower_test_value"));
         store.bPut(2L, "h_restart_all_with_follower_test", makeValue("h_restart_all_with_follower_test_value"));

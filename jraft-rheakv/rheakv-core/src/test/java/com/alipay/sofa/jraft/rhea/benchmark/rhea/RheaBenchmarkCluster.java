@@ -38,8 +38,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RheaBenchmarkCluster {
     // Default path if system environment variables (DB_PATH and RAFT_PATH) are not set.
-    private static final String               DefaultBenchMarkDbPath   = "benchmark_rhea_db";
-    private static final String               DefaultBenchMarkRaftPath = "benchmark_rhea_raft";
+    private static final String               DefaultBenchMarkDbPath   = "/mnt/mem/benchmark_rhea_db";
+    private static final String               DefaultBenchMarkRaftPath = "/mnt/mem/benchmark_rhea_raft";
 
     private static final String[]             CONF                     = { "benchmark/conf/rhea_cluster_1.yaml",
             "benchmark/conf/rhea_cluster_2.yaml", "benchmark/conf/rhea_cluster_3.yaml" };
