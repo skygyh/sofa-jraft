@@ -867,7 +867,7 @@ public class NodeImpl implements Node, RaftServerService {
             .setEventFactory(new LogEntryAndClosureFactory()) //
             .setThreadFactory(new NamedThreadFactory("JRaft-NodeImpl-Disruptor-", true)) //
             .setProducerType(ProducerType.MULTI) //
-            .setWaitStrategy(new BusySpinWaitStrategy()) //
+            .setWaitStrategy(new BlockingWaitStrategy()) //
             .build();
         this.applyDisruptor.handleEventsWith(new LogEntryAndClosureHandler());
         this.applyDisruptor.setDefaultExceptionHandler(new LogExceptionHandler<Object>(getClass().getSimpleName()));
@@ -1194,7 +1194,7 @@ public class NodeImpl implements Node, RaftServerService {
         }
         // Learner node will not trigger the election timer.
         if (!isLearner()) {
-            this.electionTimer.start();
+            this.electionTimer.restart();
         } else {
             LOG.info("Node {} is a learner, election timer is not started.", this.nodeId);
         }

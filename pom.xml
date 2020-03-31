@@ -39,6 +39,7 @@
         <module>jraft-example</module>
         <module>jraft-rheakv</module>
         <module>pcj</module>
+        <module>jraft-extension</module>
     </modules>
 
     <scm>

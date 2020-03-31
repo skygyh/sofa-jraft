@@ -16,7 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import com.alipay.remoting.rpc.RpcServer;
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.entity.Task;
@@ -36,6 +35,7 @@ import com.alipay.sofa.jraft.rhea.serialization.Serializers;
 import com.alipay.sofa.jraft.rhea.storage.*;
 import com.alipay.sofa.jraft.rhea.util.*;
 import com.alipay.sofa.jraft.rpc.RaftRpcServerFactory;
+import com.alipay.sofa.jraft.rpc.RpcServer;
 import com.alipay.sofa.jraft.util.*;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
@@ -180,11 +180,10 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         // init metrics
         startMetricReporters(metricsReportPeriod);
         // init rpc server
-        this.rpcServer = new RpcServer(port, true, false);
-        RaftRpcServerFactory.addRaftRequestProcessors(this.rpcServer, this.raftRpcExecutor, this.cliRpcExecutor);
+        this.rpcServer = RaftRpcServerFactory.createRaftRpcServer(serverAddress, this.raftRpcExecutor,
+            this.cliRpcExecutor);
         StoreEngineHelper.addKvStoreRequestProcessor(this.rpcServer, this);
-        this.rpcServer.startup();
-        if (!this.rpcServer.isStarted()) {
+        if (!this.rpcServer.init(null)) {
             LOG.error("Fail to init [RpcServer].");
             return false;
         }

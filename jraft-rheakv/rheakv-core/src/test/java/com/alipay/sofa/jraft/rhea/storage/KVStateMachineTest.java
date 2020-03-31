@@ -27,7 +27,7 @@ import com.alipay.sofa.jraft.rhea.StateListenerContainer;
 import com.alipay.sofa.jraft.rhea.StoreEngine;
 import com.alipay.sofa.jraft.rhea.client.pd.FakePlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
-import com.alipay.sofa.jraft.rhea.util.ThrowUtil;
+import com.alipay.sofa.jraft.util.internal.ThrowUtil;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Endpoint;
 import org.apache.commons.io.FileUtils;

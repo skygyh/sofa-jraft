@@ -16,16 +16,6 @@
  */
 package com.alipay.sofa.jraft.core;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -54,7 +44,6 @@ import org.rocksdb.util.SizeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alipay.remoting.rpc.RpcServer;
 import com.alipay.sofa.jraft.Iterator;
 import com.alipay.sofa.jraft.JRaftUtils;
 import com.alipay.sofa.jraft.Node;
@@ -62,6 +51,7 @@ import com.alipay.sofa.jraft.NodeManager;
 import com.alipay.sofa.jraft.RaftGroupService;
 import com.alipay.sofa.jraft.StateMachine;
 import com.alipay.sofa.jraft.Status;
+import com.alipay.sofa.jraft.closure.JoinableClosure;
 import com.alipay.sofa.jraft.closure.ReadIndexClosure;
 import com.alipay.sofa.jraft.closure.SynchronizedClosure;
 import com.alipay.sofa.jraft.closure.TaskClosure;
@@ -78,6 +68,7 @@ import com.alipay.sofa.jraft.option.BootstrapOptions;
 import com.alipay.sofa.jraft.option.NodeOptions;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.rpc.RaftRpcServerFactory;
+import com.alipay.sofa.jraft.rpc.RpcServer;
 import com.alipay.sofa.jraft.storage.SnapshotThrottle;
 import com.alipay.sofa.jraft.storage.impl.RocksDBLogStorage;
 import com.alipay.sofa.jraft.storage.snapshot.SnapshotReader;
@@ -88,6 +79,16 @@ import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.StorageOptionsFactory;
 import com.alipay.sofa.jraft.util.Utils;
 import com.codahale.metrics.ConsoleReporter;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class NodeTest {
 
@@ -180,26 +181,23 @@ public class NodeTest {
             ;
         }
 
-        final CountDownLatch latch = new CountDownLatch(10);
+        final List<Task> tasks = new ArrayList<>();
         final AtomicInteger c = new AtomicInteger(0);
         for (int i = 0; i < 10; i++) {
             final ByteBuffer data = ByteBuffer.wrap(("hello" + i).getBytes());
-            final Task task = new Task(data, status -> {
+            final Task task = new Task(data, new JoinableClosure(status -> {
                 System.out.println(status);
-                try {
-                    if (!status.isOk()) {
-                        assertTrue(
+                if (!status.isOk()) {
+                    assertTrue(
                             status.getRaftError() == RaftError.EBUSY || status.getRaftError() == RaftError.EPERM);
-                    }
-                    c.incrementAndGet();
-                } finally {
-                    latch.countDown();
                 }
-            });
+                c.incrementAndGet();
+            }));
             node.apply(task);
+            tasks.add(task);
         }
         try {
-            waitLatch(latch);
+            Task.joinAll(tasks, TimeUnit.SECONDS.toMillis(30));
             assertEquals(10, c.get());
         } finally {
             node.shutdown();

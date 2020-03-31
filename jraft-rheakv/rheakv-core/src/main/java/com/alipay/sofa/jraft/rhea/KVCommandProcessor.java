@@ -16,12 +16,11 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import com.alipay.remoting.AsyncContext;
-import com.alipay.remoting.BizContext;
-import com.alipay.remoting.rpc.protocol.AsyncUserProcessor;
 import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
+import com.alipay.sofa.jraft.rpc.RpcContext;
+import com.alipay.sofa.jraft.rpc.RpcProcessor;
 import com.alipay.sofa.jraft.util.Requires;
 
 import java.util.concurrent.Executor;
@@ -31,7 +30,7 @@ import java.util.concurrent.Executor;
  *
  * @author jiachun.fjc
  */
-public class KVCommandProcessor<T extends BaseRequest> extends AsyncUserProcessor<T> {
+public class KVCommandProcessor<T extends BaseRequest> implements RpcProcessor<T> {
 
     private final Class<T>    reqClazz;
     private final StoreEngine storeEngine;
@@ -42,10 +41,9 @@ public class KVCommandProcessor<T extends BaseRequest> extends AsyncUserProcesso
     }
 
     @Override
-    public void handleRequest(final BizContext bizCtx, final AsyncContext asyncCtx, final T request) {
+    public void handleRequest(final RpcContext rpcCtx, final T request) {
         Requires.requireNonNull(request, "request");
-        final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure = new RequestProcessClosure<>(request,
-            bizCtx, asyncCtx);
+        final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure = new RequestProcessClosure<>(request, rpcCtx);
         final RegionKVService regionKVService = this.storeEngine.getRegionKVService(request.getRegionId());
         if (regionKVService == null) {
             final NoRegionFoundResponse noRegion = new NoRegionFoundResponse();
@@ -133,7 +131,7 @@ public class KVCommandProcessor<T extends BaseRequest> extends AsyncUserProcesso
     }
 
     @Override
-    public Executor getExecutor() {
+    public Executor executor() {
         return this.storeEngine.getKvRpcExecutor();
     }
 }

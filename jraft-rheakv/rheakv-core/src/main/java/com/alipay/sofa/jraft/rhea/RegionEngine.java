@@ -16,7 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
-import com.alipay.remoting.rpc.RpcServer;
 import com.alipay.sofa.jraft.*;
 import com.alipay.sofa.jraft.conf.Configuration;
 import com.alipay.sofa.jraft.entity.PeerId;
@@ -28,9 +27,10 @@ import com.alipay.sofa.jraft.rhea.storage.MetricsRawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RaftRawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
 import com.alipay.sofa.jraft.rhea.util.Strings;
-import com.alipay.sofa.jraft.rhea.util.ThrowUtil;
+import com.alipay.sofa.jraft.rpc.RpcServer;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.Requires;
+import com.alipay.sofa.jraft.util.internal.ThrowUtil;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
