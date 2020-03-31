@@ -55,6 +55,29 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.databind.version}</version>
         </dependency>
+        <!-- protostuff -->
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+            <version>${protostuff.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+            <version>${protostuff.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.pmem</groupId>
+            <artifactId>pmemkv</artifactId>
+            <version>1.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/pmemkv-1.1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>lib.util.persistent</groupId>
+            <artifactId>jraft-pcj</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

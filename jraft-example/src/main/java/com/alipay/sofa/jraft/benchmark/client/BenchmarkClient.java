@@ -98,7 +98,7 @@ public class BenchmarkClient {
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
         for (int i = 0; i < threads; i++) {
             final Thread t = new Thread(() -> doRequest(rheaKVStore, writeRatio, readRatio, valueSize, regionRouteTableOptionsList));
-            t.setDaemon(true);
+            t.setDaemon(false);
             t.start();
         }
     }
