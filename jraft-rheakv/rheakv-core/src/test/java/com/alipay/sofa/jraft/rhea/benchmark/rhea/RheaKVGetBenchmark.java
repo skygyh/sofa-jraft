@@ -16,30 +16,22 @@
  */
 package com.alipay.sofa.jraft.rhea.benchmark.rhea;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
+import com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil;
+import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
+import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.util.Lists;
+import com.alipay.sofa.jraft.util.BytesUtil;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil;
-import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
-import com.alipay.sofa.jraft.rhea.storage.KVEntry;
-import com.alipay.sofa.jraft.rhea.util.Lists;
-import com.alipay.sofa.jraft.util.BytesUtil;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.KEY_COUNT;
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.VALUE_BYTES;
@@ -140,13 +132,17 @@ public class RheaKVGetBenchmark extends RheaBenchmarkCluster {
     }
 
     public static void main(String[] args) throws RunnerException {
+        int concurrency = BenchmarkUtil.CONCURRENCY;
+        if (args != null && args.length > 0) {
+            concurrency = Integer.parseInt(args[0]);
+        }
         Options opt = new OptionsBuilder() //
             .include(RheaKVGetBenchmark.class.getSimpleName()) //
             .warmupIterations(1) //
             .warmupTime(TimeValue.seconds(10)) //
-            .measurementIterations(3) //
+            .measurementIterations(1) //
             .measurementTime(TimeValue.seconds(10)) //
-            .threads(BenchmarkUtil.CONCURRENCY) //
+            .threads(concurrency) //
             .forks(1) //
             .build();
 

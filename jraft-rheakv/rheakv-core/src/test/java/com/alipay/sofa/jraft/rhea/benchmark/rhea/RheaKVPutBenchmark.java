@@ -90,13 +90,17 @@ public class RheaKVPutBenchmark extends RheaBenchmarkCluster {
     }
 
     public static void main(String[] args) throws RunnerException {
+        int concurrency = CONCURRENCY;
+        if (args != null && args.length > 0) {
+            concurrency = Integer.parseInt(args[0]);
+        }
         Options opt = new OptionsBuilder() //
             .include(RheaKVPutBenchmark.class.getSimpleName()) //
             .warmupIterations(1) //
             .warmupTime(TimeValue.seconds(10)) //
-            .measurementIterations(3) //
+            .measurementIterations(1) //
             .measurementTime(TimeValue.seconds(10)) //
-            .threads(CONCURRENCY) //
+            .threads(concurrency) //
             .forks(1) //
             .build();
 
