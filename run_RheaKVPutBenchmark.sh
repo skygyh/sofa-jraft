@@ -1,6 +1,8 @@
 #!/bin/bash
-export DB_PATH="/dev/shm/benchmark_rhea_db/"
-export RAFT_PATH="/dev/shm/benchmark_rhea_raft/"
+export PMEM_IS_PMEM_FORCE=1
+export PMEMOBJ_CONF="sds.at_create=0"
+export DB_PATH="/mnt/mem/benchmark_rhea_db/"
+export RAFT_PATH="/mnt/mem/benchmark_rhea_raft/"
 rm -rf $DB_PATH
 rm -rf $RAFT_PATH
 export HOME="/home/`whoami`"

@@ -81,13 +81,13 @@ public class RheaBenchmarkCluster {
         file = new File(dbPath);
         if (file.mkdir()) {
             this.tempDbPath = file.getAbsolutePath();
-            System.out.println("make dir: " + this.tempDbPath);
+            //System.out.println("make dir: " + this.tempDbPath);
         }
 
         String raftPath = System.getenv("RAFT_PATH");
         if (raftPath == null || raftPath.isEmpty()) {
             raftPath = DefaultBenchMarkRaftPath;
-            System.out.println("make dir: " + this.tempRaftPath);
+            //System.out.println("make dir: " + this.tempRaftPath);
         }
         file = new File(raftPath);
         if (file.exists()) {
@@ -103,7 +103,7 @@ public class RheaBenchmarkCluster {
             RheaKVStore rheaKVStore = new DefaultRheaKVStore();
             if (rheaKVStore.init(opt)) {
                 stores.add(rheaKVStore);
-                System.out.println("RheaKVStoreOptions : " + opt);
+                //System.out.println("RheaKVStoreOptions : " + opt);
             } else {
                 throw new RuntimeException("Fail to init rhea kv store witch conf: " + c);
             }
@@ -138,11 +138,11 @@ public class RheaBenchmarkCluster {
             store.shutdown();
         }
         if (this.tempDbPath != null) {
-            System.out.println("removing dir: " + this.tempDbPath);
+            //System.out.println("removing dir: " + this.tempDbPath);
             FileUtils.forceDelete(new File(this.tempDbPath));
         }
         if (this.tempRaftPath != null) {
-            System.out.println("removing dir: " + this.tempRaftPath);
+            //System.out.println("removing dir: " + this.tempRaftPath);
             FileUtils.forceDelete(new File(this.tempRaftPath));
         }
     }
@@ -160,8 +160,8 @@ public class RheaBenchmarkCluster {
                 // ignored
             }
         }
-        System.out.println("fail to find leader for region " + regionId);
-        throw new NotLeaderException("no leader");
+        //System.out.println("fail to find leader for region " + regionId);
+        throw new NotLeaderException("no leader for region " + regionId);
     }
 
     public RheaKVStore getFollowerStore(long regionId) {
@@ -177,7 +177,7 @@ public class RheaBenchmarkCluster {
                 // ignored
             }
         }
-        System.out.println("fail to find follower for region " + regionId);
-        throw new NotLeaderException("no follower");
+        //System.out.println("fail to find follower for region " + regionId);
+        throw new NotLeaderException("no follower for region " + regionId);
     }
 }

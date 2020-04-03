@@ -1,5 +1,7 @@
 #!/bin/bash
-export DB_PATH="/dev/shm/benchmark_raw_db/"
+export PMEM_IS_PMEM_FORCE=1
+export PMEMOBJ_CONF="sds.at_create=0"
+export DB_PATH="/mnt/mem/benchmark_raw_db/"
 rm -rf $DB_PATH
 export HOME="/home/`whoami`"
 export VERSION=`awk -F '[<>]' '/<version>/{print $3}' pom.xml | head -n 1`
