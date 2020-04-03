@@ -17,10 +17,15 @@
 package com.alipay.sofa.jraft.rhea.benchmark.rhea;
 
 import com.alipay.remoting.config.Configs;
+import com.alipay.sofa.jraft.conf.Configuration;
+import com.alipay.sofa.jraft.entity.PeerId;
+import com.alipay.sofa.jraft.rhea.JRaftHelper;
+import com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil;
 import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.errors.NotLeaderException;
+import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
 import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.SystemPropertyUtil;
@@ -30,6 +35,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -38,15 +47,25 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class RheaBenchmarkCluster {
     // Default path if system environment variables (DB_PATH and RAFT_PATH) are not set.
-    private static final String               DefaultBenchMarkDbPath   = "/mnt/mem/benchmark_rhea_db";
-    private static final String               DefaultBenchMarkRaftPath = "/mnt/mem/benchmark_rhea_raft";
+    private static final String                        DefaultBenchMarkDbPath   = "/mnt/mem/benchmark_rhea_db";
+    private static final String                        DefaultBenchMarkRaftPath = "/mnt/mem/benchmark_rhea_raft";
 
-    private static final String[]             CONF                     = { "benchmark/conf/rhea_cluster_1.yaml",
-            "benchmark/conf/rhea_cluster_2.yaml", "benchmark/conf/rhea_cluster_3.yaml" };
+    private static final String[]                      CONF                     = {
+            "benchmark/conf/rhea_cluster_1.yaml", "benchmark/conf/rhea_cluster_2.yaml",
+            "benchmark/conf/rhea_cluster_3.yaml"                               };
 
-    private volatile String                   tempDbPath;
-    private volatile String                   tempRaftPath;
-    private CopyOnWriteArrayList<RheaKVStore> stores                   = new CopyOnWriteArrayList<>();
+    private volatile String                            tempDbPath;
+    private volatile String                            tempRaftPath;
+    protected CopyOnWriteArrayList<RheaKVStore>        stores                   = new CopyOnWriteArrayList<>();
+    protected CopyOnWriteArrayList<RheaKVStoreOptions> opts                     = new CopyOnWriteArrayList<>();
+    protected List<Long>                               regionIds                = new ArrayList<>();
+    protected Map<Long, RheaKVStore>                   regionId2Store           = new HashMap<>();
+    protected int[]                                    numbers;
+    protected int                                      index;
+
+    protected int getRandomInt() {
+        return this.numbers[this.index++ % this.numbers.length];
+    }
 
     protected void start() throws IOException, InterruptedException {
         SystemPropertyUtil.setProperty(Configs.NETTY_BUFFER_LOW_WATERMARK, Integer.toString(256 * 1024));
@@ -80,22 +99,38 @@ public class RheaBenchmarkCluster {
         }
         for (String c : CONF) {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            final RheaKVStoreOptions opts = mapper.readValue(new File(c), RheaKVStoreOptions.class);
+            final RheaKVStoreOptions opt = mapper.readValue(new File(c), RheaKVStoreOptions.class);
             RheaKVStore rheaKVStore = new DefaultRheaKVStore();
-            if (rheaKVStore.init(opts)) {
+            if (rheaKVStore.init(opt)) {
                 stores.add(rheaKVStore);
-                System.out.println("RheaKVStoreOptions : " + opts);
+                System.out.println("RheaKVStoreOptions : " + opt);
             } else {
                 throw new RuntimeException("Fail to init rhea kv store witch conf: " + c);
             }
+            opts.add(opt);
         }
-        PlacementDriverClient pdClient = stores.get(0).getPlacementDriverClient();
-        Endpoint leader1 = pdClient.getLeader(1, true, 10000);
-        System.out.println("The region 1 leader is: " + leader1);
-        //        Endpoint leader2 = pdClient.getLeader(2, true, 10000);
-        //        System.out.println("The region 2 leader is: " + leader2);
-        //        Endpoint leader3 = pdClient.getLeader(3, true, 10000);
-        //        System.out.println("The region 3 leader is: " + leader3);
+
+        this.numbers = BenchmarkUtil.buildRandomNumbers(BenchmarkUtil.KEY_COUNT);
+
+        final Configuration configuration = new Configuration();
+        configuration.parse(opts.get(0).getInitialServerList());
+        List<PeerId> peers = configuration.getPeers();
+
+        RheaKVStoreOptions opt = opts.get(0);
+        Thread.sleep(opt.getStoreEngineOptions().getCommonNodeOptions().getElectionTimeoutMs() * 2);
+        for (RegionEngineOptions regionEngineOpt : opt.getStoreEngineOptions().getRegionEngineOptionsList()) {
+            final long regionId = regionEngineOpt.getRegionId();
+            regionIds.add(regionId);
+            final PlacementDriverClient pdClient = getLeaderStore(regionId).getPlacementDriverClient();
+            pdClient.transferLeader(regionId, JRaftHelper.toPeer(peers.get((int) (regionId % peers.size()))), true);
+            Endpoint leader = pdClient.getLeader(regionId, true, 10000);
+            System.out.println(String.format("The region %d leader is: %s", regionId, leader));
+
+        }
+
+        for (Long regionId : regionIds) {
+            this.regionId2Store.put(regionId, getLeaderStore(regionId));
+        }
     }
 
     protected void shutdown() throws IOException {
@@ -119,13 +154,13 @@ public class RheaBenchmarkCluster {
                     return store;
                 }
             }
-            System.out.println("fail to find leader, try again");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ignored) {
                 // ignored
             }
         }
+        System.out.println("fail to find leader for region " + regionId);
         throw new NotLeaderException("no leader");
     }
 
@@ -136,13 +171,13 @@ public class RheaBenchmarkCluster {
                     return store;
                 }
             }
-            System.out.println("fail to find follower, try again");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ignored) {
                 // ignored
             }
         }
+        System.out.println("fail to find follower for region " + regionId);
         throw new NotLeaderException("no follower");
     }
 }

@@ -4,18 +4,28 @@ clusterName: rhea_benchmark
 
 placementDriverOptions:
   fake: true
+  hashRoute: true
 
 storeEngineOptions:
   rocksDBOptions:
     sync: false
-    dbPath: /mnt/mem/benchmark_rhea_db/
+    dbPath: /dev/shm/benchmark_rhea_db/
   pmemDBOptions:
-    dbPath: /mnt/mem/benchmark_rhea_db/
-  raftDataPath: /mnt/mem/benchmark_rhea_raft/
+    dbPath: /dev/shm/benchmark_rhea_db/
+    pmemDataSize: 536870912
+    pmemMetaSize: 0
+  raftDataPath: /dev/shm/benchmark_rhea_raft/
   serverAddress:
     ip: 127.0.0.1
     port: 8183
   regionEngineOptionsList:
-    - { regionId: 1, nodeOptions: { raftOptions: { sync: false} } }
+    - { regionId: 1, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 2, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 3, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 4, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 5, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 6, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 7, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
+    - { regionId: 8, nodeOptions: { electionTimeoutMs: 5000, raftOptions: { sync: false} } }
 
 initialServerList: 127.0.0.1:8181,127.0.0.1:8182,127.0.0.1:8183

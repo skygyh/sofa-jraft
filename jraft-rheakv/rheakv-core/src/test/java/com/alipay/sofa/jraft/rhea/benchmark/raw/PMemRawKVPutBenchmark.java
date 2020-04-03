@@ -30,9 +30,12 @@ public class PMemRawKVPutBenchmark extends RawKVPutBenchmark {
     @Override
     protected RawKVStore initRawKVStore() {
         PMemDBOptions pmemOpts = new PMemDBOptions();
-        final String childPath = "PMemRawKVPutBenchmark_db";
-        pmemOpts.setDbPath(Paths.get(
-            pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(), childPath).toString());
+        String dbPath = System.getenv("DB_PATH");
+        if (dbPath == null || dbPath.isEmpty()) {
+            dbPath = Paths.get(pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(),
+                "PMemRawKVPutBenchmark_db").toString();
+        }
+        pmemOpts.setDbPath(dbPath);
         this.pmemRawKVStore = new PMemRawKVStore();
         this.pmemRawKVStore.init(pmemOpts);
         return this.pmemRawKVStore;

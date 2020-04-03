@@ -17,7 +17,6 @@
 package com.alipay.sofa.jraft.rhea.benchmark.rhea;
 
 import com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil;
-import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.util.Lists;
 import com.alipay.sofa.jraft.util.BytesUtil;
@@ -30,7 +29,6 @@ import org.openjdk.jmh.runner.options.TimeValue;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static com.alipay.sofa.jraft.rhea.benchmark.BenchmarkUtil.KEY_COUNT;
@@ -76,8 +74,6 @@ public class RheaKVGetBenchmark extends RheaBenchmarkCluster {
      RheaKVGetBenchmark.getReadOnlySafe                              ss         3    2.668 ±  13.052   ms/op
      */
 
-    private RheaKVStore kvStore;
-
     @Setup
     public void setup() {
         try {
@@ -85,8 +81,6 @@ public class RheaKVGetBenchmark extends RheaBenchmarkCluster {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-        this.kvStore = getLeaderStore(1);
 
         // insert data first
         put();
@@ -105,27 +99,31 @@ public class RheaKVGetBenchmark extends RheaBenchmarkCluster {
     @BenchmarkMode(Mode.All)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void get() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        byte[] key = BytesUtil.writeUtf8("benchmark_" + random.nextInt(KEY_COUNT));
-        this.kvStore.get(key, false);
+        int k = getRandomInt();
+        byte[] key = BytesUtil.writeUtf8("benchmark_" + k);
+        final long regionId = regionIds.get(k % regionIds.size());
+        regionId2Store.get(regionId).get(regionId, key, false);
     }
 
     @Benchmark
     @BenchmarkMode(Mode.All)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void getReadOnlySafe() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        byte[] key = BytesUtil.writeUtf8("benchmark_" + random.nextInt(KEY_COUNT));
-        this.kvStore.get(key, true);
+        int k = getRandomInt();
+        byte[] key = BytesUtil.writeUtf8("benchmark_" + k);
+        final long regionId = regionIds.get(k % regionIds.size());
+        regionId2Store.get(regionId).get(regionId, key, true);
     }
 
     public void put() {
-        final List<KVEntry> batch = Lists.newArrayListWithCapacity(100);
-        for (int i = 0; i < KEY_COUNT; i++) {
+        final int batchSize = 100;
+        final List<KVEntry> batch = Lists.newArrayListWithCapacity(batchSize);
+        for (int i = 0; i < KEY_COUNT; i += batchSize) {
+            final long regionId = regionIds.get(i % regionIds.size());
             byte[] key = BytesUtil.writeUtf8("benchmark_" + i);
-            batch.add(new KVEntry(key, VALUE_BYTES));
-            if (batch.size() >= 10) {
-                this.kvStore.bPut(batch);
+            batch.add(new KVEntry(regionId, key, VALUE_BYTES));
+            if (batch.size() >= batchSize) {
+                regionId2Store.get(regionId).bPut(batch);
                 batch.clear();
             }
         }

@@ -26,13 +26,22 @@ public class BenchmarkUtil {
 
     public static final int    CONCURRENCY = 1;
     public static final int    KEY_COUNT   = 1000000;
-
+    public static final int    VALUE_SIZE  = 512;
     public static final byte[] VALUE_BYTES;
 
     static {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        byte[] bytes = new byte[100];
+        byte[] bytes = new byte[VALUE_SIZE];
         random.nextBytes(bytes);
         VALUE_BYTES = bytes;
+    }
+
+    public static int[] buildRandomNumbers(final int keyCount) {
+        int[] numbers = new int[keyCount];
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        for (int i = 0; i < keyCount; i++) {
+            numbers[i] = random.nextInt(keyCount);
+        }
+        return numbers;
     }
 }

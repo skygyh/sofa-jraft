@@ -20,13 +20,24 @@ import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
 import com.alipay.sofa.jraft.rhea.storage.PMemRawKVStore;
 import com.alipay.sofa.jraft.rhea.storage.RawKVStore;
 
+import java.nio.file.Paths;
+
 public class PMemRawKVGetBenchmark extends RawKVGetBenchmark {
     private PMemRawKVStore pmemRawKVStore;
 
     @Override
     protected RawKVStore initRawKVStore() {
+        PMemDBOptions pmemOpts = new PMemDBOptions();
+        String dbPath = System.getenv("DB_PATH");
+        if (dbPath == null || dbPath.isEmpty()) {
+            dbPath = Paths.get(pmemOpts.getDbPath() == null ? PMemDBOptions.PMEM_ROOT_PATH : pmemOpts.getDbPath(),
+                "PMemRawKVGetBenchmark_db").toString();
+        }
+        pmemOpts.setDbPath(dbPath);
+        // data file size must be >= KEY_COUNT * KVSIZE + overhead
+        pmemOpts.setPmemDataSize(1536 * 1024 * 1024);
         this.pmemRawKVStore = new PMemRawKVStore();
-        this.pmemRawKVStore.init(new PMemDBOptions());
+        this.pmemRawKVStore.init(pmemOpts);
         return this.pmemRawKVStore;
     }
 

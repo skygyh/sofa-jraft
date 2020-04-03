@@ -41,12 +41,12 @@ public class PMemDBOptions {
      **/
     public static final String PMEM_ROOT_PATH = "/mnt/mem/";
     // The below MAX_[KEY|VALUE]_SIZE is from stree.h in pmemkv
-    public static final int    MAX_KEY_SIZE   = 256;
-    public static final int    MAX_VALUE_SIZE = 256;
+    public static final int    MAX_KEY_SIZE   = 512;
+    public static final int    MAX_VALUE_SIZE = 512;
 
     private String             orderedEngine  = "stree";
     private String             hashEngine     = "cmap";
-    private int                pmemDataSize   = 512 * 1024 * 1024;
+    private int                pmemDataSize   = 1024 * 1024 * 1024;
     private int                pmemMetaSize   = 8 * 1024 * 1024;
     private String             dbPath         = PMEM_ROOT_PATH;
     private boolean            forceCreate    = true;

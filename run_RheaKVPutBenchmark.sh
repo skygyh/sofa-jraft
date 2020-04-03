@@ -1,7 +1,8 @@
 #!/bin/bash
-rm -rf /mnt/mem/*
-export DB_PATH="/mnt/mem/benchmark_rhea_db/"
-export RAFT_PATH="/mnt/mem/benchmark_rhea_raft/"
+export DB_PATH="/dev/shm/benchmark_rhea_db/"
+export RAFT_PATH="/dev/shm/benchmark_rhea_raft/"
+rm -rf $DB_PATH
+rm -rf $RAFT_PATH
 export HOME="/home/`whoami`"
 export VERSION=`awk -F '[<>]' '/<version>/{print $3}' pom.xml | head -n 1`
 export BOLTVER=`awk -F '[<>]' '/<bolt.version>/{print $3}' pom.xml | head -n 1`
