@@ -16,19 +16,7 @@
  */
 package com.alipay.sofa.jraft.benchmark.client;
 
-import java.util.ArrayDeque;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.alipay.sofa.jraft.benchmark.BenchmarkHelper;
 import com.alipay.sofa.jraft.benchmark.Yaml;
 import com.alipay.sofa.jraft.conf.Configuration;
 import com.alipay.sofa.jraft.entity.PeerId;
@@ -44,19 +32,18 @@ import com.alipay.sofa.jraft.rhea.util.StackTraceUtil;
 import com.alipay.sofa.jraft.util.BytesUtil;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.Timer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author jiachun.fjc
  */
 public class BenchmarkClient {
 
-    private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkClient.class);
-
-    private static final byte[] BYTES    = new byte[] { 0, 1 };
-    private static final Timer  putTimer = KVMetrics.timer("put_benchmark_timer");
-    private static final Timer  getTimer = KVMetrics.timer("get_benchmark_timer");
-    private static final Timer  timer    = KVMetrics.timer("benchmark_timer");
+    private static final Logger LOG = LoggerFactory.getLogger(BenchmarkClient.class);
 
     public static void main(final String[] args) {
         if (args.length < 7) {
@@ -81,7 +68,7 @@ public class BenchmarkClient {
         final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
             .getRegionRouteTableOptionsList();
 
-        rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
+        rebalance2(rheaKVStore, initialServerList, opts.getPlacementDriverOptions().getRegionRouteTableOptionsList());
 
         rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
         LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
@@ -91,72 +78,8 @@ public class BenchmarkClient {
             .start(30, TimeUnit.SECONDS);
 
         LOG.info("Start benchmark...");
-        startBenchmark(rheaKVStore, threads, writeRatio, readRatio, valueSize, regionRouteTableOptionsList);
-    }
-
-    public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
-                                      final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
-        for (int i = 0; i < threads; i++) {
-            final Thread t = new Thread(() -> doRequest(rheaKVStore, writeRatio, readRatio, valueSize, regionRouteTableOptionsList));
-            t.setDaemon(false);
-            t.start();
-        }
-    }
-
-    @SuppressWarnings("InfiniteLoopStatement")
-    public static void doRequest(final RheaKVStore rheaKVStore, final int writeRatio, final int readRatio, final int valueSize,
-                                 final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
-        final int regionSize = regionRouteTableOptionsList.size();
-        final ThreadLocalRandom random = ThreadLocalRandom.current();
-        final int sum = writeRatio + readRatio;
-        final Semaphore slidingWindow = new Semaphore(sum);
-        int index = 0;
-        int randomRegionIndex = 0;
-        final byte[] valeBytes = new byte[valueSize];
-        random.nextBytes(valeBytes);
-        for (;;) {
-            try {
-                slidingWindow.acquire();
-            } catch (final Exception e) {
-                LOG.error("Wrong slidingWindow: {}, {}", slidingWindow.toString(), StackTraceUtil.stackTrace(e));
-            }
-            int i = index++;
-            if (i % sum == 0) {
-                randomRegionIndex = random.nextInt(regionSize);
-            }
-            byte[] keyBytes = regionRouteTableOptionsList.get(randomRegionIndex).getStartKeyBytes();
-            if (keyBytes == null) {
-                keyBytes = BYTES;
-            }
-            final Timer.Context ctx = timer.time();
-            if (Math.abs(i % sum) < writeRatio) {
-                // put
-                final Timer.Context putCtx = putTimer.time();
-                final CompletableFuture<Boolean> f = put(rheaKVStore, keyBytes, valeBytes);
-                f.whenComplete((ignored, throwable) -> {
-                    slidingWindow.release();
-                    ctx.stop();
-                    putCtx.stop();
-                });
-            } else {
-                // get
-                final Timer.Context getCtx = getTimer.time();
-                final CompletableFuture<byte[]> f = get(rheaKVStore, keyBytes);
-                f.whenComplete((ignored, throwable) -> {
-                    slidingWindow.release();
-                    ctx.stop();
-                    getCtx.stop();
-                });
-            }
-        }
-    }
-
-    public static CompletableFuture<Boolean> put(final RheaKVStore rheaKVStore, final byte[] key, final byte[] value) {
-        return rheaKVStore.put(key, value);
-    }
-
-    public static CompletableFuture<byte[]> get(final RheaKVStore rheaKVStore, final byte[] key) {
-        return rheaKVStore.get(key);
+        BenchmarkHelper.startBenchmark(rheaKVStore, threads, writeRatio, readRatio, valueSize,
+            regionRouteTableOptionsList);
     }
 
     // Because we use fake PD, so we need manual rebalance
@@ -224,5 +147,26 @@ public class BenchmarkClient {
                 LOG.error("Fail to get leader: {}", StackTraceUtil.stackTrace(e));
             }
         }
+    }
+
+    private static void rebalance2(final RheaKVStore rheaKVStore, final String initialServerList,
+                                   final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
+        final Configuration configuration = new Configuration();
+        configuration.parse(initialServerList);
+        List<PeerId> peers = configuration.getPeers();
+
+        try {
+            Thread.sleep(3 * 1000);
+            final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
+            for (RegionRouteTableOptions regionRouteTableOpt : regionRouteTableOptionsList) {
+                final long regionId = regionRouteTableOpt.getRegionId();
+                pdClient.transferLeader(regionId, JRaftHelper.toPeer(peers.get((int) (regionId % peers.size()))), true);
+                Endpoint leader = pdClient.getLeader(regionId, true, 20000);
+                System.out.println(String.format("The region %d leader is: %s", regionId, leader));
+            }
+        } catch (Exception e) {
+            LOG.error("Hit exception on rebalance ", e);
+        }
+
     }
 }
