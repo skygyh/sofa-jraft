@@ -50,6 +50,7 @@ public class PMemDBOptions {
     private int                pmemMetaSize   = 8 * 1024 * 1024;
     private String             dbPath         = PMEM_ROOT_PATH;
     private boolean            forceCreate    = true;
+    private boolean            enableLocker   = false;
 
     // for segment snapshot file size
     private int                keysPerSegment = 4096;
@@ -107,6 +108,14 @@ public class PMemDBOptions {
         this.forceCreate = forceCreate;
     }
 
+    public boolean getEnableLocker() {
+        return enableLocker;
+    }
+
+    public void setEnableLocker(boolean enableLocker) {
+        this.enableLocker = enableLocker;
+    }
+
     public int getKeysPerSegment() {
         return keysPerSegment;
     }
@@ -120,7 +129,7 @@ public class PMemDBOptions {
         return new StringBuilder().append("PMemDBOptions{").append("orderedEngine=").append(orderedEngine).append(',')
             .append("hashEngine=").append(hashEngine).append(',').append("pmemDataSize=").append(pmemDataSize)
             .append(',').append("pmemMetaSize=").append(pmemMetaSize).append(',').append("parentPath=").append(dbPath)
-            .append(',').append("forceCreate=").append(forceCreate).append(',').append("keysPerSegment=")
-            .append(keysPerSegment).append('}').toString();
+            .append(',').append("forceCreate=").append(forceCreate).append(',').append("enableLocker=")
+            .append(enableLocker).append(',').append("keysPerSegment=").append(keysPerSegment).append('}').toString();
     }
 }

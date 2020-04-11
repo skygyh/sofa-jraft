@@ -849,7 +849,8 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
             "Region" + id);
         PMemRawKVStore store = new PMemRawKVStore(id, testDbPath.toString());
         store.init(PMemDBOptionsConfigured.newConfigured().withPmemDataSize(32 * 1024 * 1024)
-            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true).config());
+            .withPmemMetaSize(8 * 1024 * 1024).withDbPath(testDbPath.toString()).withForceCreate(true)
+            .withEnableLocker(false).config());
         Assert.assertTrue(Files.exists(testDbPath));
 
         final byte[] key = makeKey("seal_and_destory_store_key");

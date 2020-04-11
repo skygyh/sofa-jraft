@@ -108,10 +108,12 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         if (opts.getPmemMetaSize() > 0) {
             this.sequenceDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
                 DB_FILE_NAMES[1], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
-            this.fencingKeyDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
-                DB_FILE_NAMES[2], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
-            this.lockerDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
-                DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+            if (opts.getEnableLocker()) {
+                this.fencingKeyDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
+                    DB_FILE_NAMES[2], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+                this.lockerDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
+                    DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
+            }
         }
         return true;
     }
@@ -119,7 +121,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     private static boolean hasEnoughSpace(final String dbPath, final PMemDBOptions opts) {
         File f = new File(dbPath);
         long pmemFreeSpace = f.getFreeSpace();
-        long requiredSpace = opts.getPmemDataSize() + opts.getPmemMetaSize() * 3;
+        long requiredSpace = opts.getPmemDataSize() + opts.getPmemMetaSize() * (opts.getEnableLocker() ? 3 : 1);
         boolean enough = pmemFreeSpace > requiredSpace;
         if (!enough) {
             LOG.error("Free Space {} bytes vs required {} on {}", pmemFreeSpace, requiredSpace, dbPath);
@@ -520,6 +522,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void tryLockWith(final byte[] key, final byte[] fencingKey, final boolean keepLease,
                             final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
+        Requires.requireTrue(this.opts.getEnableLocker());
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("TRY_LOCK");
         try {
@@ -680,6 +683,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void releaseLockWith(final byte[] key, final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
+        Requires.requireTrue(this.opts.getEnableLocker());
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("RELEASE_LOCK");
         try {
@@ -1013,10 +1017,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
 
             snapshotFile.writeToFile(tempPath, "sequenceDB",
                 new PMemKVStoreSnapshotFile.SequenceDB(subRangeMap(this.sequenceDB, region)));
-            snapshotFile.writeToFile(tempPath, "fencingKeyDB",
-                new PMemKVStoreSnapshotFile.FencingKeyDB(subRangeMap(this.fencingKeyDB, region)));
-            snapshotFile.writeToFile(tempPath, "lockerDB",
-                new PMemKVStoreSnapshotFile.LockerDB(subRangeMapOwner(this.lockerDB, region)));
+
+            if (this.opts.getEnableLocker()) {
+                snapshotFile.writeToFile(tempPath, "fencingKeyDB", new PMemKVStoreSnapshotFile.FencingKeyDB(
+                    subRangeMap(this.fencingKeyDB, region)));
+                snapshotFile.writeToFile(tempPath, "lockerDB",
+                    new PMemKVStoreSnapshotFile.LockerDB(subRangeMapOwner(this.lockerDB, region)));
+            }
             final int size = this.opts.getKeysPerSegment();
             final List<Pair<byte[], byte[]>> segment = Lists.newArrayListWithCapacity(size);
             int index = 0;
@@ -1059,14 +1066,16 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         try {
             final PMemKVStoreSnapshotFile.SequenceDB sequenceDB = snapshotFile.readFromFile(snapshotPath, "sequenceDB",
                 PMemKVStoreSnapshotFile.SequenceDB.class);
-            final PMemKVStoreSnapshotFile.FencingKeyDB fencingKeyDB = snapshotFile.readFromFile(snapshotPath,
-                "fencingKeyDB", PMemKVStoreSnapshotFile.FencingKeyDB.class);
-            final PMemKVStoreSnapshotFile.LockerDB lockerDB = snapshotFile.readFromFile(snapshotPath, "lockerDB",
-                PMemKVStoreSnapshotFile.LockerDB.class);
-
             this.dump(this.sequenceDB, sequenceDB.data());
-            this.dump(this.fencingKeyDB, fencingKeyDB.data());
-            this.dump(this.lockerDB, lockerDB.data());
+
+            if (this.opts.getEnableLocker()) {
+                final PMemKVStoreSnapshotFile.FencingKeyDB fencingKeyDB = snapshotFile.readFromFile(snapshotPath,
+                    "fencingKeyDB", PMemKVStoreSnapshotFile.FencingKeyDB.class);
+                final PMemKVStoreSnapshotFile.LockerDB lockerDB = snapshotFile.readFromFile(snapshotPath, "lockerDB",
+                    PMemKVStoreSnapshotFile.LockerDB.class);
+                this.dump(this.fencingKeyDB, fencingKeyDB.data());
+                this.dump(this.lockerDB, lockerDB.data());
+            }
 
             final PMemKVStoreSnapshotFile.TailIndex tailIndex = snapshotFile.readFromFile(snapshotPath, "tailIndex",
                 PMemKVStoreSnapshotFile.TailIndex.class);

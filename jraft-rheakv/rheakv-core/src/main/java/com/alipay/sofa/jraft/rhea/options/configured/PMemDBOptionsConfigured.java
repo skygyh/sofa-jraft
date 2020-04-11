@@ -61,6 +61,11 @@ public final class PMemDBOptionsConfigured implements Configured<PMemDBOptions> 
         return this;
     }
 
+    public PMemDBOptionsConfigured withEnableLocker(final boolean enableLocker) {
+        this.opts.setEnableLocker(enableLocker);
+        return this;
+    }
+
     @Override
     public PMemDBOptions config() {
         return this.opts;
