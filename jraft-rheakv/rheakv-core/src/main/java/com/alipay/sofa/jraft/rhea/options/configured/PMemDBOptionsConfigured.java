@@ -66,6 +66,11 @@ public final class PMemDBOptionsConfigured implements Configured<PMemDBOptions> 
         return this;
     }
 
+    public PMemDBOptionsConfigured withLazyInit(final boolean lazyInit) {
+        this.opts.setLazyInit(lazyInit);
+        return this;
+    }
+
     @Override
     public PMemDBOptions config() {
         return this.opts;

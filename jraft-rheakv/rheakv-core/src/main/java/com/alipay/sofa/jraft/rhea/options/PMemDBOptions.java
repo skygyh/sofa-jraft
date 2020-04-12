@@ -51,6 +51,7 @@ public class PMemDBOptions {
     private String             dbPath         = PMEM_ROOT_PATH;
     private boolean            forceCreate    = true;
     private boolean            enableLocker   = false;
+    private boolean            lazyInit       = false;
 
     // for segment snapshot file size
     private int                keysPerSegment = 4096;
@@ -114,6 +115,14 @@ public class PMemDBOptions {
 
     public void setEnableLocker(boolean enableLocker) {
         this.enableLocker = enableLocker;
+    }
+
+    public boolean getLazyInit() {
+        return lazyInit;
+    }
+
+    public void setLazyInit(boolean lazyInit) {
+        this.lazyInit = lazyInit;
     }
 
     public int getKeysPerSegment() {

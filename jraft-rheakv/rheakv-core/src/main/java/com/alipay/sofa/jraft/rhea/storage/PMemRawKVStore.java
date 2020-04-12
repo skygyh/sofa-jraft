@@ -68,6 +68,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     private Database                        fencingKeyDB;
     private Database                        lockerDB;
     private volatile PMemDBOptions          opts;
+    private boolean                         initialized;
 
     public PMemRawKVStore() {
         super();
@@ -90,7 +91,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         } catch (IOException ioe) {
             LOG.error("Unable to create {}", dbPath);
         }
-        if (!doInit(opts)) {
+        if (!opts.getLazyInit() && !doInit(opts)) {
             LOG.error("[PMemRawKVStore] failed to start, path {}, options: {}.", dbPath, opts);
             return false;
         }
@@ -115,6 +116,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
             }
         }
+        this.initialized = true;
         return true;
     }
 
@@ -197,6 +199,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             this.lockerDB.stop();
             this.lockerDB = null;
         }
+        this.initialized = false;
     }
 
     @Override
@@ -1164,9 +1167,11 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     }
 
     private void checkOpen() {
+        if (!this.initialized && this.opts.getLazyInit()) {
+            doInit(this.opts);
+        }
         if (this.defaultDB == null) {
-            throw new RheaRuntimeException("region " + regionId + " is closed");
+            throw new RheaRuntimeException("PMemRawKVStore region " + regionId + " is not initialized properly");
         }
     }
-
 }
