@@ -116,6 +116,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
             }
         }
+        this.writable = true;
         this.initialized = true;
         return true;
     }
@@ -127,6 +128,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         boolean enough = pmemFreeSpace > requiredSpace;
         if (!enough) {
             LOG.error("Free Space {} bytes vs required {} on {}", pmemFreeSpace, requiredSpace, dbPath);
+            throw new RheaRuntimeException("No enough space " + dbPath);
         }
         return enough;
     }
