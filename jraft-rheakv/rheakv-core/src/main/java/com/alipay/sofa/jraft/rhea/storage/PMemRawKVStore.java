@@ -220,6 +220,23 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     }
 
     @Override
+    public void size(final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("SIZE");
+        readLock().lock();
+        try {
+            checkOpen();
+            final long size = this.defaultDB.countAll();
+            setSuccess(closure, size);
+        } catch (final Exception e) {
+            LOG.error("Fail to [SIZE], key: {}.", StackTraceUtil.stackTrace(e));
+            setFailure(closure, "Fail to [SIZE]");
+        } finally {
+            readLock().unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
     public void get(final byte[] key, @SuppressWarnings("unused") final boolean readOnlySafe,
                     final KVStoreClosure closure) {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);

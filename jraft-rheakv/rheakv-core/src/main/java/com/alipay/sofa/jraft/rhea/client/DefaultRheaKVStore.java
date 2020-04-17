@@ -24,7 +24,10 @@ import com.alipay.sofa.jraft.rhea.client.failover.FailoverClosure;
 import com.alipay.sofa.jraft.rhea.client.failover.ListRetryCallable;
 import com.alipay.sofa.jraft.rhea.client.failover.RetryCallable;
 import com.alipay.sofa.jraft.rhea.client.failover.RetryRunner;
-import com.alipay.sofa.jraft.rhea.client.failover.impl.*;
+import com.alipay.sofa.jraft.rhea.client.failover.impl.BoolFailoverFuture;
+import com.alipay.sofa.jraft.rhea.client.failover.impl.FailoverClosureImpl;
+import com.alipay.sofa.jraft.rhea.client.failover.impl.ListFailoverFuture;
+import com.alipay.sofa.jraft.rhea.client.failover.impl.MapFailoverFuture;
 import com.alipay.sofa.jraft.rhea.client.pd.FakePlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.RemotePlacementDriverClient;
@@ -56,6 +59,7 @@ import com.lmax.disruptor.dsl.Disruptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -2065,6 +2069,61 @@ public class DefaultRheaKVStore implements RheaKVStore {
             }
         } else {
             final SealRegionRequest request = new SealRegionRequest();
+            request.setRegionId(region.getId());
+            request.setRegionEpoch(region.getRegionEpoch());
+            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
+        }
+    }
+
+    @Override
+    public CompletableFuture<Long> size(final long regionId) {
+        checkState();
+        if (regionId == ANY_REGION_ID) {
+            return size();
+        }
+        final CompletableFuture<Long> future = new CompletableFuture<>();
+        internalGetSizeSingleRegion(future, this.failoverRetries, null, regionId);
+        return future;
+    }
+
+    @Override
+    public Long bSize(final long regionId) {
+        return FutureHelper.get(size(regionId), this.futureTimeoutMillis);
+    }
+
+    @Override
+    public CompletableFuture<Long> size() {
+        checkState();
+        final List<CompletableFuture<Long>> futures = new ArrayList<>();
+        for (long regionId : this.pdClient.getRegionIds()) {
+            final CompletableFuture<Long> future = new CompletableFuture<>();
+            internalGetSizeSingleRegion(future, this.failoverRetries, null, regionId);
+            futures.add(future);
+        }
+        FutureGroup<Long> futureGroup = new FutureGroup<>(futures);
+        return CompletableFuture.allOf(futureGroup.toArray()).thenApply(
+                v -> futures.stream().mapToLong(CompletableFuture::join).sum());
+    }
+
+    @Override
+    public Long bSize() {
+        return FutureHelper.get(size(), this.futureTimeoutMillis);
+    }
+
+    private void internalGetSizeSingleRegion(final CompletableFuture<Long> future, final int retriesLeft,
+                                    final Errors lastCause, final long regionId) {
+        final Region region = this.pdClient.getRegionById(regionId);
+        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
+        final RetryRunner retryRunner = retryCause -> internalGetSizeSingleRegion(future,
+                retriesLeft - 1, retryCause, regionId);
+        final FailoverClosure<Long> closure = new FailoverClosureImpl<>(future, retriesLeft,
+                retryRunner);
+        if (regionEngine != null) {
+            if (ensureOnValidEpoch(region, regionEngine, closure)) {
+                getRawKVStore(regionEngine).size(closure);
+            }
+        } else {
+            final GetSizeRequest request = new GetSizeRequest();
             request.setRegionId(region.getId());
             request.setRegionEpoch(region.getRegionEpoch());
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);

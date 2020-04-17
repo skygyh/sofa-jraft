@@ -65,6 +65,31 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
         super.shutdown();
     }
 
+    /**
+     * Test method: {@link RheaKVStore#size()}
+     */
+    private void keyNumberTest(RheaKVStore store) {
+        // regions: 1 -> a, 2 -> b
+        final byte[] value = makeValue("key_number_test_value");
+        final String key1 = "a_key_number_test";
+        store.bPut(1L, key1, value);
+        assertEquals(1L, store.bSize(1L).longValue());
+        final String key2 = "b_key_number_test";
+        store.bPut(2L, key2, value);
+        assertEquals(1L, store.bSize(2L).longValue());
+        assertEquals(2L, store.bSize().longValue());
+    }
+
+    @Test
+    public void keyNumberByLeaderTest() {
+        keyNumberTest(getRandomLeaderStore());
+    }
+
+    @Test
+    public void keyNumberByFollowerTest() {
+        keyNumberTest(getRandomFollowerStore());
+    }
+
     private void checkKeyPresent(final RheaKVStore store, final byte[] key, final byte[] expectedValue,
                                  final long regionId) {
         Region region = store.getPlacementDriverClient().getRegionById(regionId);

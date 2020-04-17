@@ -247,6 +247,11 @@ public class RocksRawKVStore extends BatchRawKVStore<RocksDBOptions> implements 
     }
 
     @Override
+    public void size(final KVStoreClosure closure) {
+        throw new RheaRuntimeException("RocksDB size is not implemented yet");
+    }
+
+    @Override
     public void get(final byte[] key, @SuppressWarnings("unused") final boolean readOnlySafe,
                     final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("GET");

@@ -24,6 +24,7 @@ import com.alipay.sofa.jraft.util.Requires;
 import java.io.Serializable;
 import java.util.List;
 
+import static com.alipay.sofa.jraft.rhea.cmd.store.BaseRequest.GET_SIZE;
 import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
 
 /**
@@ -309,6 +310,10 @@ public class KVOperation implements Serializable {
     public static KVOperation createSeal(final long regionId) {
         Requires.requireTrue(regionId != ANY_REGION_ID, "invalid region id");
         return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, SEAL);
+    }
+
+    public static KVOperation createGetSize(final long regionId) {
+        return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, GET_SIZE);
     }
 
     public KVOperation() {

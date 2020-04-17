@@ -120,6 +120,9 @@ public class KVCommandProcessor<T extends BaseRequest> implements RpcProcessor<T
             case BaseRequest.SEAL_REGION:
                 regionKVService.handleSealRegionRequest((SealRegionRequest) request, closure);
                 break;
+            case BaseRequest.GET_SIZE:
+                regionKVService.handleGetSizeRequest((GetSizeRequest) request, closure);
+                break;
             default:
                 throw new RheaRuntimeException("Unsupported request type: " + request.getClass().getName());
         }

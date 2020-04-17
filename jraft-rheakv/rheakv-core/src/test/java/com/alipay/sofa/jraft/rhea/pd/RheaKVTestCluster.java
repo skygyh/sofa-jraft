@@ -106,7 +106,7 @@ public class RheaKVTestCluster {
             }
             System.out.println("fail to find leader, try again");
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException ignored) {
                 // ignored
             }

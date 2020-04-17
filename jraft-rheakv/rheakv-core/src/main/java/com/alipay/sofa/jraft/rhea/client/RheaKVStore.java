@@ -847,4 +847,20 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      * @param regionId
      */
     CompletableFuture<Boolean> sealRegion(final long regionId);
+
+    /**
+     * get the total number of keys in region
+     * Specially, if regionId = -1, get it from all regions.
+     * @param regionId
+     */
+    CompletableFuture<Long> size(final long regionId);
+
+    Long bSize(final long regionId);
+
+    /**
+     * get the total number of keys in all regions
+     */
+    CompletableFuture<Long> size();
+
+    Long bSize();
 }

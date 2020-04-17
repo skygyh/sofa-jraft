@@ -99,6 +99,20 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     }
 
     @Override
+    public void size(final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("SIZE");
+        try {
+            long size = this.defaultDB.size();
+            setSuccess(closure, size);
+        } catch (final Exception e) {
+            LOG.error("Fail to [SIZE], {}.", StackTraceUtil.stackTrace(e));
+            setFailure(closure, "Fail to [SIZE]");
+        } finally {
+            timeCtx.stop();
+        }
+    }
+
+    @Override
     public boolean isSealed() {
         return !this.writable;
     }

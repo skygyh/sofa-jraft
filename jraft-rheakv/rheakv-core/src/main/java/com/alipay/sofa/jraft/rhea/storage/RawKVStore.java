@@ -50,6 +50,8 @@ public interface RawKVStore {
 
     boolean isSealed();
 
+    void size(final KVStoreClosure closure);
+
     /**
      * Equivalent to {@code get(key, true, closure)}.
      */

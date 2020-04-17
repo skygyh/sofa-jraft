@@ -56,6 +56,11 @@ public class MetricsRawKVStore implements RawKVStore {
     }
 
     @Override
+    public void size(final KVStoreClosure closure) {
+        this.rawKVStore.size(closure);
+    }
+
+    @Override
     public void get(final byte[] key, final KVStoreClosure closure) {
         get(key, true, closure);
     }

@@ -16,14 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.client.pd;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
-
-import com.alipay.sofa.jraft.rhea.storage.KVOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alipay.sofa.jraft.CliService;
 import com.alipay.sofa.jraft.RaftServiceFactory;
 import com.alipay.sofa.jraft.RouteTable;
@@ -45,6 +37,7 @@ import com.alipay.sofa.jraft.rhea.options.RegionRouteTableOptions;
 import com.alipay.sofa.jraft.rhea.options.RpcOptions;
 import com.alipay.sofa.jraft.rhea.options.configured.RpcOptionsConfigured;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
+import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import com.alipay.sofa.jraft.rhea.util.StackTraceUtil;
 import com.alipay.sofa.jraft.rhea.util.Strings;
 import com.alipay.sofa.jraft.rpc.CliClientService;
@@ -53,6 +46,13 @@ import com.alipay.sofa.jraft.rpc.impl.AbstractClientService;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.Requires;
 import com.alipay.sofa.jraft.util.internal.ThrowUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -118,6 +118,11 @@ public abstract class AbstractPlacementDriverClient implements PlacementDriverCl
     @Override
     public long getClusterId() {
         return clusterId;
+    }
+
+    @Override
+    public Set<Long> getRegionIds() {
+        return this.regionRouteTable.getRegionIds();
     }
 
     @Override

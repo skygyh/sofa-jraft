@@ -16,9 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.client.pd;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.rhea.client.RegionRouteTable;
 import com.alipay.sofa.jraft.rhea.metadata.Peer;
@@ -29,6 +26,10 @@ import com.alipay.sofa.jraft.rhea.options.StoreEngineOptions;
 import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.rhea.storage.KVOperation;
 import com.alipay.sofa.jraft.util.Endpoint;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Placement driver client
@@ -41,6 +42,11 @@ public interface PlacementDriverClient extends Lifecycle<PlacementDriverOptions>
      * Returns the cluster id.
      */
     long getClusterId();
+
+    /**
+     * Query the region id set
+     */
+    Set<Long> getRegionIds();
 
     /**
      * Query the region by region id.

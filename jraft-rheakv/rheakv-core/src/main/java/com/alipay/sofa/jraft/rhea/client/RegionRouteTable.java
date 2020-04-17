@@ -92,6 +92,10 @@ public class RegionRouteTable {
     private final NavigableMap<byte[], Long> rangeTable         = new TreeMap<>(keyBytesComparator);
     private final Map<Long, Region>          regionTable        = Maps.newHashMap();
 
+    public Set<Long> getRegionIds() {
+        return this.regionTable.keySet();
+    }
+
     public Region getRegionById(final long regionId) {
         final StampedLock stampedLock = this.stampedLock;
         long stamp = stampedLock.tryOptimisticRead();

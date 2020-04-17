@@ -70,6 +70,13 @@ public class RaftRawKVStore implements RawKVStore {
     }
 
     @Override
+    public void size(final KVStoreClosure closure) {
+        // No support on readOnlySafe for now.
+        // TODO : enable support later on.
+        this.kvStore.size(closure);
+    }
+
+    @Override
     public void get(final byte[] key, final KVStoreClosure closure) {
         get(key, true, closure);
     }

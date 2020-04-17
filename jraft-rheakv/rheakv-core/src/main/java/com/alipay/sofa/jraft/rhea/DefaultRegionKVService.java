@@ -695,6 +695,33 @@ public class DefaultRegionKVService implements RegionKVService {
         }
     }
 
+    @Override
+    public void handleGetSizeRequest(final GetSizeRequest request,
+                                     final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure) {
+        final GetSizeResponse response = new GetSizeResponse();
+        response.setRegionId(getRegionId());
+        response.setRegionEpoch(getRegionEpoch());
+        try {
+            KVParameterRequires.requireSameEpoch(request, getRegionEpoch());
+            this.rawKVStore.size(new BaseKVStoreClosure() {
+
+                @Override
+                public void run(final Status status) {
+                    if (status.isOk()) {
+                        response.setValue((Long) getData());
+                    } else {
+                        setFailure(request, response, status, getError());
+                    }
+                    closure.sendResponse(response);
+                }
+            });
+        } catch (final Throwable t) {
+            LOG.error("Failed to handle: {}, {}.", request, StackTraceUtil.stackTrace(t));
+            response.setError(Errors.forException(t));
+            closure.sendResponse(response);
+        }
+    }
+
     private List<KVOperation> getKvOperations(BatchCompositeRequest request) {
         List<KVOperation> kvOperations = new ArrayList<>();
         for (BaseRequest subRequest : request.getCompositeRequests()) {
@@ -773,6 +800,9 @@ public class DefaultRegionKVService implements RegionKVService {
                     break;
                 case BaseRequest.SEAL_REGION:
                     kvOperations.add(KVOperation.createSeal(((SealRegionRequest) subRequest).getRegionId()));
+                    break;
+                case BaseRequest.GET_SIZE:
+                    kvOperations.add(KVOperation.createGetSize(((GetSizeRequest) subRequest).getRegionId()));
                     break;
                 default:
                     throw new UnsupportedOperationException("Request " + subRequest.magic() + " is not supported");
