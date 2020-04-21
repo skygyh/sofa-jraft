@@ -288,6 +288,11 @@ public class DefaultRheaKVStore implements RheaKVStore {
         LOG.warn("[DefaultRheaKVStore] shutdown successfully.");
     }
 
+    @Override
+    public boolean isStarted() {
+        return this.started;
+    }
+
     private void checkRegionRoute(boolean isHashRouted) {
         if (this.opts.getPlacementDriverOptions().getHashRoute() != isHashRouted) {
             throw new RheaRuntimeException("[DefaultRheaKVStore] invalid invoke path with isHashRouted = "

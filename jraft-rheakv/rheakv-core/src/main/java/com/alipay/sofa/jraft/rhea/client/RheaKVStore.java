@@ -80,6 +80,8 @@ import java.util.concurrent.TimeUnit;
  */
 public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
 
+    boolean isStarted();
+
     /**
      * Equivalent to {@code get(key, true)}.
      */
