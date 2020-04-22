@@ -918,13 +918,15 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     }
                 }
             }
-            //Files.deleteIfExists(Paths.get(dbPath));
-            if (!doInit(opts)) {
-                LOG.error("[PMemRawKVStore] Failed to [REINIT], path {}, option : {}", dbPath, opts);
-                setSuccess(closure, false);
-            } else {
-                LOG.info("[PMemRawKVStore] [REINIT] successfully, path {}, option : {}", dbPath, opts);
-                setSuccess(closure, true);
+            this.initialized = false;
+            if (!opts.getLazyInit()) {
+                if (!doInit(opts)) {
+                    LOG.error("[PMemRawKVStore] Failed to [REINIT], path {}, option : {}", dbPath, opts);
+                    setSuccess(closure, false);
+                } else {
+                    LOG.info("[PMemRawKVStore] [REINIT] successfully, path {}, option : {}", dbPath, opts);
+                    setSuccess(closure, true);
+                }
             }
         } catch (final Exception e) {
             LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
