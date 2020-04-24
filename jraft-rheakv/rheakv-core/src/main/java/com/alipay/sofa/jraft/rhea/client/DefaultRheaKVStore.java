@@ -2052,7 +2052,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
     @Override
     public CompletableFuture<Boolean> sealRegion(final long regionId) {
         if (regionId == ANY_REGION_ID) {
-            throw new UnsupportedOperationException("destroyRegion without regionId specified");
+            throw new UnsupportedOperationException("sealRegion without regionId specified");
         }
         checkState();
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
