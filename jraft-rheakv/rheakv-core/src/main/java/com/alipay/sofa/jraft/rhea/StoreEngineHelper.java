@@ -87,6 +87,7 @@ public final class StoreEngineHelper {
         rpcServer.registerProcessor(new KVCommandProcessor<>(BatchCompositeRequest.class, engine));
         rpcServer.registerProcessor(new KVCommandProcessor<>(DestroyRegionRequest.class, engine));
         rpcServer.registerProcessor(new KVCommandProcessor<>(SealRegionRequest.class, engine));
+        rpcServer.registerProcessor(new KVCommandProcessor<>(IsRegionSealedRequest.class, engine));
         rpcServer.registerProcessor(new KVCommandProcessor<>(GetSizeRequest.class, engine));
     }
 

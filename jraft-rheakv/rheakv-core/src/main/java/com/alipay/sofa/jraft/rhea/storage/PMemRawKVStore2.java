@@ -225,11 +225,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     }
 
     @Override
-    public boolean isSealed() {
-        return !this.writable;
-    }
-
-    @Override
     public void size(final KVStoreClosure closure) {
         ////final Timer.Context timeCtx = getTimeContext("SIZE");
         try {
@@ -873,6 +868,11 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void seal(final long regionId, final KVStoreClosure closure) {
         throw new UnsupportedOperationException("seal is not implemented yet");
+    }
+
+    @Override
+    public void isSealed(final long regionId, final KVStoreClosure closure) {
+        throw new UnsupportedOperationException("isSealed is not implemented yet");
     }
 
     @Override

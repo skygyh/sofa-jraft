@@ -164,6 +164,12 @@ public interface RegionKVService {
                                  final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
 
     /**
+     * {@link BaseRequest#IS_REGION_SEALED}
+     */
+    void handleIsRegionSealedRequest(final IsRegionSealedRequest request,
+                                     final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
+
+    /**
      * {@link BaseRequest#GET_SIZE}
      */
     void handleGetSizeRequest(final GetSizeRequest request,

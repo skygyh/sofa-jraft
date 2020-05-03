@@ -2064,7 +2064,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
                                        final Errors lastCause, final long regionId) {
         final Region region = this.pdClient.getRegionById(regionId);
         final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalDestroyRegion(future,
+        final RetryRunner retryRunner = retryCause -> internalSealRegion(future,
                 retriesLeft - 1, retryCause, regionId);
         final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft,
                 retryRunner);
@@ -2078,6 +2078,50 @@ public class DefaultRheaKVStore implements RheaKVStore {
             request.setRegionEpoch(region.getRegionEpoch());
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
         }
+    }
+
+    @Override
+    public CompletableFuture<Boolean> isRegionSealed(final long regionId) {
+        checkState();
+        if (regionId == ANY_REGION_ID) {
+            List<CompletableFuture<Boolean>> futures = new ArrayList<>();
+            for (Long id : this.pdClient.getRegionIds()) {
+                final CompletableFuture<Boolean> future = new CompletableFuture<>();
+                futures.add(future);
+                internalIsRegionSealed(future, this.failoverRetries, null, id);
+            }
+            FutureGroup<Boolean> futureGroup = new FutureGroup<>(futures);
+            return CompletableFuture.allOf(futureGroup.toArray()).thenApply(
+                    v -> futures.stream().allMatch(CompletableFuture::join));
+        }
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
+        internalIsRegionSealed(future, this.failoverRetries, null, regionId);
+        return future;
+    }
+
+    private void internalIsRegionSealed(final CompletableFuture<Boolean> future, final int retriesLeft,
+                                    final Errors lastCause, final long regionId) {
+        final Region region = this.pdClient.getRegionById(regionId);
+        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
+        final RetryRunner retryRunner = retryCause -> internalIsRegionSealed(future,
+                retriesLeft - 1, retryCause, regionId);
+        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft,
+                retryRunner);
+        if (regionEngine != null) {
+            if (ensureOnValidEpoch(region, regionEngine, closure)) {
+                getRawKVStore(regionEngine).isSealed(regionId, closure);
+            }
+        } else {
+            final IsRegionSealedRequest request = new IsRegionSealedRequest();
+            request.setRegionId(region.getId());
+            request.setRegionEpoch(region.getRegionEpoch());
+            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
+        }
+    }
+
+    @Override
+    public Boolean bIsRegionSealed(final long regionId) {
+        return FutureHelper.get(isRegionSealed(regionId), this.futureTimeoutMillis);
     }
 
     @Override

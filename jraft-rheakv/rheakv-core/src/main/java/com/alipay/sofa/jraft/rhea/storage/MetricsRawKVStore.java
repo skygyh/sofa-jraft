@@ -51,11 +51,6 @@ public class MetricsRawKVStore implements RawKVStore {
     }
 
     @Override
-    public boolean isSealed() {
-        return this.rawKVStore.isSealed();
-    }
-
-    @Override
     public void size(final KVStoreClosure closure) {
         this.rawKVStore.size(closure);
     }
@@ -238,6 +233,12 @@ public class MetricsRawKVStore implements RawKVStore {
     public void seal(final long regionId, final KVStoreClosure closure) {
         final KVStoreClosure c = metricsAdapter(closure, SEAL, 0, 0);
         this.rawKVStore.seal(regionId, c);
+    }
+
+    @Override
+    public void isSealed(final long regionId, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, IS_SEALED, 0, 0);
+        this.rawKVStore.isSealed(regionId, c);
     }
 
     private MetricsKVClosureAdapter metricsAdapter(final KVStoreClosure closure, final byte op, final long keysCount,

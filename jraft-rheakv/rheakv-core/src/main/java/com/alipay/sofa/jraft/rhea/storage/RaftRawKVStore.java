@@ -65,11 +65,6 @@ public class RaftRawKVStore implements RawKVStore {
     }
 
     @Override
-    public boolean isSealed() {
-        return false;
-    }
-
-    @Override
     public void size(final KVStoreClosure closure) {
         // No support on readOnlySafe for now.
         // TODO : enable support later on.
@@ -341,6 +336,11 @@ public class RaftRawKVStore implements RawKVStore {
     @Override
     public void seal(final long regionId, final KVStoreClosure closure) {
         applyOperation(KVOperation.createSeal(regionId), closure);
+    }
+
+    @Override
+    public void isSealed(final long regionId, final KVStoreClosure closure) {
+        applyOperation(KVOperation.createIsSealed(regionId), closure);
     }
 
     private void applyOperation(final KVOperation op, final KVStoreClosure closure) {

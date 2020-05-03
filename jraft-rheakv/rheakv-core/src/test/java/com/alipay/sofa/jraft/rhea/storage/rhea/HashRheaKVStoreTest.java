@@ -1454,6 +1454,7 @@ public abstract class HashRheaKVStoreTest extends RheaKVTestCluster {
             fail("failed to seal region 1 : " + e);
         }
         assertTrue(success);
+        assertTrue(store.bIsRegionSealed(1L));
         // update on sealed store would cause fatal error
         //final byte[] update = makeValue("seal_region_test_update");
         //assertFalse(store.bPut(1L, key, update));

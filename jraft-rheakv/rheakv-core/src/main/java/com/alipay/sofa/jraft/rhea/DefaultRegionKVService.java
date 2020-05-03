@@ -696,6 +696,33 @@ public class DefaultRegionKVService implements RegionKVService {
     }
 
     @Override
+    public void handleIsRegionSealedRequest(final IsRegionSealedRequest request,
+                                            final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure) {
+        final IsRegionSealedResponse response = new IsRegionSealedResponse();
+        response.setRegionId(getRegionId());
+        response.setRegionEpoch(getRegionEpoch());
+        try {
+            KVParameterRequires.requireSameEpoch(request, getRegionEpoch());
+            this.rawKVStore.isSealed(request.getRegionId(), new BaseKVStoreClosure() {
+
+                @Override
+                public void run(final Status status) {
+                    if (status.isOk()) {
+                        response.setValue((Boolean) getData());
+                    } else {
+                        setFailure(request, response, status, getError());
+                    }
+                    closure.sendResponse(response);
+                }
+            });
+        } catch (final Throwable t) {
+            LOG.error("Failed to handle: {}, {}.", request, StackTraceUtil.stackTrace(t));
+            response.setError(Errors.forException(t));
+            closure.sendResponse(response);
+        }
+    }
+
+    @Override
     public void handleGetSizeRequest(final GetSizeRequest request,
                                      final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure) {
         final GetSizeResponse response = new GetSizeResponse();
@@ -800,6 +827,9 @@ public class DefaultRegionKVService implements RegionKVService {
                     break;
                 case BaseRequest.SEAL_REGION:
                     kvOperations.add(KVOperation.createSeal(((SealRegionRequest) subRequest).getRegionId()));
+                    break;
+                case BaseRequest.IS_REGION_SEALED:
+                    kvOperations.add(KVOperation.createIsSealed(((IsRegionSealedRequest) subRequest).getRegionId()));
                     break;
                 case BaseRequest.GET_SIZE:
                     kvOperations.add(KVOperation.createGetSize(((GetSizeRequest) subRequest).getRegionId()));

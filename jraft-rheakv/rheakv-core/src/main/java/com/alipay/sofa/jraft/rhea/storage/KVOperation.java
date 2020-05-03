@@ -131,13 +131,17 @@ public class KVOperation implements Serializable {
      * seal the kv store
      */
     public static final byte    SEAL             = 0x16;
+    /**
+     * query if the kv store is sealed or not
+     */
+    public static final byte    IS_SEALED        = 0x17;
 
-    public static final byte    EOF              = 0x17;
+    public static final byte    EOF              = 0x18;
 
     private static final byte[] VALID_OPS;
 
     static {
-        VALID_OPS = new byte[22];
+        VALID_OPS = new byte[23];
         VALID_OPS[0] = PUT;
         VALID_OPS[1] = PUT_IF_ABSENT;
         VALID_OPS[2] = DELETE;
@@ -160,6 +164,7 @@ public class KVOperation implements Serializable {
         VALID_OPS[19] = BATCH_OP;
         VALID_OPS[20] = DESTROY;
         VALID_OPS[21] = SEAL;
+        VALID_OPS[22] = IS_SEALED;
     }
 
     private long                regionId         = ANY_REGION_ID;
@@ -310,6 +315,11 @@ public class KVOperation implements Serializable {
     public static KVOperation createSeal(final long regionId) {
         Requires.requireTrue(regionId != ANY_REGION_ID, "invalid region id");
         return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, SEAL);
+    }
+
+    public static KVOperation createIsSealed(final long regionId) {
+        Requires.requireTrue(regionId != ANY_REGION_ID, "invalid region id");
+        return new KVOperation(regionId, BytesUtil.EMPTY_BYTES, BytesUtil.EMPTY_BYTES, null, IS_SEALED);
     }
 
     public static KVOperation createGetSize(final long regionId) {
@@ -485,6 +495,8 @@ public class KVOperation implements Serializable {
                 return "DESTROY";
             case SEAL:
                 return "SEAL";
+            case IS_SEALED:
+                return "IS_SEALED";
             default:
                 return "UNKNOWN" + op;
         }

@@ -220,6 +220,9 @@ public class KVStoreStateMachine extends StateMachineAdapter {
             case KVOperation.SEAL:
                 this.rawKVStore.batchSeal(kvStates);
                 break;
+            case KVOperation.IS_SEALED:
+                this.rawKVStore.batchQuerySealed(kvStates);
+                break;
             default:
                 throw new IllegalKVOperationException("Unknown operation: " + opType);
         }

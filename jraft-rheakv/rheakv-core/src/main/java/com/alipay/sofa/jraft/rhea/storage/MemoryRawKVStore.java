@@ -113,11 +113,6 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
     }
 
     @Override
-    public boolean isSealed() {
-        return !this.writable;
-    }
-
-    @Override
     public void get(final byte[] key, @SuppressWarnings("unused") final boolean readOnlySafe,
                     final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("GET");
@@ -714,6 +709,25 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
         } catch (final Exception e) {
             LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [SEAL]", e);
+        } finally {
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void isSealed(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("IS_SEALED");
+        try {
+            LOG.info("Start to query isSealed MemoryRawKVStore [regionId = {}]", regionId);
+            if (this.regionId != -1L && regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            setSuccess(closure, !this.writable);
+            LOG.info("MemoryRawKVStore is{} sealed [regionId = {}]", this.writable ? " not" : "", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [IS_SEALED], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [IS_SEALED]", e);
         } finally {
             timeCtx.stop();
         }

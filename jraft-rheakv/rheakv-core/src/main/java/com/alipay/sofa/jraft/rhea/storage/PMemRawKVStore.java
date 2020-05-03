@@ -116,6 +116,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     DB_FILE_NAMES[3], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
             }
         }
+        // TODO : load it from persistent db.
         this.writable = true;
         this.initialized = true;
         return true;
@@ -212,11 +213,6 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public boolean isOpen() {
         return this.defaultDB != null;
-    }
-
-    @Override
-    public boolean isSealed() {
-        return !this.writable;
     }
 
     @Override
@@ -918,7 +914,6 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     }
                 }
             }
-            this.initialized = false;
             if (!opts.getLazyInit()) {
                 if (!doInit(opts)) {
                     LOG.error("[PMemRawKVStore] Failed to [REINIT], path {}, option : {}", dbPath, opts);
@@ -948,11 +943,32 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     this.regionId));
             }
             this.writable = false;
+            // TODO : potential we may need to persist the seal status.
+            //  If so, put it in sequenceDB or other meta db.
             setSuccess(closure, Boolean.TRUE);
             LOG.warn("[SEAL] PMemRawKVStore [regionId = {}] successfully, path {}", this.regionId, dbPath);
         } catch (final Exception e) {
             LOG.error("Failed to [SEAL], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [SEAL]", e);
+        } finally {
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void isSealed(final long regionId, final KVStoreClosure closure) {
+        final Timer.Context timeCtx = getTimeContext("IS_SEALED");
+        try {
+            LOG.info("Start to query isSealed PMemRawKVStore [regionId = {}]", regionId);
+            if (this.regionId != -1L && regionId != this.regionId) {
+                throw new IllegalArgumentException(String.format("unexpected regionid %d vs %d", regionId,
+                    this.regionId));
+            }
+            setSuccess(closure, !this.writable);
+            LOG.info("PMemRawKVStore is{} sealed [regionId = {}]", this.writable ? " not" : "", this.regionId);
+        } catch (final Exception e) {
+            LOG.error("Failed to [IS_SEALED], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
+            setCriticalError(closure, "Fail to [IS_SEALED]", e);
         } finally {
             timeCtx.stop();
         }

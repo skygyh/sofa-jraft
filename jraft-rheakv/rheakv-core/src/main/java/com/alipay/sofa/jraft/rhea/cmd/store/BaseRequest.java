@@ -51,7 +51,8 @@ public abstract class BaseRequest implements Serializable {
     public static final byte  BATCH_COMPOSITE  = 0x14;
     public static final byte  DESTROY_REGION   = 0x15;
     public static final byte  SEAL_REGION      = 0x16;
-    public static final byte  GET_SIZE         = 0x17;
+    public static final byte  IS_REGION_SEALED = 0x17;
+    public static final byte  GET_SIZE         = 0x18;
 
     private long              regionId;
     private RegionEpoch       regionEpoch;

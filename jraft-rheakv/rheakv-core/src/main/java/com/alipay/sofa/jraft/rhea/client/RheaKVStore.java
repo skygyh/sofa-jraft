@@ -851,6 +851,15 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     CompletableFuture<Boolean> sealRegion(final long regionId);
 
     /**
+     * query if the region is sealed or not
+     * Specially, if regionId = -1, return true if and only if all regions in whole cluster are sealed.
+     * @param regionId
+     */
+    CompletableFuture<Boolean> isRegionSealed(final long regionId);
+
+    Boolean bIsRegionSealed(final long regionId);
+
+    /**
      * get the total number of keys in region
      * Specially, if regionId = -1, get it from all regions.
      * @param regionId

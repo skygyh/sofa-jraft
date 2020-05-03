@@ -200,6 +200,13 @@ public abstract class BatchRawKVStore<T> extends BaseRawKVStore<T> {
         }
     }
 
+    public void batchQuerySealed(final KVStateOutputList kvStates) {
+        for (int i = 0, l = kvStates.size(); i < l; i++) {
+            final KVState kvState = kvStates.get(i);
+            isSealed(kvState.getOp().getRegionId(), kvState.getDone());
+        }
+    }
+
     // called by batch in subclass RawKVStore
     protected void doBatch(final List<KVOperation> kvOperations, final KVStoreClosure closure) throws StorageException {
         final List<KVStoreClosure> subClosures = new ArrayList<>(kvOperations.size());

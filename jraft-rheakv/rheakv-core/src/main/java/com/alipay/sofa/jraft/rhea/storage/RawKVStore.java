@@ -48,8 +48,6 @@ public interface RawKVStore {
 
     boolean isOpen();
 
-    boolean isSealed();
-
     void size(final KVStoreClosure closure);
 
     /**
@@ -228,4 +226,9 @@ public interface RawKVStore {
      * disable write of the raw kv store
      */
     void seal(final long regionId, final KVStoreClosure closure);
+
+    /**
+     * query if the raw kv store is sealed
+     */
+    void isSealed(final long regionId, final KVStoreClosure closure);
 }
