@@ -1104,6 +1104,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         final Timer.Context timeCtx = getTimeContext("SNAPSHOT_LOAD");
         writeLock().lock();
         try {
+            checkOpen();
             final PMemKVStoreSnapshotFile.SequenceDB sequenceDB = snapshotFile.readFromFile(snapshotPath, "sequenceDB",
                 PMemKVStoreSnapshotFile.SequenceDB.class);
             this.dump(this.sequenceDB, sequenceDB.data());
