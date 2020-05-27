@@ -42,6 +42,7 @@ public class BenchmarkHelper {
     private static final Timer  getTimer = KVMetrics.timer("get_benchmark_timer");
     private static final Timer  timer    = KVMetrics.timer("benchmark_timer");
     private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkHelper.class);
+    private static AtomicInteger  leftKey ;
 
     public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
@@ -128,6 +129,7 @@ public class BenchmarkHelper {
                                        final int keySize,
                                        final int valueSize,
                                        final List<RegionEngineOptions> regionEngineOptionsList) {
+        leftKey = new AtomicInteger(keyCount);
         for (int i = 0; i < threads; i++) {
             final Thread t = new Thread(() -> doRequest2(rheaKVStore, writeRatio, readRatio, keyCount, keySize, valueSize, regionEngineOptionsList));
             t.setDaemon(false);
@@ -183,6 +185,8 @@ public class BenchmarkHelper {
                         putCtx.stop();
                         ctx.stop();
                         putMeter.mark();
+                        if (leftKey.decrementAndGet() <= 0)
+                            return;
                     }
                     slidingWindow.release();
                 });
