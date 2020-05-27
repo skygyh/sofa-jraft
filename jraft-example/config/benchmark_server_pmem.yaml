@@ -30,7 +30,14 @@ storeEngineOptions:
     - { regionId: 6, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 7, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 8, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
-
+    - { regionId: 9, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 10, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 11, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 12, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 13, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 14, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 15, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 16, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
 onlyLeaderRead: true
 
 failoverRetries: 1

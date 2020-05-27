@@ -42,7 +42,6 @@ public class BenchmarkHelper {
     private static final Timer  getTimer = KVMetrics.timer("get_benchmark_timer");
     private static final Timer  timer    = KVMetrics.timer("benchmark_timer");
     private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkHelper.class);
-    private static 
 
     public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
