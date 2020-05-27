@@ -186,12 +186,12 @@ public class BenchmarkHelper {
                         putCtx.stop();
                         ctx.stop();
                         putMeter.mark();
-
+                        leftKey.decrementAndGet();
                     }
                     slidingWindow.release();
                 });
 
-                if (leftKey.decrementAndGet() <= 0) {
+                if (leftKey.get() <= 0) {
                     LOG.error("lef key: {}", leftKey.get());
                     return;
                 }
