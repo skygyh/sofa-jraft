@@ -135,6 +135,7 @@ public class BenchmarkHelper {
             t.setDaemon(false);
             t.start();
         }
+        LOG.error("lef key: {}", leftKey.get());
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
@@ -185,11 +186,16 @@ public class BenchmarkHelper {
                         putCtx.stop();
                         ctx.stop();
                         putMeter.mark();
-                        if (leftKey.decrementAndGet() <= 0)
-                            return;
+
                     }
                     slidingWindow.release();
                 });
+
+                if (leftKey.decrementAndGet() <= 0) {
+                    LOG.error("lef key: {}", leftKey.get());
+                    return;
+                }
+
             } else {
                 // get
                 final Timer.Context getCtx = getTimer.time();
