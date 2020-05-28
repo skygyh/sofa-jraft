@@ -42,7 +42,7 @@ public class BenchmarkHelper {
     private static final Timer  getTimer = KVMetrics.timer("get_benchmark_timer");
     private static final Timer  timer    = KVMetrics.timer("benchmark_timer");
     private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkHelper.class);
-    private static AtomicInteger  leftKey ;
+    private static final  AtomicInteger  submittedKey = new AtomicInteger(0);
 
     public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
@@ -129,13 +129,13 @@ public class BenchmarkHelper {
                                        final int keySize,
                                        final int valueSize,
                                        final List<RegionEngineOptions> regionEngineOptionsList) {
-        leftKey = new AtomicInteger(keyCount);
+
         for (int i = 0; i < threads; i++) {
             final Thread t = new Thread(() -> doRequest2(rheaKVStore, writeRatio, readRatio, keyCount, keySize, valueSize, regionEngineOptionsList));
             t.setDaemon(false);
             t.start();
         }
-        LOG.error("lef key: {}", leftKey.get());
+
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
@@ -186,13 +186,13 @@ public class BenchmarkHelper {
                         putCtx.stop();
                         ctx.stop();
                         putMeter.mark();
-                        leftKey.decrementAndGet();
+                        submittedKey.incrementAndGet();
                     }
                     slidingWindow.release();
                 });
 
-                if (leftKey.get() <= 0) {
-                    LOG.error("lef key: {}", leftKey.get());
+                if (submittedKey.get() >= keyCount) {
+                    LOG.error("submitted key: {}", submittedKey.get());
                     return;
                 }
 
