@@ -44,7 +44,7 @@ public class PMemDBOptions {
     public static final int    MAX_KEY_SIZE   = 512;
     public static final int    MAX_VALUE_SIZE = 512;
 
-    private String             orderedEngine  = "stree";
+    private String             orderedEngine  = "csmap";
     private String             hashEngine     = "cmap";
     private int                pmemDataSize   = 1024 * 1024 * 1024;
     private int                pmemMetaSize   = 8 * 1024 * 1024;
