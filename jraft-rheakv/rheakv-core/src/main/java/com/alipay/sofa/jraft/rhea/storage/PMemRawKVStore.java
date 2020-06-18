@@ -922,6 +922,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     LOG.info("[PMemRawKVStore] [REINIT] successfully, path {}, option : {}", dbPath, opts);
                     setSuccess(closure, true);
                 }
+            } else {
+                setSuccess(closure, true);
             }
         } catch (final Exception e) {
             LOG.error("Failed to [DESTROY], [regionId = {}], {}.", regionId, StackTraceUtil.stackTrace(e));
