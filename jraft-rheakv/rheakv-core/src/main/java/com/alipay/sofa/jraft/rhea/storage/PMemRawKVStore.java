@@ -498,8 +498,10 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             for (final KVEntry entry : entries) {
                 final byte[] key = entry.getKey();
                 final byte[] value = entry.getValue();
-                Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
+                Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE,
+                        "key length: " + key.length  + " exceed max size");
+                Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE ,
+                        "value length: " + value.length + " exceed max size");
                 this.defaultDB.put(key, value);
             }
             setSuccess(closure, Boolean.TRUE);
