@@ -73,7 +73,7 @@ public class BenchmarkServer {
             final int readRatio = args.length > 6 ? Integer.parseInt(args[6]) : 5;
             final int keyCount = args.length > 7 ? Integer.parseInt(args[7]) : 10000000;
             final int keySize = args.length > 8 ? Integer.parseInt(args[8]) : 64;
-            final int valueSize = args.length > 9 ? Integer.parseInt(args[9]) : 512;
+            final int valueSize = args.length > 9 ? Integer.parseInt(args[9]) : 1024;
             final PlacementDriverClient pdClient = node.getRheaKVStore().getPlacementDriverClient();
             final List<RegionEngineOptions> regionEngineOptionsList = opts.getStoreEngineOptions().getRegionEngineOptionsList();
             for (RegionEngineOptions regionEngineOptions : regionEngineOptionsList) {

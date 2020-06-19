@@ -506,7 +506,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Failed to [PUT_LIST], [size = {}], {}.", entries.size(), StackTraceUtil.stackTrace(e));
+            LOG.error("Failed to [PUT_LIST], [size = {}], {}, {} .", entries.size(), e.getMessage(), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT_LIST]", e);
         } finally {
          //   writeLock().unlock();
