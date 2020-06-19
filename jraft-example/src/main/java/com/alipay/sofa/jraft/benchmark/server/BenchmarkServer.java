@@ -65,6 +65,9 @@ public class BenchmarkServer {
 
         if (isClient) {
             LOG.info("BenchmarkServer act as a Client as well ...");
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {};
             final int threads = args.length > 4 ? Integer.parseInt(args[4]) : 1;
             final int writeRatio = args.length > 5 ? Integer.parseInt(args[5]) : 5;
             final int readRatio = args.length > 6 ? Integer.parseInt(args[6]) : 5;
