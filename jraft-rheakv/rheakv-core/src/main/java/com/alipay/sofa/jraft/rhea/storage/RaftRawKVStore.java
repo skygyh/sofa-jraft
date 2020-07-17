@@ -22,6 +22,7 @@ import com.alipay.sofa.jraft.closure.ReadIndexClosure;
 import com.alipay.sofa.jraft.entity.Task;
 import com.alipay.sofa.jraft.error.RaftError;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
+import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.rhea.serialization.Serializers;
 import com.alipay.sofa.jraft.rhea.util.Clock;
 import com.alipay.sofa.jraft.rhea.util.Pair;
@@ -357,5 +358,45 @@ public class RaftRawKVStore implements RawKVStore {
 
     private boolean isLeader() {
         return this.node.isLeader();
+    }
+
+    @Override
+    public void floorEntry(final byte[] key, final KVStoreClosure closure) {
+        if (!isLeader()) {
+            closure.setError(Errors.NOT_LEADER);
+            closure.run(new Status(RaftError.EPERM, "Not leader"));
+            return;
+        }
+        RaftRawKVStore.this.kvStore.floorEntry(key, closure);
+    }
+
+    @Override
+    public void lowerEntry(final byte[] key, final KVStoreClosure closure) {
+        if (!isLeader()) {
+            closure.setError(Errors.NOT_LEADER);
+            closure.run(new Status(RaftError.EPERM, "Not leader"));
+            return;
+        }
+        RaftRawKVStore.this.kvStore.lowerEntry(key, closure);
+    }
+
+    @Override
+    public void ceilingEntry(final byte[] key, final KVStoreClosure closure) {
+        if (!isLeader()) {
+            closure.setError(Errors.NOT_LEADER);
+            closure.run(new Status(RaftError.EPERM, "Not leader"));
+            return;
+        }
+        RaftRawKVStore.this.kvStore.ceilingEntry(key, closure);
+    }
+
+    @Override
+    public void higherEntry(final byte[] key, final KVStoreClosure closure) {
+        if (!isLeader()) {
+            closure.setError(Errors.NOT_LEADER);
+            closure.run(new Status(RaftError.EPERM, "Not leader"));
+            return;
+        }
+        RaftRawKVStore.this.kvStore.higherEntry(key, closure);
     }
 }

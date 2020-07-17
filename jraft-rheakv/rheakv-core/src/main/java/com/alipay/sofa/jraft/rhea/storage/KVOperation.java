@@ -135,8 +135,15 @@ public class KVOperation implements Serializable {
      * query if the kv store is sealed or not
      */
     public static final byte    IS_SEALED        = 0x17;
+    /**
+     * floor/lower/ceiling/higher entry
+     */
+    public static final byte    FLOOR_ENTRY      = 0x18;
+    public static final byte    LOWER_ENTRY      = 0x19;
+    public static final byte    CEILING_ENTRY    = 0x1a;
+    public static final byte    HIGHER_ENTRY     = 0x1b;
 
-    public static final byte    EOF              = 0x18;
+    public static final byte    EOF              = 0x1c;
 
     private static final byte[] VALID_OPS;
 
@@ -165,6 +172,10 @@ public class KVOperation implements Serializable {
         VALID_OPS[20] = DESTROY;
         VALID_OPS[21] = SEAL;
         VALID_OPS[22] = IS_SEALED;
+        VALID_OPS[23] = FLOOR_ENTRY;
+        VALID_OPS[24] = LOWER_ENTRY;
+        VALID_OPS[25] = CEILING_ENTRY;
+        VALID_OPS[26] = HIGHER_ENTRY;
     }
 
     private long                regionId         = ANY_REGION_ID;
@@ -497,6 +508,14 @@ public class KVOperation implements Serializable {
                 return "SEAL";
             case IS_SEALED:
                 return "IS_SEALED";
+            case FLOOR_ENTRY:
+                return "FLOOR_ENTRY";
+            case LOWER_ENTRY:
+                return "LOWER_ENTRY";
+            case CEILING_ENTRY:
+                return "CEILING_ENTRY";
+            case HIGHER_ENTRY:
+                return "HIGHER_ENTRY";
             default:
                 return "UNKNOWN" + op;
         }

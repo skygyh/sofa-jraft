@@ -2568,4 +2568,64 @@ public class DefaultRheaKVStore implements RheaKVStore {
             return "Batching{" + "name='" + name + '\'' + ", disruptor=" + disruptor + '}';
         }
     }
+
+    private KVEntry getEntry(final long regionId, final byte op, final byte[] key) {
+        Requires.requireTrue(regionId != ANY_REGION_ID);
+        Requires.requireNonNull(key, "key");
+        checkState();
+        checkRegionRoute(regionId != ANY_REGION_ID);
+
+        final CompletableFuture<KVEntry> future = new CompletableFuture<>();
+        internalGetEntry(future, regionId, op, key, this.failoverRetries);
+        return FutureHelper.get(future, this.futureTimeoutMillis);
+    }
+
+    private void internalGetEntry(final CompletableFuture<KVEntry> future,
+                                    final long regionId, final byte op,
+                                    final byte[] key, final int retriesLeft) {
+        final Region region = (regionId == ANY_REGION_ID) ? this.pdClient.findRegionByKey(key, true) :
+                              this.pdClient.getRegionById(regionId);
+        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
+        Requires.requireNonNull(regionEngine, "Only leader can call floorEntry");
+        final RetryRunner retryRunner = retryCause -> internalGetEntry(future, regionId, op, key, retriesLeft - 1);
+        final FailoverClosure<KVEntry> closure = new FailoverClosureImpl<>(future, retriesLeft, retryRunner);
+	if (ensureOnValidEpoch(region, regionEngine, closure)) {
+            switch (op) {
+                case KVOperation.FLOOR_ENTRY:
+                    getRawKVStore(regionEngine).floorEntry(key, closure);
+                    break;
+                case KVOperation.LOWER_ENTRY:
+                    getRawKVStore(regionEngine).lowerEntry(key, closure);
+                    break;
+                case KVOperation.CEILING_ENTRY:
+                    getRawKVStore(regionEngine).ceilingEntry(key, closure);
+                    break;
+                case KVOperation.HIGHER_ENTRY:
+                    getRawKVStore(regionEngine).higherEntry(key, closure);
+                    break;
+                default:
+                    Requires.requireTrue(false, "Unsupported operator type " + KVOperation.opName(op));
+            }
+	}
+    }
+
+    @Override
+    public KVEntry floorEntry(final long regionId, final byte[] key) {
+        return getEntry(regionId, KVOperation.FLOOR_ENTRY, key);
+    }
+
+    @Override
+    public KVEntry lowerEntry(final long regionId, final byte[] key) {
+        return getEntry(regionId, KVOperation.LOWER_ENTRY, key);
+    }
+
+    @Override
+    public KVEntry ceilingEntry(final long regionId, final byte[] key) {
+        return getEntry(regionId, KVOperation.CEILING_ENTRY, key);
+    }
+
+    @Override
+    public KVEntry higherEntry(final long regionId, final byte[] key) {
+        return getEntry(regionId, KVOperation.HIGHER_ENTRY, key);
+    }
 }

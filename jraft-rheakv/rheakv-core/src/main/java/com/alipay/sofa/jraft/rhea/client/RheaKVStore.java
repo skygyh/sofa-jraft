@@ -874,4 +874,28 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
     CompletableFuture<Long> size();
 
     Long bSize();
+
+    /**
+     * get the greatest key less than or equal to the given key
+     * @param regionId and key
+     */
+    KVEntry floorEntry(final long regionId, final byte[] key);
+
+    /**
+     * get the greatest key strictly less than the given key
+     * @param regionId and key
+     */
+    KVEntry lowerEntry(final long regionId, final byte[] key);
+
+    /**
+     * the least key greater than or equal to the given key
+     * @param regionId and key
+     */
+    KVEntry ceilingEntry(final long regionId, final byte[] key);
+
+    /**
+     * the least key strictly greater than the given key
+     * @param regionId and key
+     */
+    KVEntry higherEntry(final long regionId, final byte[] key);
 }

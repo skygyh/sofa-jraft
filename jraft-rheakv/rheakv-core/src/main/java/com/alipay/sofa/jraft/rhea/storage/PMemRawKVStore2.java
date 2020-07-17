@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea.storage;
 
+import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
 import com.alipay.sofa.jraft.rhea.metadata.Region;
 import com.alipay.sofa.jraft.rhea.options.PMemDBOptions;
 import com.alipay.sofa.jraft.rhea.serialization.Serializer;
@@ -1077,5 +1078,25 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
             }
         }
         return output;
+    }
+
+    @Override
+    public void floorEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("floorEntry is not implemented yet");
+    }
+
+    @Override
+    public void lowerEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("lowerEntry is not implemented yet");
+    }
+
+    @Override
+    public void ceilingEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("ceilingEntry is not implemented yet");
+    }
+
+    @Override
+    public void higherEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("higherEntry is not implemented yet");
     }
 }

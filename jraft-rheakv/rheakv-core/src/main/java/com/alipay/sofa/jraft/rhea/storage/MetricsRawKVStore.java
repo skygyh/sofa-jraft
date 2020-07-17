@@ -249,4 +249,28 @@ public class MetricsRawKVStore implements RawKVStore {
     private Timer.Context timeCtx() {
         return this.timer.time();
     }
+
+    @Override
+    public void floorEntry(final byte[] key, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, FLOOR_ENTRY, 0, 0);
+        this.rawKVStore.floorEntry(key, c);
+    }
+
+    @Override
+    public void lowerEntry(final byte[] key, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, LOWER_ENTRY, 0, 0);
+        this.rawKVStore.lowerEntry(key, c);
+    }
+
+    @Override
+    public void ceilingEntry(final byte[] key, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, CEILING_ENTRY, 0, 0);
+        this.rawKVStore.ceilingEntry(key, c);
+    }
+
+    @Override
+    public void higherEntry(final byte[] key, final KVStoreClosure closure) {
+        final KVStoreClosure c = metricsAdapter(closure, HIGHER_ENTRY, 0, 0);
+        this.rawKVStore.higherEntry(key, c);
+    }
 }

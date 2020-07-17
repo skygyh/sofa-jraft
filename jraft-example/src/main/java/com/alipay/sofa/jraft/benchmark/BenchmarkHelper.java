@@ -34,15 +34,15 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BenchmarkHelper {
-    private static final byte[] BYTES    = new byte[] { 0, 1 };
+    private static final byte[]        BYTES        = new byte[] { 0, 1 };
 
-    private static final Meter  putMeter = KVMetrics.meter("put_benchmark_tps");
-    private static final Meter  getMeter = KVMetrics.meter("get_benchmark_tps");
-    private static final Timer  putTimer = KVMetrics.timer("put_benchmark_timer");
-    private static final Timer  getTimer = KVMetrics.timer("get_benchmark_timer");
-    private static final Timer  timer    = KVMetrics.timer("benchmark_timer");
-    private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkHelper.class);
-    private static final  AtomicInteger  submittedKey = new AtomicInteger(0);
+    private static final Meter         putMeter     = KVMetrics.meter("put_benchmark_tps");
+    private static final Meter         getMeter     = KVMetrics.meter("get_benchmark_tps");
+    private static final Timer         putTimer     = KVMetrics.timer("put_benchmark_timer");
+    private static final Timer         getTimer     = KVMetrics.timer("get_benchmark_timer");
+    private static final Timer         timer        = KVMetrics.timer("benchmark_timer");
+    private static final Logger        LOG          = LoggerFactory.getLogger(BenchmarkHelper.class);
+    private static final AtomicInteger submittedKey = new AtomicInteger(0);
 
     public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {

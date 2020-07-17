@@ -885,4 +885,24 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
             throw new RheaRuntimeException("region " + regionId + " is sealed");
         }
     }
+
+    @Override
+    public void floorEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("floorEntry is not implemented yet");
+    }
+
+    @Override
+    public void lowerEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("lowerEntry is not implemented yet");
+    }
+
+    @Override
+    public void ceilingEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("ceilingEntry is not implemented yet");
+    }
+
+    @Override
+    public void higherEntry(final byte[] key, final KVStoreClosure closure) {
+        throw new RheaRuntimeException("higherEntry is not implemented yet");
+    }
 }

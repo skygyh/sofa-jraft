@@ -498,15 +498,16 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             for (final KVEntry entry : entries) {
                 final byte[] key = entry.getKey();
                 final byte[] value = entry.getValue();
-                Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE,
-                        "key length: " + key.length  + " exceed max size");
-                Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE ,
-                        "value length: " + value.length + " exceed max size");
+                Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE, "key length: " + key.length
+                                                                               + " exceed max size");
+                Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE, "value length: " + value.length
+                                                                                   + " exceed max size");
                 this.defaultDB.put(key, value);
             }
             setSuccess(closure, Boolean.TRUE);
         } catch (final Exception e) {
-            LOG.error("Failed to [PUT_LIST], [size = {}], {}, {} .", entries.size(), e.getMessage(), StackTraceUtil.stackTrace(e));
+            LOG.error("Failed to [PUT_LIST], [size = {}], {}, {} .", entries.size(), e.getMessage(),
+                StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT_LIST]", e);
         } finally {
             writeLock().unlock();
@@ -1215,5 +1216,72 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         if (this.defaultDB == null) {
             throw new RheaRuntimeException("PMemRawKVStore region " + regionId + " is not initialized properly");
         }
+    }
+
+    private void getEntry(final byte op, final byte[] key, final KVStoreClosure closure) {
+        Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+        final Timer.Context timeCtx = getTimeContext(KVOperation.opName(op));
+
+        final KVEntry kvEntry = new KVEntry();
+        final GetAllByteArrayCallback getKVCallback = (byte[] k, byte[] v) -> {
+            kvEntry.setKey(k);
+            kvEntry.setValue(v);
+        };
+
+        readLock().lock();
+        try {
+            checkOpen();
+            final byte[] realKey = BytesUtil.nullToEmpty(key);
+            boolean exist = false;
+            switch (op) {
+                case KVOperation.FLOOR_ENTRY:
+		    exist = this.defaultDB.get_floor_entry(realKey, getKVCallback);
+		    break;
+                case KVOperation.LOWER_ENTRY:
+		    exist = this.defaultDB.get_lower_entry(realKey, getKVCallback);
+		    break;
+                case KVOperation.CEILING_ENTRY:
+		    exist = this.defaultDB.get_ceiling_entry(realKey, getKVCallback);
+		    break;
+                case KVOperation.HIGHER_ENTRY:
+		    exist = this.defaultDB.get_higher_entry(realKey, getKVCallback);
+		    break;
+                default:
+                    Requires.requireTrue(false, "Unsupported operator type " + KVOperation.opName(op));
+            }
+
+            if (exist) {
+		setSuccess(closure, kvEntry);
+            } else {
+                setSuccess(closure, null);
+            }
+        } catch (final Exception e) {
+            LOG.error("Fail to [{}], key: [{}], {}.", KVOperation.opName(op),
+                      BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
+            setFailure(closure, "Fail to " + KVOperation.opName(op));
+        } finally {
+            readLock().unlock();
+            timeCtx.stop();
+        }
+    }
+
+    @Override
+    public void floorEntry(final byte[] key, final KVStoreClosure closure) {
+        getEntry(KVOperation.FLOOR_ENTRY, key, closure);
+    }
+
+    @Override
+    public void lowerEntry(final byte[] key, final KVStoreClosure closure) {
+        getEntry(KVOperation.LOWER_ENTRY, key, closure);
+    }
+
+    @Override
+    public void ceilingEntry(final byte[] key, final KVStoreClosure closure) {
+        getEntry(KVOperation.CEILING_ENTRY, key, closure);
+    }
+
+    @Override
+    public void higherEntry(final byte[] key, final KVStoreClosure closure) {
+        getEntry(KVOperation.HIGHER_ENTRY, key, closure);
     }
 }

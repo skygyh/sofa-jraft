@@ -231,4 +231,24 @@ public interface RawKVStore {
      * query if the raw kv store is sealed
      */
     void isSealed(final long regionId, final KVStoreClosure closure);
+
+    /**
+     * get the greatest key less than or equal to the given key
+     */
+    void floorEntry(final byte[] key, final KVStoreClosure closure);
+
+    /**
+     * get the greatest key strictly less than the given key
+     */
+    void lowerEntry(final byte[] key, final KVStoreClosure closure);
+
+    /**
+     * the least key greater than or equal to the given key
+     */
+    void ceilingEntry(final byte[] key, final KVStoreClosure closure);
+
+    /**
+     * the least key strictly greater than the given key
+     */
+    void higherEntry(final byte[] key, final KVStoreClosure closure);
 }
