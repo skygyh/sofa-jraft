@@ -218,7 +218,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void size(final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("SIZE");
-       // readLock().lock();
+        readLock().lock();
         try {
             checkOpen();
             final long size = this.defaultDB.countAll();
@@ -227,7 +227,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Fail to [SIZE], key: {}.", StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [SIZE]");
         } finally {
-         //   readLock().unlock();
+            readLock().unlock();
             timeCtx.stop();
         }
     }
@@ -237,7 +237,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     final KVStoreClosure closure) {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("GET");
-       // readLock().lock();
+        readLock().lock();
         try {
             checkOpen();
             final byte[] value = this.defaultDB.get(key);
@@ -246,7 +246,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Fail to [GET], key: [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [GET]");
         } finally {
-        //    readLock().unlock();
+            readLock().unlock();
             timeCtx.stop();
         }
     }
@@ -255,7 +255,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void multiGet(final List<byte[]> keys, @SuppressWarnings("unused") final boolean readOnlySafe,
                          final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("MULTI_GET");
-       // readLock().lock();
+        readLock().lock();
         try {
             checkOpen();
             final Map<ByteArray, byte[]> resultMap = Maps.newHashMap();
@@ -269,7 +269,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Fail to [MULTI_GET], key size: [{}], {}.", keys.size(), StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [MULTI_GET]");
         } finally {
-         //   readLock().unlock();
+            readLock().unlock();
             timeCtx.stop();
         }
     }
@@ -311,7 +311,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 entries.add(new KVEntry(k, returnValue ? v : null));
             }
         };
-       // readLock().lock();
+        readLock().lock();
         // TODO : stree doesn't support get_between API yet.
         try {
             checkOpen();
@@ -326,7 +326,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     StackTraceUtil.stackTrace(e));
             setFailure(closure, "Fail to [SCAN]");
         } finally {
-         //   readLock().unlock();
+            readLock().unlock();
             timeCtx.stop();
         }
     }
@@ -388,7 +388,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void put(final byte[] key, final byte[] value, final KVStoreClosure closure) {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("PUT");
-        //writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -399,7 +399,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 key.length, value == null ? 0 : value.length, StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -410,7 +410,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         final Timer.Context timeCtx = getTimeContext("GET_PUT");
         // TODO : check if the pmemkv doesn't support concurrent write
-        //writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -422,7 +422,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [GET_PUT]", e);
         } finally {
-           // writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -434,7 +434,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(update.length <= PMemDBOptions.MAX_VALUE_SIZE);
         final Timer.Context timeCtx = getTimeContext("COMPARE_PUT");
         // TODO : check if the pmemkv doesn't support concurrent write
-       // writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -450,7 +450,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 BytesUtil.toHex(update), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [COMPARE_PUT]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -460,7 +460,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         final Timer.Context timeCtx = getTimeContext("MERGE");
-        //writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -483,7 +483,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [MERGE]", e);
         } finally {
-           // writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -491,7 +491,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void put(final List<KVEntry> entries, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("PUT_LIST");
-      //  writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -509,7 +509,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Failed to [PUT_LIST], [size = {}], {}, {} .", entries.size(), e.getMessage(), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT_LIST]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -519,7 +519,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         final Timer.Context timeCtx = getTimeContext("PUT_IF_ABSENT");
-        //writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -534,7 +534,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                 StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [PUT_IF_ABSENT]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -808,7 +808,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     public void delete(final byte[] key, final KVStoreClosure closure) {
         Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("DELETE");
-       // writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -818,7 +818,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Fail to [DELETE], [{}], {}.", BytesUtil.toHex(key), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -828,7 +828,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("DELETE_RANGE");
-        //writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -849,7 +849,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                     StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE_RANGE]", e);
         } finally {
-           // writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -857,7 +857,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void delete(final List<byte[]> keys, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("DELETE_LIST");
-      //  writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             checkWritable();
@@ -870,7 +870,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             LOG.error("Failed to [DELETE_LIST], [size = {}], {}.", keys.size(), StackTraceUtil.stackTrace(e));
             setCriticalError(closure, "Fail to [DELETE_LIST]", e);
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -878,7 +878,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void batch(final List<KVOperation> kvOperations, final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("BATCH_OP");
-       // writeLock().lock();
+        writeLock().lock();
         try {
             checkOpen();
             if (kvOperations.stream().anyMatch(KVOperation::isWriteOp)) {
@@ -888,7 +888,7 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         } catch (final Exception e) {
             LOG.error("Failed to [BATCH_OP], [size = {}], {}.", kvOperations.size(), StackTraceUtil.stackTrace(e));
         } finally {
-         //   writeLock().unlock();
+            writeLock().unlock();
             timeCtx.stop();
         }
     }
@@ -983,13 +983,13 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
         Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         final Timer.Context timeCtx = getTimeContext("APPROXIMATE_KEYS");
-      //  readLock().lock();
+        readLock().lock();
         try {
             checkOpen();
             final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
             return this.defaultDB.countBetween(realStartKey, endKey);
         } finally {
-        //    readLock().unlock();
+            readLock().unlock();
             timeCtx.stop();
         }
     }
