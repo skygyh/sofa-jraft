@@ -148,7 +148,7 @@ public class KVOperation implements Serializable {
     private static final byte[] VALID_OPS;
 
     static {
-        VALID_OPS = new byte[23];
+        VALID_OPS = new byte[27];
         VALID_OPS[0] = PUT;
         VALID_OPS[1] = PUT_IF_ABSENT;
         VALID_OPS[2] = DELETE;
