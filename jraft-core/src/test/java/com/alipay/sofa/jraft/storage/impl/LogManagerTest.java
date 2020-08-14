@@ -16,6 +16,20 @@
  */
 package com.alipay.sofa.jraft.storage.impl;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+
 import com.alipay.sofa.jraft.FSMCaller;
 import com.alipay.sofa.jraft.JRaftUtils;
 import com.alipay.sofa.jraft.Status;
@@ -46,6 +60,13 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public abstract class LogManagerTest extends BaseStorageTest {
@@ -138,6 +159,49 @@ public abstract class LogManagerTest extends BaseStorageTest {
         lastLogId = this.logManager.getLastLogId(false);
         assertEquals(10, lastLogId.getIndex());
         assertTrue(this.logManager.checkConsistency().isOk());
+    }
+
+    @Test
+    public void testAppendEntriesBeforeAppliedIndex() throws Exception {
+        //Append 0-10
+        List<LogEntry> mockEntries = TestUtils.mockEntries(10);
+        for (int i = 0; i < 10; i++) {
+            mockEntries.get(i).getId().setTerm(1);
+        }
+        final CountDownLatch latch1 = new CountDownLatch(1);
+        this.logManager.appendEntries(new ArrayList<>(mockEntries), new LogManager.StableClosure() {
+
+            @Override
+            public void run(final Status status) {
+                assertTrue(status.isOk());
+                latch1.countDown();
+            }
+        });
+        latch1.await();
+
+        assertEquals(1, this.logManager.getFirstLogIndex());
+        assertEquals(10, this.logManager.getLastLogIndex());
+        this.logManager.setAppliedId(new LogId(9, 1));
+
+        for (int i = 0; i < 10; i++) {
+            assertNull(this.logManager.getEntryFromMemory(i));
+        }
+
+        // append 1-10 again, already applied, returns OK.
+        final CountDownLatch latch2 = new CountDownLatch(1);
+        mockEntries = TestUtils.mockEntries(10);
+        mockEntries.remove(0);
+        this.logManager.appendEntries(new ArrayList<>(mockEntries), new LogManager.StableClosure() {
+
+            @Override
+            public void run(final Status status) {
+                assertTrue(status.isOk());
+                latch2.countDown();
+            }
+        });
+        latch2.await();
+        assertEquals(1, this.logManager.getFirstLogIndex());
+        assertEquals(10, this.logManager.getLastLogIndex());
     }
 
     @Test
@@ -258,6 +322,7 @@ public abstract class LogManagerTest extends BaseStorageTest {
             // it's in memory
             Assert.assertEquals(mockEntries.get(i), this.logManager.getEntryFromMemory(i + 1));
         }
+        Thread.sleep(200); // waiting for setDiskId()
         this.logManager.setAppliedId(new LogId(10, 10));
         for (int i = 0; i < 10; i++) {
             assertNull(this.logManager.getEntryFromMemory(i + 1));
@@ -273,6 +338,7 @@ public abstract class LogManagerTest extends BaseStorageTest {
             // it's in memory
             Assert.assertEquals(mockEntries.get(i), this.logManager.getEntryFromMemory(i + 1));
         }
+        Thread.sleep(200); // waiting for setDiskId()
         this.logManager.setAppliedId(new LogId(10, 10));
         for (int i = 0; i < 10; i++) {
             assertNull(this.logManager.getEntryFromMemory(i + 1));

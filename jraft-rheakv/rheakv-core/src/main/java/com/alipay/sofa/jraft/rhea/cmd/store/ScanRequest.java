@@ -37,6 +37,15 @@ public class ScanRequest extends BaseRequest {
     private int               limit;
     private boolean           readOnlySafe     = true;
     private boolean           returnValue      = true;
+    private boolean           reverse          = false;
+
+    public boolean isReverse() {
+        return reverse;
+    }
+
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
+    }
 
     public ScanRequest() {
     }
@@ -103,7 +112,7 @@ public class ScanRequest extends BaseRequest {
     @Override
     public String toString() {
         return "ScanRequest{" + "startKey=" + BytesUtil.toHex(startKey) + ", endKey=" + BytesUtil.toHex(endKey)
-               + ", limit=" + limit + ", readOnlySafe=" + readOnlySafe + ", returnValue=" + returnValue + "} "
-               + super.toString();
+               + ", limit=" + limit + ", reverse=" + reverse + ", readOnlySafe=" + readOnlySafe + ", returnValue="
+               + returnValue + "} " + super.toString();
     }
 }

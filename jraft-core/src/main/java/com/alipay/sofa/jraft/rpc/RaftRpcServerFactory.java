@@ -32,6 +32,10 @@ import java.util.concurrent.Executor;
  */
 public class RaftRpcServerFactory {
 
+    static {
+        ProtobufMsgFactory.load();
+    }
+
     /**
      * Creates a raft RPC server with default request executors.
      *
@@ -52,7 +56,7 @@ public class RaftRpcServerFactory {
      */
     public static RpcServer createRaftRpcServer(final Endpoint endpoint, final Executor raftExecutor,
                                                 final Executor cliExecutor) {
-        final RpcServer rpcServer = RpcFactoryHelper.getRpcFactory().createRpcServer(endpoint);
+        final RpcServer rpcServer = RpcFactoryHelper.rpcFactory().createRpcServer(endpoint);
         addRaftRequestProcessors(rpcServer, raftExecutor, cliExecutor);
         return rpcServer;
     }

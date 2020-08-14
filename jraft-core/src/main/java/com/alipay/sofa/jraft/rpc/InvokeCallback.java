@@ -25,5 +25,7 @@ public interface InvokeCallback {
 
     void complete(final Object result, final Throwable err);
 
-    Executor executor();
+    default Executor executor() {
+        return null;
+    }
 }

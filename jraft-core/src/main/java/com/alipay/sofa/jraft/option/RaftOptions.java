@@ -18,6 +18,8 @@ package com.alipay.sofa.jraft.option;
 
 import com.alipay.sofa.jraft.util.Copiable;
 import com.alipay.sofa.jraft.util.StorageType;
+import com.alipay.sofa.jraft.util.RpcFactoryHelper;
+
 
 /**
  * Raft options.
@@ -130,7 +132,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
     }
 
     public boolean isReplicatorPipeline() {
-        return this.replicatorPipeline;
+        return this.replicatorPipeline && RpcFactoryHelper.rpcFactory().isReplicatorPipelineEnabled();
     }
 
     public void setReplicatorPipeline(final boolean replicatorPipeline) {

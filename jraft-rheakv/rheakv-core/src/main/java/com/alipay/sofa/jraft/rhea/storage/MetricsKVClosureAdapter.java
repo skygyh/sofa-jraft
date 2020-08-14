@@ -82,7 +82,7 @@ public class MetricsKVClosureAdapter implements KVStoreClosure {
     }
 
     @Override
-    public void run(Status status) {
+    public void run(final Status status) {
         try {
             if (this.done != null) {
                 this.done.run(status);

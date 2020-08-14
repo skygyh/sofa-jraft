@@ -142,13 +142,19 @@ public class KVOperation implements Serializable {
     public static final byte    LOWER_ENTRY      = 0x19;
     public static final byte    CEILING_ENTRY    = 0x1a;
     public static final byte    HIGHER_ENTRY     = 0x1b;
+    /** Reverse Scan operation */
+    public static final byte    REVERSE_SCAN     = 0x1c;
 
-    public static final byte    EOF              = 0x1c;
+    public static final byte    EOF              = 0x1d;
+
+
 
     private static final byte[] VALID_OPS;
 
     static {
-        VALID_OPS = new byte[27];
+
+        VALID_OPS = new byte[EOF - 1];
+
         VALID_OPS[0] = PUT;
         VALID_OPS[1] = PUT_IF_ABSENT;
         VALID_OPS[2] = DELETE;
@@ -176,6 +182,7 @@ public class KVOperation implements Serializable {
         VALID_OPS[24] = LOWER_ENTRY;
         VALID_OPS[25] = CEILING_ENTRY;
         VALID_OPS[26] = HIGHER_ENTRY;
+        VALID_OPS[27] = REVERSE_SCAN;
     }
 
     private long                regionId         = ANY_REGION_ID;
@@ -287,6 +294,11 @@ public class KVOperation implements Serializable {
     public static KVOperation createScan(final byte[] startKey, final byte[] endKey, final int limit,
                                          final boolean returnValue) {
         return new KVOperation(startKey, endKey, Pair.of(limit, returnValue), SCAN);
+    }
+
+    public static KVOperation createReverseScan(final byte[] startKey, final byte[] endKey, final int limit,
+                                                final boolean returnValue) {
+        return new KVOperation(startKey, endKey, Pair.of(limit, returnValue), REVERSE_SCAN);
     }
 
     public static KVOperation createGetAndPut(final byte[] key, final byte[] value) {
@@ -500,6 +512,7 @@ public class KVOperation implements Serializable {
                 return "RESET_SEQUENCE";
             case RANGE_SPLIT:
                 return "RANGE_SPLIT";
+<<<<<<< HEAD
             case BATCH_OP:
                 return "BATCH_OP";
             case DESTROY:
@@ -516,6 +529,14 @@ public class KVOperation implements Serializable {
                 return "CEILING_ENTRY";
             case HIGHER_ENTRY:
                 return "HIGHER_ENTRY";
+=======
+            case DELETE_LIST:
+                return "DELETE_LIST";
+            case CONTAINS_KEY:
+                return "CONTAINS_KEY";
+            case REVERSE_SCAN:
+                return "REVERSE_SCAN";
+>>>>>>> master
             default:
                 return "UNKNOWN" + op;
         }

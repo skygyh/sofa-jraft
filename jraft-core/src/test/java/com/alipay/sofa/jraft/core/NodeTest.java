@@ -30,10 +30,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -104,10 +106,42 @@ public class NodeTest {
 
     private long                testStartMs;
 
+    private static DumpThread   dumpThread;
+
+    static class DumpThread extends Thread {
+        private static long      DUMP_TIMEOUT_MS = 5 * 60 * 1000;
+        private volatile boolean stopped         = false;
+
+        @Override
+        public void run() {
+            while (!this.stopped) {
+                try {
+                    Thread.sleep(DUMP_TIMEOUT_MS);
+                    System.out.println("Test hang too long, dump threads");
+                    TestUtils.dumpThreads();
+                } catch (InterruptedException e) {
+                    // reset request, continue
+                    continue;
+                }
+            }
+        }
+    }
+
     @BeforeClass
-    public static void setupRocksdbOptions() {
+    public static void setupNodeTest() {
         StorageOptionsFactory.registerRocksDBTableFormatConfig(RocksDBLogStorage.class, StorageOptionsFactory
             .getDefaultRocksDBTableConfig().setBlockCacheSize(256 * SizeUnit.MB));
+        dumpThread = new DumpThread();
+        dumpThread.setName("NodeTest-DumpThread");
+        dumpThread.setDaemon(true);
+        dumpThread.start();
+    }
+
+    @AfterClass
+    public static void tearNodeTest() throws Exception {
+        dumpThread.stopped = true;
+        dumpThread.interrupt();
+        dumpThread.join(100);
     }
 
     @Before
@@ -117,6 +151,7 @@ public class NodeTest {
         FileUtils.forceMkdir(new File(this.dataPath));
         assertEquals(NodeImpl.GLOBAL_NUM_NODES.get(), 0);
         this.testStartMs = Utils.monotonicMs();
+        dumpThread.interrupt(); // reset dump timeout
     }
 
     @After
@@ -161,7 +196,7 @@ public class NodeTest {
         final PeerId peer = new PeerId(addr, 0);
 
         NodeManager.getInstance().addAddress(addr);
-        final NodeOptions nodeOptions = new NodeOptions();
+        final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
         final RaftOptions raftOptions = new RaftOptions();
         raftOptions.setDisruptorBufferSize(2);
         nodeOptions.setRaftOptions(raftOptions);
@@ -215,7 +250,7 @@ public class NodeTest {
         final PeerId peer = new PeerId(addr, 0);
 
         NodeManager.getInstance().addAddress(addr);
-        final NodeOptions nodeOptions = new NodeOptions();
+        final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
         final CountDownLatch applyCompleteLatch = new CountDownLatch(1);
         final CountDownLatch applyLatch = new CountDownLatch(1);
         final CountDownLatch readIndexLatch = new CountDownLatch(1);
@@ -321,7 +356,7 @@ public class NodeTest {
         final PeerId peer = new PeerId(addr, 0);
 
         NodeManager.getInstance().addAddress(addr);
-        final NodeOptions nodeOptions = new NodeOptions();
+        final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
         final MockStateMachine fsm = new MockStateMachine(addr);
         nodeOptions.setFsm(fsm);
         nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -609,7 +644,7 @@ public class NodeTest {
         RaftGroupService learnerServer = null;
         {
             // Start learner
-            final NodeOptions nodeOptions = new NodeOptions();
+            final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
             learnerFsm = new MockStateMachine(learnerAddr);
             nodeOptions.setFsm(learnerFsm);
             nodeOptions.setLogUri(this.dataPath + File.separator + "log1");
@@ -625,7 +660,7 @@ public class NodeTest {
 
         {
             // Start leader
-            final NodeOptions nodeOptions = new NodeOptions();
+            final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
             final MockStateMachine fsm = new MockStateMachine(addr);
             nodeOptions.setFsm(fsm);
             nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -1048,8 +1083,22 @@ public class NodeTest {
         leader = cluster.getLeader();
 
         assertNotNull(leader);
-        assertEquals(60, leader.getNodeId().getPeerId().getPriority());
-        assertEquals(100, leader.getNodeTargetPriority());
+
+        // get current leader priority value
+        int leaderPriority = leader.getNodeId().getPeerId().getPriority();
+
+        // get current leader log size
+        int peer1LogSize = cluster.getFsmByPeer(peers.get(1)).getLogs().size();
+        int peer2LogSize = cluster.getFsmByPeer(peers.get(2)).getLogs().size();
+
+        // if the leader is lower priority value
+        if (leaderPriority == 10) {
+            // we just compare the two peers' log size value;
+            assertTrue(peer2LogSize > peer1LogSize);
+        } else {
+            assertEquals(60, leader.getNodeId().getPeerId().getPriority());
+            assertEquals(100, leader.getNodeTargetPriority());
+        }
 
         cluster.stopAll();
     }
@@ -1296,7 +1345,10 @@ public class NodeTest {
         // apply tasks to leader
         this.sendTestTaskAndWait(leader);
 
-        assertReadIndex(leader, 11);
+        // first call will fail-fast when no connection
+        if (!assertReadIndex(leader, 11)) {
+            assertTrue(assertReadIndex(leader, 11));
+        }
 
         // read from follower
         for (final Node follower : cluster.getFollowers()) {
@@ -1312,6 +1364,58 @@ public class NodeTest {
             public void run(final Status status, final long index, final byte[] reqCtx) {
                 assertNull(reqCtx);
                 assertTrue(status.isOk());
+                latch.countDown();
+            }
+        });
+        latch.await();
+
+        cluster.stopAll();
+    }
+
+    @Test
+    public void testReadIndexTimeout() throws Exception {
+        final List<PeerId> peers = TestUtils.generatePeers(3);
+
+        final TestCluster cluster = new TestCluster("unittest", this.dataPath, peers);
+        for (final PeerId peer : peers) {
+            assertTrue(cluster.start(peer.getEndpoint(), false, 300, true));
+        }
+
+        // elect leader
+        cluster.waitLeader();
+
+        // get leader
+        final Node leader = cluster.getLeader();
+        assertNotNull(leader);
+        assertEquals(3, leader.listPeers().size());
+        // apply tasks to leader
+        sendTestTaskAndWait(leader);
+
+        // first call will fail-fast when no connection
+        if (!assertReadIndex(leader, 11)) {
+            assertTrue(assertReadIndex(leader, 11));
+        }
+
+        // read from follower
+        for (final Node follower : cluster.getFollowers()) {
+            assertNotNull(follower);
+            assertReadIndex(follower, 11);
+        }
+
+        // read with null request context
+        final CountDownLatch latch = new CountDownLatch(1);
+        final long start = System.currentTimeMillis();
+        leader.readIndex(null, new ReadIndexClosure(0) {
+
+            @Override
+            public void run(final Status status, final long index, final byte[] reqCtx) {
+                assertNull(reqCtx);
+                if (status.isOk()) {
+                    System.err.println("Read-index so fast: " + (System.currentTimeMillis() - start) + "ms");
+                } else {
+                    assertEquals(status, new Status(RaftError.ETIMEDOUT, "read-index request timeout"));
+                    assertEquals(index, -1);
+                }
                 latch.countDown();
             }
         });
@@ -1351,6 +1455,7 @@ public class NodeTest {
             assertEquals(1, leader.listLearners().size());
         }
 
+        Thread.sleep(100);
         // read from learner
         Node learner = cluster.getNodes().get(3);
         assertNotNull(leader);
@@ -1433,20 +1538,27 @@ public class NodeTest {
     }
 
     @SuppressWarnings({ "unused", "SameParameterValue" })
-    private void assertReadIndex(final Node node, final int index) throws InterruptedException {
+    private boolean assertReadIndex(final Node node, final int index) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
         final byte[] requestContext = TestUtils.getRandomBytes();
+        final AtomicBoolean success = new AtomicBoolean(false);
         node.readIndex(requestContext, new ReadIndexClosure() {
 
             @Override
             public void run(final Status status, final long theIndex, final byte[] reqCtx) {
-                assertTrue(status.getErrorMsg(), status.isOk());
-                assertEquals(index, theIndex);
-                assertArrayEquals(requestContext, reqCtx);
+                if (status.isOk()) {
+                    assertEquals(index, theIndex);
+                    assertArrayEquals(requestContext, reqCtx);
+                    success.set(true);
+                } else {
+                    assertTrue(status.getErrorMsg().contains("RPC exception:Check connection["));
+                    assertTrue(status.getErrorMsg().contains("] fail and try to create new one"));
+                }
                 latch.countDown();
             }
         });
         latch.await();
+        return success.get();
     }
 
     @Test
@@ -1727,6 +1839,7 @@ public class NodeTest {
         CountDownLatch latch = new CountDownLatch(1);
         leader.removePeer(oldLeader, new ExpectClosure(latch));
         waitLatch(latch);
+        Thread.sleep(100);
 
         // elect new leader
         cluster.waitLeader();
@@ -2205,7 +2318,7 @@ public class NodeTest {
     public void testNoSnapshot() throws Exception {
         final Endpoint addr = new Endpoint(TestUtils.getMyIp(), TestUtils.INIT_PORT);
         NodeManager.getInstance().addAddress(addr);
-        final NodeOptions nodeOptions = new NodeOptions();
+        final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
         final MockStateMachine fsm = new MockStateMachine(addr);
         nodeOptions.setFsm(fsm);
         nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -2237,7 +2350,7 @@ public class NodeTest {
     public void testAutoSnapshot() throws Exception {
         final Endpoint addr = new Endpoint(TestUtils.getMyIp(), TestUtils.INIT_PORT);
         NodeManager.getInstance().addAddress(addr);
-        final NodeOptions nodeOptions = new NodeOptions();
+        final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
         final MockStateMachine fsm = new MockStateMachine(addr);
         nodeOptions.setFsm(fsm);
         nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -2482,7 +2595,7 @@ public class NodeTest {
         final Endpoint addr = new Endpoint(TestUtils.getMyIp(), TestUtils.INIT_PORT);
         NodeManager.getInstance().addAddress(addr);
         {
-            final NodeOptions nodeOptions = new NodeOptions();
+            final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
             final MockStateMachine fsm = new MockStateMachine(addr);
             nodeOptions.setFsm(fsm);
             nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -2504,7 +2617,7 @@ public class NodeTest {
             node.join();
         }
         {
-            final NodeOptions nodeOptions = new NodeOptions();
+            final NodeOptions nodeOptions = createNodeOptionsWithSharedTimer();
             final MockStateMachine fsm = new MockFSM1(addr);
             nodeOptions.setFsm(fsm);
             nodeOptions.setLogUri(this.dataPath + File.separator + "log");
@@ -2542,6 +2655,7 @@ public class NodeTest {
 
         Thread.sleep(100);
         leader = cluster.getLeader();
+        cluster.waitLeader();
         assertNotNull(leader);
         assertNotSame(leader, oldLeader);
 
@@ -2823,16 +2937,16 @@ public class NodeTest {
             assertEquals("User log is deleted at index: 5", e.getMessage());
         }
 
-        // index == 12 and index == 13 are 2 CONFIGURATION logs, so real_index will be 14 when returned.
+        // index == 12、index == 13、index=14、index=15 are 4 CONFIGURATION logs(joint consensus), so real_index will be 16 when returned.
         userLog = leader.readCommittedUserLog(12);
         assertNotNull(userLog);
-        assertEquals(14, userLog.getIndex());
+        assertEquals(16, userLog.getIndex());
         assertEquals("hello10", new String(userLog.getData().array()));
 
-        // now index == 15 is a user log
-        userLog = leader.readCommittedUserLog(15);
+        // now index == 17 is a user log
+        userLog = leader.readCommittedUserLog(17);
         assertNotNull(userLog);
-        assertEquals(15, userLog.getIndex());
+        assertEquals(17, userLog.getIndex());
         assertEquals("hello11", new String(userLog.getData().array()));
 
         cluster.ensureSame();
@@ -2866,7 +2980,7 @@ public class NodeTest {
         NodeManager.getInstance().addAddress(addr);
         assertTrue(JRaftUtils.bootstrap(opts));
 
-        final NodeOptions nodeOpts = new NodeOptions();
+        final NodeOptions nodeOpts = createNodeOptionsWithSharedTimer();
         nodeOpts.setRaftMetaUri(this.dataPath + File.separator + "meta");
         nodeOpts.setLogUri(this.dataPath + File.separator + "log");
         nodeOpts.setSnapshotUri(this.dataPath + File.separator + "snapshot");
@@ -2905,7 +3019,7 @@ public class NodeTest {
         NodeManager.getInstance().addAddress(addr);
         assertTrue(JRaftUtils.bootstrap(opts));
 
-        final NodeOptions nodeOpts = new NodeOptions();
+        final NodeOptions nodeOpts = createNodeOptionsWithSharedTimer();
         nodeOpts.setRaftMetaUri(this.dataPath + File.separator + "meta");
         nodeOpts.setLogUri(this.dataPath + File.separator + "log");
         nodeOpts.setSnapshotUri(this.dataPath + File.separator + "snapshot");
@@ -3296,5 +3410,12 @@ public class NodeTest {
         } finally {
             cluster.stopAll();
         }
+    }
+
+    private NodeOptions createNodeOptionsWithSharedTimer() {
+        final NodeOptions options = new NodeOptions();
+        options.setSharedElectionTimer(true);
+        options.setSharedVoteTimer(true);
+        return options;
     }
 }

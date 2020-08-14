@@ -38,12 +38,15 @@ import com.alipay.sofa.jraft.rpc.RpcClient;
 import com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse;
 import com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest;
 import com.alipay.sofa.jraft.rpc.RpcResponseClosure;
+import com.alipay.sofa.jraft.rpc.RpcResponseFactory;
+import com.alipay.sofa.jraft.rpc.RpcUtils;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.NamedThreadFactory;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
 import com.alipay.sofa.jraft.util.ThreadPoolMetricSet;
 import com.alipay.sofa.jraft.util.ThreadPoolUtil;
 import com.alipay.sofa.jraft.util.Utils;
+import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 
 /**
@@ -79,6 +82,15 @@ public abstract class AbstractClientService implements ClientService {
     }
 
     @Override
+    public boolean checkConnection(final Endpoint endpoint, final boolean createIfAbsent) {
+        final RpcClient rc = this.rpcClient;
+        if (rc == null) {
+            throw new IllegalStateException("Client service is uninitialized.");
+        }
+        return rc.checkConnection(endpoint, createIfAbsent);
+    }
+
+    @Override
     public synchronized boolean init(final RpcOptions rpcOptions) {
         if (this.rpcClient != null) {
             return true;
@@ -92,7 +104,7 @@ public abstract class AbstractClientService implements ClientService {
     }
 
     protected boolean initRpcClient(final int rpcProcessorThreadPoolSize) {
-        final RaftRpcFactory factory = RpcFactoryHelper.getRpcFactory();
+        final RaftRpcFactory factory = RpcFactoryHelper.rpcFactory();
         this.rpcClient = factory.createRpcClient(factory.defaultJRaftClientConfigHelper(this.rpcOptions));
         configRpcClient(this.rpcClient);
         this.rpcClient.init(null);
@@ -186,13 +198,13 @@ public abstract class AbstractClientService implements ClientService {
             if (rc == null) {
                 future.failure(new IllegalStateException("Client service is uninitialized."));
                 // should be in another thread to avoid dead locking.
-                Utils.runClosureInThread(done, new Status(RaftError.EINTERNAL, "Client service is uninitialized."));
+                RpcUtils.runClosureInThread(done, new Status(RaftError.EINTERNAL, "Client service is uninitialized."));
                 return future;
             }
 
             rc.invokeAsync(endpoint, request, ctx, new InvokeCallback() {
 
-                @SuppressWarnings("unchecked")
+                @SuppressWarnings({ "unchecked", "ConstantConditions" })
                 @Override
                 public void complete(final Object result, final Throwable err) {
                     if (future.isCancelled()) {
@@ -203,11 +215,17 @@ public abstract class AbstractClientService implements ClientService {
                     if (err == null) {
                         Status status = Status.OK();
                         if (result instanceof ErrorResponse) {
-                            final ErrorResponse eResp = (ErrorResponse) result;
-                            status = new Status();
-                            status.setCode(eResp.getErrorCode());
-                            if (eResp.hasErrorMsg()) {
-                                status.setErrorMsg(eResp.getErrorMsg());
+                            status = handleErrorResponse((ErrorResponse) result);
+                        } else if (result instanceof Message) {
+                            final Descriptors.FieldDescriptor fd = ((Message) result).getDescriptorForType() //
+                                .findFieldByNumber(RpcResponseFactory.ERROR_RESPONSE_NUM);
+                            if (fd != null && ((Message) result).hasField(fd)) {
+                                final ErrorResponse eResp = (ErrorResponse) ((Message) result).getField(fd);
+                                status = handleErrorResponse(eResp);
+                            } else {
+                                if (done != null) {
+                                    done.setResponse((T) result);
+                                }
                             }
                         } else {
                             if (done != null) {
@@ -258,6 +276,15 @@ public abstract class AbstractClientService implements ClientService {
         }
 
         return future;
+    }
+
+    private static Status handleErrorResponse(final ErrorResponse eResp) {
+        final Status status = new Status();
+        status.setCode(eResp.getErrorCode());
+        if (eResp.hasErrorMsg()) {
+            status.setErrorMsg(eResp.getErrorMsg());
+        }
+        return status;
     }
 
     private <T extends Message> void onCanceled(final Message request, final RpcResponseClosure<T> done) {

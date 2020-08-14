@@ -18,6 +18,8 @@ package com.alipay.sofa.jraft.rhea;
 
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.Status;
+import com.alipay.sofa.jraft.conf.Configuration;
+import com.alipay.sofa.jraft.entity.PeerId;
 import com.alipay.sofa.jraft.entity.Task;
 import com.alipay.sofa.jraft.option.NodeOptions;
 import com.alipay.sofa.jraft.rhea.client.pd.HeartbeatSender;
@@ -36,7 +38,17 @@ import com.alipay.sofa.jraft.rhea.storage.*;
 import com.alipay.sofa.jraft.rhea.util.*;
 import com.alipay.sofa.jraft.rpc.RaftRpcServerFactory;
 import com.alipay.sofa.jraft.rpc.RpcServer;
+
 import com.alipay.sofa.jraft.util.*;
+
+import com.alipay.sofa.jraft.util.BytesUtil;
+import com.alipay.sofa.jraft.util.Describer;
+import com.alipay.sofa.jraft.util.Endpoint;
+import com.alipay.sofa.jraft.util.ExecutorServiceHelper;
+import com.alipay.sofa.jraft.util.Requires;
+import com.alipay.sofa.jraft.util.ThreadPoolMetricRegistry;
+import com.alipay.sofa.jraft.util.Utils;
+
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
 import org.apache.commons.io.FileUtils;
@@ -61,7 +73,7 @@ import static com.alipay.sofa.jraft.rhea.metadata.Region.ANY_REGION_ID;
  *
  * @author jiachun.fjc
  */
-public class StoreEngine implements Lifecycle<StoreEngineOptions> {
+public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
 
     private static final Logger                        LOG                  = LoggerFactory
                                                                                 .getLogger(StoreEngine.class);
@@ -112,6 +124,9 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             LOG.info("[StoreEngine] already started.");
             return true;
         }
+
+        DescriberManager.getInstance().addDescriber(this);
+
         this.storeOpts = Requires.requireNonNull(opts, "opts");
         Endpoint serverAddress = Requires.requireNonNull(opts.getServerAddress(), "opts.serverAddress");
         final int port = serverAddress.getPort();
@@ -135,7 +150,10 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         for (final RegionEngineOptions rOpts : rOptsList) {
             rOpts.setRaftGroupId(JRaftHelper.getJRaftGroupId(clusterName, rOpts.getRegionId()));
             rOpts.setServerAddress(serverAddress);
-            rOpts.setInitialServerList(opts.getInitialServerList());
+            if (Strings.isBlank(rOpts.getInitialServerList())) {
+                // if blank, extends parent's value
+                rOpts.setInitialServerList(opts.getInitialServerList());
+            }
             if (rOpts.getNodeOptions() == null) {
                 // copy common node options
                 rOpts.setNodeOptions(opts.getCommonNodeOptions() == null ? new NodeOptions() : opts
@@ -570,7 +588,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
                 this.metricsScheduler = StoreEngineHelper.createMetricsScheduler();
             }
             // start threadPool metrics reporter
-            this.threadPoolMetricsReporter = Slf4jReporter.forRegistry(MetricThreadPoolExecutor.metricRegistry()) //
+            this.threadPoolMetricsReporter = Slf4jReporter.forRegistry(ThreadPoolMetricRegistry.metricRegistry()) //
                 .withLoggingLevel(Slf4jReporter.LoggingLevel.INFO) //
                 .outputTo(LOG) //
                 .scheduleOn(this.metricsScheduler) //
@@ -705,6 +723,9 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
         Requires.requireTrue(rOptsList.size() == regionList.size());
         for (int i = 0; i < rOptsList.size(); i++) {
             final RegionEngineOptions rOpts = rOptsList.get(i);
+            if (!inConfiguration(rOpts.getServerAddress().toString(), rOpts.getInitialServerList())) {
+                continue;
+            }
             final Region region = regionList.get(i);
             if (Strings.isBlank(rOpts.getRaftDataPath())) {
                 final String childPath = "raft_data_region_" + region.getId() + "_" + serverAddress.getPort();
@@ -722,6 +743,18 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
             }
         }
         return true;
+    }
+
+    private boolean inConfiguration(final String curr, final String all) {
+        final PeerId currPeer = new PeerId();
+        if (!currPeer.parse(curr)) {
+            return false;
+        }
+        final Configuration allConf = new Configuration();
+        if (!allConf.parse(all)) {
+            return false;
+        }
+        return allConf.contains(currPeer) || allConf.getLearners().contains(currPeer);
     }
 
     private void registerRegionKVService(final RegionKVService regionKVService) {
@@ -744,6 +777,16 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions> {
     @Override
     public String toString() {
         return "StoreEngine{storeId=" + storeId + ", startTime=" + startTime + ", dbPath=" + dbPath + ", storeOpts="
-               + storeOpts + ", started=" + started + '}';
+               + storeOpts + ", started=" + started + ", regions=" + getAllRegionEngines() + '}';
+    }
+
+    @Override
+    public void describe(final Printer out) {
+        out.println("StoreEngine:"); //
+        out.print("  AllLeaderRegions:") //
+            .println(getLeaderRegionIds()); //
+        for (final RegionEngine r : getAllRegionEngines()) {
+            r.describe(out);
+        }
     }
 }

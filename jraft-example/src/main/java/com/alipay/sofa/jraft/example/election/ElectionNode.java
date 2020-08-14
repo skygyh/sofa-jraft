@@ -54,7 +54,7 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
     @Override
     public boolean init(final ElectionNodeOptions opts) {
         if (this.started) {
-            LOG.info("[ElectionNode: {}] already started.");
+            LOG.info("[ElectionNode: {}] already started.", opts.getServerAddress());
             return true;
         }
         // node options
@@ -112,7 +112,7 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
             }
         }
         this.started = false;
-        LOG.info("[RegionEngine] shutdown successfully: {}.", this);
+        LOG.info("[ElectionNode] shutdown successfully: {}.", this);
     }
 
     public Node getNode() {
