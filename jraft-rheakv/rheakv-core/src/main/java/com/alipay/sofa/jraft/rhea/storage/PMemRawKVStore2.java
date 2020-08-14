@@ -335,6 +335,16 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     }
 
     @Override
+    public void reverseScan(final byte[] startKey, final byte[] endKey, final int limit,
+                            @SuppressWarnings("unused") final boolean readOnlySafe, final boolean returnValue,
+                            final KVStoreClosure closure) {
+
+        LOG.error("not supported, fail to [REVERSE_SCAN]");
+        setFailure(closure, "not supported, Fail to [REVERSE_SCAN]");
+
+    }
+
+    @Override
     public void getSequence(final byte[] seqKey, final int step, final KVStoreClosure closure) {
         Requires.requireTrue(seqKey == null || seqKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("GET_SEQUENCE");

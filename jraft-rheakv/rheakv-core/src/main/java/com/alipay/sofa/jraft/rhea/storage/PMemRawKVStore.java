@@ -29,6 +29,7 @@ import com.codahale.metrics.Timer;
 import io.pmem.pmemkv.Database;
 import io.pmem.pmemkv.GetAllByteArrayCallback;
 import org.apache.commons.io.FileUtils;
+import org.rocksdb.RocksIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -329,6 +330,17 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             readLock().unlock();
             timeCtx.stop();
         }
+    }
+
+    @Override
+    public void reverseScan(final byte[] startKey, final byte[] endKey, final int limit,
+                            @SuppressWarnings("unused") final boolean readOnlySafe, final boolean returnValue,
+                            final KVStoreClosure closure) {
+
+
+        LOG.error("not supported, fail to [REVERSE_SCAN]");
+        setFailure(closure, "not supported, Fail to [REVERSE_SCAN]");
+
     }
 
     @Override
