@@ -512,7 +512,7 @@ public class KVOperation implements Serializable {
                 return "RESET_SEQUENCE";
             case RANGE_SPLIT:
                 return "RANGE_SPLIT";
-<<<<<<< HEAD
+
             case BATCH_OP:
                 return "BATCH_OP";
             case DESTROY:
@@ -529,14 +529,14 @@ public class KVOperation implements Serializable {
                 return "CEILING_ENTRY";
             case HIGHER_ENTRY:
                 return "HIGHER_ENTRY";
-=======
+
             case DELETE_LIST:
                 return "DELETE_LIST";
             case CONTAINS_KEY:
                 return "CONTAINS_KEY";
             case REVERSE_SCAN:
                 return "REVERSE_SCAN";
->>>>>>> master
+
             default:
                 return "UNKNOWN" + op;
         }

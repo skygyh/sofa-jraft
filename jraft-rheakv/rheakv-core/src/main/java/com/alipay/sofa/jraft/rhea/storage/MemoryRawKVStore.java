@@ -166,7 +166,6 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
                      final KVStoreClosure closure) {
         final Timer.Context timeCtx = getTimeContext("SCAN");
         final List<KVEntry> entries = Lists.newArrayList();
-
         final int maxCount = normalizeLimit(limit);
         final ConcurrentNavigableMap<byte[], byte[]> subMap;
         final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
@@ -177,13 +176,6 @@ public class MemoryRawKVStore extends BatchRawKVStore<MemoryDBOptions> {
         }
 
         try {
-            final ConcurrentNavigableMap<byte[], byte[]> subMap;
-            final byte[] realStartKey = BytesUtil.nullToEmpty(startKey);
-            if (endKey == null) {
-                subMap = this.defaultDB.tailMap(realStartKey);
-            } else {
-                subMap = this.defaultDB.subMap(realStartKey, endKey);
-            }
             for (final Map.Entry<byte[], byte[]> entry : subMap.entrySet()) {
                 entries.add(new KVEntry(entry.getKey(), returnValue ? entry.getValue() : null));
                 if (entries.size() >= maxCount) {
