@@ -80,6 +80,9 @@ public class BenchmarkServer {
                 final long regionId = regionEngineOptions.getRegionId();
                 LOG.info("Leader in region {} is {}", regionId, pdClient.getLeader(regionId, true, 30000));
             }
+                      try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {}; 
             BenchmarkHelper.startBenchmark2(node.getRheaKVStore(),
                     threads,
                     writeRatio,
