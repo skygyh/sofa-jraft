@@ -89,6 +89,8 @@ public class BenchmarkServer {
             final int readRatio = Integer.parseInt(args[6]);
             final int valueSize = Integer.parseInt(args[7]);
 
+            LOG.info("client threads {}", threads);
+
             final RheaKVStore rheaKVStore = new DefaultRheaKVStore();
             if (!rheaKVStore.init(opts)) {
                 LOG.error("Fail to init [RheaKVStore]");
@@ -102,10 +104,6 @@ public class BenchmarkServer {
 
             rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
             LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
-
-            ConsoleReporter.forRegistry(KVMetrics.metricRegistry()) //
-                    .build() //
-                    .start(30, TimeUnit.SECONDS);
 
             LOG.info("Start benchmark...");
             startBenchmark(rheaKVStore, threads, writeRatio, readRatio, valueSize, regionRouteTableOptionsList);
