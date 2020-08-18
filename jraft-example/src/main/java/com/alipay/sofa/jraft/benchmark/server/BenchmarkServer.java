@@ -100,7 +100,21 @@ public class BenchmarkServer {
             final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
                     .getRegionRouteTableOptionsList();
 
-            rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
+            //rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
+            for (final RegionRouteTableOptions r : regionRouteTableOptionsList) {
+                final Long regionId = r.getRegionId();
+                try {
+                    final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
+                    final Endpoint endpoint = pdClient.getLeader(regionId, true, 10000);
+                    LOG.info("Finally, the region: {} leader is: {}", regionId, endpoint);
+                } catch (final Exception e) {
+                    LOG.error("Fail to get leader: {}", StackTraceUtil.stackTrace(e));
+                }
+            }
+
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {};
 
             rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
             LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
