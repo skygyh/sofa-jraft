@@ -86,7 +86,7 @@ public class BenchmarkServer {
             } catch (InterruptedException e) {};
             final int threads = Integer.parseInt(args[4]);
             final int writeRatio = Integer.parseInt(args[5]);
-            final int readRatio = Integer.parseInt(args[6);
+            final int readRatio = Integer.parseInt(args[6]);
             final int valueSize = Integer.parseInt(args[7]);
 
             final RheaKVStore rheaKVStore = new DefaultRheaKVStore();
