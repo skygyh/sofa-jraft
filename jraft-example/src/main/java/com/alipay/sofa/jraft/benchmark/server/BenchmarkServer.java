@@ -59,7 +59,7 @@ public class BenchmarkServer {
 
     public static void main(final String[] args) {
         if (args.length < 7) {
-            LOG.error("Args: [initialServerList], [configPath], [threads], [writeRatio], [readRatio], [valueSize] are needed.");
+            LOG.error("Args: [initialServerList], [configPath], [isClient(true|false)], [threads], [writeRatio], [readRatio], [valueSize] are needed.");
             System.exit(-1);
         }
         final String initialServerList = args[1];
@@ -84,10 +84,10 @@ public class BenchmarkServer {
             try {
                 Thread.sleep(30000);
             } catch (InterruptedException e) {};
-            final int threads = Integer.parseInt(args[3]);
-            final int writeRatio = Integer.parseInt(args[4]);
-            final int readRatio = Integer.parseInt(args[5]);
-            final int valueSize = Integer.parseInt(args[6]);
+            final int threads = Integer.parseInt(args[4]);
+            final int writeRatio = Integer.parseInt(args[5]);
+            final int readRatio = Integer.parseInt(args[6);
+            final int valueSize = Integer.parseInt(args[7]);
 
             final RheaKVStore rheaKVStore = new DefaultRheaKVStore();
             if (!rheaKVStore.init(opts)) {
