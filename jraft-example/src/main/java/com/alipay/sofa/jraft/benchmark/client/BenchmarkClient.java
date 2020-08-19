@@ -25,6 +25,7 @@ import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.metrics.KVMetrics;
+import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
 import com.alipay.sofa.jraft.rhea.options.RegionRouteTableOptions;
 import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
 import com.alipay.sofa.jraft.rhea.util.Maps;
@@ -52,10 +53,13 @@ public class BenchmarkClient {
         }
         final String initialServerList = args[1];
         final String configPath = args[2];
-        final int threads = Integer.parseInt(args[3]);
-        final int writeRatio = Integer.parseInt(args[4]);
-        final int readRatio = Integer.parseInt(args[5]);
-        final int valueSize = Integer.parseInt(args[6]);
+        final boolean isClient = args.length >= 4 && Boolean.parseBoolean(args[3]);
+        final int threads = args.length > 4 ? Integer.parseInt(args[4]) : 1;
+        final int writeRatio = args.length > 5 ? Integer.parseInt(args[5]) : 5;
+        final int readRatio = args.length > 6 ? Integer.parseInt(args[6]) : 5;
+        final int keyCount = args.length > 7 ? Integer.parseInt(args[7]) : 10000000;
+        final int keySize = args.length > 8 ? Integer.parseInt(args[8]) : 64;
+        final int valueSize = args.length > 9 ? Integer.parseInt(args[9]) : 1024;
 
         final RheaKVStoreOptions opts = Yaml.readConfig(configPath);
         opts.setInitialServerList(initialServerList);
@@ -65,21 +69,24 @@ public class BenchmarkClient {
             System.exit(-1);
         }
 
-        final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
-            .getRegionRouteTableOptionsList();
+        final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
+        final List<RegionEngineOptions> regionEngineOptionsList = opts.getStoreEngineOptions().getRegionEngineOptionsList();
+        for (RegionEngineOptions regionEngineOptions : regionEngineOptionsList) {
+            final long regionId = regionEngineOptions.getRegionId();
+            LOG.info("Leader in region {} is {}", regionId, pdClient.getLeader(regionId, true, 30000));
+        }
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {};
+        BenchmarkHelper.startBenchmark2(rheaKVStore,
+                threads,
+                writeRatio,
+                readRatio,
+                keyCount,
+                keySize,
+                valueSize,
+                regionEngineOptionsList);
 
-        rebalance2(rheaKVStore, initialServerList, opts.getPlacementDriverOptions().getRegionRouteTableOptionsList());
-
-        rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
-        LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
-
-        ConsoleReporter.forRegistry(KVMetrics.metricRegistry()) //
-            .build() //
-            .start(30, TimeUnit.SECONDS);
-
-        LOG.info("Start benchmark...");
-        BenchmarkHelper.startBenchmark(rheaKVStore, threads, writeRatio, readRatio, valueSize,
-            regionRouteTableOptionsList);
     }
 
     // Because we use fake PD, so we need manual rebalance
