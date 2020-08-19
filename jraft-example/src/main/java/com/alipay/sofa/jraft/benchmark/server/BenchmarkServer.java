@@ -91,11 +91,6 @@ public class BenchmarkServer {
 
             LOG.info("client threads {}", threads);
 
-            final RheaKVStore rheaKVStore = new DefaultRheaKVStore();
-            if (!rheaKVStore.init(opts)) {
-                LOG.error("Fail to init [RheaKVStore]");
-                System.exit(-1);
-            }
 
             final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
                     .getRegionRouteTableOptionsList();
@@ -104,7 +99,7 @@ public class BenchmarkServer {
             for (final RegionRouteTableOptions r : regionRouteTableOptionsList) {
                 final Long regionId = r.getRegionId();
                 try {
-                    final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
+                    final PlacementDriverClient pdClient = node.getRheaKVStore().getPlacementDriverClient();
                     final Endpoint endpoint = pdClient.getLeader(regionId, true, 10000);
                     LOG.info("Finally, the region: {} leader is: {}", regionId, endpoint);
                 } catch (final Exception e) {
@@ -112,15 +107,9 @@ public class BenchmarkServer {
                 }
             }
 
-            try {
-                Thread.sleep(30000);
-            } catch (InterruptedException e) {};
-
-            rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
-            LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
 
             LOG.info("Start benchmark...");
-            startBenchmark(rheaKVStore, threads, writeRatio, readRatio, valueSize, regionRouteTableOptionsList);
+            startBenchmark(node.getRheaKVStore(), threads, writeRatio, readRatio, valueSize, regionRouteTableOptionsList);
         }
     }
 
