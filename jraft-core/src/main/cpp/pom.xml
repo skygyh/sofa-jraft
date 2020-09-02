@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>jraft-parent</artifactId>
+        <groupId>com.alipay.sofa</groupId>
+        <version>1.3.4</version>
+        <relativePath>../../../../pom.xml</relativePath>
+    </parent>
+    <groupId>com.alipay.sofa</groupId>
+    <artifactId>libpmemlog-jni</artifactId>
+    <packaging>so</packaging>
+    <name>pmemlog-jni</name>
+    <description>JNI layer for pmem log Java bindings</description>
+
+    <properties>
+        <soversion>1</soversion>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>1.0-alpha-11</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <compilerProvider>generic-classic</compilerProvider>
+                    <compilerExecutable>c++</compilerExecutable>
+                    <linkerExecutable>c++</linkerExecutable>
+                    <linkerFinalNameExt>${project.packaging}.${soversion}</linkerFinalNameExt>
+                    <linkerSecondaryOutputExtensions>${project.packaging}</linkerSecondaryOutputExtensions>
+                    <workingDirectory>${basedir}</workingDirectory>
+                    <sources>
+                        <source>
+                            <directory>.</directory>
+                            <fileNames>
+                                <fileName>com_alipay_sofa_jraft_storage_impl_PMemVectorLogStorage.cpp</fileName>
+                            </fileNames>
+                        </source>
+                    </sources>
+                    <compilerStartOptions>
+                        <compilerStartOption>-I ${JAVA_HOME}/include/</compilerStartOption>
+                        <compilerStartOption>-I ${JAVA_HOME}/include/linux/</compilerStartOption>
+                    </compilerStartOptions>
+                    <compilerEndOptions>
+                        <compilerEndOptions>-Wall</compilerEndOptions>
+                        <compilerEndOptions>-Werror</compilerEndOptions>
+                        <compilerEndOptions>-O3</compilerEndOptions>
+                        <compilerEndOptions>-fPIC</compilerEndOptions>
+                        <compilerEndOptions>-shared</compilerEndOptions>
+                        <compilerEndOption>-std=gnu++11</compilerEndOption>
+                    </compilerEndOptions>
+                    <linkerStartOptions>
+                        <linkerStartOption>-shared</linkerStartOption>
+                        <linkerStartOption>-Wl,-soname,${project.artifactId}.${project.packaging}.${soversion}</linkerStartOption>
+                        <linkerStartOption>-fPIC</linkerStartOption>
+                        <linkerStartOption>-O3</linkerStartOption>
+                        <linkerStartOption>-I ${JAVA_HOME}/include/</linkerStartOption>
+                        <linkerStartOption>-I ${JAVA_HOME}/include/linux/</linkerStartOption>
+                        <linkerStartOption>-I ${JAVA_HOME}/lib/</linkerStartOption>
+                    </linkerStartOptions>
+                    <linkerEndOptions>
+                        <linkerEndOption>-lpmemobj</linkerEndOption>
+                    </linkerEndOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <symlink link="${project.build.directory}/${project.artifactId}.${project.packaging}" overwrite="true" resource="./${project.artifactId}.${project.packaging}.${soversion}"></symlink>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

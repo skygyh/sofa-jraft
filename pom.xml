@@ -34,6 +34,8 @@
     </developers>
 
     <modules>
+        <module>jraft-core/src/main/cpp</module>
+        <!-- pom for jni part -->
         <module>jraft-core</module>
         <module>jraft-test</module>
         <module>jraft-example</module>

@@ -22,5 +22,5 @@ package com.alipay.sofa.jraft.util;
 public enum StorageType {
     // DON'T REORDER THIS.
     // If you do change this, please also modify DefaultJRaftServiceFactory#createLogStorage properly as well.
-    RocksDB, Memory, PMem
+    RocksDB, Memory, PMem, PMemLog
 }

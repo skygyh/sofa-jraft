@@ -27,6 +27,7 @@ import com.alipay.sofa.jraft.storage.impl.LocalRaftMetaStorage;
 import com.alipay.sofa.jraft.storage.impl.MemoryLogStorage;
 import com.alipay.sofa.jraft.storage.impl.PMemLogStorage;
 import com.alipay.sofa.jraft.storage.impl.RocksDBLogStorage;
+import com.alipay.sofa.jraft.storage.impl.PMemVectorLogStorage;
 import com.alipay.sofa.jraft.storage.snapshot.local.LocalSnapshotStorage;
 import com.alipay.sofa.jraft.util.Requires;
 import com.alipay.sofa.jraft.util.SPI;
@@ -53,6 +54,8 @@ public class DefaultJRaftServiceFactory implements JRaftServiceFactory {
             return new MemoryLogStorage(raftOptions);
         } else if (raftOptions.getLogType() == StorageType.PMem) {
             return new PMemLogStorage(uri, raftOptions);
+        } else if (raftOptions.getLogType() == StorageType.PMemLog) {
+            return new PMemVectorLogStorage(uri, raftOptions);
         } else {
             return new RocksDBLogStorage(uri, raftOptions);
         }
