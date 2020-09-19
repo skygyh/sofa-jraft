@@ -13,7 +13,8 @@ storeEngineOptions:
   raftDataPath: rhea_benchmark_raft_data
   raftRpcCoreThreads: 128
   serverAddress:
-    port: 18092
+    ip: 127.0.0.1
+    port: 6082
   commonNodeOptions:
     raftOptions:
       readOnlyOptions: ReadOnlyLeaseBased
