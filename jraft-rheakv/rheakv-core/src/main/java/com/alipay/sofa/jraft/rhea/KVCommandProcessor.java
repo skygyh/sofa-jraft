@@ -16,9 +16,11 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
+import com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc;
 import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.errors.RheaRuntimeException;
+import com.alipay.sofa.jraft.rhea.serialization.JavaSerializer;
 import com.alipay.sofa.jraft.rpc.RpcContext;
 import com.alipay.sofa.jraft.rpc.RpcProcessor;
 import com.alipay.sofa.jraft.util.Requires;
@@ -30,110 +32,125 @@ import java.util.concurrent.Executor;
  *
  * @author jiachun.fjc
  */
-public class KVCommandProcessor<T extends BaseRequest> implements RpcProcessor<T> {
+public class KVCommandProcessor implements RpcProcessor<RheakvRpc.BaseRequest> {
 
-    private final Class<T>    reqClazz;
     private final StoreEngine storeEngine;
 
-    public KVCommandProcessor(Class<T> reqClazz, StoreEngine storeEngine) {
-        this.reqClazz = Requires.requireNonNull(reqClazz, "reqClazz");
+    public KVCommandProcessor(StoreEngine storeEngine) {
         this.storeEngine = Requires.requireNonNull(storeEngine, "storeEngine");
     }
 
     @Override
-    public void handleRequest(final RpcContext rpcCtx, final T request) {
-        Requires.requireNonNull(request, "request");
-        final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure = new RequestProcessClosure<>(request, rpcCtx);
-        final RegionKVService regionKVService = this.storeEngine.getRegionKVService(request.getRegionId());
+    public void handleRequest(RpcContext rpcCtx, RheakvRpc.BaseRequest baseRequest) {
+
+        Requires.requireNonNull(baseRequest, "request");
+        final RequestProcessClosure<RheakvRpc.BaseRequest, RheakvRpc.BaseResponse> closure = new RequestProcessClosure<>(
+                baseRequest, rpcCtx);
+        final RegionKVService regionKVService = this.storeEngine.getRegionKVService(baseRequest.getRegionId());
         if (regionKVService == null) {
-            final NoRegionFoundResponse noRegion = new NoRegionFoundResponse();
-            noRegion.setRegionId(request.getRegionId());
-            noRegion.setError(Errors.NO_REGION_FOUND);
-            noRegion.setValue(false);
-            closure.sendResponse(noRegion);
+            RheakvRpc.BaseResponse response = RheakvRpc.BaseResponse.newBuilder()
+                    .setRegionId(baseRequest.getRegionId())
+                    .setError(JavaSerializer.serializeByteString(Errors.NO_REGION_FOUND))
+                    .setResponseType(RheakvRpc.BaseResponse.ResponseType.noRegionFund)
+                    .setValue(JavaSerializer.serializeByteString(false)).build();
+            closure.sendResponse(response);
             return;
         }
-        switch (request.magic()) {
-            case BaseRequest.PUT:
-                regionKVService.handlePutRequest((PutRequest) request, closure);
+        RheakvRpc.BaseRequest.RequestType requestType = baseRequest.getRequestType();
+        switch (requestType) {
+            case get:
+                RheakvRpc.GetRequest getRequest = baseRequest.getExtension(RheakvRpc.GetRequest.body);
+                regionKVService.handleGetRequest(baseRequest, getRequest, closure);
                 break;
-            case BaseRequest.BATCH_PUT:
-                regionKVService.handleBatchPutRequest((BatchPutRequest) request, closure);
+            case getAndPut:
+                RheakvRpc.GetAndPutRequest getAndPutRequest = baseRequest.getExtension(RheakvRpc.GetAndPutRequest.body);
+                regionKVService.handleGetAndPutRequest(baseRequest, getAndPutRequest, closure);
                 break;
-            case BaseRequest.PUT_IF_ABSENT:
-                regionKVService.handlePutIfAbsentRequest((PutIfAbsentRequest) request, closure);
+            case put:
+                RheakvRpc.PutRequest putRequest = baseRequest.getExtension(RheakvRpc.PutRequest.body);
+                regionKVService.handlePutRequest(baseRequest, putRequest, closure);
                 break;
-            case BaseRequest.GET_PUT:
-                regionKVService.handleGetAndPutRequest((GetAndPutRequest) request, closure);
+            case batchDelete:
+                RheakvRpc.BatchDeleteRequest batchDeleteRequest = baseRequest
+                        .getExtension(RheakvRpc.BatchDeleteRequest.body);
+                regionKVService.handleBatchDeleteRequest(baseRequest, batchDeleteRequest, closure);
                 break;
-            case BaseRequest.COMPARE_PUT:
-                regionKVService.handleCompareAndPutRequest((CompareAndPutRequest) request, closure);
+            case batchPut:
+                RheakvRpc.BatchPutRequest batchPutRequest = baseRequest.getExtension(RheakvRpc.BatchPutRequest.body);
+                regionKVService.handleBatchPutRequest(baseRequest, batchPutRequest, closure);
                 break;
-            case BaseRequest.DELETE:
-                regionKVService.handleDeleteRequest((DeleteRequest) request, closure);
+            case compareAndPut:
+                RheakvRpc.CompareAndPutRequest compareAndPutRequest = baseRequest
+                        .getExtension(RheakvRpc.CompareAndPutRequest.body);
+                regionKVService.handleCompareAndPutRequest(baseRequest, compareAndPutRequest, closure);
                 break;
-            case BaseRequest.DELETE_RANGE:
-                regionKVService.handleDeleteRangeRequest((DeleteRangeRequest) request, closure);
+            case containsKey:
+                RheakvRpc.ContainsKeyRequest containsKeyRequest = baseRequest
+                        .getExtension(RheakvRpc.ContainsKeyRequest.body);
+                regionKVService.handleContainsKeyRequest(baseRequest, containsKeyRequest, closure);
                 break;
-            case BaseRequest.BATCH_DELETE:
-                regionKVService.handleBatchDeleteRequest((BatchDeleteRequest) request, closure);
+            case deleteRange:
+                RheakvRpc.DeleteRangeRequest deleteRangeRequest = baseRequest
+                        .getExtension(RheakvRpc.DeleteRangeRequest.body);
+                regionKVService.handleDeleteRangeRequest(baseRequest, deleteRangeRequest, closure);
                 break;
-            case BaseRequest.MERGE:
-                regionKVService.handleMergeRequest((MergeRequest) request, closure);
+            case delete:
+                RheakvRpc.DeleteRequest deleteRequest = baseRequest.getExtension(RheakvRpc.DeleteRequest.body);
+                regionKVService.handleDeleteRequest(baseRequest, deleteRequest, closure);
                 break;
-            case BaseRequest.GET:
-                regionKVService.handleGetRequest((GetRequest) request, closure);
+            case getSequence:
+                RheakvRpc.GetSequenceRequest getSequenceRequest = baseRequest
+                        .getExtension(RheakvRpc.GetSequenceRequest.body);
+                regionKVService.handleGetSequence(baseRequest, getSequenceRequest, closure);
                 break;
-            case BaseRequest.MULTI_GET:
-                regionKVService.handleMultiGetRequest((MultiGetRequest) request, closure);
+            case keyLock:
+                RheakvRpc.KeyLockRequest keyLockRequest = baseRequest.getExtension(RheakvRpc.KeyLockRequest.body);
+                regionKVService.handleKeyLockRequest(baseRequest, keyLockRequest, closure);
                 break;
-            case BaseRequest.CONTAINS_KEY:
-                regionKVService.handleContainsKeyRequest((ContainsKeyRequest) request, closure);
+            case keyUnlock:
+                RheakvRpc.KeyUnlockRequest keyUnlockRequest = baseRequest.getExtension(RheakvRpc.KeyUnlockRequest.body);
+                regionKVService.handleKeyUnlockRequest(baseRequest, keyUnlockRequest, closure);
                 break;
-            case BaseRequest.SCAN:
-                regionKVService.handleScanRequest((ScanRequest) request, closure);
+            case merge:
+                RheakvRpc.MergeRequest mergeRequest = baseRequest.getExtension(RheakvRpc.MergeRequest.body);
+                regionKVService.handleMergeRequest(baseRequest, mergeRequest, closure);
                 break;
-            case BaseRequest.GET_SEQUENCE:
-                regionKVService.handleGetSequence((GetSequenceRequest) request, closure);
+            case multiGet:
+                RheakvRpc.MultiGetRequest multiGetRequest = baseRequest.getExtension(RheakvRpc.MultiGetRequest.body);
+                regionKVService.handleMultiGetRequest(baseRequest, multiGetRequest, closure);
                 break;
-            case BaseRequest.RESET_SEQUENCE:
-                regionKVService.handleResetSequence((ResetSequenceRequest) request, closure);
+            case nodeExecute:
+                RheakvRpc.NodeExecuteRequest nodeExecuteRequest = baseRequest
+                        .getExtension(RheakvRpc.NodeExecuteRequest.body);
+                regionKVService.handleNodeExecuteRequest(baseRequest, nodeExecuteRequest, closure);
                 break;
-            case BaseRequest.KEY_LOCK:
-                regionKVService.handleKeyLockRequest((KeyLockRequest) request, closure);
+            case putIfAbsent:
+                RheakvRpc.PutIfAbsentRequest putIfAbsentRequest = baseRequest
+                        .getExtension(RheakvRpc.PutIfAbsentRequest.body);
+                regionKVService.handlePutIfAbsentRequest(baseRequest, putIfAbsentRequest, closure);
                 break;
-            case BaseRequest.KEY_UNLOCK:
-                regionKVService.handleKeyUnlockRequest((KeyUnlockRequest) request, closure);
+            case rangeSplit:
+                RheakvRpc.RangeSplitRequest rangeSplitRequest = baseRequest
+                        .getExtension(RheakvRpc.RangeSplitRequest.body);
+                regionKVService.handleRangeSplitRequest(baseRequest, rangeSplitRequest, closure);
                 break;
-            case BaseRequest.NODE_EXECUTE:
-                regionKVService.handleNodeExecuteRequest((NodeExecuteRequest) request, closure);
+            case resetSequence:
+                RheakvRpc.ResetSequenceRequest resetSequenceRequest = baseRequest
+                        .getExtension(RheakvRpc.ResetSequenceRequest.body);
+                regionKVService.handleResetSequence(baseRequest, resetSequenceRequest, closure);
                 break;
-            case BaseRequest.RANGE_SPLIT:
-                regionKVService.handleRangeSplitRequest((RangeSplitRequest) request, closure);
-                break;
-            case BaseRequest.BATCH_COMPOSITE:
-                regionKVService.handleBatchCompositeRequest((BatchCompositeRequest) request, closure);
-                break;
-            case BaseRequest.DESTROY_REGION:
-                regionKVService.handleDestroyRegionRequest((DestroyRegionRequest) request, closure);
-                break;
-            case BaseRequest.SEAL_REGION:
-                regionKVService.handleSealRegionRequest((SealRegionRequest) request, closure);
-                break;
-            case BaseRequest.IS_REGION_SEALED:
-                regionKVService.handleIsRegionSealedRequest((IsRegionSealedRequest) request, closure);
-                break;
-            case BaseRequest.GET_SIZE:
-                regionKVService.handleGetSizeRequest((GetSizeRequest) request, closure);
+            case scan:
+                RheakvRpc.ScanRequest scanRequest = baseRequest.getExtension(RheakvRpc.ScanRequest.body);
+                regionKVService.handleScanRequest(baseRequest, scanRequest, closure);
                 break;
             default:
-                throw new RheaRuntimeException("Unsupported request type: " + request.getClass().getName());
+                throw new RheaRuntimeException("Unsupported request type: " + requestType.name());
         }
     }
 
     @Override
     public String interest() {
-        return this.reqClazz.getName();
+        return RheakvRpc.BaseRequest.class.getName();
     }
 
     @Override

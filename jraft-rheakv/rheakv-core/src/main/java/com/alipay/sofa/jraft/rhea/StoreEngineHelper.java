@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.rhea;
 
+import com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc;
 import com.alipay.sofa.jraft.rhea.cmd.store.*;
 import com.alipay.sofa.jraft.rhea.util.concurrent.CallerRunsPolicyWithReport;
 import com.alipay.sofa.jraft.rhea.util.concurrent.NamedThreadFactory;
@@ -65,30 +66,7 @@ public final class StoreEngineHelper {
     }
 
     public static void addKvStoreRequestProcessor(final RpcServer rpcServer, final StoreEngine engine) {
-        rpcServer.registerProcessor(new KVCommandProcessor<>(GetRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(MultiGetRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(ContainsKeyRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(GetSequenceRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(ResetSequenceRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(ScanRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(PutRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(GetAndPutRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(CompareAndPutRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(MergeRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(PutIfAbsentRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(KeyLockRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(KeyUnlockRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(BatchPutRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(DeleteRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(DeleteRangeRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(BatchDeleteRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(NodeExecuteRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(RangeSplitRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(BatchCompositeRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(DestroyRegionRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(SealRegionRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(IsRegionSealedRequest.class, engine));
-        rpcServer.registerProcessor(new KVCommandProcessor<>(GetSizeRequest.class, engine));
+        rpcServer.registerProcessor(new KVCommandProcessor(engine));
     }
 
     private static ExecutorService newPool(final int coreThreads, final int maxThreads, final String name) {
