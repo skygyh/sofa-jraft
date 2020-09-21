@@ -56,7 +56,7 @@ import com.alipay.sofa.jraft.rhea.client.failover.impl.MapFailoverFuture;
 import com.alipay.sofa.jraft.rhea.client.pd.FakePlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.PlacementDriverClient;
 import com.alipay.sofa.jraft.rhea.client.pd.RemotePlacementDriverClient;
-import com.alipay.sofa.jraft.rhea.cmd.store.*;
+import com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc;
 import com.alipay.sofa.jraft.rhea.errors.ApiExceptionHelper;
 import com.alipay.sofa.jraft.rhea.errors.Errors;
 import com.alipay.sofa.jraft.rhea.errors.ErrorsHelper;
@@ -77,6 +77,7 @@ import com.alipay.sofa.jraft.rhea.util.concurrent.disruptor.TaskDispatcher;
 import com.alipay.sofa.jraft.rhea.util.concurrent.disruptor.WaitStrategyType;
 import com.alipay.sofa.jraft.util.*;
 import com.codahale.metrics.Histogram;
+import com.google.protobuf.ByteString;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
@@ -84,8 +85,7 @@ import com.lmax.disruptor.dsl.Disruptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -468,11 +468,17 @@ public class DefaultRheaKVStore implements RheaKVStore {
                 getRawKVStore(regionEngine).get(key, readOnlySafe, closure);
             }
         } else {
-            final GetRequest request = new GetRequest();
-            request.setKey(key);
-            request.setReadOnlySafe(readOnlySafe);
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
+            final RheakvRpc.GetRequest getRequest = RheakvRpc.GetRequest.newBuilder()
+                    .setKey(ByteString.copyFrom(key))
+                    .setReadOnlySafe(readOnlySafe)
+                    .build();
+            final RheakvRpc.BaseRequest request = RheakvRpc.BaseRequest.newBuilder()
+                    .setRegionId(region.getId())
+                    .setConfVer(region.getRegionEpoch().getConfVer())
+                    .setVersion(region.getRegionEpoch().getVersion())
+                    .setRequestType(RheakvRpc.BaseRequest.RequestType.get)
+                    .setExtension(RheakvRpc.GetRequest.body, getRequest)
+                    .build();
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause, requireLeader);
         }
     }
@@ -565,11 +571,16 @@ public class DefaultRheaKVStore implements RheaKVStore {
                 }
             }
         } else {
-            final MultiGetRequest request = new MultiGetRequest();
-            request.setKeys(subKeys);
-            request.setReadOnlySafe(readOnlySafe);
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
+            final RheakvRpc.MultiGetRequest.Builder multiGetRequest = RheakvRpc.MultiGetRequest.newBuilder();
+            subKeys.forEach(subKey -> multiGetRequest.addKeys(ByteString.copyFrom(subKey)));
+            multiGetRequest.setReadOnlySafe(readOnlySafe);
+            final RheakvRpc.BaseRequest request = RheakvRpc.BaseRequest.newBuilder()
+                    .setRegionId(region.getId())
+                    .setConfVer(region.getRegionEpoch().getConfVer())
+                    .setVersion(region.getRegionEpoch().getVersion())
+                    .setRequestType(RheakvRpc.BaseRequest.RequestType.multiGet)
+                    .setExtension(RheakvRpc.MultiGetRequest.body, multiGetRequest.build())
+                    .build();
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause, requireLeader);
         }
     }
@@ -635,10 +646,13 @@ public class DefaultRheaKVStore implements RheaKVStore {
                 getRawKVStore(regionEngine).containsKey(key, closure);
             }
         } else {
-            final ContainsKeyRequest request = new ContainsKeyRequest();
-            request.setKey(key);
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
+            final RheakvRpc.BaseRequest request = RheakvRpc.BaseRequest.newBuilder()
+                    .setRegionId(region.getId())
+                    .setConfVer(region.getRegionEpoch().getConfVer())
+                    .setVersion(region.getRegionEpoch().getVersion())
+                    .setRequestType(RheakvRpc.BaseRequest.RequestType.containsKey)
+                    .setExtension(RheakvRpc.ContainsKeyRequest.body, RheakvRpc.ContainsKeyRequest.newBuilder().setKey(ByteString.copyFrom(key)).build())
+                    .build();
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
         }
     }

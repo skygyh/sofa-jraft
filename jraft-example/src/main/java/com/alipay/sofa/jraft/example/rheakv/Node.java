@@ -18,7 +18,13 @@ package com.alipay.sofa.jraft.example.rheakv;
 
 import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
+import com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc;
 import com.alipay.sofa.jraft.rhea.options.RheaKVStoreOptions;
+import com.alipay.sofa.jraft.rpc.impl.GrpcServer;
+import com.alipay.sofa.jraft.rpc.impl.MarshallerHelper;
+import com.alipay.sofa.jraft.util.RpcFactoryHelper;
+import com.google.protobuf.ExtensionRegistry;
+import io.grpc.protobuf.ProtoUtils;
 
 /**
  *
@@ -35,6 +41,33 @@ public class Node {
     }
 
     public void start() {
+        RpcFactoryHelper.rpcFactory().registerProtobufSerializer(RheakvRpc.BaseRequest.class.getName(),
+            RheakvRpc.BaseRequest.getDefaultInstance());
+        RpcFactoryHelper.rpcFactory().registerProtobufSerializer(RheakvRpc.BaseResponse.class.getName(),
+            RheakvRpc.BaseResponse.getDefaultInstance());
+        MarshallerHelper.registerRespInstance(RheakvRpc.BaseRequest.class.getName(),
+            RheakvRpc.BaseResponse.getDefaultInstance());
+        ExtensionRegistry registry = ExtensionRegistry.newInstance();
+        registry.add(RheakvRpc.GetRequest.body);
+        registry.add(RheakvRpc.GetAndPutRequest.body);
+        registry.add(RheakvRpc.PutRequest.body);
+        registry.add(RheakvRpc.BatchDeleteRequest.body);
+        registry.add(RheakvRpc.BatchPutRequest.body);
+        registry.add(RheakvRpc.CompareAndPutRequest.body);
+        registry.add(RheakvRpc.ContainsKeyRequest.body);
+        registry.add(RheakvRpc.DeleteRangeRequest.body);
+        registry.add(RheakvRpc.DeleteRequest.body);
+        registry.add(RheakvRpc.GetSequenceRequest.body);
+        registry.add(RheakvRpc.KeyLockRequest.body);
+        registry.add(RheakvRpc.KeyUnlockRequest.body);
+        registry.add(RheakvRpc.MergeRequest.body);
+        registry.add(RheakvRpc.MultiGetRequest.body);
+        registry.add(RheakvRpc.NodeExecuteRequest.body);
+        registry.add(RheakvRpc.PutIfAbsentRequest.body);
+        registry.add(RheakvRpc.RangeSplitRequest.body);
+        registry.add(RheakvRpc.ResetSequenceRequest.body);
+        registry.add(RheakvRpc.ScanRequest.body);
+        ProtoUtils.setExtensionRegistry(registry);
         this.rheaKVStore = new DefaultRheaKVStore();
         this.rheaKVStore.init(this.options);
     }
