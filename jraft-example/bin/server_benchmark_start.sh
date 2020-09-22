@@ -1,4 +1,7 @@
 #! /bin/bash
+sudo systemctl stop SuSEfirewall2.service
+sudo systemctl disable SuSEfirewall2.service
+sudo /sbin/SuSEfirewall2 off
 
 BASE_DIR=$(dirname $0)/..
 CLASSPATH=$(echo $BASE_DIR/lib/*.jar | tr ' ' ':')
