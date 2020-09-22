@@ -30,6 +30,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import com.alipay.sofa.jraft.rhea.serialization.JavaSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

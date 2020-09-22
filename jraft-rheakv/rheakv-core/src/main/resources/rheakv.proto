@@ -75,7 +75,7 @@ message BatchPutRequest {
     extend BaseRequest {
         optional BatchPutRequest body = 104;
     }
-    // java序列化<>KVEntry
+
     repeated bytes kvEntries = 1;
 }
 
@@ -124,7 +124,7 @@ message KeyLockRequest {
     }
     optional bytes key = 1;
     optional bool keepLease = 2;
-    // java序列化<>DistributedLock
+
     optional bytes acquirer = 3;
 }
 
@@ -133,7 +133,7 @@ message KeyUnlockRequest {
         optional KeyUnlockRequest body = 111;
     }
     optional bytes key = 1;
-    // java序列化<>DistributedLock
+
     optional bytes acquirer = 2;
 }
 
@@ -157,7 +157,7 @@ message NodeExecuteRequest {
     extend BaseRequest {
         optional NodeExecuteRequest body = 114;
     }
-    // java序列化<>NodeExecutor
+
     optional bytes nodeExecutor = 1;
 }
 
@@ -195,13 +195,22 @@ message ScanRequest {
     optional bool reverse = 6;
 }
 
+message BatchCompositeRequest {
+    extend BaseRequest {
+        optional BatchCompositeRequest body = 119;
+    }
+    optional GetRequest get = 1;
+    optional GetAndPutRequest get_put = 2;
+    
+}
+
 message BaseResponse {
     optional int64 regionId = 1;
     optional int64 confVer = 2;
     optional int64 version = 3;
-    // java序列化<>Errors
+
     optional bytes error = 4;
-    // java序列化<>Object
+
     optional bytes value = 5;
     enum ResponseType {
         get = 0;
