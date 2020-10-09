@@ -16,6 +16,7 @@
  */
 package com.alipay.sofa.jraft.benchmark;
 
+import com.alipay.sofa.jraft.benchmark.server.BenchmarkClientServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,8 @@ public class BenchmarkBootstrap {
             BenchmarkClient.main(args);
         } else if ("server".equals(who)) {
             BenchmarkServer.main(args);
+        } else if ("clientServer".equals(who)) {
+            BenchmarkClientServer.main(args);
         } else {
             LOG.error("Invalid args[0]: {}", who);
             System.exit(-1);
