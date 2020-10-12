@@ -6,7 +6,13 @@ package com.alipay.sofa.jraft.entity;
 public final class EnumOutter {
   private EnumOutter() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
    * Protobuf enum {@code jraft.EntryType}
@@ -16,19 +22,19 @@ public final class EnumOutter {
     /**
      * <code>ENTRY_TYPE_UNKNOWN = 0;</code>
      */
-    ENTRY_TYPE_UNKNOWN(0, 0),
+    ENTRY_TYPE_UNKNOWN(0),
     /**
      * <code>ENTRY_TYPE_NO_OP = 1;</code>
      */
-    ENTRY_TYPE_NO_OP(1, 1),
+    ENTRY_TYPE_NO_OP(1),
     /**
      * <code>ENTRY_TYPE_DATA = 2;</code>
      */
-    ENTRY_TYPE_DATA(2, 2),
+    ENTRY_TYPE_DATA(2),
     /**
      * <code>ENTRY_TYPE_CONFIGURATION = 3;</code>
      */
-    ENTRY_TYPE_CONFIGURATION(3, 3),
+    ENTRY_TYPE_CONFIGURATION(3),
     ;
 
     /**
@@ -49,9 +55,25 @@ public final class EnumOutter {
     public static final int ENTRY_TYPE_CONFIGURATION_VALUE = 3;
 
 
-    public final int getNumber() { return value; }
+    public final int getNumber() {
+      return value;
+    }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
     public static EntryType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static EntryType forNumber(int value) {
       switch (value) {
         case 0: return ENTRY_TYPE_UNKNOWN;
         case 1: return ENTRY_TYPE_NO_OP;
@@ -65,17 +87,17 @@ public final class EnumOutter {
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<EntryType>
-        internalValueMap =
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        EntryType> internalValueMap =
           new com.google.protobuf.Internal.EnumLiteMap<EntryType>() {
             public EntryType findValueByNumber(int number) {
-              return EntryType.valueOf(number);
+              return EntryType.forNumber(number);
             }
           };
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
+      return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptorForType() {
@@ -97,11 +119,9 @@ public final class EnumOutter {
       return VALUES[desc.getIndex()];
     }
 
-    private final int index;
     private final int value;
 
-    private EntryType(int index, int value) {
-      this.index = index;
+    private EntryType(int value) {
       this.value = value;
     }
 
@@ -116,27 +136,27 @@ public final class EnumOutter {
     /**
      * <code>ERROR_TYPE_NONE = 0;</code>
      */
-    ERROR_TYPE_NONE(0, 0),
+    ERROR_TYPE_NONE(0),
     /**
      * <code>ERROR_TYPE_LOG = 1;</code>
      */
-    ERROR_TYPE_LOG(1, 1),
+    ERROR_TYPE_LOG(1),
     /**
      * <code>ERROR_TYPE_STABLE = 2;</code>
      */
-    ERROR_TYPE_STABLE(2, 2),
+    ERROR_TYPE_STABLE(2),
     /**
      * <code>ERROR_TYPE_SNAPSHOT = 3;</code>
      */
-    ERROR_TYPE_SNAPSHOT(3, 3),
+    ERROR_TYPE_SNAPSHOT(3),
     /**
      * <code>ERROR_TYPE_STATE_MACHINE = 4;</code>
      */
-    ERROR_TYPE_STATE_MACHINE(4, 4),
+    ERROR_TYPE_STATE_MACHINE(4),
     /**
      * <code>ERROR_TYPE_META = 5;</code>
      */
-    ERROR_TYPE_META(5, 5),
+    ERROR_TYPE_META(5),
     ;
 
     /**
@@ -165,9 +185,25 @@ public final class EnumOutter {
     public static final int ERROR_TYPE_META_VALUE = 5;
 
 
-    public final int getNumber() { return value; }
+    public final int getNumber() {
+      return value;
+    }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
     public static ErrorType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static ErrorType forNumber(int value) {
       switch (value) {
         case 0: return ERROR_TYPE_NONE;
         case 1: return ERROR_TYPE_LOG;
@@ -183,17 +219,17 @@ public final class EnumOutter {
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<ErrorType>
-        internalValueMap =
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ErrorType> internalValueMap =
           new com.google.protobuf.Internal.EnumLiteMap<ErrorType>() {
             public ErrorType findValueByNumber(int number) {
-              return ErrorType.valueOf(number);
+              return ErrorType.forNumber(number);
             }
           };
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
+      return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptorForType() {
@@ -215,11 +251,9 @@ public final class EnumOutter {
       return VALUES[desc.getIndex()];
     }
 
-    private final int index;
     private final int value;
 
-    private ErrorType(int index, int value) {
-      this.index = index;
+    private ErrorType(int value) {
       this.value = value;
     }
 
@@ -231,7 +265,7 @@ public final class EnumOutter {
       getDescriptor() {
     return descriptor;
   }
-  private static com.google.protobuf.Descriptors.FileDescriptor
+  private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {
@@ -245,18 +279,10 @@ public final class EnumOutter {
       "A\020\005B*\n\034com.alipay.sofa.jraft.entityB\nEnu" +
       "mOutter"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          return null;
-        }
-      };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

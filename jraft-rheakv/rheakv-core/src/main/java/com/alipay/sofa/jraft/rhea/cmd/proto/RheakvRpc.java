@@ -6,7 +6,7 @@ package com.alipay.sofa.jraft.rhea.cmd.proto;
 public final class RheakvRpc {
   private RheakvRpc() {}
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
+      com.google.protobuf.ExtensionRegistryLite registry) {
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.body);
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.body);
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest.body);
@@ -26,28 +26,36 @@ public final class RheakvRpc {
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest.body);
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest.body);
     registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest.body);
-    registry.add(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.body);
   }
-  public interface KVEntryOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
+  }
+  public interface KVEntryOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.KVEntry)
+      com.google.protobuf.MessageOrBuilder {
+
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes value = 2;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
   }
@@ -55,35 +63,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.KVEntry}
    */
   public static final class KVEntry extends
-      com.google.protobuf.GeneratedMessage
-      implements KVEntryOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.KVEntry)
+      KVEntryOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use KVEntry.newBuilder() to construct.
-    private KVEntry(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private KVEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private KVEntry(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final KVEntry defaultInstance;
-    public static KVEntry getDefaultInstance() {
-      return defaultInstance;
+    private KVEntry() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public KVEntry getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KVEntry();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private KVEntry(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -95,13 +107,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -112,13 +117,20 @@ public final class RheakvRpc {
               value_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -129,112 +141,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KVEntry_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KVEntry_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<KVEntry> PARSER =
-        new com.google.protobuf.AbstractParser<KVEntry>() {
-      public KVEntry parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new KVEntry(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<KVEntry> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes value = 2;
     public static final int VALUE_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, value_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, value_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -258,46 +308,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -305,14 +368,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.KVEntry}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntryOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.KVEntry)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntryOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KVEntry_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KVEntry_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -325,18 +390,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -346,19 +409,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KVEntry_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry result = buildPartial();
         if (!result.isInitialized()) {
@@ -367,15 +429,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
@@ -384,6 +447,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry)other);
@@ -401,14 +497,17 @@ public final class RheakvRpc {
         if (other.hasValue()) {
           setValue(other.getValue());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -418,7 +517,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -428,22 +527,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -456,6 +560,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -464,22 +569,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 2;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes value = 2;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -492,6 +602,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -499,59 +610,105 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.KVEntry)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.KVEntry)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry DEFAULT_INSTANCE;
     static {
-      defaultInstance = new KVEntry(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.KVEntry)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<KVEntry>
+        PARSER = new com.google.protobuf.AbstractParser<KVEntry>() {
+      @java.lang.Override
+      public KVEntry parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KVEntry(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<KVEntry> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KVEntry> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KVEntry getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
   public interface BaseRequestOrBuilder extends
-      com.google.protobuf.GeneratedMessage.
+      // @@protoc_insertion_point(interface_extends:rhekv.BaseRequest)
+      com.google.protobuf.GeneratedMessageV3.
           ExtendableMessageOrBuilder<BaseRequest> {
 
-    // optional int64 regionId = 1;
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return Whether the regionId field is set.
      */
     boolean hasRegionId();
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return The regionId.
      */
     long getRegionId();
 
-    // optional int64 confVer = 2;
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return Whether the confVer field is set.
      */
     boolean hasConfVer();
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return The confVer.
      */
     long getConfVer();
 
-    // optional int64 version = 3;
     /**
      * <code>optional int64 version = 3;</code>
+     * @return Whether the version field is set.
      */
     boolean hasVersion();
     /**
      * <code>optional int64 version = 3;</code>
+     * @return The version.
      */
     long getVersion();
 
-    // optional .rhekv.BaseRequest.RequestType requestType = 4;
     /**
      * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+     * @return Whether the requestType field is set.
      */
     boolean hasRequestType();
     /**
      * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+     * @return The requestType.
      */
     com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType getRequestType();
   }
@@ -559,35 +716,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.BaseRequest}
    */
   public static final class BaseRequest extends
-      com.google.protobuf.GeneratedMessage.ExtendableMessage<
-        BaseRequest> implements BaseRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3.ExtendableMessage<
+        BaseRequest> implements
+      // @@protoc_insertion_point(message_implements:rhekv.BaseRequest)
+      BaseRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use BaseRequest.newBuilder() to construct.
-    private BaseRequest(com.google.protobuf.GeneratedMessage.ExtendableBuilder<com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, ?> builder) {
+    private BaseRequest(com.google.protobuf.GeneratedMessageV3.ExtendableBuilder<com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, ?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private BaseRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BaseRequest defaultInstance;
-    public static BaseRequest getDefaultInstance() {
-      return defaultInstance;
+    private BaseRequest() {
+      requestType_ = 0;
     }
 
-    public BaseRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BaseRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private BaseRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -599,13 +760,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               regionId_ = input.readInt64();
@@ -623,12 +777,20 @@ public final class RheakvRpc {
             }
             case 32: {
               int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType value = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(4, rawValue);
               } else {
                 bitField0_ |= 0x00000008;
-                requestType_ = value;
+                requestType_ = rawValue;
+              }
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
               }
               break;
             }
@@ -638,7 +800,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -649,26 +811,12 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BaseRequest> PARSER =
-        new com.google.protobuf.AbstractParser<BaseRequest>() {
-      public BaseRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BaseRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BaseRequest> getParserForType() {
-      return PARSER;
     }
 
     /**
@@ -679,79 +827,79 @@ public final class RheakvRpc {
       /**
        * <code>get = 0;</code>
        */
-      get(0, 0),
+      get(0),
       /**
        * <code>getAndPut = 1;</code>
        */
-      getAndPut(1, 1),
+      getAndPut(1),
       /**
        * <code>put = 2;</code>
        */
-      put(2, 2),
+      put(2),
       /**
        * <code>batchDelete = 3;</code>
        */
-      batchDelete(3, 3),
+      batchDelete(3),
       /**
        * <code>batchPut = 4;</code>
        */
-      batchPut(4, 4),
+      batchPut(4),
       /**
        * <code>compareAndPut = 5;</code>
        */
-      compareAndPut(5, 5),
+      compareAndPut(5),
       /**
        * <code>containsKey = 6;</code>
        */
-      containsKey(6, 6),
+      containsKey(6),
       /**
        * <code>deleteRange = 7;</code>
        */
-      deleteRange(7, 7),
+      deleteRange(7),
       /**
        * <code>delete = 8;</code>
        */
-      delete(8, 8),
+      delete(8),
       /**
        * <code>getSequence = 9;</code>
        */
-      getSequence(9, 9),
+      getSequence(9),
       /**
        * <code>keyLock = 10;</code>
        */
-      keyLock(10, 10),
+      keyLock(10),
       /**
        * <code>keyUnlock = 11;</code>
        */
-      keyUnlock(11, 11),
+      keyUnlock(11),
       /**
        * <code>merge = 12;</code>
        */
-      merge(12, 12),
+      merge(12),
       /**
        * <code>multiGet = 13;</code>
        */
-      multiGet(13, 13),
+      multiGet(13),
       /**
        * <code>nodeExecute = 14;</code>
        */
-      nodeExecute(14, 14),
+      nodeExecute(14),
       /**
        * <code>putIfAbsent = 15;</code>
        */
-      putIfAbsent(15, 15),
+      putIfAbsent(15),
       /**
        * <code>rangeSplit = 16;</code>
        */
-      rangeSplit(16, 16),
+      rangeSplit(16),
       /**
        * <code>resetSequence = 17;</code>
        */
-      resetSequence(17, 17),
+      resetSequence(17),
       /**
        * <code>scan = 18;</code>
        */
-      scan(18, 18),
+      scan(18),
       ;
 
       /**
@@ -832,9 +980,25 @@ public final class RheakvRpc {
       public static final int scan_VALUE = 18;
 
 
-      public final int getNumber() { return value; }
+      public final int getNumber() {
+        return value;
+      }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
       public static RequestType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static RequestType forNumber(int value) {
         switch (value) {
           case 0: return get;
           case 1: return getAndPut;
@@ -863,17 +1027,17 @@ public final class RheakvRpc {
           internalGetValueMap() {
         return internalValueMap;
       }
-      private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
-          internalValueMap =
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          RequestType> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
               public RequestType findValueByNumber(int number) {
-                return RequestType.valueOf(number);
+                return RequestType.forNumber(number);
               }
             };
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        return getDescriptor().getValues().get(index);
+        return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
@@ -895,11 +1059,9 @@ public final class RheakvRpc {
         return VALUES[desc.getIndex()];
       }
 
-      private final int index;
       private final int value;
 
-      private RequestType(int index, int value) {
-        this.index = index;
+      private RequestType(int value) {
         this.value = value;
       }
 
@@ -907,80 +1069,88 @@ public final class RheakvRpc {
     }
 
     private int bitField0_;
-    // optional int64 regionId = 1;
     public static final int REGIONID_FIELD_NUMBER = 1;
     private long regionId_;
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return Whether the regionId field is set.
      */
+    @java.lang.Override
     public boolean hasRegionId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return The regionId.
      */
+    @java.lang.Override
     public long getRegionId() {
       return regionId_;
     }
 
-    // optional int64 confVer = 2;
     public static final int CONFVER_FIELD_NUMBER = 2;
     private long confVer_;
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return Whether the confVer field is set.
      */
+    @java.lang.Override
     public boolean hasConfVer() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return The confVer.
      */
+    @java.lang.Override
     public long getConfVer() {
       return confVer_;
     }
 
-    // optional int64 version = 3;
     public static final int VERSION_FIELD_NUMBER = 3;
     private long version_;
     /**
      * <code>optional int64 version = 3;</code>
+     * @return Whether the version field is set.
      */
+    @java.lang.Override
     public boolean hasVersion() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional int64 version = 3;</code>
+     * @return The version.
      */
+    @java.lang.Override
     public long getVersion() {
       return version_;
     }
 
-    // optional .rhekv.BaseRequest.RequestType requestType = 4;
     public static final int REQUESTTYPE_FIELD_NUMBER = 4;
-    private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType requestType_;
+    private int requestType_;
     /**
      * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+     * @return Whether the requestType field is set.
      */
-    public boolean hasRequestType() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+    @java.lang.Override public boolean hasRequestType() {
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+     * @return The requestType.
      */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType getRequestType() {
-      return requestType_;
+    @java.lang.Override public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType getRequestType() {
+      @SuppressWarnings("deprecation")
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType result = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.valueOf(requestType_);
+      return result == null ? com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get : result;
     }
 
-    private void initFields() {
-      regionId_ = 0L;
-      confVer_ = 0L;
-      version_ = 0L;
-      requestType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       if (!extensionsAreInitialized()) {
         memoizedIsInitialized = 0;
@@ -990,63 +1160,134 @@ public final class RheakvRpc {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      com.google.protobuf.GeneratedMessage
-        .ExtendableMessage<com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest>.ExtensionWriter extensionWriter =
-          newExtensionWriter();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      com.google.protobuf.GeneratedMessageV3
+        .ExtendableMessage<com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest>.ExtensionWriter
+          extensionWriter = newExtensionWriter();
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt64(1, regionId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt64(2, confVer_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt64(3, version_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeEnum(4, requestType_.getNumber());
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeEnum(4, requestType_);
       }
       extensionWriter.writeUntil(300, output);
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, regionId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, confVer_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, version_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, requestType_.getNumber());
+          .computeEnumSize(4, requestType_);
       }
       size += extensionsSerializedSize();
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest) obj;
+
+      if (hasRegionId() != other.hasRegionId()) return false;
+      if (hasRegionId()) {
+        if (getRegionId()
+            != other.getRegionId()) return false;
+      }
+      if (hasConfVer() != other.hasConfVer()) return false;
+      if (hasConfVer()) {
+        if (getConfVer()
+            != other.getConfVer()) return false;
+      }
+      if (hasVersion() != other.hasVersion()) return false;
+      if (hasVersion()) {
+        if (getVersion()
+            != other.getVersion()) return false;
+      }
+      if (hasRequestType() != other.hasRequestType()) return false;
+      if (hasRequestType()) {
+        if (requestType_ != other.requestType_) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getExtensionFields().equals(other.getExtensionFields()))
+        return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasRegionId()) {
+        hash = (37 * hash) + REGIONID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getRegionId());
+      }
+      if (hasConfVer()) {
+        hash = (37 * hash) + CONFVER_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getConfVer());
+      }
+      if (hasVersion()) {
+        hash = (37 * hash) + VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getVersion());
+      }
+      if (hasRequestType()) {
+        hash = (37 * hash) + REQUESTTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + requestType_;
+      }
+      hash = hashFields(hash, getExtensionFields());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1070,46 +1311,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -1117,14 +1371,17 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.BaseRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.ExtendableBuilder<
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, Builder> implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.ExtendableBuilder<
+          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.BaseRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1137,18 +1394,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         regionId_ = 0L;
@@ -1157,24 +1412,23 @@ public final class RheakvRpc {
         bitField0_ = (bitField0_ & ~0x00000002);
         version_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        requestType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get;
+        requestType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1183,23 +1437,24 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.regionId_ = regionId_;
           to_bitField0_ |= 0x00000001;
         }
-        result.regionId_ = regionId_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.confVer_ = confVer_;
           to_bitField0_ |= 0x00000002;
         }
-        result.confVer_ = confVer_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.version_ = version_;
           to_bitField0_ |= 0x00000004;
         }
-        result.version_ = version_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.requestType_ = requestType_;
@@ -1208,6 +1463,66 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public <Type> Builder setExtension(
+          com.google.protobuf.GeneratedMessage.GeneratedExtension<
+              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, Type> extension,
+          Type value) {
+        return super.setExtension(extension, value);
+      }
+      @java.lang.Override
+      public <Type> Builder setExtension(
+          com.google.protobuf.GeneratedMessage.GeneratedExtension<
+              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, java.util.List<Type>> extension,
+          int index, Type value) {
+        return super.setExtension(extension, index, value);
+      }
+      @java.lang.Override
+      public <Type> Builder addExtension(
+          com.google.protobuf.GeneratedMessage.GeneratedExtension<
+              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, java.util.List<Type>> extension,
+          Type value) {
+        return super.addExtension(extension, value);
+      }
+      @java.lang.Override
+      public <Type> Builder clearExtension(
+          com.google.protobuf.GeneratedMessage.GeneratedExtension<
+              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest, ?> extension) {
+        return super.clearExtension(extension);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest)other);
@@ -1232,18 +1547,20 @@ public final class RheakvRpc {
           setRequestType(other.getRequestType());
         }
         this.mergeExtensionFields(other);
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!extensionsAreInitialized()) {
-          
           return false;
         }
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1253,7 +1570,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -1263,22 +1580,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional int64 regionId = 1;
       private long regionId_ ;
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return Whether the regionId field is set.
        */
+      @java.lang.Override
       public boolean hasRegionId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return The regionId.
        */
+      @java.lang.Override
       public long getRegionId() {
         return regionId_;
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @param value The regionId to set.
+       * @return This builder for chaining.
        */
       public Builder setRegionId(long value) {
         bitField0_ |= 0x00000001;
@@ -1288,6 +1610,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRegionId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1296,22 +1619,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int64 confVer = 2;
       private long confVer_ ;
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return Whether the confVer field is set.
        */
+      @java.lang.Override
       public boolean hasConfVer() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return The confVer.
        */
+      @java.lang.Override
       public long getConfVer() {
         return confVer_;
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @param value The confVer to set.
+       * @return This builder for chaining.
        */
       public Builder setConfVer(long value) {
         bitField0_ |= 0x00000002;
@@ -1321,6 +1649,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConfVer() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1329,22 +1658,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int64 version = 3;
       private long version_ ;
       /**
        * <code>optional int64 version = 3;</code>
+       * @return Whether the version field is set.
        */
+      @java.lang.Override
       public boolean hasVersion() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public long getVersion() {
         return version_;
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
        */
       public Builder setVersion(long value) {
         bitField0_ |= 0x00000004;
@@ -1354,6 +1688,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1362,73 +1697,124 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional .rhekv.BaseRequest.RequestType requestType = 4;
-      private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType requestType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get;
+      private int requestType_ = 0;
       /**
        * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+       * @return Whether the requestType field is set.
        */
-      public boolean hasRequestType() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+      @java.lang.Override public boolean hasRequestType() {
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+       * @return The requestType.
        */
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType getRequestType() {
-        return requestType_;
+        @SuppressWarnings("deprecation")
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType result = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.valueOf(requestType_);
+        return result == null ? com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get : result;
       }
       /**
        * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+       * @param value The requestType to set.
+       * @return This builder for chaining.
        */
       public Builder setRequestType(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType value) {
         if (value == null) {
           throw new NullPointerException();
         }
         bitField0_ |= 0x00000008;
-        requestType_ = value;
+        requestType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>optional .rhekv.BaseRequest.RequestType requestType = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRequestType() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        requestType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest.RequestType.get;
+        requestType_ = 0;
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.BaseRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.BaseRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new BaseRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.BaseRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BaseRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BaseRequest>() {
+      @java.lang.Override
+      public BaseRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BaseRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BaseRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BaseRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
-  public interface GetRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface GetRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.GetRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bool readOnlySafe = 2;
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return Whether the readOnlySafe field is set.
      */
     boolean hasReadOnlySafe();
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return The readOnlySafe.
      */
     boolean getReadOnlySafe();
   }
@@ -1436,35 +1822,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.GetRequest}
    */
   public static final class GetRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements GetRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.GetRequest)
+      GetRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use GetRequest.newBuilder() to construct.
-    private GetRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private GetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private GetRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GetRequest defaultInstance;
-    public static GetRequest getDefaultInstance() {
-      return defaultInstance;
+    private GetRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public GetRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private GetRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1476,13 +1865,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -1493,13 +1875,20 @@ public final class RheakvRpc {
               readOnlySafe_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1510,112 +1899,151 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<GetRequest> PARSER =
-        new com.google.protobuf.AbstractParser<GetRequest>() {
-      public GetRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bool readOnlySafe = 2;
     public static final int READONLYSAFE_FIELD_NUMBER = 2;
     private boolean readOnlySafe_;
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return Whether the readOnlySafe field is set.
      */
+    @java.lang.Override
     public boolean hasReadOnlySafe() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return The readOnlySafe.
      */
+    @java.lang.Override
     public boolean getReadOnlySafe() {
       return readOnlySafe_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      readOnlySafe_ = false;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBool(2, readOnlySafe_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, readOnlySafe_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasReadOnlySafe() != other.hasReadOnlySafe()) return false;
+      if (hasReadOnlySafe()) {
+        if (getReadOnlySafe()
+            != other.getReadOnlySafe()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasReadOnlySafe()) {
+        hash = (37 * hash) + READONLYSAFE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getReadOnlySafe());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1639,46 +2067,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -1686,14 +2127,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.GetRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.GetRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1706,18 +2149,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -1727,19 +2168,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1748,23 +2188,57 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.readOnlySafe_ = readOnlySafe_;
           to_bitField0_ |= 0x00000002;
         }
-        result.readOnlySafe_ = readOnlySafe_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest)other);
@@ -1782,14 +2256,17 @@ public final class RheakvRpc {
         if (other.hasReadOnlySafe()) {
           setReadOnlySafe(other.getReadOnlySafe());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1799,7 +2276,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -1809,22 +2286,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1837,6 +2319,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1845,22 +2328,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool readOnlySafe = 2;
       private boolean readOnlySafe_ ;
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return Whether the readOnlySafe field is set.
        */
+      @java.lang.Override
       public boolean hasReadOnlySafe() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return The readOnlySafe.
        */
+      @java.lang.Override
       public boolean getReadOnlySafe() {
         return readOnlySafe_;
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @param value The readOnlySafe to set.
+       * @return This builder for chaining.
        */
       public Builder setReadOnlySafe(boolean value) {
         bitField0_ |= 0x00000002;
@@ -1870,6 +2358,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReadOnlySafe() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1877,16 +2366,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.GetRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.GetRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new GetRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.GetRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetRequest>() {
+      @java.lang.Override
+      public GetRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 100;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -1902,26 +2432,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance());
   }
 
-  public interface GetAndPutRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface GetAndPutRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.GetAndPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes value = 2;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
   }
@@ -1929,35 +2462,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.GetAndPutRequest}
    */
   public static final class GetAndPutRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements GetAndPutRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.GetAndPutRequest)
+      GetAndPutRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use GetAndPutRequest.newBuilder() to construct.
-    private GetAndPutRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private GetAndPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private GetAndPutRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GetAndPutRequest defaultInstance;
-    public static GetAndPutRequest getDefaultInstance() {
-      return defaultInstance;
+    private GetAndPutRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public GetAndPutRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAndPutRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private GetAndPutRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1969,13 +2506,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -1986,13 +2516,20 @@ public final class RheakvRpc {
               value_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2003,112 +2540,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetAndPutRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetAndPutRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<GetAndPutRequest> PARSER =
-        new com.google.protobuf.AbstractParser<GetAndPutRequest>() {
-      public GetAndPutRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetAndPutRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetAndPutRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes value = 2;
     public static final int VALUE_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, value_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, value_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2132,46 +2707,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -2179,14 +2767,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.GetAndPutRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.GetAndPutRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetAndPutRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetAndPutRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -2199,18 +2789,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -2220,19 +2808,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetAndPutRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2241,15 +2828,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
@@ -2258,6 +2846,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest)other);
@@ -2275,14 +2896,17 @@ public final class RheakvRpc {
         if (other.hasValue()) {
           setValue(other.getValue());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2292,7 +2916,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -2302,22 +2926,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2330,6 +2959,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2338,22 +2968,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 2;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes value = 2;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2366,6 +3001,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2373,16 +3009,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.GetAndPutRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.GetAndPutRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new GetAndPutRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.GetAndPutRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetAndPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetAndPutRequest>() {
+      @java.lang.Override
+      public GetAndPutRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetAndPutRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAndPutRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAndPutRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 101;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -2398,26 +3075,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance());
   }
 
-  public interface PutRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface PutRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.PutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes value = 2;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
   }
@@ -2425,35 +3105,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.PutRequest}
    */
   public static final class PutRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements PutRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.PutRequest)
+      PutRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use PutRequest.newBuilder() to construct.
-    private PutRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private PutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private PutRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PutRequest defaultInstance;
-    public static PutRequest getDefaultInstance() {
-      return defaultInstance;
+    private PutRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public PutRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PutRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private PutRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2465,13 +3149,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -2482,13 +3159,20 @@ public final class RheakvRpc {
               value_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2499,112 +3183,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<PutRequest> PARSER =
-        new com.google.protobuf.AbstractParser<PutRequest>() {
-      public PutRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PutRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PutRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes value = 2;
     public static final int VALUE_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, value_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, value_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2628,46 +3350,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -2675,14 +3410,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.PutRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.PutRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -2695,18 +3432,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -2716,19 +3451,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2737,15 +3471,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
@@ -2754,6 +3489,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest)other);
@@ -2771,14 +3539,17 @@ public final class RheakvRpc {
         if (other.hasValue()) {
           setValue(other.getValue());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2788,7 +3559,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -2798,22 +3569,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2826,6 +3602,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2834,22 +3611,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 2;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes value = 2;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2862,6 +3644,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2869,16 +3652,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.PutRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.PutRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new PutRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.PutRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<PutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<PutRequest>() {
+      @java.lang.Override
+      public PutRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PutRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PutRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PutRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 102;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -2894,20 +3718,24 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutRequest.getDefaultInstance());
   }
 
-  public interface BatchDeleteRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface BatchDeleteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.BatchDeleteRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated bytes keys = 1;
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return A list containing the keys.
      */
     java.util.List<com.google.protobuf.ByteString> getKeysList();
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return The count of keys.
      */
     int getKeysCount();
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @param index The index of the element to return.
+     * @return The keys at the given index.
      */
     com.google.protobuf.ByteString getKeys(int index);
   }
@@ -2915,35 +3743,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.BatchDeleteRequest}
    */
   public static final class BatchDeleteRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements BatchDeleteRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.BatchDeleteRequest)
+      BatchDeleteRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use BatchDeleteRequest.newBuilder() to construct.
-    private BatchDeleteRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private BatchDeleteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private BatchDeleteRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BatchDeleteRequest defaultInstance;
-    public static BatchDeleteRequest getDefaultInstance() {
-      return defaultInstance;
+    private BatchDeleteRequest() {
+      keys_ = java.util.Collections.emptyList();
     }
 
-    public BatchDeleteRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BatchDeleteRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private BatchDeleteRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2955,19 +3786,19 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 keys_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000001;
               }
               keys_.add(input.readBytes());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2976,10 +3807,10 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          keys_ = java.util.Collections.unmodifiableList(keys_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          keys_ = java.util.Collections.unmodifiableList(keys_); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2990,75 +3821,64 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchDeleteRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchDeleteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<BatchDeleteRequest> PARSER =
-        new com.google.protobuf.AbstractParser<BatchDeleteRequest>() {
-      public BatchDeleteRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BatchDeleteRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BatchDeleteRequest> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated bytes keys = 1;
     public static final int KEYS_FIELD_NUMBER = 1;
     private java.util.List<com.google.protobuf.ByteString> keys_;
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return A list containing the keys.
      */
+    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getKeysList() {
       return keys_;
     }
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return The count of keys.
      */
     public int getKeysCount() {
       return keys_.size();
     }
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @param index The index of the element to return.
+     * @return The keys at the given index.
      */
     public com.google.protobuf.ByteString getKeys(int index) {
       return keys_.get(index);
     }
 
-    private void initFields() {
-      keys_ = java.util.Collections.emptyList();
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       for (int i = 0; i < keys_.size(); i++) {
         output.writeBytes(1, keys_.get(i));
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
@@ -3071,18 +3891,54 @@ public final class RheakvRpc {
         size += dataSize;
         size += 1 * getKeysList().size();
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest) obj;
+
+      if (!getKeysList()
+          .equals(other.getKeysList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getKeysCount() > 0) {
+        hash = (37 * hash) + KEYS_FIELD_NUMBER;
+        hash = (53 * hash) + getKeysList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3106,46 +3962,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -3153,14 +4022,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.BatchDeleteRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.BatchDeleteRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchDeleteRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchDeleteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -3173,18 +4044,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         keys_ = java.util.Collections.emptyList();
@@ -3192,19 +4061,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchDeleteRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3213,10 +4081,11 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           keys_ = java.util.Collections.unmodifiableList(keys_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -3225,6 +4094,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest)other);
@@ -3246,14 +4148,17 @@ public final class RheakvRpc {
           }
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3263,7 +4168,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -3273,35 +4178,42 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // repeated bytes keys = 1;
       private java.util.List<com.google.protobuf.ByteString> keys_ = java.util.Collections.emptyList();
       private void ensureKeysIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           keys_ = new java.util.ArrayList<com.google.protobuf.ByteString>(keys_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return A list containing the keys.
        */
       public java.util.List<com.google.protobuf.ByteString>
           getKeysList() {
-        return java.util.Collections.unmodifiableList(keys_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(keys_) : keys_;
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return The count of keys.
        */
       public int getKeysCount() {
         return keys_.size();
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param index The index of the element to return.
+       * @return The keys at the given index.
        */
       public com.google.protobuf.ByteString getKeys(int index) {
         return keys_.get(index);
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The keys to set.
+       * @return This builder for chaining.
        */
       public Builder setKeys(
           int index, com.google.protobuf.ByteString value) {
@@ -3315,6 +4227,8 @@ public final class RheakvRpc {
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param value The keys to add.
+       * @return This builder for chaining.
        */
       public Builder addKeys(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3327,16 +4241,20 @@ public final class RheakvRpc {
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param values The keys to add.
+       * @return This builder for chaining.
        */
       public Builder addAllKeys(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureKeysIsMutable();
-        super.addAll(values, keys_);
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, keys_);
         onChanged();
         return this;
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKeys() {
         keys_ = java.util.Collections.emptyList();
@@ -3344,16 +4262,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.BatchDeleteRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.BatchDeleteRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new BatchDeleteRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.BatchDeleteRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BatchDeleteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BatchDeleteRequest>() {
+      @java.lang.Override
+      public BatchDeleteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BatchDeleteRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BatchDeleteRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BatchDeleteRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 103;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -3369,20 +4328,36 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchDeleteRequest.getDefaultInstance());
   }
 
-  public interface BatchPutRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface BatchPutRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.BatchPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated bytes kvEntries = 1;
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @return A list containing the kvEntries.
      */
     java.util.List<com.google.protobuf.ByteString> getKvEntriesList();
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @return The count of kvEntries.
      */
     int getKvEntriesCount();
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @param index The index of the element to return.
+     * @return The kvEntries at the given index.
      */
     com.google.protobuf.ByteString getKvEntries(int index);
   }
@@ -3390,35 +4365,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.BatchPutRequest}
    */
   public static final class BatchPutRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements BatchPutRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.BatchPutRequest)
+      BatchPutRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use BatchPutRequest.newBuilder() to construct.
-    private BatchPutRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private BatchPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private BatchPutRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BatchPutRequest defaultInstance;
-    public static BatchPutRequest getDefaultInstance() {
-      return defaultInstance;
+    private BatchPutRequest() {
+      kvEntries_ = java.util.Collections.emptyList();
     }
 
-    public BatchPutRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BatchPutRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private BatchPutRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3430,19 +4408,19 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 kvEntries_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000001;
               }
               kvEntries_.add(input.readBytes());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3451,10 +4429,10 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          kvEntries_ = java.util.Collections.unmodifiableList(kvEntries_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          kvEntries_ = java.util.Collections.unmodifiableList(kvEntries_); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3465,75 +4443,76 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchPutRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchPutRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<BatchPutRequest> PARSER =
-        new com.google.protobuf.AbstractParser<BatchPutRequest>() {
-      public BatchPutRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BatchPutRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BatchPutRequest> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated bytes kvEntries = 1;
     public static final int KVENTRIES_FIELD_NUMBER = 1;
     private java.util.List<com.google.protobuf.ByteString> kvEntries_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @return A list containing the kvEntries.
      */
+    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getKvEntriesList() {
       return kvEntries_;
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @return The count of kvEntries.
      */
     public int getKvEntriesCount() {
       return kvEntries_.size();
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;KVEntry
+     * </pre>
+     *
      * <code>repeated bytes kvEntries = 1;</code>
+     * @param index The index of the element to return.
+     * @return The kvEntries at the given index.
      */
     public com.google.protobuf.ByteString getKvEntries(int index) {
       return kvEntries_.get(index);
     }
 
-    private void initFields() {
-      kvEntries_ = java.util.Collections.emptyList();
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       for (int i = 0; i < kvEntries_.size(); i++) {
         output.writeBytes(1, kvEntries_.get(i));
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
@@ -3546,18 +4525,54 @@ public final class RheakvRpc {
         size += dataSize;
         size += 1 * getKvEntriesList().size();
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest) obj;
+
+      if (!getKvEntriesList()
+          .equals(other.getKvEntriesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getKvEntriesCount() > 0) {
+        hash = (37 * hash) + KVENTRIES_FIELD_NUMBER;
+        hash = (53 * hash) + getKvEntriesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3581,46 +4596,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -3628,14 +4656,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.BatchPutRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.BatchPutRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchPutRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchPutRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -3648,18 +4678,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         kvEntries_ = java.util.Collections.emptyList();
@@ -3667,19 +4695,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchPutRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3688,10 +4715,11 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           kvEntries_ = java.util.Collections.unmodifiableList(kvEntries_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -3700,6 +4728,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest)other);
@@ -3721,14 +4782,17 @@ public final class RheakvRpc {
           }
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3738,7 +4802,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -3748,35 +4812,58 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // repeated bytes kvEntries = 1;
       private java.util.List<com.google.protobuf.ByteString> kvEntries_ = java.util.Collections.emptyList();
       private void ensureKvEntriesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           kvEntries_ = new java.util.ArrayList<com.google.protobuf.ByteString>(kvEntries_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @return A list containing the kvEntries.
        */
       public java.util.List<com.google.protobuf.ByteString>
           getKvEntriesList() {
-        return java.util.Collections.unmodifiableList(kvEntries_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(kvEntries_) : kvEntries_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @return The count of kvEntries.
        */
       public int getKvEntriesCount() {
         return kvEntries_.size();
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @param index The index of the element to return.
+       * @return The kvEntries at the given index.
        */
       public com.google.protobuf.ByteString getKvEntries(int index) {
         return kvEntries_.get(index);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The kvEntries to set.
+       * @return This builder for chaining.
        */
       public Builder setKvEntries(
           int index, com.google.protobuf.ByteString value) {
@@ -3789,7 +4876,13 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @param value The kvEntries to add.
+       * @return This builder for chaining.
        */
       public Builder addKvEntries(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3801,17 +4894,29 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @param values The kvEntries to add.
+       * @return This builder for chaining.
        */
       public Builder addAllKvEntries(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureKvEntriesIsMutable();
-        super.addAll(values, kvEntries_);
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, kvEntries_);
         onChanged();
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;KVEntry
+       * </pre>
+       *
        * <code>repeated bytes kvEntries = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKvEntries() {
         kvEntries_ = java.util.Collections.emptyList();
@@ -3819,16 +4924,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.BatchPutRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.BatchPutRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new BatchPutRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.BatchPutRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BatchPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BatchPutRequest>() {
+      @java.lang.Override
+      public BatchPutRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BatchPutRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BatchPutRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BatchPutRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 104;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -3844,36 +4990,40 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchPutRequest.getDefaultInstance());
   }
 
-  public interface CompareAndPutRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface CompareAndPutRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.CompareAndPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes expect = 2;
     /**
      * <code>optional bytes expect = 2;</code>
+     * @return Whether the expect field is set.
      */
     boolean hasExpect();
     /**
      * <code>optional bytes expect = 2;</code>
+     * @return The expect.
      */
     com.google.protobuf.ByteString getExpect();
 
-    // optional bytes update = 3;
     /**
      * <code>optional bytes update = 3;</code>
+     * @return Whether the update field is set.
      */
     boolean hasUpdate();
     /**
      * <code>optional bytes update = 3;</code>
+     * @return The update.
      */
     com.google.protobuf.ByteString getUpdate();
   }
@@ -3881,35 +5031,40 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.CompareAndPutRequest}
    */
   public static final class CompareAndPutRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements CompareAndPutRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.CompareAndPutRequest)
+      CompareAndPutRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use CompareAndPutRequest.newBuilder() to construct.
-    private CompareAndPutRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private CompareAndPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private CompareAndPutRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final CompareAndPutRequest defaultInstance;
-    public static CompareAndPutRequest getDefaultInstance() {
-      return defaultInstance;
+    private CompareAndPutRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      expect_ = com.google.protobuf.ByteString.EMPTY;
+      update_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public CompareAndPutRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CompareAndPutRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private CompareAndPutRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3921,13 +5076,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -3943,13 +5091,20 @@ public final class RheakvRpc {
               update_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3960,136 +5115,185 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_CompareAndPutRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_CompareAndPutRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<CompareAndPutRequest> PARSER =
-        new com.google.protobuf.AbstractParser<CompareAndPutRequest>() {
-      public CompareAndPutRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CompareAndPutRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CompareAndPutRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes expect = 2;
     public static final int EXPECT_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString expect_;
     /**
      * <code>optional bytes expect = 2;</code>
+     * @return Whether the expect field is set.
      */
+    @java.lang.Override
     public boolean hasExpect() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes expect = 2;</code>
+     * @return The expect.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getExpect() {
       return expect_;
     }
 
-    // optional bytes update = 3;
     public static final int UPDATE_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString update_;
     /**
      * <code>optional bytes update = 3;</code>
+     * @return Whether the update field is set.
      */
+    @java.lang.Override
     public boolean hasUpdate() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional bytes update = 3;</code>
+     * @return The update.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getUpdate() {
       return update_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      expect_ = com.google.protobuf.ByteString.EMPTY;
-      update_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, expect_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeBytes(3, update_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, expect_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, update_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasExpect() != other.hasExpect()) return false;
+      if (hasExpect()) {
+        if (!getExpect()
+            .equals(other.getExpect())) return false;
+      }
+      if (hasUpdate() != other.hasUpdate()) return false;
+      if (hasUpdate()) {
+        if (!getUpdate()
+            .equals(other.getUpdate())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasExpect()) {
+        hash = (37 * hash) + EXPECT_FIELD_NUMBER;
+        hash = (53 * hash) + getExpect().hashCode();
+      }
+      if (hasUpdate()) {
+        hash = (37 * hash) + UPDATE_FIELD_NUMBER;
+        hash = (53 * hash) + getUpdate().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4113,46 +5317,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -4160,14 +5377,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.CompareAndPutRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.CompareAndPutRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_CompareAndPutRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_CompareAndPutRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -4180,18 +5399,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -4203,19 +5420,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_CompareAndPutRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4224,19 +5440,20 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.expect_ = expect_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.update_ = update_;
@@ -4245,6 +5462,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest)other);
@@ -4265,14 +5515,17 @@ public final class RheakvRpc {
         if (other.hasUpdate()) {
           setUpdate(other.getUpdate());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4282,7 +5535,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -4292,22 +5545,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4320,6 +5578,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4328,22 +5587,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes expect = 2;
       private com.google.protobuf.ByteString expect_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes expect = 2;</code>
+       * @return Whether the expect field is set.
        */
+      @java.lang.Override
       public boolean hasExpect() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes expect = 2;</code>
+       * @return The expect.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getExpect() {
         return expect_;
       }
       /**
        * <code>optional bytes expect = 2;</code>
+       * @param value The expect to set.
+       * @return This builder for chaining.
        */
       public Builder setExpect(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4356,6 +5620,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes expect = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExpect() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4364,22 +5629,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes update = 3;
       private com.google.protobuf.ByteString update_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes update = 3;</code>
+       * @return Whether the update field is set.
        */
+      @java.lang.Override
       public boolean hasUpdate() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional bytes update = 3;</code>
+       * @return The update.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getUpdate() {
         return update_;
       }
       /**
        * <code>optional bytes update = 3;</code>
+       * @param value The update to set.
+       * @return This builder for chaining.
        */
       public Builder setUpdate(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4392,6 +5662,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes update = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUpdate() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -4399,16 +5670,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.CompareAndPutRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.CompareAndPutRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new CompareAndPutRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.CompareAndPutRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CompareAndPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CompareAndPutRequest>() {
+      @java.lang.Override
+      public CompareAndPutRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CompareAndPutRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompareAndPutRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompareAndPutRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 105;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -4424,16 +5736,18 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.CompareAndPutRequest.getDefaultInstance());
   }
 
-  public interface ContainsKeyRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ContainsKeyRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.ContainsKeyRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
   }
@@ -4441,35 +5755,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.ContainsKeyRequest}
    */
   public static final class ContainsKeyRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements ContainsKeyRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.ContainsKeyRequest)
+      ContainsKeyRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use ContainsKeyRequest.newBuilder() to construct.
-    private ContainsKeyRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ContainsKeyRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private ContainsKeyRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ContainsKeyRequest defaultInstance;
-    public static ContainsKeyRequest getDefaultInstance() {
-      return defaultInstance;
+    private ContainsKeyRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public ContainsKeyRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ContainsKeyRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private ContainsKeyRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4481,16 +5798,16 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4499,7 +5816,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4510,88 +5827,115 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ContainsKeyRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ContainsKeyRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ContainsKeyRequest> PARSER =
-        new com.google.protobuf.AbstractParser<ContainsKeyRequest>() {
-      public ContainsKeyRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ContainsKeyRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ContainsKeyRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4615,46 +5959,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -4662,14 +6019,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.ContainsKeyRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.ContainsKeyRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ContainsKeyRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ContainsKeyRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -4682,18 +6041,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -4701,19 +6058,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ContainsKeyRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4722,11 +6078,12 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
@@ -4735,6 +6092,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest)other);
@@ -4749,14 +6139,17 @@ public final class RheakvRpc {
         if (other.hasKey()) {
           setKey(other.getKey());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4766,7 +6159,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -4776,22 +6169,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -4804,6 +6202,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4811,16 +6210,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.ContainsKeyRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.ContainsKeyRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new ContainsKeyRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.ContainsKeyRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ContainsKeyRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ContainsKeyRequest>() {
+      @java.lang.Override
+      public ContainsKeyRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ContainsKeyRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ContainsKeyRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ContainsKeyRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 106;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -4836,26 +6276,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ContainsKeyRequest.getDefaultInstance());
   }
 
-  public interface DeleteRangeRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface DeleteRangeRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.DeleteRangeRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes startKey = 1;
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return Whether the startKey field is set.
      */
     boolean hasStartKey();
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return The startKey.
      */
     com.google.protobuf.ByteString getStartKey();
 
-    // optional bytes endKey = 2;
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return Whether the endKey field is set.
      */
     boolean hasEndKey();
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return The endKey.
      */
     com.google.protobuf.ByteString getEndKey();
   }
@@ -4863,35 +6306,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.DeleteRangeRequest}
    */
   public static final class DeleteRangeRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements DeleteRangeRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.DeleteRangeRequest)
+      DeleteRangeRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use DeleteRangeRequest.newBuilder() to construct.
-    private DeleteRangeRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private DeleteRangeRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private DeleteRangeRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final DeleteRangeRequest defaultInstance;
-    public static DeleteRangeRequest getDefaultInstance() {
-      return defaultInstance;
+    private DeleteRangeRequest() {
+      startKey_ = com.google.protobuf.ByteString.EMPTY;
+      endKey_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public DeleteRangeRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteRangeRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private DeleteRangeRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4903,13 +6350,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               startKey_ = input.readBytes();
@@ -4920,13 +6360,20 @@ public final class RheakvRpc {
               endKey_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4937,112 +6384,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRangeRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRangeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<DeleteRangeRequest> PARSER =
-        new com.google.protobuf.AbstractParser<DeleteRangeRequest>() {
-      public DeleteRangeRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DeleteRangeRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<DeleteRangeRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes startKey = 1;
     public static final int STARTKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString startKey_;
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return Whether the startKey field is set.
      */
+    @java.lang.Override
     public boolean hasStartKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return The startKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getStartKey() {
       return startKey_;
     }
 
-    // optional bytes endKey = 2;
     public static final int ENDKEY_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString endKey_;
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return Whether the endKey field is set.
      */
+    @java.lang.Override
     public boolean hasEndKey() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return The endKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getEndKey() {
       return endKey_;
     }
 
-    private void initFields() {
-      startKey_ = com.google.protobuf.ByteString.EMPTY;
-      endKey_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, startKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, endKey_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, startKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, endKey_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest) obj;
+
+      if (hasStartKey() != other.hasStartKey()) return false;
+      if (hasStartKey()) {
+        if (!getStartKey()
+            .equals(other.getStartKey())) return false;
+      }
+      if (hasEndKey() != other.hasEndKey()) return false;
+      if (hasEndKey()) {
+        if (!getEndKey()
+            .equals(other.getEndKey())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasStartKey()) {
+        hash = (37 * hash) + STARTKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getStartKey().hashCode();
+      }
+      if (hasEndKey()) {
+        hash = (37 * hash) + ENDKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getEndKey().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5066,46 +6551,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -5113,14 +6611,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.DeleteRangeRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.DeleteRangeRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRangeRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRangeRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -5133,18 +6633,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         startKey_ = com.google.protobuf.ByteString.EMPTY;
@@ -5154,19 +6652,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRangeRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5175,15 +6672,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.startKey_ = startKey_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.endKey_ = endKey_;
@@ -5192,6 +6690,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest)other);
@@ -5209,14 +6740,17 @@ public final class RheakvRpc {
         if (other.hasEndKey()) {
           setEndKey(other.getEndKey());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5226,7 +6760,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -5236,22 +6770,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes startKey = 1;
       private com.google.protobuf.ByteString startKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return Whether the startKey field is set.
        */
+      @java.lang.Override
       public boolean hasStartKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return The startKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getStartKey() {
         return startKey_;
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @param value The startKey to set.
+       * @return This builder for chaining.
        */
       public Builder setStartKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -5264,6 +6803,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStartKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5272,22 +6812,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes endKey = 2;
       private com.google.protobuf.ByteString endKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return Whether the endKey field is set.
        */
+      @java.lang.Override
       public boolean hasEndKey() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return The endKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getEndKey() {
         return endKey_;
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @param value The endKey to set.
+       * @return This builder for chaining.
        */
       public Builder setEndKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -5300,6 +6845,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -5307,16 +6853,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.DeleteRangeRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.DeleteRangeRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new DeleteRangeRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.DeleteRangeRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<DeleteRangeRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteRangeRequest>() {
+      @java.lang.Override
+      public DeleteRangeRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DeleteRangeRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteRangeRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DeleteRangeRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 107;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -5332,16 +6919,18 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRangeRequest.getDefaultInstance());
   }
 
-  public interface DeleteRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface DeleteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.DeleteRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
   }
@@ -5349,35 +6938,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.DeleteRequest}
    */
   public static final class DeleteRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements DeleteRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.DeleteRequest)
+      DeleteRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use DeleteRequest.newBuilder() to construct.
-    private DeleteRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private DeleteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private DeleteRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final DeleteRequest defaultInstance;
-    public static DeleteRequest getDefaultInstance() {
-      return defaultInstance;
+    private DeleteRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public DeleteRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private DeleteRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5389,16 +6981,16 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5407,7 +6999,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5418,88 +7010,115 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<DeleteRequest> PARSER =
-        new com.google.protobuf.AbstractParser<DeleteRequest>() {
-      public DeleteRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DeleteRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<DeleteRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5523,46 +7142,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -5570,14 +7202,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.DeleteRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.DeleteRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -5590,18 +7224,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -5609,19 +7241,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_DeleteRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5630,11 +7261,12 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
@@ -5643,6 +7275,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest)other);
@@ -5657,14 +7322,17 @@ public final class RheakvRpc {
         if (other.hasKey()) {
           setKey(other.getKey());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5674,7 +7342,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -5684,22 +7352,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -5712,6 +7385,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5719,16 +7393,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.DeleteRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.DeleteRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new DeleteRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.DeleteRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<DeleteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteRequest>() {
+      @java.lang.Override
+      public DeleteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DeleteRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DeleteRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 108;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -5744,26 +7459,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.DeleteRequest.getDefaultInstance());
   }
 
-  public interface GetSequenceRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface GetSequenceRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.GetSequenceRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes seqKey = 1;
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return Whether the seqKey field is set.
      */
     boolean hasSeqKey();
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return The seqKey.
      */
     com.google.protobuf.ByteString getSeqKey();
 
-    // optional int32 step = 2;
     /**
      * <code>optional int32 step = 2;</code>
+     * @return Whether the step field is set.
      */
     boolean hasStep();
     /**
      * <code>optional int32 step = 2;</code>
+     * @return The step.
      */
     int getStep();
   }
@@ -5771,35 +7489,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.GetSequenceRequest}
    */
   public static final class GetSequenceRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements GetSequenceRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.GetSequenceRequest)
+      GetSequenceRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use GetSequenceRequest.newBuilder() to construct.
-    private GetSequenceRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private GetSequenceRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private GetSequenceRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GetSequenceRequest defaultInstance;
-    public static GetSequenceRequest getDefaultInstance() {
-      return defaultInstance;
+    private GetSequenceRequest() {
+      seqKey_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public GetSequenceRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetSequenceRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private GetSequenceRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5811,13 +7532,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               seqKey_ = input.readBytes();
@@ -5828,13 +7542,20 @@ public final class RheakvRpc {
               step_ = input.readInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5845,112 +7566,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetSequenceRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetSequenceRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<GetSequenceRequest> PARSER =
-        new com.google.protobuf.AbstractParser<GetSequenceRequest>() {
-      public GetSequenceRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetSequenceRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetSequenceRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes seqKey = 1;
     public static final int SEQKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString seqKey_;
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return Whether the seqKey field is set.
      */
+    @java.lang.Override
     public boolean hasSeqKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return The seqKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getSeqKey() {
       return seqKey_;
     }
 
-    // optional int32 step = 2;
     public static final int STEP_FIELD_NUMBER = 2;
     private int step_;
     /**
      * <code>optional int32 step = 2;</code>
+     * @return Whether the step field is set.
      */
+    @java.lang.Override
     public boolean hasStep() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional int32 step = 2;</code>
+     * @return The step.
      */
+    @java.lang.Override
     public int getStep() {
       return step_;
     }
 
-    private void initFields() {
-      seqKey_ = com.google.protobuf.ByteString.EMPTY;
-      step_ = 0;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, seqKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, step_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, seqKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, step_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest) obj;
+
+      if (hasSeqKey() != other.hasSeqKey()) return false;
+      if (hasSeqKey()) {
+        if (!getSeqKey()
+            .equals(other.getSeqKey())) return false;
+      }
+      if (hasStep() != other.hasStep()) return false;
+      if (hasStep()) {
+        if (getStep()
+            != other.getStep()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasSeqKey()) {
+        hash = (37 * hash) + SEQKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getSeqKey().hashCode();
+      }
+      if (hasStep()) {
+        hash = (37 * hash) + STEP_FIELD_NUMBER;
+        hash = (53 * hash) + getStep();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5974,46 +7733,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -6021,14 +7793,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.GetSequenceRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.GetSequenceRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetSequenceRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetSequenceRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -6041,18 +7815,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         seqKey_ = com.google.protobuf.ByteString.EMPTY;
@@ -6062,19 +7834,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_GetSequenceRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6083,23 +7854,57 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.seqKey_ = seqKey_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.step_ = step_;
           to_bitField0_ |= 0x00000002;
         }
-        result.step_ = step_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest)other);
@@ -6117,14 +7922,17 @@ public final class RheakvRpc {
         if (other.hasStep()) {
           setStep(other.getStep());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6134,7 +7942,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -6144,22 +7952,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes seqKey = 1;
       private com.google.protobuf.ByteString seqKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return Whether the seqKey field is set.
        */
+      @java.lang.Override
       public boolean hasSeqKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return The seqKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getSeqKey() {
         return seqKey_;
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @param value The seqKey to set.
+       * @return This builder for chaining.
        */
       public Builder setSeqKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6172,6 +7985,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSeqKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -6180,22 +7994,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int32 step = 2;
       private int step_ ;
       /**
        * <code>optional int32 step = 2;</code>
+       * @return Whether the step field is set.
        */
+      @java.lang.Override
       public boolean hasStep() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional int32 step = 2;</code>
+       * @return The step.
        */
+      @java.lang.Override
       public int getStep() {
         return step_;
       }
       /**
        * <code>optional int32 step = 2;</code>
+       * @param value The step to set.
+       * @return This builder for chaining.
        */
       public Builder setStep(int value) {
         bitField0_ |= 0x00000002;
@@ -6205,6 +8024,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int32 step = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStep() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -6212,16 +8032,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.GetSequenceRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.GetSequenceRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new GetSequenceRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.GetSequenceRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetSequenceRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetSequenceRequest>() {
+      @java.lang.Override
+      public GetSequenceRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetSequenceRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetSequenceRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetSequenceRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 109;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -6237,36 +8098,48 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetSequenceRequest.getDefaultInstance());
   }
 
-  public interface KeyLockRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface KeyLockRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.KeyLockRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bool keepLease = 2;
     /**
      * <code>optional bool keepLease = 2;</code>
+     * @return Whether the keepLease field is set.
      */
     boolean hasKeepLease();
     /**
      * <code>optional bool keepLease = 2;</code>
+     * @return The keepLease.
      */
     boolean getKeepLease();
 
-    // optional bytes acquirer = 3;
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 3;</code>
+     * @return Whether the acquirer field is set.
      */
     boolean hasAcquirer();
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 3;</code>
+     * @return The acquirer.
      */
     com.google.protobuf.ByteString getAcquirer();
   }
@@ -6274,35 +8147,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.KeyLockRequest}
    */
   public static final class KeyLockRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements KeyLockRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.KeyLockRequest)
+      KeyLockRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use KeyLockRequest.newBuilder() to construct.
-    private KeyLockRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private KeyLockRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private KeyLockRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final KeyLockRequest defaultInstance;
-    public static KeyLockRequest getDefaultInstance() {
-      return defaultInstance;
+    private KeyLockRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      acquirer_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public KeyLockRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeyLockRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private KeyLockRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6314,13 +8191,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -6336,13 +8206,20 @@ public final class RheakvRpc {
               acquirer_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6353,136 +8230,194 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyLockRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyLockRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<KeyLockRequest> PARSER =
-        new com.google.protobuf.AbstractParser<KeyLockRequest>() {
-      public KeyLockRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new KeyLockRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<KeyLockRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bool keepLease = 2;
     public static final int KEEPLEASE_FIELD_NUMBER = 2;
     private boolean keepLease_;
     /**
      * <code>optional bool keepLease = 2;</code>
+     * @return Whether the keepLease field is set.
      */
+    @java.lang.Override
     public boolean hasKeepLease() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bool keepLease = 2;</code>
+     * @return The keepLease.
      */
+    @java.lang.Override
     public boolean getKeepLease() {
       return keepLease_;
     }
 
-    // optional bytes acquirer = 3;
     public static final int ACQUIRER_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString acquirer_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 3;</code>
+     * @return Whether the acquirer field is set.
      */
+    @java.lang.Override
     public boolean hasAcquirer() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 3;</code>
+     * @return The acquirer.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getAcquirer() {
       return acquirer_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      keepLease_ = false;
-      acquirer_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBool(2, keepLease_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeBytes(3, acquirer_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, keepLease_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, acquirer_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasKeepLease() != other.hasKeepLease()) return false;
+      if (hasKeepLease()) {
+        if (getKeepLease()
+            != other.getKeepLease()) return false;
+      }
+      if (hasAcquirer() != other.hasAcquirer()) return false;
+      if (hasAcquirer()) {
+        if (!getAcquirer()
+            .equals(other.getAcquirer())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasKeepLease()) {
+        hash = (37 * hash) + KEEPLEASE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getKeepLease());
+      }
+      if (hasAcquirer()) {
+        hash = (37 * hash) + ACQUIRER_FIELD_NUMBER;
+        hash = (53 * hash) + getAcquirer().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6506,46 +8441,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -6553,14 +8501,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.KeyLockRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.KeyLockRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyLockRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyLockRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -6573,18 +8523,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -6596,19 +8544,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyLockRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6617,19 +8564,20 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.keepLease_ = keepLease_;
           to_bitField0_ |= 0x00000002;
         }
-        result.keepLease_ = keepLease_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.acquirer_ = acquirer_;
@@ -6638,6 +8586,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest)other);
@@ -6658,14 +8639,17 @@ public final class RheakvRpc {
         if (other.hasAcquirer()) {
           setAcquirer(other.getAcquirer());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6675,7 +8659,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -6685,22 +8669,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6713,6 +8702,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -6721,22 +8711,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool keepLease = 2;
       private boolean keepLease_ ;
       /**
        * <code>optional bool keepLease = 2;</code>
+       * @return Whether the keepLease field is set.
        */
+      @java.lang.Override
       public boolean hasKeepLease() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bool keepLease = 2;</code>
+       * @return The keepLease.
        */
+      @java.lang.Override
       public boolean getKeepLease() {
         return keepLease_;
       }
       /**
        * <code>optional bool keepLease = 2;</code>
+       * @param value The keepLease to set.
+       * @return This builder for chaining.
        */
       public Builder setKeepLease(boolean value) {
         bitField0_ |= 0x00000002;
@@ -6746,6 +8741,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool keepLease = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKeepLease() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -6754,22 +8750,39 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes acquirer = 3;
       private com.google.protobuf.ByteString acquirer_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 3;</code>
+       * @return Whether the acquirer field is set.
        */
+      @java.lang.Override
       public boolean hasAcquirer() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 3;</code>
+       * @return The acquirer.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getAcquirer() {
         return acquirer_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 3;</code>
+       * @param value The acquirer to set.
+       * @return This builder for chaining.
        */
       public Builder setAcquirer(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6781,7 +8794,12 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAcquirer() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -6789,16 +8807,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.KeyLockRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.KeyLockRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new KeyLockRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.KeyLockRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<KeyLockRequest>
+        PARSER = new com.google.protobuf.AbstractParser<KeyLockRequest>() {
+      @java.lang.Override
+      public KeyLockRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeyLockRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<KeyLockRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeyLockRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 110;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -6814,26 +8873,37 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyLockRequest.getDefaultInstance());
   }
 
-  public interface KeyUnlockRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface KeyUnlockRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.KeyUnlockRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes acquirer = 2;
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 2;</code>
+     * @return Whether the acquirer field is set.
      */
     boolean hasAcquirer();
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 2;</code>
+     * @return The acquirer.
      */
     com.google.protobuf.ByteString getAcquirer();
   }
@@ -6841,35 +8911,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.KeyUnlockRequest}
    */
   public static final class KeyUnlockRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements KeyUnlockRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.KeyUnlockRequest)
+      KeyUnlockRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use KeyUnlockRequest.newBuilder() to construct.
-    private KeyUnlockRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private KeyUnlockRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private KeyUnlockRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final KeyUnlockRequest defaultInstance;
-    public static KeyUnlockRequest getDefaultInstance() {
-      return defaultInstance;
+    private KeyUnlockRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      acquirer_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public KeyUnlockRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeyUnlockRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private KeyUnlockRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6881,13 +8955,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -6898,13 +8965,20 @@ public final class RheakvRpc {
               acquirer_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6915,112 +8989,158 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyUnlockRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyUnlockRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<KeyUnlockRequest> PARSER =
-        new com.google.protobuf.AbstractParser<KeyUnlockRequest>() {
-      public KeyUnlockRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new KeyUnlockRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<KeyUnlockRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes acquirer = 2;
     public static final int ACQUIRER_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString acquirer_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 2;</code>
+     * @return Whether the acquirer field is set.
      */
+    @java.lang.Override
     public boolean hasAcquirer() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;DistributedLock
+     * </pre>
+     *
      * <code>optional bytes acquirer = 2;</code>
+     * @return The acquirer.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getAcquirer() {
       return acquirer_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      acquirer_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, acquirer_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, acquirer_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasAcquirer() != other.hasAcquirer()) return false;
+      if (hasAcquirer()) {
+        if (!getAcquirer()
+            .equals(other.getAcquirer())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasAcquirer()) {
+        hash = (37 * hash) + ACQUIRER_FIELD_NUMBER;
+        hash = (53 * hash) + getAcquirer().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7044,46 +9164,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -7091,14 +9224,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.KeyUnlockRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.KeyUnlockRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyUnlockRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyUnlockRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -7111,18 +9246,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -7132,19 +9265,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_KeyUnlockRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -7153,15 +9285,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.acquirer_ = acquirer_;
@@ -7170,6 +9303,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest)other);
@@ -7187,14 +9353,17 @@ public final class RheakvRpc {
         if (other.hasAcquirer()) {
           setAcquirer(other.getAcquirer());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7204,7 +9373,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -7214,22 +9383,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -7242,6 +9416,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -7250,22 +9425,39 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes acquirer = 2;
       private com.google.protobuf.ByteString acquirer_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 2;</code>
+       * @return Whether the acquirer field is set.
        */
+      @java.lang.Override
       public boolean hasAcquirer() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 2;</code>
+       * @return The acquirer.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getAcquirer() {
         return acquirer_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 2;</code>
+       * @param value The acquirer to set.
+       * @return This builder for chaining.
        */
       public Builder setAcquirer(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -7277,7 +9469,12 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;DistributedLock
+       * </pre>
+       *
        * <code>optional bytes acquirer = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAcquirer() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -7285,16 +9482,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.KeyUnlockRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.KeyUnlockRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new KeyUnlockRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.KeyUnlockRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<KeyUnlockRequest>
+        PARSER = new com.google.protobuf.AbstractParser<KeyUnlockRequest>() {
+      @java.lang.Override
+      public KeyUnlockRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeyUnlockRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<KeyUnlockRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeyUnlockRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 111;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -7310,26 +9548,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.KeyUnlockRequest.getDefaultInstance());
   }
 
-  public interface MergeRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface MergeRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.MergeRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes value = 2;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
   }
@@ -7337,35 +9578,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.MergeRequest}
    */
   public static final class MergeRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements MergeRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.MergeRequest)
+      MergeRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use MergeRequest.newBuilder() to construct.
-    private MergeRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private MergeRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private MergeRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final MergeRequest defaultInstance;
-    public static MergeRequest getDefaultInstance() {
-      return defaultInstance;
+    private MergeRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public MergeRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MergeRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private MergeRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7377,13 +9622,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -7394,13 +9632,20 @@ public final class RheakvRpc {
               value_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7411,112 +9656,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MergeRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MergeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<MergeRequest> PARSER =
-        new com.google.protobuf.AbstractParser<MergeRequest>() {
-      public MergeRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MergeRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<MergeRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes value = 2;
     public static final int VALUE_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, value_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, value_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7540,46 +9823,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -7587,14 +9883,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.MergeRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.MergeRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MergeRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MergeRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -7607,18 +9905,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -7628,19 +9924,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MergeRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -7649,15 +9944,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
@@ -7666,6 +9962,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest)other);
@@ -7683,14 +10012,17 @@ public final class RheakvRpc {
         if (other.hasValue()) {
           setValue(other.getValue());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7700,7 +10032,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -7710,22 +10042,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -7738,6 +10075,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -7746,22 +10084,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 2;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes value = 2;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -7774,6 +10117,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -7781,16 +10125,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.MergeRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.MergeRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new MergeRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.MergeRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<MergeRequest>
+        PARSER = new com.google.protobuf.AbstractParser<MergeRequest>() {
+      @java.lang.Override
+      public MergeRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MergeRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<MergeRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MergeRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 112;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -7806,30 +10191,35 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MergeRequest.getDefaultInstance());
   }
 
-  public interface MultiGetRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface MultiGetRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.MultiGetRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated bytes keys = 1;
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return A list containing the keys.
      */
     java.util.List<com.google.protobuf.ByteString> getKeysList();
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return The count of keys.
      */
     int getKeysCount();
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @param index The index of the element to return.
+     * @return The keys at the given index.
      */
     com.google.protobuf.ByteString getKeys(int index);
 
-    // optional bool readOnlySafe = 2;
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return Whether the readOnlySafe field is set.
      */
     boolean hasReadOnlySafe();
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return The readOnlySafe.
      */
     boolean getReadOnlySafe();
   }
@@ -7837,35 +10227,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.MultiGetRequest}
    */
   public static final class MultiGetRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements MultiGetRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.MultiGetRequest)
+      MultiGetRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use MultiGetRequest.newBuilder() to construct.
-    private MultiGetRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private MultiGetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private MultiGetRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final MultiGetRequest defaultInstance;
-    public static MultiGetRequest getDefaultInstance() {
-      return defaultInstance;
+    private MultiGetRequest() {
+      keys_ = java.util.Collections.emptyList();
     }
 
-    public MultiGetRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MultiGetRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private MultiGetRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7877,15 +10270,8 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 keys_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -7897,16 +10283,23 @@ public final class RheakvRpc {
               readOnlySafe_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          keys_ = java.util.Collections.unmodifiableList(keys_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          keys_ = java.util.Collections.unmodifiableList(keys_); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7917,96 +10310,87 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MultiGetRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MultiGetRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<MultiGetRequest> PARSER =
-        new com.google.protobuf.AbstractParser<MultiGetRequest>() {
-      public MultiGetRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MultiGetRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<MultiGetRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // repeated bytes keys = 1;
     public static final int KEYS_FIELD_NUMBER = 1;
     private java.util.List<com.google.protobuf.ByteString> keys_;
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return A list containing the keys.
      */
+    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getKeysList() {
       return keys_;
     }
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @return The count of keys.
      */
     public int getKeysCount() {
       return keys_.size();
     }
     /**
      * <code>repeated bytes keys = 1;</code>
+     * @param index The index of the element to return.
+     * @return The keys at the given index.
      */
     public com.google.protobuf.ByteString getKeys(int index) {
       return keys_.get(index);
     }
 
-    // optional bool readOnlySafe = 2;
     public static final int READONLYSAFE_FIELD_NUMBER = 2;
     private boolean readOnlySafe_;
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return Whether the readOnlySafe field is set.
      */
+    @java.lang.Override
     public boolean hasReadOnlySafe() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bool readOnlySafe = 2;</code>
+     * @return The readOnlySafe.
      */
+    @java.lang.Override
     public boolean getReadOnlySafe() {
       return readOnlySafe_;
     }
 
-    private void initFields() {
-      keys_ = java.util.Collections.emptyList();
-      readOnlySafe_ = false;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       for (int i = 0; i < keys_.size(); i++) {
         output.writeBytes(1, keys_.get(i));
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBool(2, readOnlySafe_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
@@ -8019,22 +10403,68 @@ public final class RheakvRpc {
         size += dataSize;
         size += 1 * getKeysList().size();
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, readOnlySafe_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest) obj;
+
+      if (!getKeysList()
+          .equals(other.getKeysList())) return false;
+      if (hasReadOnlySafe() != other.hasReadOnlySafe()) return false;
+      if (hasReadOnlySafe()) {
+        if (getReadOnlySafe()
+            != other.getReadOnlySafe()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getKeysCount() > 0) {
+        hash = (37 * hash) + KEYS_FIELD_NUMBER;
+        hash = (53 * hash) + getKeysList().hashCode();
+      }
+      if (hasReadOnlySafe()) {
+        hash = (37 * hash) + READONLYSAFE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getReadOnlySafe());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8058,46 +10488,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -8105,14 +10548,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.MultiGetRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.MultiGetRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MultiGetRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MultiGetRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -8125,18 +10570,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         keys_ = java.util.Collections.emptyList();
@@ -8146,19 +10589,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_MultiGetRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -8167,24 +10609,58 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           keys_ = java.util.Collections.unmodifiableList(keys_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.keys_ = keys_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.readOnlySafe_ = readOnlySafe_;
           to_bitField0_ |= 0x00000001;
         }
-        result.readOnlySafe_ = readOnlySafe_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest)other);
@@ -8209,14 +10685,17 @@ public final class RheakvRpc {
         if (other.hasReadOnlySafe()) {
           setReadOnlySafe(other.getReadOnlySafe());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8226,7 +10705,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -8236,35 +10715,42 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // repeated bytes keys = 1;
       private java.util.List<com.google.protobuf.ByteString> keys_ = java.util.Collections.emptyList();
       private void ensureKeysIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           keys_ = new java.util.ArrayList<com.google.protobuf.ByteString>(keys_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return A list containing the keys.
        */
       public java.util.List<com.google.protobuf.ByteString>
           getKeysList() {
-        return java.util.Collections.unmodifiableList(keys_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(keys_) : keys_;
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return The count of keys.
        */
       public int getKeysCount() {
         return keys_.size();
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param index The index of the element to return.
+       * @return The keys at the given index.
        */
       public com.google.protobuf.ByteString getKeys(int index) {
         return keys_.get(index);
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The keys to set.
+       * @return This builder for chaining.
        */
       public Builder setKeys(
           int index, com.google.protobuf.ByteString value) {
@@ -8278,6 +10764,8 @@ public final class RheakvRpc {
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param value The keys to add.
+       * @return This builder for chaining.
        */
       public Builder addKeys(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -8290,16 +10778,20 @@ public final class RheakvRpc {
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @param values The keys to add.
+       * @return This builder for chaining.
        */
       public Builder addAllKeys(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureKeysIsMutable();
-        super.addAll(values, keys_);
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, keys_);
         onChanged();
         return this;
       }
       /**
        * <code>repeated bytes keys = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKeys() {
         keys_ = java.util.Collections.emptyList();
@@ -8308,22 +10800,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool readOnlySafe = 2;
       private boolean readOnlySafe_ ;
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return Whether the readOnlySafe field is set.
        */
+      @java.lang.Override
       public boolean hasReadOnlySafe() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return The readOnlySafe.
        */
+      @java.lang.Override
       public boolean getReadOnlySafe() {
         return readOnlySafe_;
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @param value The readOnlySafe to set.
+       * @return This builder for chaining.
        */
       public Builder setReadOnlySafe(boolean value) {
         bitField0_ |= 0x00000002;
@@ -8333,6 +10830,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool readOnlySafe = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReadOnlySafe() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -8340,16 +10838,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.MultiGetRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.MultiGetRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new MultiGetRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.MultiGetRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<MultiGetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<MultiGetRequest>() {
+      @java.lang.Override
+      public MultiGetRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MultiGetRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<MultiGetRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MultiGetRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 113;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -8365,16 +10904,26 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.MultiGetRequest.getDefaultInstance());
   }
 
-  public interface NodeExecuteRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface NodeExecuteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.NodeExecuteRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes nodeExecutor = 1;
     /**
+     * <pre>
+     * java序列化&lt;&gt;NodeExecutor
+     * </pre>
+     *
      * <code>optional bytes nodeExecutor = 1;</code>
+     * @return Whether the nodeExecutor field is set.
      */
     boolean hasNodeExecutor();
     /**
+     * <pre>
+     * java序列化&lt;&gt;NodeExecutor
+     * </pre>
+     *
      * <code>optional bytes nodeExecutor = 1;</code>
+     * @return The nodeExecutor.
      */
     com.google.protobuf.ByteString getNodeExecutor();
   }
@@ -8382,35 +10931,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.NodeExecuteRequest}
    */
   public static final class NodeExecuteRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements NodeExecuteRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.NodeExecuteRequest)
+      NodeExecuteRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use NodeExecuteRequest.newBuilder() to construct.
-    private NodeExecuteRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private NodeExecuteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private NodeExecuteRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final NodeExecuteRequest defaultInstance;
-    public static NodeExecuteRequest getDefaultInstance() {
-      return defaultInstance;
+    private NodeExecuteRequest() {
+      nodeExecutor_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public NodeExecuteRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NodeExecuteRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private NodeExecuteRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -8422,16 +10974,16 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               nodeExecutor_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8440,7 +10992,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -8451,88 +11003,123 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_NodeExecuteRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_NodeExecuteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<NodeExecuteRequest> PARSER =
-        new com.google.protobuf.AbstractParser<NodeExecuteRequest>() {
-      public NodeExecuteRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new NodeExecuteRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<NodeExecuteRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes nodeExecutor = 1;
     public static final int NODEEXECUTOR_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString nodeExecutor_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;NodeExecutor
+     * </pre>
+     *
      * <code>optional bytes nodeExecutor = 1;</code>
+     * @return Whether the nodeExecutor field is set.
      */
+    @java.lang.Override
     public boolean hasNodeExecutor() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;NodeExecutor
+     * </pre>
+     *
      * <code>optional bytes nodeExecutor = 1;</code>
+     * @return The nodeExecutor.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getNodeExecutor() {
       return nodeExecutor_;
     }
 
-    private void initFields() {
-      nodeExecutor_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, nodeExecutor_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, nodeExecutor_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest) obj;
+
+      if (hasNodeExecutor() != other.hasNodeExecutor()) return false;
+      if (hasNodeExecutor()) {
+        if (!getNodeExecutor()
+            .equals(other.getNodeExecutor())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasNodeExecutor()) {
+        hash = (37 * hash) + NODEEXECUTOR_FIELD_NUMBER;
+        hash = (53 * hash) + getNodeExecutor().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8556,46 +11143,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -8603,14 +11203,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.NodeExecuteRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.NodeExecuteRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_NodeExecuteRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_NodeExecuteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -8623,18 +11225,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         nodeExecutor_ = com.google.protobuf.ByteString.EMPTY;
@@ -8642,19 +11242,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_NodeExecuteRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -8663,11 +11262,12 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.nodeExecutor_ = nodeExecutor_;
@@ -8676,6 +11276,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest)other);
@@ -8690,14 +11323,17 @@ public final class RheakvRpc {
         if (other.hasNodeExecutor()) {
           setNodeExecutor(other.getNodeExecutor());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8707,7 +11343,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -8717,22 +11353,39 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes nodeExecutor = 1;
       private com.google.protobuf.ByteString nodeExecutor_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * java序列化&lt;&gt;NodeExecutor
+       * </pre>
+       *
        * <code>optional bytes nodeExecutor = 1;</code>
+       * @return Whether the nodeExecutor field is set.
        */
+      @java.lang.Override
       public boolean hasNodeExecutor() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;NodeExecutor
+       * </pre>
+       *
        * <code>optional bytes nodeExecutor = 1;</code>
+       * @return The nodeExecutor.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getNodeExecutor() {
         return nodeExecutor_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;NodeExecutor
+       * </pre>
+       *
        * <code>optional bytes nodeExecutor = 1;</code>
+       * @param value The nodeExecutor to set.
+       * @return This builder for chaining.
        */
       public Builder setNodeExecutor(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -8744,7 +11397,12 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;NodeExecutor
+       * </pre>
+       *
        * <code>optional bytes nodeExecutor = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNodeExecutor() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -8752,16 +11410,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.NodeExecuteRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.NodeExecuteRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new NodeExecuteRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.NodeExecuteRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<NodeExecuteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NodeExecuteRequest>() {
+      @java.lang.Override
+      public NodeExecuteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NodeExecuteRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NodeExecuteRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NodeExecuteRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 114;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -8777,26 +11476,29 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.NodeExecuteRequest.getDefaultInstance());
   }
 
-  public interface PutIfAbsentRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface PutIfAbsentRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.PutIfAbsentRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes key = 1;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
     com.google.protobuf.ByteString getKey();
 
-    // optional bytes value = 2;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
   }
@@ -8804,35 +11506,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.PutIfAbsentRequest}
    */
   public static final class PutIfAbsentRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements PutIfAbsentRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.PutIfAbsentRequest)
+      PutIfAbsentRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use PutIfAbsentRequest.newBuilder() to construct.
-    private PutIfAbsentRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private PutIfAbsentRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private PutIfAbsentRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PutIfAbsentRequest defaultInstance;
-    public static PutIfAbsentRequest getDefaultInstance() {
-      return defaultInstance;
+    private PutIfAbsentRequest() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public PutIfAbsentRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PutIfAbsentRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private PutIfAbsentRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -8844,13 +11550,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               key_ = input.readBytes();
@@ -8861,13 +11560,20 @@ public final class RheakvRpc {
               value_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -8878,112 +11584,150 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutIfAbsentRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutIfAbsentRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<PutIfAbsentRequest> PARSER =
-        new com.google.protobuf.AbstractParser<PutIfAbsentRequest>() {
-      public PutIfAbsentRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PutIfAbsentRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PutIfAbsentRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes key = 1;
     public static final int KEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString key_;
     /**
      * <code>optional bytes key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getKey() {
       return key_;
     }
 
-    // optional bytes value = 2;
     public static final int VALUE_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    private void initFields() {
-      key_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, value_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, key_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, value_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest) obj;
+
+      if (hasKey() != other.hasKey()) return false;
+      if (hasKey()) {
+        if (!getKey()
+            .equals(other.getKey())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasKey()) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKey().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9007,46 +11751,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -9054,14 +11811,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.PutIfAbsentRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.PutIfAbsentRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutIfAbsentRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutIfAbsentRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -9074,18 +11833,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = com.google.protobuf.ByteString.EMPTY;
@@ -9095,19 +11852,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_PutIfAbsentRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9116,15 +11872,16 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
@@ -9133,6 +11890,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest)other);
@@ -9150,14 +11940,17 @@ public final class RheakvRpc {
         if (other.hasValue()) {
           setValue(other.getValue());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9167,7 +11960,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -9177,22 +11970,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes key = 1;
       private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes key = 1;</code>
+       * @return Whether the key field is set.
        */
+      @java.lang.Override
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return The key.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getKey() {
         return key_;
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -9205,6 +12003,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -9213,22 +12012,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 2;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes value = 2;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -9241,6 +12045,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -9248,16 +12053,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.PutIfAbsentRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.PutIfAbsentRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new PutIfAbsentRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.PutIfAbsentRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<PutIfAbsentRequest>
+        PARSER = new com.google.protobuf.AbstractParser<PutIfAbsentRequest>() {
+      @java.lang.Override
+      public PutIfAbsentRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PutIfAbsentRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PutIfAbsentRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PutIfAbsentRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 115;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -9273,16 +12119,18 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.PutIfAbsentRequest.getDefaultInstance());
   }
 
-  public interface RangeSplitRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface RangeSplitRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.RangeSplitRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional int64 newRegionId = 1;
     /**
      * <code>optional int64 newRegionId = 1;</code>
+     * @return Whether the newRegionId field is set.
      */
     boolean hasNewRegionId();
     /**
      * <code>optional int64 newRegionId = 1;</code>
+     * @return The newRegionId.
      */
     long getNewRegionId();
   }
@@ -9290,35 +12138,37 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.RangeSplitRequest}
    */
   public static final class RangeSplitRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements RangeSplitRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.RangeSplitRequest)
+      RangeSplitRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use RangeSplitRequest.newBuilder() to construct.
-    private RangeSplitRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private RangeSplitRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private RangeSplitRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final RangeSplitRequest defaultInstance;
-    public static RangeSplitRequest getDefaultInstance() {
-      return defaultInstance;
+    private RangeSplitRequest() {
     }
 
-    public RangeSplitRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RangeSplitRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private RangeSplitRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9330,16 +12180,16 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               newRegionId_ = input.readInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -9348,7 +12198,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9359,88 +12209,116 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_RangeSplitRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_RangeSplitRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<RangeSplitRequest> PARSER =
-        new com.google.protobuf.AbstractParser<RangeSplitRequest>() {
-      public RangeSplitRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RangeSplitRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<RangeSplitRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional int64 newRegionId = 1;
     public static final int NEWREGIONID_FIELD_NUMBER = 1;
     private long newRegionId_;
     /**
      * <code>optional int64 newRegionId = 1;</code>
+     * @return Whether the newRegionId field is set.
      */
+    @java.lang.Override
     public boolean hasNewRegionId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional int64 newRegionId = 1;</code>
+     * @return The newRegionId.
      */
+    @java.lang.Override
     public long getNewRegionId() {
       return newRegionId_;
     }
 
-    private void initFields() {
-      newRegionId_ = 0L;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt64(1, newRegionId_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, newRegionId_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest) obj;
+
+      if (hasNewRegionId() != other.hasNewRegionId()) return false;
+      if (hasNewRegionId()) {
+        if (getNewRegionId()
+            != other.getNewRegionId()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasNewRegionId()) {
+        hash = (37 * hash) + NEWREGIONID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getNewRegionId());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9464,46 +12342,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -9511,14 +12402,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.RangeSplitRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.RangeSplitRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_RangeSplitRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_RangeSplitRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -9531,18 +12424,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         newRegionId_ = 0L;
@@ -9550,19 +12441,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_RangeSplitRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9571,19 +12461,53 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.newRegionId_ = newRegionId_;
           to_bitField0_ |= 0x00000001;
         }
-        result.newRegionId_ = newRegionId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest)other);
@@ -9598,14 +12522,17 @@ public final class RheakvRpc {
         if (other.hasNewRegionId()) {
           setNewRegionId(other.getNewRegionId());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9615,7 +12542,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -9625,22 +12552,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional int64 newRegionId = 1;
       private long newRegionId_ ;
       /**
        * <code>optional int64 newRegionId = 1;</code>
+       * @return Whether the newRegionId field is set.
        */
+      @java.lang.Override
       public boolean hasNewRegionId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional int64 newRegionId = 1;</code>
+       * @return The newRegionId.
        */
+      @java.lang.Override
       public long getNewRegionId() {
         return newRegionId_;
       }
       /**
        * <code>optional int64 newRegionId = 1;</code>
+       * @param value The newRegionId to set.
+       * @return This builder for chaining.
        */
       public Builder setNewRegionId(long value) {
         bitField0_ |= 0x00000001;
@@ -9650,6 +12582,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 newRegionId = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNewRegionId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -9657,16 +12590,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.RangeSplitRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.RangeSplitRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new RangeSplitRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.RangeSplitRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<RangeSplitRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RangeSplitRequest>() {
+      @java.lang.Override
+      public RangeSplitRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RangeSplitRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RangeSplitRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RangeSplitRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 116;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -9682,16 +12656,18 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.RangeSplitRequest.getDefaultInstance());
   }
 
-  public interface ResetSequenceRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ResetSequenceRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.ResetSequenceRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes seqKey = 1;
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return Whether the seqKey field is set.
      */
     boolean hasSeqKey();
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return The seqKey.
      */
     com.google.protobuf.ByteString getSeqKey();
   }
@@ -9699,35 +12675,38 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.ResetSequenceRequest}
    */
   public static final class ResetSequenceRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements ResetSequenceRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.ResetSequenceRequest)
+      ResetSequenceRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use ResetSequenceRequest.newBuilder() to construct.
-    private ResetSequenceRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ResetSequenceRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private ResetSequenceRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ResetSequenceRequest defaultInstance;
-    public static ResetSequenceRequest getDefaultInstance() {
-      return defaultInstance;
+    private ResetSequenceRequest() {
+      seqKey_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public ResetSequenceRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResetSequenceRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private ResetSequenceRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9739,16 +12718,16 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               seqKey_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -9757,7 +12736,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9768,88 +12747,115 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ResetSequenceRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ResetSequenceRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ResetSequenceRequest> PARSER =
-        new com.google.protobuf.AbstractParser<ResetSequenceRequest>() {
-      public ResetSequenceRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ResetSequenceRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ResetSequenceRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes seqKey = 1;
     public static final int SEQKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString seqKey_;
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return Whether the seqKey field is set.
      */
+    @java.lang.Override
     public boolean hasSeqKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes seqKey = 1;</code>
+     * @return The seqKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getSeqKey() {
       return seqKey_;
     }
 
-    private void initFields() {
-      seqKey_ = com.google.protobuf.ByteString.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, seqKey_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, seqKey_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest) obj;
+
+      if (hasSeqKey() != other.hasSeqKey()) return false;
+      if (hasSeqKey()) {
+        if (!getSeqKey()
+            .equals(other.getSeqKey())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasSeqKey()) {
+        hash = (37 * hash) + SEQKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getSeqKey().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9873,46 +12879,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -9920,14 +12939,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.ResetSequenceRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.ResetSequenceRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ResetSequenceRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ResetSequenceRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -9940,18 +12961,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         seqKey_ = com.google.protobuf.ByteString.EMPTY;
@@ -9959,19 +12978,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ResetSequenceRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9980,11 +12998,12 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.seqKey_ = seqKey_;
@@ -9993,6 +13012,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest)other);
@@ -10007,14 +13059,17 @@ public final class RheakvRpc {
         if (other.hasSeqKey()) {
           setSeqKey(other.getSeqKey());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10024,7 +13079,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -10034,22 +13089,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes seqKey = 1;
       private com.google.protobuf.ByteString seqKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return Whether the seqKey field is set.
        */
+      @java.lang.Override
       public boolean hasSeqKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return The seqKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getSeqKey() {
         return seqKey_;
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @param value The seqKey to set.
+       * @return This builder for chaining.
        */
       public Builder setSeqKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10062,6 +13122,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes seqKey = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSeqKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -10069,16 +13130,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.ResetSequenceRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.ResetSequenceRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new ResetSequenceRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.ResetSequenceRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ResetSequenceRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ResetSequenceRequest>() {
+      @java.lang.Override
+      public ResetSequenceRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResetSequenceRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResetSequenceRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResetSequenceRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 117;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -10094,66 +13196,73 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ResetSequenceRequest.getDefaultInstance());
   }
 
-  public interface ScanRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ScanRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.ScanRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes startKey = 1;
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return Whether the startKey field is set.
      */
     boolean hasStartKey();
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return The startKey.
      */
     com.google.protobuf.ByteString getStartKey();
 
-    // optional bytes endKey = 2;
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return Whether the endKey field is set.
      */
     boolean hasEndKey();
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return The endKey.
      */
     com.google.protobuf.ByteString getEndKey();
 
-    // optional int32 limit = 3;
     /**
      * <code>optional int32 limit = 3;</code>
+     * @return Whether the limit field is set.
      */
     boolean hasLimit();
     /**
      * <code>optional int32 limit = 3;</code>
+     * @return The limit.
      */
     int getLimit();
 
-    // optional bool readOnlySafe = 4;
     /**
      * <code>optional bool readOnlySafe = 4;</code>
+     * @return Whether the readOnlySafe field is set.
      */
     boolean hasReadOnlySafe();
     /**
      * <code>optional bool readOnlySafe = 4;</code>
+     * @return The readOnlySafe.
      */
     boolean getReadOnlySafe();
 
-    // optional bool returnValue = 5;
     /**
      * <code>optional bool returnValue = 5;</code>
+     * @return Whether the returnValue field is set.
      */
     boolean hasReturnValue();
     /**
      * <code>optional bool returnValue = 5;</code>
+     * @return The returnValue.
      */
     boolean getReturnValue();
 
-    // optional bool reverse = 6;
     /**
      * <code>optional bool reverse = 6;</code>
+     * @return Whether the reverse field is set.
      */
     boolean hasReverse();
     /**
      * <code>optional bool reverse = 6;</code>
+     * @return The reverse.
      */
     boolean getReverse();
   }
@@ -10161,35 +13270,39 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.ScanRequest}
    */
   public static final class ScanRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements ScanRequestOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.ScanRequest)
+      ScanRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use ScanRequest.newBuilder() to construct.
-    private ScanRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ScanRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private ScanRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ScanRequest defaultInstance;
-    public static ScanRequest getDefaultInstance() {
-      return defaultInstance;
+    private ScanRequest() {
+      startKey_ = com.google.protobuf.ByteString.EMPTY;
+      endKey_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    public ScanRequest getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScanRequest();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private ScanRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10201,13 +13314,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               bitField0_ |= 0x00000001;
               startKey_ = input.readBytes();
@@ -10238,13 +13344,20 @@ public final class RheakvRpc {
               reverse_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -10255,208 +13368,293 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ScanRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ScanRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ScanRequest> PARSER =
-        new com.google.protobuf.AbstractParser<ScanRequest>() {
-      public ScanRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScanRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ScanRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
-    // optional bytes startKey = 1;
     public static final int STARTKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString startKey_;
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return Whether the startKey field is set.
      */
+    @java.lang.Override
     public boolean hasStartKey() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bytes startKey = 1;</code>
+     * @return The startKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getStartKey() {
       return startKey_;
     }
 
-    // optional bytes endKey = 2;
     public static final int ENDKEY_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString endKey_;
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return Whether the endKey field is set.
      */
+    @java.lang.Override
     public boolean hasEndKey() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional bytes endKey = 2;</code>
+     * @return The endKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getEndKey() {
       return endKey_;
     }
 
-    // optional int32 limit = 3;
     public static final int LIMIT_FIELD_NUMBER = 3;
     private int limit_;
     /**
      * <code>optional int32 limit = 3;</code>
+     * @return Whether the limit field is set.
      */
+    @java.lang.Override
     public boolean hasLimit() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional int32 limit = 3;</code>
+     * @return The limit.
      */
+    @java.lang.Override
     public int getLimit() {
       return limit_;
     }
 
-    // optional bool readOnlySafe = 4;
     public static final int READONLYSAFE_FIELD_NUMBER = 4;
     private boolean readOnlySafe_;
     /**
      * <code>optional bool readOnlySafe = 4;</code>
+     * @return Whether the readOnlySafe field is set.
      */
+    @java.lang.Override
     public boolean hasReadOnlySafe() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional bool readOnlySafe = 4;</code>
+     * @return The readOnlySafe.
      */
+    @java.lang.Override
     public boolean getReadOnlySafe() {
       return readOnlySafe_;
     }
 
-    // optional bool returnValue = 5;
     public static final int RETURNVALUE_FIELD_NUMBER = 5;
     private boolean returnValue_;
     /**
      * <code>optional bool returnValue = 5;</code>
+     * @return Whether the returnValue field is set.
      */
+    @java.lang.Override
     public boolean hasReturnValue() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional bool returnValue = 5;</code>
+     * @return The returnValue.
      */
+    @java.lang.Override
     public boolean getReturnValue() {
       return returnValue_;
     }
 
-    // optional bool reverse = 6;
     public static final int REVERSE_FIELD_NUMBER = 6;
     private boolean reverse_;
     /**
      * <code>optional bool reverse = 6;</code>
+     * @return Whether the reverse field is set.
      */
+    @java.lang.Override
     public boolean hasReverse() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional bool reverse = 6;</code>
+     * @return The reverse.
      */
+    @java.lang.Override
     public boolean getReverse() {
       return reverse_;
     }
 
-    private void initFields() {
-      startKey_ = com.google.protobuf.ByteString.EMPTY;
-      endKey_ = com.google.protobuf.ByteString.EMPTY;
-      limit_ = 0;
-      readOnlySafe_ = false;
-      returnValue_ = false;
-      reverse_ = false;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBytes(1, startKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeBytes(2, endKey_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(3, limit_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeBool(4, readOnlySafe_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeBool(5, returnValue_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeBool(6, reverse_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, startKey_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, endKey_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, limit_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(4, readOnlySafe_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, returnValue_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, reverse_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest) obj;
+
+      if (hasStartKey() != other.hasStartKey()) return false;
+      if (hasStartKey()) {
+        if (!getStartKey()
+            .equals(other.getStartKey())) return false;
+      }
+      if (hasEndKey() != other.hasEndKey()) return false;
+      if (hasEndKey()) {
+        if (!getEndKey()
+            .equals(other.getEndKey())) return false;
+      }
+      if (hasLimit() != other.hasLimit()) return false;
+      if (hasLimit()) {
+        if (getLimit()
+            != other.getLimit()) return false;
+      }
+      if (hasReadOnlySafe() != other.hasReadOnlySafe()) return false;
+      if (hasReadOnlySafe()) {
+        if (getReadOnlySafe()
+            != other.getReadOnlySafe()) return false;
+      }
+      if (hasReturnValue() != other.hasReturnValue()) return false;
+      if (hasReturnValue()) {
+        if (getReturnValue()
+            != other.getReturnValue()) return false;
+      }
+      if (hasReverse() != other.hasReverse()) return false;
+      if (hasReverse()) {
+        if (getReverse()
+            != other.getReverse()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasStartKey()) {
+        hash = (37 * hash) + STARTKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getStartKey().hashCode();
+      }
+      if (hasEndKey()) {
+        hash = (37 * hash) + ENDKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getEndKey().hashCode();
+      }
+      if (hasLimit()) {
+        hash = (37 * hash) + LIMIT_FIELD_NUMBER;
+        hash = (53 * hash) + getLimit();
+      }
+      if (hasReadOnlySafe()) {
+        hash = (37 * hash) + READONLYSAFE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getReadOnlySafe());
+      }
+      if (hasReturnValue()) {
+        hash = (37 * hash) + RETURNVALUE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getReturnValue());
+      }
+      if (hasReverse()) {
+        hash = (37 * hash) + REVERSE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getReverse());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -10480,46 +13678,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -10527,14 +13738,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.ScanRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.ScanRequest)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ScanRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ScanRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -10547,18 +13760,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         startKey_ = com.google.protobuf.ByteString.EMPTY;
@@ -10576,19 +13787,18 @@ public final class RheakvRpc {
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_ScanRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -10597,39 +13807,73 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.startKey_ = startKey_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.endKey_ = endKey_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.limit_ = limit_;
           to_bitField0_ |= 0x00000004;
         }
-        result.limit_ = limit_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.readOnlySafe_ = readOnlySafe_;
           to_bitField0_ |= 0x00000008;
         }
-        result.readOnlySafe_ = readOnlySafe_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.returnValue_ = returnValue_;
           to_bitField0_ |= 0x00000010;
         }
-        result.returnValue_ = returnValue_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.reverse_ = reverse_;
           to_bitField0_ |= 0x00000020;
         }
-        result.reverse_ = reverse_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest)other);
@@ -10659,14 +13903,17 @@ public final class RheakvRpc {
         if (other.hasReverse()) {
           setReverse(other.getReverse());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10676,7 +13923,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -10686,22 +13933,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional bytes startKey = 1;
       private com.google.protobuf.ByteString startKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return Whether the startKey field is set.
        */
+      @java.lang.Override
       public boolean hasStartKey() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return The startKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getStartKey() {
         return startKey_;
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @param value The startKey to set.
+       * @return This builder for chaining.
        */
       public Builder setStartKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10714,6 +13966,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes startKey = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStartKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -10722,22 +13975,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes endKey = 2;
       private com.google.protobuf.ByteString endKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return Whether the endKey field is set.
        */
+      @java.lang.Override
       public boolean hasEndKey() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return The endKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getEndKey() {
         return endKey_;
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @param value The endKey to set.
+       * @return This builder for chaining.
        */
       public Builder setEndKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10750,6 +14008,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bytes endKey = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -10758,22 +14017,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int32 limit = 3;
       private int limit_ ;
       /**
        * <code>optional int32 limit = 3;</code>
+       * @return Whether the limit field is set.
        */
+      @java.lang.Override
       public boolean hasLimit() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional int32 limit = 3;</code>
+       * @return The limit.
        */
+      @java.lang.Override
       public int getLimit() {
         return limit_;
       }
       /**
        * <code>optional int32 limit = 3;</code>
+       * @param value The limit to set.
+       * @return This builder for chaining.
        */
       public Builder setLimit(int value) {
         bitField0_ |= 0x00000004;
@@ -10783,6 +14047,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int32 limit = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLimit() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -10791,22 +14056,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool readOnlySafe = 4;
       private boolean readOnlySafe_ ;
       /**
        * <code>optional bool readOnlySafe = 4;</code>
+       * @return Whether the readOnlySafe field is set.
        */
+      @java.lang.Override
       public boolean hasReadOnlySafe() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional bool readOnlySafe = 4;</code>
+       * @return The readOnlySafe.
        */
+      @java.lang.Override
       public boolean getReadOnlySafe() {
         return readOnlySafe_;
       }
       /**
        * <code>optional bool readOnlySafe = 4;</code>
+       * @param value The readOnlySafe to set.
+       * @return This builder for chaining.
        */
       public Builder setReadOnlySafe(boolean value) {
         bitField0_ |= 0x00000008;
@@ -10816,6 +14086,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool readOnlySafe = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReadOnlySafe() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -10824,22 +14095,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool returnValue = 5;
       private boolean returnValue_ ;
       /**
        * <code>optional bool returnValue = 5;</code>
+       * @return Whether the returnValue field is set.
        */
+      @java.lang.Override
       public boolean hasReturnValue() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional bool returnValue = 5;</code>
+       * @return The returnValue.
        */
+      @java.lang.Override
       public boolean getReturnValue() {
         return returnValue_;
       }
       /**
        * <code>optional bool returnValue = 5;</code>
+       * @param value The returnValue to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnValue(boolean value) {
         bitField0_ |= 0x00000010;
@@ -10849,6 +14125,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool returnValue = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReturnValue() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -10857,22 +14134,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bool reverse = 6;
       private boolean reverse_ ;
       /**
        * <code>optional bool reverse = 6;</code>
+       * @return Whether the reverse field is set.
        */
+      @java.lang.Override
       public boolean hasReverse() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional bool reverse = 6;</code>
+       * @return The reverse.
        */
+      @java.lang.Override
       public boolean getReverse() {
         return reverse_;
       }
       /**
        * <code>optional bool reverse = 6;</code>
+       * @param value The reverse to set.
+       * @return This builder for chaining.
        */
       public Builder setReverse(boolean value) {
         bitField0_ |= 0x00000020;
@@ -10882,6 +14164,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional bool reverse = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReverse() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -10889,16 +14172,57 @@ public final class RheakvRpc {
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.ScanRequest)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.ScanRequest)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new ScanRequest(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.ScanRequest)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ScanRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ScanRequest>() {
+      @java.lang.Override
+      public ScanRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ScanRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ScanRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ScanRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
     public static final int BODY_FIELD_NUMBER = 118;
     /**
      * <code>extend .rhekv.BaseRequest { ... }</code>
@@ -10914,778 +14238,89 @@ public final class RheakvRpc {
           com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.ScanRequest.getDefaultInstance());
   }
 
-  public interface BatchCompositeRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface BaseResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:rhekv.BaseResponse)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional .rhekv.GetRequest get = 1;
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    boolean hasGet();
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getGet();
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder getGetOrBuilder();
-
-    // optional .rhekv.GetAndPutRequest get_put = 2;
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    boolean hasGetPut();
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getGetPut();
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder getGetPutOrBuilder();
-  }
-  /**
-   * Protobuf type {@code rhekv.BatchCompositeRequest}
-   */
-  public static final class BatchCompositeRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements BatchCompositeRequestOrBuilder {
-    // Use BatchCompositeRequest.newBuilder() to construct.
-    private BatchCompositeRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private BatchCompositeRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BatchCompositeRequest defaultInstance;
-    public static BatchCompositeRequest getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public BatchCompositeRequest getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private BatchCompositeRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = get_.toBuilder();
-              }
-              get_ = input.readMessage(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(get_);
-                get_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            case 18: {
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = getPut_.toBuilder();
-              }
-              getPut_ = input.readMessage(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(getPut_);
-                getPut_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchCompositeRequest_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchCompositeRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BatchCompositeRequest> PARSER =
-        new com.google.protobuf.AbstractParser<BatchCompositeRequest>() {
-      public BatchCompositeRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BatchCompositeRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BatchCompositeRequest> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional .rhekv.GetRequest get = 1;
-    public static final int GET_FIELD_NUMBER = 1;
-    private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest get_;
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    public boolean hasGet() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getGet() {
-      return get_;
-    }
-    /**
-     * <code>optional .rhekv.GetRequest get = 1;</code>
-     */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder getGetOrBuilder() {
-      return get_;
-    }
-
-    // optional .rhekv.GetAndPutRequest get_put = 2;
-    public static final int GET_PUT_FIELD_NUMBER = 2;
-    private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getPut_;
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    public boolean hasGetPut() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getGetPut() {
-      return getPut_;
-    }
-    /**
-     * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-     */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder getGetPutOrBuilder() {
-      return getPut_;
-    }
-
-    private void initFields() {
-      get_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance();
-      getPut_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, get_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, getPut_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, get_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getPut_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code rhekv.BatchCompositeRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchCompositeRequest_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchCompositeRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.Builder.class);
-      }
-
-      // Construct using com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getGetFieldBuilder();
-          getGetPutFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (getBuilder_ == null) {
-          get_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance();
-        } else {
-          getBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (getPutBuilder_ == null) {
-          getPut_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance();
-        } else {
-          getPutBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BatchCompositeRequest_descriptor;
-      }
-
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest getDefaultInstanceForType() {
-        return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.getDefaultInstance();
-      }
-
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest build() {
-        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest buildPartial() {
-        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (getBuilder_ == null) {
-          result.get_ = get_;
-        } else {
-          result.get_ = getBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        if (getPutBuilder_ == null) {
-          result.getPut_ = getPut_;
-        } else {
-          result.getPut_ = getPutBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest) {
-          return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest other) {
-        if (other == com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.getDefaultInstance()) return this;
-        if (other.hasGet()) {
-          mergeGet(other.getGet());
-        }
-        if (other.hasGetPut()) {
-          mergeGetPut(other.getGetPut());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional .rhekv.GetRequest get = 1;
-      private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest get_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder> getBuilder_;
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public boolean hasGet() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest getGet() {
-        if (getBuilder_ == null) {
-          return get_;
-        } else {
-          return getBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public Builder setGet(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest value) {
-        if (getBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          get_ = value;
-          onChanged();
-        } else {
-          getBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public Builder setGet(
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder builderForValue) {
-        if (getBuilder_ == null) {
-          get_ = builderForValue.build();
-          onChanged();
-        } else {
-          getBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public Builder mergeGet(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest value) {
-        if (getBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              get_ != com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance()) {
-            get_ =
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.newBuilder(get_).mergeFrom(value).buildPartial();
-          } else {
-            get_ = value;
-          }
-          onChanged();
-        } else {
-          getBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public Builder clearGet() {
-        if (getBuilder_ == null) {
-          get_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.getDefaultInstance();
-          onChanged();
-        } else {
-          getBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder getGetBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getGetFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder getGetOrBuilder() {
-        if (getBuilder_ != null) {
-          return getBuilder_.getMessageOrBuilder();
-        } else {
-          return get_;
-        }
-      }
-      /**
-       * <code>optional .rhekv.GetRequest get = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder> 
-          getGetFieldBuilder() {
-        if (getBuilder_ == null) {
-          getBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetRequestOrBuilder>(
-                  get_,
-                  getParentForChildren(),
-                  isClean());
-          get_ = null;
-        }
-        return getBuilder_;
-      }
-
-      // optional .rhekv.GetAndPutRequest get_put = 2;
-      private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getPut_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder> getPutBuilder_;
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public boolean hasGetPut() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest getGetPut() {
-        if (getPutBuilder_ == null) {
-          return getPut_;
-        } else {
-          return getPutBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public Builder setGetPut(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest value) {
-        if (getPutBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          getPut_ = value;
-          onChanged();
-        } else {
-          getPutBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public Builder setGetPut(
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder builderForValue) {
-        if (getPutBuilder_ == null) {
-          getPut_ = builderForValue.build();
-          onChanged();
-        } else {
-          getPutBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public Builder mergeGetPut(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest value) {
-        if (getPutBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              getPut_ != com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance()) {
-            getPut_ =
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.newBuilder(getPut_).mergeFrom(value).buildPartial();
-          } else {
-            getPut_ = value;
-          }
-          onChanged();
-        } else {
-          getPutBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public Builder clearGetPut() {
-        if (getPutBuilder_ == null) {
-          getPut_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.getDefaultInstance();
-          onChanged();
-        } else {
-          getPutBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder getGetPutBuilder() {
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return getGetPutFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder getGetPutOrBuilder() {
-        if (getPutBuilder_ != null) {
-          return getPutBuilder_.getMessageOrBuilder();
-        } else {
-          return getPut_;
-        }
-      }
-      /**
-       * <code>optional .rhekv.GetAndPutRequest get_put = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder> 
-          getGetPutFieldBuilder() {
-        if (getPutBuilder_ == null) {
-          getPutBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequest.Builder, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.GetAndPutRequestOrBuilder>(
-                  getPut_,
-                  getParentForChildren(),
-                  isClean());
-          getPut_ = null;
-        }
-        return getPutBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:rhekv.BatchCompositeRequest)
-    }
-
-    static {
-      defaultInstance = new BatchCompositeRequest(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:rhekv.BatchCompositeRequest)
-    public static final int BODY_FIELD_NUMBER = 119;
-    /**
-     * <code>extend .rhekv.BaseRequest { ... }</code>
-     */
-    public static final
-      com.google.protobuf.GeneratedMessage.GeneratedExtension<
-        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseRequest,
-        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest> body = com.google.protobuf.GeneratedMessage
-            .newMessageScopedGeneratedExtension(
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.getDefaultInstance(),
-          0,
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.class,
-          com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BatchCompositeRequest.getDefaultInstance());
-  }
-
-  public interface BaseResponseOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional int64 regionId = 1;
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return Whether the regionId field is set.
      */
     boolean hasRegionId();
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return The regionId.
      */
     long getRegionId();
 
-    // optional int64 confVer = 2;
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return Whether the confVer field is set.
      */
     boolean hasConfVer();
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return The confVer.
      */
     long getConfVer();
 
-    // optional int64 version = 3;
     /**
      * <code>optional int64 version = 3;</code>
+     * @return Whether the version field is set.
      */
     boolean hasVersion();
     /**
      * <code>optional int64 version = 3;</code>
+     * @return The version.
      */
     long getVersion();
 
-    // optional bytes error = 4;
     /**
+     * <pre>
+     * java序列化&lt;&gt;Errors
+     * </pre>
+     *
      * <code>optional bytes error = 4;</code>
+     * @return Whether the error field is set.
      */
     boolean hasError();
     /**
+     * <pre>
+     * java序列化&lt;&gt;Errors
+     * </pre>
+     *
      * <code>optional bytes error = 4;</code>
+     * @return The error.
      */
     com.google.protobuf.ByteString getError();
 
-    // optional bytes value = 5;
     /**
+     * <pre>
+     * java序列化&lt;&gt;Object
+     * </pre>
+     *
      * <code>optional bytes value = 5;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
+     * <pre>
+     * java序列化&lt;&gt;Object
+     * </pre>
+     *
      * <code>optional bytes value = 5;</code>
+     * @return The value.
      */
     com.google.protobuf.ByteString getValue();
 
-    // optional .rhekv.BaseResponse.ResponseType responseType = 6;
     /**
      * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+     * @return Whether the responseType field is set.
      */
     boolean hasResponseType();
     /**
      * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+     * @return The responseType.
      */
     com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType getResponseType();
   }
@@ -11693,35 +14328,40 @@ public final class RheakvRpc {
    * Protobuf type {@code rhekv.BaseResponse}
    */
   public static final class BaseResponse extends
-      com.google.protobuf.GeneratedMessage
-      implements BaseResponseOrBuilder {
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:rhekv.BaseResponse)
+      BaseResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use BaseResponse.newBuilder() to construct.
-    private BaseResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private BaseResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private BaseResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BaseResponse defaultInstance;
-    public static BaseResponse getDefaultInstance() {
-      return defaultInstance;
+    private BaseResponse() {
+      error_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
+      responseType_ = 0;
     }
 
-    public BaseResponse getDefaultInstanceForType() {
-      return defaultInstance;
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BaseResponse();
     }
 
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private BaseResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -11733,13 +14373,6 @@ public final class RheakvRpc {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               regionId_ = input.readInt64();
@@ -11767,12 +14400,20 @@ public final class RheakvRpc {
             }
             case 48: {
               int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType value = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(6, rawValue);
               } else {
                 bitField0_ |= 0x00000020;
-                responseType_ = value;
+                responseType_ = rawValue;
+              }
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
               }
               break;
             }
@@ -11782,7 +14423,7 @@ public final class RheakvRpc {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -11793,26 +14434,12 @@ public final class RheakvRpc {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseResponse_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.class, com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BaseResponse> PARSER =
-        new com.google.protobuf.AbstractParser<BaseResponse>() {
-      public BaseResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BaseResponse(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BaseResponse> getParserForType() {
-      return PARSER;
     }
 
     /**
@@ -11823,83 +14450,83 @@ public final class RheakvRpc {
       /**
        * <code>get = 0;</code>
        */
-      get(0, 0),
+      get(0),
       /**
        * <code>getAndPut = 1;</code>
        */
-      getAndPut(1, 1),
+      getAndPut(1),
       /**
        * <code>put = 2;</code>
        */
-      put(2, 2),
+      put(2),
       /**
        * <code>batchDelete = 3;</code>
        */
-      batchDelete(3, 3),
+      batchDelete(3),
       /**
        * <code>batchPut = 4;</code>
        */
-      batchPut(4, 4),
+      batchPut(4),
       /**
        * <code>compareAndPut = 5;</code>
        */
-      compareAndPut(5, 5),
+      compareAndPut(5),
       /**
        * <code>containsKey = 6;</code>
        */
-      containsKey(6, 6),
+      containsKey(6),
       /**
        * <code>deleteRange = 7;</code>
        */
-      deleteRange(7, 7),
+      deleteRange(7),
       /**
        * <code>delete = 8;</code>
        */
-      delete(8, 8),
+      delete(8),
       /**
        * <code>getSequence = 9;</code>
        */
-      getSequence(9, 9),
+      getSequence(9),
       /**
        * <code>keyLock = 10;</code>
        */
-      keyLock(10, 10),
+      keyLock(10),
       /**
        * <code>keyUnlock = 11;</code>
        */
-      keyUnlock(11, 11),
+      keyUnlock(11),
       /**
        * <code>merge = 12;</code>
        */
-      merge(12, 12),
+      merge(12),
       /**
        * <code>multiGet = 13;</code>
        */
-      multiGet(13, 13),
+      multiGet(13),
       /**
        * <code>nodeExecute = 14;</code>
        */
-      nodeExecute(14, 14),
+      nodeExecute(14),
       /**
        * <code>putIfAbsent = 15;</code>
        */
-      putIfAbsent(15, 15),
+      putIfAbsent(15),
       /**
        * <code>rangeSplit = 16;</code>
        */
-      rangeSplit(16, 16),
+      rangeSplit(16),
       /**
        * <code>resetSequence = 17;</code>
        */
-      resetSequence(17, 17),
+      resetSequence(17),
       /**
        * <code>scan = 18;</code>
        */
-      scan(18, 18),
+      scan(18),
       /**
        * <code>noRegionFund = 19;</code>
        */
-      noRegionFund(19, 19),
+      noRegionFund(19),
       ;
 
       /**
@@ -11984,9 +14611,25 @@ public final class RheakvRpc {
       public static final int noRegionFund_VALUE = 19;
 
 
-      public final int getNumber() { return value; }
+      public final int getNumber() {
+        return value;
+      }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
       public static ResponseType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static ResponseType forNumber(int value) {
         switch (value) {
           case 0: return get;
           case 1: return getAndPut;
@@ -12016,17 +14659,17 @@ public final class RheakvRpc {
           internalGetValueMap() {
         return internalValueMap;
       }
-      private static com.google.protobuf.Internal.EnumLiteMap<ResponseType>
-          internalValueMap =
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ResponseType> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<ResponseType>() {
               public ResponseType findValueByNumber(int number) {
-                return ResponseType.valueOf(number);
+                return ResponseType.forNumber(number);
               }
             };
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        return getDescriptor().getValues().get(index);
+        return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
@@ -12048,11 +14691,9 @@ public final class RheakvRpc {
         return VALUES[desc.getIndex()];
       }
 
-      private final int index;
       private final int value;
 
-      private ResponseType(int index, int value) {
-        this.index = index;
+      private ResponseType(int value) {
         this.value = value;
       }
 
@@ -12060,185 +14701,299 @@ public final class RheakvRpc {
     }
 
     private int bitField0_;
-    // optional int64 regionId = 1;
     public static final int REGIONID_FIELD_NUMBER = 1;
     private long regionId_;
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return Whether the regionId field is set.
      */
+    @java.lang.Override
     public boolean hasRegionId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional int64 regionId = 1;</code>
+     * @return The regionId.
      */
+    @java.lang.Override
     public long getRegionId() {
       return regionId_;
     }
 
-    // optional int64 confVer = 2;
     public static final int CONFVER_FIELD_NUMBER = 2;
     private long confVer_;
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return Whether the confVer field is set.
      */
+    @java.lang.Override
     public boolean hasConfVer() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional int64 confVer = 2;</code>
+     * @return The confVer.
      */
+    @java.lang.Override
     public long getConfVer() {
       return confVer_;
     }
 
-    // optional int64 version = 3;
     public static final int VERSION_FIELD_NUMBER = 3;
     private long version_;
     /**
      * <code>optional int64 version = 3;</code>
+     * @return Whether the version field is set.
      */
+    @java.lang.Override
     public boolean hasVersion() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional int64 version = 3;</code>
+     * @return The version.
      */
+    @java.lang.Override
     public long getVersion() {
       return version_;
     }
 
-    // optional bytes error = 4;
     public static final int ERROR_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString error_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;Errors
+     * </pre>
+     *
      * <code>optional bytes error = 4;</code>
+     * @return Whether the error field is set.
      */
+    @java.lang.Override
     public boolean hasError() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;Errors
+     * </pre>
+     *
      * <code>optional bytes error = 4;</code>
+     * @return The error.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getError() {
       return error_;
     }
 
-    // optional bytes value = 5;
     public static final int VALUE_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString value_;
     /**
+     * <pre>
+     * java序列化&lt;&gt;Object
+     * </pre>
+     *
      * <code>optional bytes value = 5;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
+     * <pre>
+     * java序列化&lt;&gt;Object
+     * </pre>
+     *
      * <code>optional bytes value = 5;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
-    // optional .rhekv.BaseResponse.ResponseType responseType = 6;
     public static final int RESPONSETYPE_FIELD_NUMBER = 6;
-    private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType responseType_;
+    private int responseType_;
     /**
      * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+     * @return Whether the responseType field is set.
      */
-    public boolean hasResponseType() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+    @java.lang.Override public boolean hasResponseType() {
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+     * @return The responseType.
      */
-    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType getResponseType() {
-      return responseType_;
+    @java.lang.Override public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType getResponseType() {
+      @SuppressWarnings("deprecation")
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType result = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.valueOf(responseType_);
+      return result == null ? com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get : result;
     }
 
-    private void initFields() {
-      regionId_ = 0L;
-      confVer_ = 0L;
-      version_ = 0L;
-      error_ = com.google.protobuf.ByteString.EMPTY;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-      responseType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get;
-    }
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeInt64(1, regionId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt64(2, confVer_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt64(3, version_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeBytes(4, error_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeBytes(5, value_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeEnum(6, responseType_.getNumber());
+      if (((bitField0_ & 0x00000020) != 0)) {
+        output.writeEnum(6, responseType_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
+    @java.lang.Override
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, regionId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, confVer_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, version_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, error_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, value_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, responseType_.getNumber());
+          .computeEnumSize(6, responseType_);
       }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse)) {
+        return super.equals(obj);
+      }
+      com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse other = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse) obj;
+
+      if (hasRegionId() != other.hasRegionId()) return false;
+      if (hasRegionId()) {
+        if (getRegionId()
+            != other.getRegionId()) return false;
+      }
+      if (hasConfVer() != other.hasConfVer()) return false;
+      if (hasConfVer()) {
+        if (getConfVer()
+            != other.getConfVer()) return false;
+      }
+      if (hasVersion() != other.hasVersion()) return false;
+      if (hasVersion()) {
+        if (getVersion()
+            != other.getVersion()) return false;
+      }
+      if (hasError() != other.hasError()) return false;
+      if (hasError()) {
+        if (!getError()
+            .equals(other.getError())) return false;
+      }
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (hasResponseType() != other.hasResponseType()) return false;
+      if (hasResponseType()) {
+        if (responseType_ != other.responseType_) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasRegionId()) {
+        hash = (37 * hash) + REGIONID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getRegionId());
+      }
+      if (hasConfVer()) {
+        hash = (37 * hash) + CONFVER_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getConfVer());
+      }
+      if (hasVersion()) {
+        hash = (37 * hash) + VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getVersion());
+      }
+      if (hasError()) {
+        hash = (37 * hash) + ERROR_FIELD_NUMBER;
+        hash = (53 * hash) + getError().hashCode();
+      }
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      if (hasResponseType()) {
+        hash = (37 * hash) + RESPONSETYPE_FIELD_NUMBER;
+        hash = (53 * hash) + responseType_;
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -12262,46 +15017,59 @@ public final class RheakvRpc {
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -12309,14 +15077,16 @@ public final class RheakvRpc {
      * Protobuf type {@code rhekv.BaseResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:rhekv.BaseResponse)
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseResponse_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -12329,18 +15099,16 @@ public final class RheakvRpc {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         regionId_ = 0L;
@@ -12353,24 +15121,23 @@ public final class RheakvRpc {
         bitField0_ = (bitField0_ & ~0x00000008);
         value_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
-        responseType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get;
+        responseType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.internal_static_rhekv_BaseResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse build() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -12379,31 +15146,32 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse buildPartial() {
         com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse result = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.regionId_ = regionId_;
           to_bitField0_ |= 0x00000001;
         }
-        result.regionId_ = regionId_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.confVer_ = confVer_;
           to_bitField0_ |= 0x00000002;
         }
-        result.confVer_ = confVer_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.version_ = version_;
           to_bitField0_ |= 0x00000004;
         }
-        result.version_ = version_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.error_ = error_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000010;
         }
         result.value_ = value_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           to_bitField0_ |= 0x00000020;
         }
         result.responseType_ = responseType_;
@@ -12412,6 +15180,39 @@ public final class RheakvRpc {
         return result;
       }
 
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse)other);
@@ -12441,14 +15242,17 @@ public final class RheakvRpc {
         if (other.hasResponseType()) {
           setResponseType(other.getResponseType());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12458,7 +15262,7 @@ public final class RheakvRpc {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -12468,22 +15272,27 @@ public final class RheakvRpc {
       }
       private int bitField0_;
 
-      // optional int64 regionId = 1;
       private long regionId_ ;
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return Whether the regionId field is set.
        */
+      @java.lang.Override
       public boolean hasRegionId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return The regionId.
        */
+      @java.lang.Override
       public long getRegionId() {
         return regionId_;
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @param value The regionId to set.
+       * @return This builder for chaining.
        */
       public Builder setRegionId(long value) {
         bitField0_ |= 0x00000001;
@@ -12493,6 +15302,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 regionId = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRegionId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -12501,22 +15311,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int64 confVer = 2;
       private long confVer_ ;
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return Whether the confVer field is set.
        */
+      @java.lang.Override
       public boolean hasConfVer() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return The confVer.
        */
+      @java.lang.Override
       public long getConfVer() {
         return confVer_;
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @param value The confVer to set.
+       * @return This builder for chaining.
        */
       public Builder setConfVer(long value) {
         bitField0_ |= 0x00000002;
@@ -12526,6 +15341,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 confVer = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConfVer() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -12534,22 +15350,27 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional int64 version = 3;
       private long version_ ;
       /**
        * <code>optional int64 version = 3;</code>
+       * @return Whether the version field is set.
        */
+      @java.lang.Override
       public boolean hasVersion() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public long getVersion() {
         return version_;
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
        */
       public Builder setVersion(long value) {
         bitField0_ |= 0x00000004;
@@ -12559,6 +15380,7 @@ public final class RheakvRpc {
       }
       /**
        * <code>optional int64 version = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -12567,22 +15389,39 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes error = 4;
       private com.google.protobuf.ByteString error_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * java序列化&lt;&gt;Errors
+       * </pre>
+       *
        * <code>optional bytes error = 4;</code>
+       * @return Whether the error field is set.
        */
+      @java.lang.Override
       public boolean hasError() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Errors
+       * </pre>
+       *
        * <code>optional bytes error = 4;</code>
+       * @return The error.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getError() {
         return error_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Errors
+       * </pre>
+       *
        * <code>optional bytes error = 4;</code>
+       * @param value The error to set.
+       * @return This builder for chaining.
        */
       public Builder setError(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -12594,7 +15433,12 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Errors
+       * </pre>
+       *
        * <code>optional bytes error = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearError() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -12603,22 +15447,39 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional bytes value = 5;
       private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * java序列化&lt;&gt;Object
+       * </pre>
+       *
        * <code>optional bytes value = 5;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Object
+       * </pre>
+       *
        * <code>optional bytes value = 5;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Object
+       * </pre>
+       *
        * <code>optional bytes value = 5;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -12630,7 +15491,12 @@ public final class RheakvRpc {
         return this;
       }
       /**
+       * <pre>
+       * java序列化&lt;&gt;Object
+       * </pre>
+       *
        * <code>optional bytes value = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -12639,174 +15505,217 @@ public final class RheakvRpc {
         return this;
       }
 
-      // optional .rhekv.BaseResponse.ResponseType responseType = 6;
-      private com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType responseType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get;
+      private int responseType_ = 0;
       /**
        * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+       * @return Whether the responseType field is set.
        */
-      public boolean hasResponseType() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+      @java.lang.Override public boolean hasResponseType() {
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+       * @return The responseType.
        */
+      @java.lang.Override
       public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType getResponseType() {
-        return responseType_;
+        @SuppressWarnings("deprecation")
+        com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType result = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.valueOf(responseType_);
+        return result == null ? com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get : result;
       }
       /**
        * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+       * @param value The responseType to set.
+       * @return This builder for chaining.
        */
       public Builder setResponseType(com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType value) {
         if (value == null) {
           throw new NullPointerException();
         }
         bitField0_ |= 0x00000020;
-        responseType_ = value;
+        responseType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>optional .rhekv.BaseResponse.ResponseType responseType = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearResponseType() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        responseType_ = com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse.ResponseType.get;
+        responseType_ = 0;
         onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:rhekv.BaseResponse)
     }
 
+    // @@protoc_insertion_point(class_scope:rhekv.BaseResponse)
+    private static final com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse DEFAULT_INSTANCE;
     static {
-      defaultInstance = new BaseResponse(true);
-      defaultInstance.initFields();
+      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse();
     }
 
-    // @@protoc_insertion_point(class_scope:rhekv.BaseResponse)
+    public static com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BaseResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BaseResponse>() {
+      @java.lang.Override
+      public BaseResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BaseResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BaseResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BaseResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.alipay.sofa.jraft.rhea.cmd.proto.RheakvRpc.BaseResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_KVEntry_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_KVEntry_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_BaseRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_BaseRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_GetRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_GetRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_GetAndPutRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_GetAndPutRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_PutRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_PutRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_BatchDeleteRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_BatchDeleteRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_BatchPutRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_BatchPutRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_CompareAndPutRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_CompareAndPutRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_ContainsKeyRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_ContainsKeyRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_DeleteRangeRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_DeleteRangeRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_DeleteRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_DeleteRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_GetSequenceRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_GetSequenceRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_KeyLockRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_KeyLockRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_KeyUnlockRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_KeyUnlockRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_MergeRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_MergeRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_MultiGetRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_MultiGetRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_NodeExecuteRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_NodeExecuteRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_PutIfAbsentRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_PutIfAbsentRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_RangeSplitRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_RangeSplitRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_ResetSequenceRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_ResetSequenceRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_ScanRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_ScanRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_rhekv_BatchCompositeRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_rhekv_BatchCompositeRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_rhekv_BaseResponse_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_rhekv_BaseResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
     return descriptor;
   }
-  private static com.google.protobuf.Descriptors.FileDescriptor
+  private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {
@@ -12819,7 +15728,7 @@ public final class RheakvRpc {
       "elete\020\003\022\014\n\010batchPut\020\004\022\021\n\rcompareAndPut\020\005" +
       "\022\017\n\013containsKey\020\006\022\017\n\013deleteRange\020\007\022\n\n\006de" +
       "lete\020\010\022\017\n\013getSequence\020\t\022\013\n\007keyLock\020\n\022\r\n\t" +
-      "keyUnlock\020\013\022\t\n\005merge\020\014\022\014\n\010multiGet\020\r\022\017\n\013",
+      "keyUnlock\020\013\022\t\n\005merge\020\014\022\014\n\010multiGet\020\r\022\017\n\013" +
       "nodeExecute\020\016\022\017\n\013putIfAbsent\020\017\022\016\n\nrangeS" +
       "plit\020\020\022\021\n\rresetSequence\020\021\022\010\n\004scan\020\022*\005\010d\020" +
       "\254\002\"d\n\nGetRequest\022\013\n\003key\030\001 \001(\014\022\024\n\014readOnl" +
@@ -12829,7 +15738,7 @@ public final class RheakvRpc {
       "\022\022.rhekv.BaseRequest\030e \001(\0132\027.rhekv.GetAn" +
       "dPutRequest\"]\n\nPutRequest\022\013\n\003key\030\001 \001(\014\022\r" +
       "\n\005value\030\002 \001(\01423\n\004body\022\022.rhekv.BaseReques" +
-      "t\030f \001(\0132\021.rhekv.PutRequest\"_\n\022BatchDelet",
+      "t\030f \001(\0132\021.rhekv.PutRequest\"_\n\022BatchDelet" +
       "eRequest\022\014\n\004keys\030\001 \003(\0142;\n\004body\022\022.rhekv.B" +
       "aseRequest\030g \001(\0132\031.rhekv.BatchDeleteRequ" +
       "est\"^\n\017BatchPutRequest\022\021\n\tkvEntries\030\001 \003(" +
@@ -12839,7 +15748,7 @@ public final class RheakvRpc {
       "ate\030\003 \001(\0142=\n\004body\022\022.rhekv.BaseRequest\030i " +
       "\001(\0132\033.rhekv.CompareAndPutRequest\"^\n\022Cont" +
       "ainsKeyRequest\022\013\n\003key\030\001 \001(\0142;\n\004body\022\022.rh" +
-      "ekv.BaseRequest\030j \001(\0132\031.rhekv.ContainsKe",
+      "ekv.BaseRequest\030j \001(\0132\031.rhekv.ContainsKe" +
       "yRequest\"s\n\022DeleteRangeRequest\022\020\n\010startK" +
       "ey\030\001 \001(\014\022\016\n\006endKey\030\002 \001(\0142;\n\004body\022\022.rhekv" +
       ".BaseRequest\030k \001(\0132\031.rhekv.DeleteRangeRe" +
@@ -12849,7 +15758,7 @@ public final class RheakvRpc {
       "Key\030\001 \001(\014\022\014\n\004step\030\002 \001(\0052;\n\004body\022\022.rhekv." +
       "BaseRequest\030m \001(\0132\031.rhekv.GetSequenceReq" +
       "uest\"{\n\016KeyLockRequest\022\013\n\003key\030\001 \001(\014\022\021\n\tk" +
-      "eepLease\030\002 \001(\010\022\020\n\010acquirer\030\003 \001(\01427\n\004body",
+      "eepLease\030\002 \001(\010\022\020\n\010acquirer\030\003 \001(\01427\n\004body" +
       "\022\022.rhekv.BaseRequest\030n \001(\0132\025.rhekv.KeyLo" +
       "ckRequest\"l\n\020KeyUnlockRequest\022\013\n\003key\030\001 \001" +
       "(\014\022\020\n\010acquirer\030\002 \001(\01429\n\004body\022\022.rhekv.Bas" +
@@ -12859,7 +15768,7 @@ public final class RheakvRpc {
       "rhekv.MergeRequest\"o\n\017MultiGetRequest\022\014\n" +
       "\004keys\030\001 \003(\014\022\024\n\014readOnlySafe\030\002 \001(\01028\n\004bod" +
       "y\022\022.rhekv.BaseRequest\030q \001(\0132\026.rhekv.Mult" +
-      "iGetRequest\"g\n\022NodeExecuteRequest\022\024\n\014nod",
+      "iGetRequest\"g\n\022NodeExecuteRequest\022\024\n\014nod" +
       "eExecutor\030\001 \001(\0142;\n\004body\022\022.rhekv.BaseRequ" +
       "est\030r \001(\0132\031.rhekv.NodeExecuteRequest\"m\n\022" +
       "PutIfAbsentRequest\022\013\n\003key\030\001 \001(\014\022\r\n\005value" +
@@ -12869,180 +15778,162 @@ public final class RheakvRpc {
       "rhekv.BaseRequest\030t \001(\0132\030.rhekv.RangeSpl" +
       "itRequest\"e\n\024ResetSequenceRequest\022\016\n\006seq" +
       "Key\030\001 \001(\0142=\n\004body\022\022.rhekv.BaseRequest\030u " +
-      "\001(\0132\033.rhekv.ResetSequenceRequest\"\260\001\n\013Sca",
+      "\001(\0132\033.rhekv.ResetSequenceRequest\"\260\001\n\013Sca" +
       "nRequest\022\020\n\010startKey\030\001 \001(\014\022\016\n\006endKey\030\002 \001" +
       "(\014\022\r\n\005limit\030\003 \001(\005\022\024\n\014readOnlySafe\030\004 \001(\010\022" +
       "\023\n\013returnValue\030\005 \001(\010\022\017\n\007reverse\030\006 \001(\01024\n" +
       "\004body\022\022.rhekv.BaseRequest\030v \001(\0132\022.rhekv." +
-      "ScanRequest\"\241\001\n\025BatchCompositeRequest\022\036\n" +
-      "\003get\030\001 \001(\0132\021.rhekv.GetRequest\022(\n\007get_put" +
-      "\030\002 \001(\0132\027.rhekv.GetAndPutRequest2>\n\004body\022" +
-      "\022.rhekv.BaseRequest\030w \001(\0132\034.rhekv.BatchC" +
-      "ompositeRequest\"\321\003\n\014BaseResponse\022\020\n\010regi" +
-      "onId\030\001 \001(\003\022\017\n\007confVer\030\002 \001(\003\022\017\n\007version\030\003",
-      " \001(\003\022\r\n\005error\030\004 \001(\014\022\r\n\005value\030\005 \001(\014\0226\n\014re" +
-      "sponseType\030\006 \001(\0162 .rhekv.BaseResponse.Re" +
-      "sponseType\"\266\002\n\014ResponseType\022\007\n\003get\020\000\022\r\n\t" +
-      "getAndPut\020\001\022\007\n\003put\020\002\022\017\n\013batchDelete\020\003\022\014\n" +
-      "\010batchPut\020\004\022\021\n\rcompareAndPut\020\005\022\017\n\013contai" +
-      "nsKey\020\006\022\017\n\013deleteRange\020\007\022\n\n\006delete\020\010\022\017\n\013" +
-      "getSequence\020\t\022\013\n\007keyLock\020\n\022\r\n\tkeyUnlock\020" +
-      "\013\022\t\n\005merge\020\014\022\014\n\010multiGet\020\r\022\017\n\013nodeExecut" +
-      "e\020\016\022\017\n\013putIfAbsent\020\017\022\016\n\nrangeSplit\020\020\022\021\n\r" +
-      "resetSequence\020\021\022\010\n\004scan\020\022\022\020\n\014noRegionFun",
-      "d\020\023B1\n$com.alipay.sofa.jraft.rhea.cmd.pr" +
-      "otoB\tRheakvRpc"
+      "ScanRequest\"\321\003\n\014BaseResponse\022\020\n\010regionId" +
+      "\030\001 \001(\003\022\017\n\007confVer\030\002 \001(\003\022\017\n\007version\030\003 \001(\003" +
+      "\022\r\n\005error\030\004 \001(\014\022\r\n\005value\030\005 \001(\014\0226\n\014respon" +
+      "seType\030\006 \001(\0162 .rhekv.BaseResponse.Respon" +
+      "seType\"\266\002\n\014ResponseType\022\007\n\003get\020\000\022\r\n\tgetA" +
+      "ndPut\020\001\022\007\n\003put\020\002\022\017\n\013batchDelete\020\003\022\014\n\010bat" +
+      "chPut\020\004\022\021\n\rcompareAndPut\020\005\022\017\n\013containsKe" +
+      "y\020\006\022\017\n\013deleteRange\020\007\022\n\n\006delete\020\010\022\017\n\013getS" +
+      "equence\020\t\022\013\n\007keyLock\020\n\022\r\n\tkeyUnlock\020\013\022\t\n" +
+      "\005merge\020\014\022\014\n\010multiGet\020\r\022\017\n\013nodeExecute\020\016\022" +
+      "\017\n\013putIfAbsent\020\017\022\016\n\nrangeSplit\020\020\022\021\n\rrese" +
+      "tSequence\020\021\022\010\n\004scan\020\022\022\020\n\014noRegionFund\020\023B" +
+      "1\n$com.alipay.sofa.jraft.rhea.cmd.protoB" +
+      "\tRheakvRpc"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_rhekv_KVEntry_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_rhekv_KVEntry_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_KVEntry_descriptor,
-              new java.lang.String[] { "Key", "Value", });
-          internal_static_rhekv_BaseRequest_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_rhekv_BaseRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_BaseRequest_descriptor,
-              new java.lang.String[] { "RegionId", "ConfVer", "Version", "RequestType", });
-          internal_static_rhekv_GetRequest_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_rhekv_GetRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_GetRequest_descriptor,
-              new java.lang.String[] { "Key", "ReadOnlySafe", });
-          internal_static_rhekv_GetAndPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_rhekv_GetAndPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_GetAndPutRequest_descriptor,
-              new java.lang.String[] { "Key", "Value", });
-          internal_static_rhekv_PutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_rhekv_PutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_PutRequest_descriptor,
-              new java.lang.String[] { "Key", "Value", });
-          internal_static_rhekv_BatchDeleteRequest_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_rhekv_BatchDeleteRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_BatchDeleteRequest_descriptor,
-              new java.lang.String[] { "Keys", });
-          internal_static_rhekv_BatchPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_rhekv_BatchPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_BatchPutRequest_descriptor,
-              new java.lang.String[] { "KvEntries", });
-          internal_static_rhekv_CompareAndPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(7);
-          internal_static_rhekv_CompareAndPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_CompareAndPutRequest_descriptor,
-              new java.lang.String[] { "Key", "Expect", "Update", });
-          internal_static_rhekv_ContainsKeyRequest_descriptor =
-            getDescriptor().getMessageTypes().get(8);
-          internal_static_rhekv_ContainsKeyRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_ContainsKeyRequest_descriptor,
-              new java.lang.String[] { "Key", });
-          internal_static_rhekv_DeleteRangeRequest_descriptor =
-            getDescriptor().getMessageTypes().get(9);
-          internal_static_rhekv_DeleteRangeRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_DeleteRangeRequest_descriptor,
-              new java.lang.String[] { "StartKey", "EndKey", });
-          internal_static_rhekv_DeleteRequest_descriptor =
-            getDescriptor().getMessageTypes().get(10);
-          internal_static_rhekv_DeleteRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_DeleteRequest_descriptor,
-              new java.lang.String[] { "Key", });
-          internal_static_rhekv_GetSequenceRequest_descriptor =
-            getDescriptor().getMessageTypes().get(11);
-          internal_static_rhekv_GetSequenceRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_GetSequenceRequest_descriptor,
-              new java.lang.String[] { "SeqKey", "Step", });
-          internal_static_rhekv_KeyLockRequest_descriptor =
-            getDescriptor().getMessageTypes().get(12);
-          internal_static_rhekv_KeyLockRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_KeyLockRequest_descriptor,
-              new java.lang.String[] { "Key", "KeepLease", "Acquirer", });
-          internal_static_rhekv_KeyUnlockRequest_descriptor =
-            getDescriptor().getMessageTypes().get(13);
-          internal_static_rhekv_KeyUnlockRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_KeyUnlockRequest_descriptor,
-              new java.lang.String[] { "Key", "Acquirer", });
-          internal_static_rhekv_MergeRequest_descriptor =
-            getDescriptor().getMessageTypes().get(14);
-          internal_static_rhekv_MergeRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_MergeRequest_descriptor,
-              new java.lang.String[] { "Key", "Value", });
-          internal_static_rhekv_MultiGetRequest_descriptor =
-            getDescriptor().getMessageTypes().get(15);
-          internal_static_rhekv_MultiGetRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_MultiGetRequest_descriptor,
-              new java.lang.String[] { "Keys", "ReadOnlySafe", });
-          internal_static_rhekv_NodeExecuteRequest_descriptor =
-            getDescriptor().getMessageTypes().get(16);
-          internal_static_rhekv_NodeExecuteRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_NodeExecuteRequest_descriptor,
-              new java.lang.String[] { "NodeExecutor", });
-          internal_static_rhekv_PutIfAbsentRequest_descriptor =
-            getDescriptor().getMessageTypes().get(17);
-          internal_static_rhekv_PutIfAbsentRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_PutIfAbsentRequest_descriptor,
-              new java.lang.String[] { "Key", "Value", });
-          internal_static_rhekv_RangeSplitRequest_descriptor =
-            getDescriptor().getMessageTypes().get(18);
-          internal_static_rhekv_RangeSplitRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_RangeSplitRequest_descriptor,
-              new java.lang.String[] { "NewRegionId", });
-          internal_static_rhekv_ResetSequenceRequest_descriptor =
-            getDescriptor().getMessageTypes().get(19);
-          internal_static_rhekv_ResetSequenceRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_ResetSequenceRequest_descriptor,
-              new java.lang.String[] { "SeqKey", });
-          internal_static_rhekv_ScanRequest_descriptor =
-            getDescriptor().getMessageTypes().get(20);
-          internal_static_rhekv_ScanRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_ScanRequest_descriptor,
-              new java.lang.String[] { "StartKey", "EndKey", "Limit", "ReadOnlySafe", "ReturnValue", "Reverse", });
-          internal_static_rhekv_BatchCompositeRequest_descriptor =
-            getDescriptor().getMessageTypes().get(21);
-          internal_static_rhekv_BatchCompositeRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_BatchCompositeRequest_descriptor,
-              new java.lang.String[] { "Get", "GetPut", });
-          internal_static_rhekv_BaseResponse_descriptor =
-            getDescriptor().getMessageTypes().get(22);
-          internal_static_rhekv_BaseResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_rhekv_BaseResponse_descriptor,
-              new java.lang.String[] { "RegionId", "ConfVer", "Version", "Error", "Value", "ResponseType", });
-          return null;
-        }
-      };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
+    internal_static_rhekv_KVEntry_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_rhekv_KVEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_KVEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_rhekv_BaseRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_rhekv_BaseRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_BaseRequest_descriptor,
+        new java.lang.String[] { "RegionId", "ConfVer", "Version", "RequestType", });
+    internal_static_rhekv_GetRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_rhekv_GetRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_GetRequest_descriptor,
+        new java.lang.String[] { "Key", "ReadOnlySafe", });
+    internal_static_rhekv_GetAndPutRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_rhekv_GetAndPutRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_GetAndPutRequest_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_rhekv_PutRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_rhekv_PutRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_PutRequest_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_rhekv_BatchDeleteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_rhekv_BatchDeleteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_BatchDeleteRequest_descriptor,
+        new java.lang.String[] { "Keys", });
+    internal_static_rhekv_BatchPutRequest_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_rhekv_BatchPutRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_BatchPutRequest_descriptor,
+        new java.lang.String[] { "KvEntries", });
+    internal_static_rhekv_CompareAndPutRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_rhekv_CompareAndPutRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_CompareAndPutRequest_descriptor,
+        new java.lang.String[] { "Key", "Expect", "Update", });
+    internal_static_rhekv_ContainsKeyRequest_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_rhekv_ContainsKeyRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_ContainsKeyRequest_descriptor,
+        new java.lang.String[] { "Key", });
+    internal_static_rhekv_DeleteRangeRequest_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_rhekv_DeleteRangeRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_DeleteRangeRequest_descriptor,
+        new java.lang.String[] { "StartKey", "EndKey", });
+    internal_static_rhekv_DeleteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_rhekv_DeleteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_DeleteRequest_descriptor,
+        new java.lang.String[] { "Key", });
+    internal_static_rhekv_GetSequenceRequest_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_rhekv_GetSequenceRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_GetSequenceRequest_descriptor,
+        new java.lang.String[] { "SeqKey", "Step", });
+    internal_static_rhekv_KeyLockRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_rhekv_KeyLockRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_KeyLockRequest_descriptor,
+        new java.lang.String[] { "Key", "KeepLease", "Acquirer", });
+    internal_static_rhekv_KeyUnlockRequest_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_rhekv_KeyUnlockRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_KeyUnlockRequest_descriptor,
+        new java.lang.String[] { "Key", "Acquirer", });
+    internal_static_rhekv_MergeRequest_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_rhekv_MergeRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_MergeRequest_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_rhekv_MultiGetRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_rhekv_MultiGetRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_MultiGetRequest_descriptor,
+        new java.lang.String[] { "Keys", "ReadOnlySafe", });
+    internal_static_rhekv_NodeExecuteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_rhekv_NodeExecuteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_NodeExecuteRequest_descriptor,
+        new java.lang.String[] { "NodeExecutor", });
+    internal_static_rhekv_PutIfAbsentRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_rhekv_PutIfAbsentRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_PutIfAbsentRequest_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_rhekv_RangeSplitRequest_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_rhekv_RangeSplitRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_RangeSplitRequest_descriptor,
+        new java.lang.String[] { "NewRegionId", });
+    internal_static_rhekv_ResetSequenceRequest_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_rhekv_ResetSequenceRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_ResetSequenceRequest_descriptor,
+        new java.lang.String[] { "SeqKey", });
+    internal_static_rhekv_ScanRequest_descriptor =
+      getDescriptor().getMessageTypes().get(20);
+    internal_static_rhekv_ScanRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_ScanRequest_descriptor,
+        new java.lang.String[] { "StartKey", "EndKey", "Limit", "ReadOnlySafe", "ReturnValue", "Reverse", });
+    internal_static_rhekv_BaseResponse_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_rhekv_BaseResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_rhekv_BaseResponse_descriptor,
+        new java.lang.String[] { "RegionId", "ConfVer", "Version", "Error", "Value", "ResponseType", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
