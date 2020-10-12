@@ -6,26 +6,18 @@ package com.alipay.sofa.jraft.rpc;
 public final class RpcRequests {
   private RpcRequests() {}
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistryLite registry) {
-  }
-
-  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
-    registerAllExtensions(
-        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface PingRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.PingRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface PingRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 send_timestamp = 1;
     /**
      * <code>required int64 send_timestamp = 1;</code>
-     * @return Whether the sendTimestamp field is set.
      */
     boolean hasSendTimestamp();
     /**
      * <code>required int64 send_timestamp = 1;</code>
-     * @return The sendTimestamp.
      */
     long getSendTimestamp();
   }
@@ -33,37 +25,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.PingRequest}
    */
   public static final class PingRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.PingRequest)
-      PingRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements PingRequestOrBuilder {
     // Use PingRequest.newBuilder() to construct.
-    private PingRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private PingRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private PingRequest() {
+    private PingRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PingRequest defaultInstance;
+    public static PingRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PingRequest();
+    public PingRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private PingRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -75,16 +65,16 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               sendTimestamp_ = input.readInt64();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -93,7 +83,7 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -104,40 +94,52 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_PingRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_PingRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<PingRequest> PARSER =
+        new com.google.protobuf.AbstractParser<PingRequest>() {
+      public PingRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PingRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PingRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 send_timestamp = 1;
     public static final int SEND_TIMESTAMP_FIELD_NUMBER = 1;
     private long sendTimestamp_;
     /**
      * <code>required int64 send_timestamp = 1;</code>
-     * @return Whether the sendTimestamp field is set.
      */
-    @java.lang.Override
     public boolean hasSendTimestamp() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 send_timestamp = 1;</code>
-     * @return The sendTimestamp.
      */
-    @java.lang.Override
     public long getSendTimestamp() {
       return sendTimestamp_;
     }
 
+    private void initFields() {
+      sendTimestamp_ = 0L;
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasSendTimestamp()) {
         memoizedIsInitialized = 0;
@@ -147,77 +149,37 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, sendTimestamp_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, sendTimestamp_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest) obj;
-
-      if (hasSendTimestamp() != other.hasSendTimestamp()) return false;
-      if (hasSendTimestamp()) {
-        if (getSendTimestamp()
-            != other.getSendTimestamp()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasSendTimestamp()) {
-        hash = (37 * hash) + SEND_TIMESTAMP_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getSendTimestamp());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -241,59 +203,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -301,16 +250,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.PingRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.PingRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.PingRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.PingRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_PingRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_PingRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -323,16 +270,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         sendTimestamp_ = 0L;
@@ -340,18 +289,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_PingRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -360,53 +310,19 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.sendTimestamp_ = sendTimestamp_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.sendTimestamp_ = sendTimestamp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest)other);
@@ -421,20 +337,18 @@ public final class RpcRequests {
         if (other.hasSendTimestamp()) {
           setSendTimestamp(other.getSendTimestamp());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasSendTimestamp()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -444,7 +358,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -454,27 +368,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 send_timestamp = 1;
       private long sendTimestamp_ ;
       /**
        * <code>required int64 send_timestamp = 1;</code>
-       * @return Whether the sendTimestamp field is set.
        */
-      @java.lang.Override
       public boolean hasSendTimestamp() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 send_timestamp = 1;</code>
-       * @return The sendTimestamp.
        */
-      @java.lang.Override
       public long getSendTimestamp() {
         return sendTimestamp_;
       }
       /**
        * <code>required int64 send_timestamp = 1;</code>
-       * @param value The sendTimestamp to set.
-       * @return This builder for chaining.
        */
       public Builder setSendTimestamp(long value) {
         bitField0_ |= 0x00000001;
@@ -484,7 +393,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 send_timestamp = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSendTimestamp() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -492,87 +400,42 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.PingRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.PingRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest();
+      defaultInstance = new PingRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<PingRequest>
-        PARSER = new com.google.protobuf.AbstractParser<PingRequest>() {
-      @java.lang.Override
-      public PingRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PingRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<PingRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PingRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.PingRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.PingRequest)
   }
 
-  public interface ErrorResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.ErrorResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface ErrorResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int32 errorCode = 1;
     /**
      * <code>required int32 errorCode = 1;</code>
-     * @return Whether the errorCode field is set.
      */
     boolean hasErrorCode();
     /**
      * <code>required int32 errorCode = 1;</code>
-     * @return The errorCode.
      */
     int getErrorCode();
 
+    // optional string errorMsg = 2;
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return Whether the errorMsg field is set.
      */
     boolean hasErrorMsg();
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return The errorMsg.
      */
     java.lang.String getErrorMsg();
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return The bytes for errorMsg.
      */
     com.google.protobuf.ByteString
         getErrorMsgBytes();
@@ -581,38 +444,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.ErrorResponse}
    */
   public static final class ErrorResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.ErrorResponse)
-      ErrorResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements ErrorResponseOrBuilder {
     // Use ErrorResponse.newBuilder() to construct.
-    private ErrorResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private ErrorResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private ErrorResponse() {
-      errorMsg_ = "";
+    private ErrorResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ErrorResponse defaultInstance;
+    public static ErrorResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ErrorResponse();
+    public ErrorResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private ErrorResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -624,22 +484,21 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               errorCode_ = input.readInt32();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              errorMsg_ = bs;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
+              errorMsg_ = input.readBytes();
               break;
             }
           }
@@ -648,7 +507,7 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -659,49 +518,57 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ErrorResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ErrorResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<ErrorResponse> PARSER =
+        new com.google.protobuf.AbstractParser<ErrorResponse>() {
+      public ErrorResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ErrorResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ErrorResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int32 errorCode = 1;
     public static final int ERRORCODE_FIELD_NUMBER = 1;
     private int errorCode_;
     /**
      * <code>required int32 errorCode = 1;</code>
-     * @return Whether the errorCode field is set.
      */
-    @java.lang.Override
     public boolean hasErrorCode() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 errorCode = 1;</code>
-     * @return The errorCode.
      */
-    @java.lang.Override
     public int getErrorCode() {
       return errorCode_;
     }
 
+    // optional string errorMsg = 2;
     public static final int ERRORMSG_FIELD_NUMBER = 2;
-    private volatile java.lang.Object errorMsg_;
+    private java.lang.Object errorMsg_;
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return Whether the errorMsg field is set.
      */
-    @java.lang.Override
     public boolean hasErrorMsg() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return The errorMsg.
      */
-    @java.lang.Override
     public java.lang.String getErrorMsg() {
       java.lang.Object ref = errorMsg_;
       if (ref instanceof java.lang.String) {
@@ -718,9 +585,7 @@ public final class RpcRequests {
     }
     /**
      * <code>optional string errorMsg = 2;</code>
-     * @return The bytes for errorMsg.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getErrorMsgBytes() {
       java.lang.Object ref = errorMsg_;
@@ -735,12 +600,14 @@ public final class RpcRequests {
       }
     }
 
+    private void initFields() {
+      errorCode_ = 0;
+      errorMsg_ = "";
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasErrorCode()) {
         memoizedIsInitialized = 0;
@@ -750,91 +617,44 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, errorCode_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, errorMsg_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getErrorMsgBytes());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, errorCode_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, errorMsg_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getErrorMsgBytes());
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse) obj;
-
-      if (hasErrorCode() != other.hasErrorCode()) return false;
-      if (hasErrorCode()) {
-        if (getErrorCode()
-            != other.getErrorCode()) return false;
-      }
-      if (hasErrorMsg() != other.hasErrorMsg()) return false;
-      if (hasErrorMsg()) {
-        if (!getErrorMsg()
-            .equals(other.getErrorMsg())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasErrorCode()) {
-        hash = (37 * hash) + ERRORCODE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorCode();
-      }
-      if (hasErrorMsg()) {
-        hash = (37 * hash) + ERRORMSG_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorMsg().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -858,59 +678,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -918,16 +725,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.ErrorResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.ErrorResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ErrorResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ErrorResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -940,16 +745,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         errorCode_ = 0;
@@ -959,18 +766,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ErrorResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -979,16 +787,15 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.errorCode_ = errorCode_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.errorCode_ = errorCode_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.errorMsg_ = errorMsg_;
@@ -997,39 +804,6 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse)other);
@@ -1049,20 +823,18 @@ public final class RpcRequests {
           errorMsg_ = other.errorMsg_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasErrorCode()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1072,7 +844,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -1082,27 +854,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int32 errorCode = 1;
       private int errorCode_ ;
       /**
        * <code>required int32 errorCode = 1;</code>
-       * @return Whether the errorCode field is set.
        */
-      @java.lang.Override
       public boolean hasErrorCode() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 errorCode = 1;</code>
-       * @return The errorCode.
        */
-      @java.lang.Override
       public int getErrorCode() {
         return errorCode_;
       }
       /**
        * <code>required int32 errorCode = 1;</code>
-       * @param value The errorCode to set.
-       * @return This builder for chaining.
        */
       public Builder setErrorCode(int value) {
         bitField0_ |= 0x00000001;
@@ -1112,7 +879,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int32 errorCode = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearErrorCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1121,27 +887,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional string errorMsg = 2;
       private java.lang.Object errorMsg_ = "";
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @return Whether the errorMsg field is set.
        */
       public boolean hasErrorMsg() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @return The errorMsg.
        */
       public java.lang.String getErrorMsg() {
         java.lang.Object ref = errorMsg_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            errorMsg_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          errorMsg_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -1149,7 +911,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @return The bytes for errorMsg.
        */
       public com.google.protobuf.ByteString
           getErrorMsgBytes() {
@@ -1166,8 +927,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @param value The errorMsg to set.
-       * @return This builder for chaining.
        */
       public Builder setErrorMsg(
           java.lang.String value) {
@@ -1181,7 +940,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearErrorMsg() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1191,8 +949,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string errorMsg = 2;</code>
-       * @param value The bytes for errorMsg to set.
-       * @return This builder for chaining.
        */
       public Builder setErrorMsgBytes(
           com.google.protobuf.ByteString value) {
@@ -1204,133 +960,83 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.ErrorResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.ErrorResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse();
+      defaultInstance = new ErrorResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<ErrorResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ErrorResponse>() {
-      @java.lang.Override
-      public ErrorResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ErrorResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ErrorResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ErrorResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.ErrorResponse)
   }
 
-  public interface InstallSnapshotRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.InstallSnapshotRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface InstallSnapshotRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // required string peer_id = 3;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
 
+    // required int64 term = 4;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required .jraft.SnapshotMeta meta = 5;
     /**
      * <code>required .jraft.SnapshotMeta meta = 5;</code>
-     * @return Whether the meta field is set.
      */
     boolean hasMeta();
     /**
      * <code>required .jraft.SnapshotMeta meta = 5;</code>
-     * @return The meta.
      */
     com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta getMeta();
     /**
@@ -1338,19 +1044,17 @@ public final class RpcRequests {
      */
     com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMetaOrBuilder getMetaOrBuilder();
 
+    // required string uri = 6;
     /**
      * <code>required string uri = 6;</code>
-     * @return Whether the uri field is set.
      */
     boolean hasUri();
     /**
      * <code>required string uri = 6;</code>
-     * @return The uri.
      */
     java.lang.String getUri();
     /**
      * <code>required string uri = 6;</code>
-     * @return The bytes for uri.
      */
     com.google.protobuf.ByteString
         getUriBytes();
@@ -1359,41 +1063,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.InstallSnapshotRequest}
    */
   public static final class InstallSnapshotRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.InstallSnapshotRequest)
-      InstallSnapshotRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements InstallSnapshotRequestOrBuilder {
     // Use InstallSnapshotRequest.newBuilder() to construct.
-    private InstallSnapshotRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private InstallSnapshotRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private InstallSnapshotRequest() {
-      groupId_ = "";
-      serverId_ = "";
-      peerId_ = "";
-      uri_ = "";
+    private InstallSnapshotRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final InstallSnapshotRequest defaultInstance;
+    public static InstallSnapshotRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new InstallSnapshotRequest();
+    public InstallSnapshotRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private InstallSnapshotRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1405,22 +1103,26 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
+              peerId_ = input.readBytes();
               break;
             }
             case 32: {
@@ -1430,7 +1132,7 @@ public final class RpcRequests {
             }
             case 42: {
               com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) != 0)) {
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 subBuilder = meta_.toBuilder();
               }
               meta_ = input.readMessage(com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.PARSER, extensionRegistry);
@@ -1442,16 +1144,8 @@ public final class RpcRequests {
               break;
             }
             case 50: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
-              uri_ = bs;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
+              uri_ = input.readBytes();
               break;
             }
           }
@@ -1460,7 +1154,7 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1471,30 +1165,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<InstallSnapshotRequest> PARSER =
+        new com.google.protobuf.AbstractParser<InstallSnapshotRequest>() {
+      public InstallSnapshotRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InstallSnapshotRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InstallSnapshotRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -1511,9 +1216,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -1528,21 +1231,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -1559,9 +1259,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -1576,21 +1274,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string peer_id = 3;
     public static final int PEER_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -1607,9 +1302,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -1624,66 +1317,56 @@ public final class RpcRequests {
       }
     }
 
+    // required int64 term = 4;
     public static final int TERM_FIELD_NUMBER = 4;
     private long term_;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required .jraft.SnapshotMeta meta = 5;
     public static final int META_FIELD_NUMBER = 5;
     private com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta meta_;
     /**
      * <code>required .jraft.SnapshotMeta meta = 5;</code>
-     * @return Whether the meta field is set.
      */
-    @java.lang.Override
     public boolean hasMeta() {
-      return ((bitField0_ & 0x00000010) != 0);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required .jraft.SnapshotMeta meta = 5;</code>
-     * @return The meta.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta getMeta() {
-      return meta_ == null ? com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance() : meta_;
+      return meta_;
     }
     /**
      * <code>required .jraft.SnapshotMeta meta = 5;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMetaOrBuilder getMetaOrBuilder() {
-      return meta_ == null ? com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance() : meta_;
+      return meta_;
     }
 
+    // required string uri = 6;
     public static final int URI_FIELD_NUMBER = 6;
-    private volatile java.lang.Object uri_;
+    private java.lang.Object uri_;
     /**
      * <code>required string uri = 6;</code>
-     * @return Whether the uri field is set.
      */
-    @java.lang.Override
     public boolean hasUri() {
-      return ((bitField0_ & 0x00000020) != 0);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required string uri = 6;</code>
-     * @return The uri.
      */
-    @java.lang.Override
     public java.lang.String getUri() {
       java.lang.Object ref = uri_;
       if (ref instanceof java.lang.String) {
@@ -1700,9 +1383,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string uri = 6;</code>
-     * @return The bytes for uri.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getUriBytes() {
       java.lang.Object ref = uri_;
@@ -1717,12 +1398,18 @@ public final class RpcRequests {
       }
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      peerId_ = "";
+      term_ = 0L;
+      meta_ = com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance();
+      uri_ = "";
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -1756,153 +1443,72 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt64(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
-        output.writeMessage(5, getMeta());
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, meta_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, uri_);
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getUriBytes());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, getMeta());
+          .computeMessageSize(5, meta_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, uri_);
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getUriBytes());
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasMeta() != other.hasMeta()) return false;
-      if (hasMeta()) {
-        if (!getMeta()
-            .equals(other.getMeta())) return false;
-      }
-      if (hasUri() != other.hasUri()) return false;
-      if (hasUri()) {
-        if (!getUri()
-            .equals(other.getUri())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasMeta()) {
-        hash = (37 * hash) + META_FIELD_NUMBER;
-        hash = (53 * hash) + getMeta().hashCode();
-      }
-      if (hasUri()) {
-        hash = (37 * hash) + URI_FIELD_NUMBER;
-        hash = (53 * hash) + getUri().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1926,59 +1532,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -1986,16 +1579,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.InstallSnapshotRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.InstallSnapshotRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -2008,17 +1599,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getMetaFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -2030,7 +1623,7 @@ public final class RpcRequests {
         term_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
         if (metaBuilder_ == null) {
-          meta_ = null;
+          meta_ = com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance();
         } else {
           metaBuilder_.clear();
         }
@@ -2040,18 +1633,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2060,36 +1654,35 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          if (metaBuilder_ == null) {
-            result.meta_ = meta_;
-          } else {
-            result.meta_ = metaBuilder_.build();
-          }
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
+        if (metaBuilder_ == null) {
+          result.meta_ = meta_;
+        } else {
+          result.meta_ = metaBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
         result.uri_ = uri_;
@@ -2098,39 +1691,6 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest)other);
@@ -2168,38 +1728,42 @@ public final class RpcRequests {
           uri_ = other.uri_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         if (!hasPeerId()) {
+          
           return false;
         }
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasMeta()) {
+          
           return false;
         }
         if (!hasUri()) {
+          
           return false;
         }
         if (!getMeta().isInitialized()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2209,7 +1773,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -2219,27 +1783,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -2247,7 +1807,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -2264,8 +1823,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -2279,7 +1836,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2289,8 +1845,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2303,27 +1857,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -2331,7 +1881,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -2348,8 +1897,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -2363,7 +1910,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2373,8 +1919,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2387,27 +1931,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string peer_id = 3;
       private java.lang.Object peerId_ = "";
       /**
        * <code>required string peer_id = 3;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -2415,7 +1955,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -2432,8 +1971,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -2447,7 +1984,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2457,8 +1993,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2471,27 +2005,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 term = 4;
       private long term_ ;
       /**
        * <code>required int64 term = 4;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000008;
@@ -2501,7 +2030,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -2510,23 +2038,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta meta_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // required .jraft.SnapshotMeta meta = 5;
+      private com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta meta_ = com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMetaOrBuilder> metaBuilder_;
       /**
        * <code>required .jraft.SnapshotMeta meta = 5;</code>
-       * @return Whether the meta field is set.
        */
       public boolean hasMeta() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required .jraft.SnapshotMeta meta = 5;</code>
-       * @return The meta.
        */
       public com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta getMeta() {
         if (metaBuilder_ == null) {
-          return meta_ == null ? com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance() : meta_;
+          return meta_;
         } else {
           return metaBuilder_.getMessage();
         }
@@ -2566,8 +2093,7 @@ public final class RpcRequests {
        */
       public Builder mergeMeta(com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta value) {
         if (metaBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) != 0) &&
-              meta_ != null &&
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
               meta_ != com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance()) {
             meta_ =
               com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.newBuilder(meta_).mergeFrom(value).buildPartial();
@@ -2586,7 +2112,7 @@ public final class RpcRequests {
        */
       public Builder clearMeta() {
         if (metaBuilder_ == null) {
-          meta_ = null;
+          meta_ = com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance();
           onChanged();
         } else {
           metaBuilder_.clear();
@@ -2609,20 +2135,19 @@ public final class RpcRequests {
         if (metaBuilder_ != null) {
           return metaBuilder_.getMessageOrBuilder();
         } else {
-          return meta_ == null ?
-              com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.getDefaultInstance() : meta_;
+          return meta_;
         }
       }
       /**
        * <code>required .jraft.SnapshotMeta meta = 5;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMetaOrBuilder> 
           getMetaFieldBuilder() {
         if (metaBuilder_ == null) {
-          metaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          metaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMetaOrBuilder>(
-                  getMeta(),
+                  meta_,
                   getParentForChildren(),
                   isClean());
           meta_ = null;
@@ -2630,27 +2155,23 @@ public final class RpcRequests {
         return metaBuilder_;
       }
 
+      // required string uri = 6;
       private java.lang.Object uri_ = "";
       /**
        * <code>required string uri = 6;</code>
-       * @return Whether the uri field is set.
        */
       public boolean hasUri() {
-        return ((bitField0_ & 0x00000020) != 0);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required string uri = 6;</code>
-       * @return The uri.
        */
       public java.lang.String getUri() {
         java.lang.Object ref = uri_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            uri_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          uri_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -2658,7 +2179,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string uri = 6;</code>
-       * @return The bytes for uri.
        */
       public com.google.protobuf.ByteString
           getUriBytes() {
@@ -2675,8 +2195,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string uri = 6;</code>
-       * @param value The uri to set.
-       * @return This builder for chaining.
        */
       public Builder setUri(
           java.lang.String value) {
@@ -2690,7 +2208,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string uri = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearUri() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -2700,8 +2217,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string uri = 6;</code>
-       * @param value The bytes for uri to set.
-       * @return This builder for chaining.
        */
       public Builder setUriBytes(
           com.google.protobuf.ByteString value) {
@@ -2713,93 +2228,48 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.InstallSnapshotRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.InstallSnapshotRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest();
+      defaultInstance = new InstallSnapshotRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<InstallSnapshotRequest>
-        PARSER = new com.google.protobuf.AbstractParser<InstallSnapshotRequest>() {
-      @java.lang.Override
-      public InstallSnapshotRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new InstallSnapshotRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<InstallSnapshotRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<InstallSnapshotRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.InstallSnapshotRequest)
   }
 
-  public interface InstallSnapshotResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.InstallSnapshotResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface InstallSnapshotResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 term = 1;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required bool success = 2;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
     boolean hasSuccess();
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
     boolean getSuccess();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -2811,37 +2281,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.InstallSnapshotResponse}
    */
   public static final class InstallSnapshotResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.InstallSnapshotResponse)
-      InstallSnapshotResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements InstallSnapshotResponseOrBuilder {
     // Use InstallSnapshotResponse.newBuilder() to construct.
-    private InstallSnapshotResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private InstallSnapshotResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private InstallSnapshotResponse() {
+    private InstallSnapshotResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final InstallSnapshotResponse defaultInstance;
+    public static InstallSnapshotResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new InstallSnapshotResponse();
+    public InstallSnapshotResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private InstallSnapshotResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2853,6 +2321,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               term_ = input.readInt64();
@@ -2865,7 +2340,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) != 0)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -2876,20 +2351,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000004;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2900,85 +2368,92 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<InstallSnapshotResponse> PARSER =
+        new com.google.protobuf.AbstractParser<InstallSnapshotResponse>() {
+      public InstallSnapshotResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InstallSnapshotResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InstallSnapshotResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 term = 1;
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required bool success = 2;
     public static final int SUCCESS_FIELD_NUMBER = 2;
     private boolean success_;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
-    @java.lang.Override
     public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
-    @java.lang.Override
     public boolean getSuccess() {
       return success_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      term_ = 0L;
+      success_ = false;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTerm()) {
         memoizedIsInitialized = 0;
@@ -2998,110 +2473,51 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse) obj;
-
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasSuccess() != other.hasSuccess()) return false;
-      if (hasSuccess()) {
-        if (getSuccess()
-            != other.getSuccess()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getSuccess());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3125,59 +2541,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -3185,16 +2588,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.InstallSnapshotResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.InstallSnapshotResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -3207,17 +2608,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         term_ = 0L;
@@ -3225,7 +2628,7 @@ public final class RpcRequests {
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -3233,18 +2636,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_InstallSnapshotResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3253,65 +2657,31 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.success_ = success_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse)other);
@@ -3332,28 +2702,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasSuccess()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3363,7 +2733,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -3373,27 +2743,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 term = 1;
       private long term_ ;
       /**
        * <code>required int64 term = 1;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000001;
@@ -3403,7 +2768,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3412,27 +2776,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool success = 2;
       private boolean success_ ;
       /**
        * <code>required bool success = 2;</code>
-       * @return Whether the success field is set.
        */
-      @java.lang.Override
       public boolean hasSuccess() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return The success.
        */
-      @java.lang.Override
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>required bool success = 2;</code>
-       * @param value The success to set.
-       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         bitField0_ |= 0x00000002;
@@ -3442,7 +2801,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3451,23 +2809,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -3507,8 +2864,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -3527,7 +2883,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -3550,142 +2906,92 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.InstallSnapshotResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.InstallSnapshotResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse();
+      defaultInstance = new InstallSnapshotResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<InstallSnapshotResponse>
-        PARSER = new com.google.protobuf.AbstractParser<InstallSnapshotResponse>() {
-      @java.lang.Override
-      public InstallSnapshotResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new InstallSnapshotResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<InstallSnapshotResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<InstallSnapshotResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.InstallSnapshotResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.InstallSnapshotResponse)
   }
 
-  public interface TimeoutNowRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.TimeoutNowRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface TimeoutNowRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // required string peer_id = 3;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
 
+    // required int64 term = 4;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
     long getTerm();
   }
@@ -3693,40 +2999,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.TimeoutNowRequest}
    */
   public static final class TimeoutNowRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.TimeoutNowRequest)
-      TimeoutNowRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements TimeoutNowRequestOrBuilder {
     // Use TimeoutNowRequest.newBuilder() to construct.
-    private TimeoutNowRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private TimeoutNowRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private TimeoutNowRequest() {
-      groupId_ = "";
-      serverId_ = "";
-      peerId_ = "";
+    private TimeoutNowRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TimeoutNowRequest defaultInstance;
+    public static TimeoutNowRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new TimeoutNowRequest();
+    public TimeoutNowRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private TimeoutNowRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3738,34 +3039,31 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
+              peerId_ = input.readBytes();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
               term_ = input.readInt64();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -3774,7 +3072,7 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3785,30 +3083,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<TimeoutNowRequest> PARSER =
+        new com.google.protobuf.AbstractParser<TimeoutNowRequest>() {
+      public TimeoutNowRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TimeoutNowRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TimeoutNowRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -3825,9 +3134,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -3842,21 +3149,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -3873,9 +3177,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -3890,21 +3192,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string peer_id = 3;
     public static final int PEER_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -3921,9 +3220,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -3938,31 +3235,32 @@ public final class RpcRequests {
       }
     }
 
+    // required int64 term = 4;
     public static final int TERM_FIELD_NUMBER = 4;
     private long term_;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      peerId_ = "";
+      term_ = 0L;
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -3984,122 +3282,58 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt64(4, term_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, term_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4123,59 +3357,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -4183,16 +3404,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.TimeoutNowRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.TimeoutNowRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -4205,16 +3424,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -4228,18 +3449,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4248,65 +3470,31 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
+        result.term_ = term_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest)other);
@@ -4336,29 +3524,30 @@ public final class RpcRequests {
         if (other.hasTerm()) {
           setTerm(other.getTerm());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         if (!hasPeerId()) {
+          
           return false;
         }
         if (!hasTerm()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4368,7 +3557,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -4378,27 +3567,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -4406,7 +3591,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -4423,8 +3607,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -4438,7 +3620,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4448,8 +3629,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4462,27 +3641,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -4490,7 +3665,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -4507,8 +3681,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -4522,7 +3694,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4532,8 +3703,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4546,27 +3715,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string peer_id = 3;
       private java.lang.Object peerId_ = "";
       /**
        * <code>required string peer_id = 3;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -4574,7 +3739,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -4591,8 +3755,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -4606,7 +3768,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -4616,8 +3777,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4630,27 +3789,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 term = 4;
       private long term_ ;
       /**
        * <code>required int64 term = 4;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000008;
@@ -4660,7 +3814,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -4668,93 +3821,48 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.TimeoutNowRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.TimeoutNowRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest();
+      defaultInstance = new TimeoutNowRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<TimeoutNowRequest>
-        PARSER = new com.google.protobuf.AbstractParser<TimeoutNowRequest>() {
-      @java.lang.Override
-      public TimeoutNowRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TimeoutNowRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<TimeoutNowRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TimeoutNowRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.TimeoutNowRequest)
   }
 
-  public interface TimeoutNowResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.TimeoutNowResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface TimeoutNowResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 term = 1;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required bool success = 2;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
     boolean hasSuccess();
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
     boolean getSuccess();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -4766,37 +3874,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.TimeoutNowResponse}
    */
   public static final class TimeoutNowResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.TimeoutNowResponse)
-      TimeoutNowResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements TimeoutNowResponseOrBuilder {
     // Use TimeoutNowResponse.newBuilder() to construct.
-    private TimeoutNowResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private TimeoutNowResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private TimeoutNowResponse() {
+    private TimeoutNowResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TimeoutNowResponse defaultInstance;
+    public static TimeoutNowResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new TimeoutNowResponse();
+    public TimeoutNowResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private TimeoutNowResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4808,6 +3914,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               term_ = input.readInt64();
@@ -4820,7 +3933,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) != 0)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -4831,20 +3944,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000004;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4855,85 +3961,92 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<TimeoutNowResponse> PARSER =
+        new com.google.protobuf.AbstractParser<TimeoutNowResponse>() {
+      public TimeoutNowResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TimeoutNowResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TimeoutNowResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 term = 1;
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required bool success = 2;
     public static final int SUCCESS_FIELD_NUMBER = 2;
     private boolean success_;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
-    @java.lang.Override
     public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
-    @java.lang.Override
     public boolean getSuccess() {
       return success_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      term_ = 0L;
+      success_ = false;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTerm()) {
         memoizedIsInitialized = 0;
@@ -4953,110 +4066,51 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse) obj;
-
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasSuccess() != other.hasSuccess()) return false;
-      if (hasSuccess()) {
-        if (getSuccess()
-            != other.getSuccess()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getSuccess());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5080,59 +4134,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -5140,16 +4181,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.TimeoutNowResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.TimeoutNowResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -5162,17 +4201,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         term_ = 0L;
@@ -5180,7 +4221,7 @@ public final class RpcRequests {
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -5188,18 +4229,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_TimeoutNowResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -5208,65 +4250,31 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.success_ = success_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse)other);
@@ -5287,28 +4295,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasSuccess()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5318,7 +4326,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -5328,27 +4336,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 term = 1;
       private long term_ ;
       /**
        * <code>required int64 term = 1;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000001;
@@ -5358,7 +4361,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5367,27 +4369,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool success = 2;
       private boolean success_ ;
       /**
        * <code>required bool success = 2;</code>
-       * @return Whether the success field is set.
        */
-      @java.lang.Override
       public boolean hasSuccess() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return The success.
        */
-      @java.lang.Override
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>required bool success = 2;</code>
-       * @param value The success to set.
-       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         bitField0_ |= 0x00000002;
@@ -5397,7 +4394,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -5406,23 +4402,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -5462,8 +4457,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -5482,7 +4476,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -5505,175 +4499,122 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.TimeoutNowResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.TimeoutNowResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse();
+      defaultInstance = new TimeoutNowResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<TimeoutNowResponse>
-        PARSER = new com.google.protobuf.AbstractParser<TimeoutNowResponse>() {
-      @java.lang.Override
-      public TimeoutNowResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TimeoutNowResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<TimeoutNowResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TimeoutNowResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.TimeoutNowResponse)
   }
 
-  public interface RequestVoteRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.RequestVoteRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface RequestVoteRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // required string peer_id = 3;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
 
+    // required int64 term = 4;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required int64 last_log_term = 5;
     /**
      * <code>required int64 last_log_term = 5;</code>
-     * @return Whether the lastLogTerm field is set.
      */
     boolean hasLastLogTerm();
     /**
      * <code>required int64 last_log_term = 5;</code>
-     * @return The lastLogTerm.
      */
     long getLastLogTerm();
 
+    // required int64 last_log_index = 6;
     /**
      * <code>required int64 last_log_index = 6;</code>
-     * @return Whether the lastLogIndex field is set.
      */
     boolean hasLastLogIndex();
     /**
      * <code>required int64 last_log_index = 6;</code>
-     * @return The lastLogIndex.
      */
     long getLastLogIndex();
 
+    // required bool pre_vote = 7;
     /**
      * <code>required bool pre_vote = 7;</code>
-     * @return Whether the preVote field is set.
      */
     boolean hasPreVote();
     /**
      * <code>required bool pre_vote = 7;</code>
-     * @return The preVote.
      */
     boolean getPreVote();
   }
@@ -5681,40 +4622,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.RequestVoteRequest}
    */
   public static final class RequestVoteRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.RequestVoteRequest)
-      RequestVoteRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements RequestVoteRequestOrBuilder {
     // Use RequestVoteRequest.newBuilder() to construct.
-    private RequestVoteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private RequestVoteRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private RequestVoteRequest() {
-      groupId_ = "";
-      serverId_ = "";
-      peerId_ = "";
+    private RequestVoteRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RequestVoteRequest defaultInstance;
+    public static RequestVoteRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new RequestVoteRequest();
+    public RequestVoteRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private RequestVoteRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5726,22 +4662,26 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
+              peerId_ = input.readBytes();
               break;
             }
             case 32: {
@@ -5764,20 +4704,13 @@ public final class RpcRequests {
               preVote_ = input.readBool();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5788,30 +4721,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<RequestVoteRequest> PARSER =
+        new com.google.protobuf.AbstractParser<RequestVoteRequest>() {
+      public RequestVoteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RequestVoteRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RequestVoteRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -5828,9 +4772,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -5845,21 +4787,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -5876,9 +4815,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -5893,21 +4830,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string peer_id = 3;
     public static final int PEER_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -5924,9 +4858,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -5941,88 +4873,83 @@ public final class RpcRequests {
       }
     }
 
+    // required int64 term = 4;
     public static final int TERM_FIELD_NUMBER = 4;
     private long term_;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required int64 last_log_term = 5;
     public static final int LAST_LOG_TERM_FIELD_NUMBER = 5;
     private long lastLogTerm_;
     /**
      * <code>required int64 last_log_term = 5;</code>
-     * @return Whether the lastLogTerm field is set.
      */
-    @java.lang.Override
     public boolean hasLastLogTerm() {
-      return ((bitField0_ & 0x00000010) != 0);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required int64 last_log_term = 5;</code>
-     * @return The lastLogTerm.
      */
-    @java.lang.Override
     public long getLastLogTerm() {
       return lastLogTerm_;
     }
 
+    // required int64 last_log_index = 6;
     public static final int LAST_LOG_INDEX_FIELD_NUMBER = 6;
     private long lastLogIndex_;
     /**
      * <code>required int64 last_log_index = 6;</code>
-     * @return Whether the lastLogIndex field is set.
      */
-    @java.lang.Override
     public boolean hasLastLogIndex() {
-      return ((bitField0_ & 0x00000020) != 0);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required int64 last_log_index = 6;</code>
-     * @return The lastLogIndex.
      */
-    @java.lang.Override
     public long getLastLogIndex() {
       return lastLogIndex_;
     }
 
+    // required bool pre_vote = 7;
     public static final int PRE_VOTE_FIELD_NUMBER = 7;
     private boolean preVote_;
     /**
      * <code>required bool pre_vote = 7;</code>
-     * @return Whether the preVote field is set.
      */
-    @java.lang.Override
     public boolean hasPreVote() {
-      return ((bitField0_ & 0x00000040) != 0);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>required bool pre_vote = 7;</code>
-     * @return The preVote.
      */
-    @java.lang.Override
     public boolean getPreVote() {
       return preVote_;
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      peerId_ = "";
+      term_ = 0L;
+      lastLogTerm_ = 0L;
+      lastLogIndex_ = 0L;
+      preVote_ = false;
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -6056,173 +4983,79 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt64(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt64(5, lastLogTerm_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt64(6, lastLogIndex_);
       }
-      if (((bitField0_ & 0x00000040) != 0)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBool(7, preVote_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, lastLogTerm_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(6, lastLogIndex_);
       }
-      if (((bitField0_ & 0x00000040) != 0)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, preVote_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasLastLogTerm() != other.hasLastLogTerm()) return false;
-      if (hasLastLogTerm()) {
-        if (getLastLogTerm()
-            != other.getLastLogTerm()) return false;
-      }
-      if (hasLastLogIndex() != other.hasLastLogIndex()) return false;
-      if (hasLastLogIndex()) {
-        if (getLastLogIndex()
-            != other.getLastLogIndex()) return false;
-      }
-      if (hasPreVote() != other.hasPreVote()) return false;
-      if (hasPreVote()) {
-        if (getPreVote()
-            != other.getPreVote()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasLastLogTerm()) {
-        hash = (37 * hash) + LAST_LOG_TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getLastLogTerm());
-      }
-      if (hasLastLogIndex()) {
-        hash = (37 * hash) + LAST_LOG_INDEX_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getLastLogIndex());
-      }
-      if (hasPreVote()) {
-        hash = (37 * hash) + PRE_VOTE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getPreVote());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6246,59 +5079,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -6306,16 +5126,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.RequestVoteRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.RequestVoteRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -6328,16 +5146,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -6357,18 +5177,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6377,77 +5198,43 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.lastLogTerm_ = lastLogTerm_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.lastLogIndex_ = lastLogIndex_;
+        result.lastLogTerm_ = lastLogTerm_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.preVote_ = preVote_;
+        result.lastLogIndex_ = lastLogIndex_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
+        result.preVote_ = preVote_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest)other);
@@ -6486,38 +5273,42 @@ public final class RpcRequests {
         if (other.hasPreVote()) {
           setPreVote(other.getPreVote());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         if (!hasPeerId()) {
+          
           return false;
         }
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasLastLogTerm()) {
+          
           return false;
         }
         if (!hasLastLogIndex()) {
+          
           return false;
         }
         if (!hasPreVote()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6527,7 +5318,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -6537,27 +5328,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -6565,7 +5352,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -6582,8 +5368,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -6597,7 +5381,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -6607,8 +5390,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -6621,27 +5402,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -6649,7 +5426,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -6666,8 +5442,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -6681,7 +5455,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -6691,8 +5464,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -6705,27 +5476,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string peer_id = 3;
       private java.lang.Object peerId_ = "";
       /**
        * <code>required string peer_id = 3;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -6733,7 +5500,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -6750,8 +5516,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -6765,7 +5529,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -6775,8 +5538,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -6789,27 +5550,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 term = 4;
       private long term_ ;
       /**
        * <code>required int64 term = 4;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000008;
@@ -6819,7 +5575,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -6828,27 +5583,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 last_log_term = 5;
       private long lastLogTerm_ ;
       /**
        * <code>required int64 last_log_term = 5;</code>
-       * @return Whether the lastLogTerm field is set.
        */
-      @java.lang.Override
       public boolean hasLastLogTerm() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int64 last_log_term = 5;</code>
-       * @return The lastLogTerm.
        */
-      @java.lang.Override
       public long getLastLogTerm() {
         return lastLogTerm_;
       }
       /**
        * <code>required int64 last_log_term = 5;</code>
-       * @param value The lastLogTerm to set.
-       * @return This builder for chaining.
        */
       public Builder setLastLogTerm(long value) {
         bitField0_ |= 0x00000010;
@@ -6858,7 +5608,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 last_log_term = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLastLogTerm() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -6867,27 +5616,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 last_log_index = 6;
       private long lastLogIndex_ ;
       /**
        * <code>required int64 last_log_index = 6;</code>
-       * @return Whether the lastLogIndex field is set.
        */
-      @java.lang.Override
       public boolean hasLastLogIndex() {
-        return ((bitField0_ & 0x00000020) != 0);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required int64 last_log_index = 6;</code>
-       * @return The lastLogIndex.
        */
-      @java.lang.Override
       public long getLastLogIndex() {
         return lastLogIndex_;
       }
       /**
        * <code>required int64 last_log_index = 6;</code>
-       * @param value The lastLogIndex to set.
-       * @return This builder for chaining.
        */
       public Builder setLastLogIndex(long value) {
         bitField0_ |= 0x00000020;
@@ -6897,7 +5641,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 last_log_index = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLastLogIndex() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -6906,27 +5649,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool pre_vote = 7;
       private boolean preVote_ ;
       /**
        * <code>required bool pre_vote = 7;</code>
-       * @return Whether the preVote field is set.
        */
-      @java.lang.Override
       public boolean hasPreVote() {
-        return ((bitField0_ & 0x00000040) != 0);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>required bool pre_vote = 7;</code>
-       * @return The preVote.
        */
-      @java.lang.Override
       public boolean getPreVote() {
         return preVote_;
       }
       /**
        * <code>required bool pre_vote = 7;</code>
-       * @param value The preVote to set.
-       * @return This builder for chaining.
        */
       public Builder setPreVote(boolean value) {
         bitField0_ |= 0x00000040;
@@ -6936,7 +5674,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool pre_vote = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPreVote() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -6944,93 +5681,48 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.RequestVoteRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.RequestVoteRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest();
+      defaultInstance = new RequestVoteRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<RequestVoteRequest>
-        PARSER = new com.google.protobuf.AbstractParser<RequestVoteRequest>() {
-      @java.lang.Override
-      public RequestVoteRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RequestVoteRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<RequestVoteRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<RequestVoteRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.RequestVoteRequest)
   }
 
-  public interface RequestVoteResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.RequestVoteResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface RequestVoteResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 term = 1;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required bool granted = 2;
     /**
      * <code>required bool granted = 2;</code>
-     * @return Whether the granted field is set.
      */
     boolean hasGranted();
     /**
      * <code>required bool granted = 2;</code>
-     * @return The granted.
      */
     boolean getGranted();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -7042,37 +5734,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.RequestVoteResponse}
    */
   public static final class RequestVoteResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.RequestVoteResponse)
-      RequestVoteResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements RequestVoteResponseOrBuilder {
     // Use RequestVoteResponse.newBuilder() to construct.
-    private RequestVoteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private RequestVoteResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private RequestVoteResponse() {
+    private RequestVoteResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RequestVoteResponse defaultInstance;
+    public static RequestVoteResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new RequestVoteResponse();
+    public RequestVoteResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private RequestVoteResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7084,6 +5774,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               term_ = input.readInt64();
@@ -7096,7 +5793,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) != 0)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -7107,20 +5804,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000004;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7131,85 +5821,92 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<RequestVoteResponse> PARSER =
+        new com.google.protobuf.AbstractParser<RequestVoteResponse>() {
+      public RequestVoteResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RequestVoteResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RequestVoteResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 term = 1;
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required bool granted = 2;
     public static final int GRANTED_FIELD_NUMBER = 2;
     private boolean granted_;
     /**
      * <code>required bool granted = 2;</code>
-     * @return Whether the granted field is set.
      */
-    @java.lang.Override
     public boolean hasGranted() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool granted = 2;</code>
-     * @return The granted.
      */
-    @java.lang.Override
     public boolean getGranted() {
       return granted_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      term_ = 0L;
+      granted_ = false;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTerm()) {
         memoizedIsInitialized = 0;
@@ -7229,110 +5926,51 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, granted_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, granted_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse) obj;
-
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasGranted() != other.hasGranted()) return false;
-      if (hasGranted()) {
-        if (getGranted()
-            != other.getGranted()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasGranted()) {
-        hash = (37 * hash) + GRANTED_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getGranted());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7356,59 +5994,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -7416,16 +6041,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.RequestVoteResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.RequestVoteResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -7438,17 +6061,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         term_ = 0L;
@@ -7456,7 +6081,7 @@ public final class RpcRequests {
         granted_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -7464,18 +6089,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_RequestVoteResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -7484,65 +6110,31 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.granted_ = granted_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.granted_ = granted_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse)other);
@@ -7563,28 +6155,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasGranted()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7594,7 +6186,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -7604,27 +6196,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 term = 1;
       private long term_ ;
       /**
        * <code>required int64 term = 1;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000001;
@@ -7634,7 +6221,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -7643,27 +6229,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool granted = 2;
       private boolean granted_ ;
       /**
        * <code>required bool granted = 2;</code>
-       * @return Whether the granted field is set.
        */
-      @java.lang.Override
       public boolean hasGranted() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool granted = 2;</code>
-       * @return The granted.
        */
-      @java.lang.Override
       public boolean getGranted() {
         return granted_;
       }
       /**
        * <code>required bool granted = 2;</code>
-       * @param value The granted to set.
-       * @return This builder for chaining.
        */
       public Builder setGranted(boolean value) {
         bitField0_ |= 0x00000002;
@@ -7673,7 +6254,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool granted = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGranted() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -7682,23 +6262,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -7738,8 +6317,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -7758,7 +6336,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -7781,130 +6359,81 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.RequestVoteResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.RequestVoteResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse();
+      defaultInstance = new RequestVoteResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<RequestVoteResponse>
-        PARSER = new com.google.protobuf.AbstractParser<RequestVoteResponse>() {
-      @java.lang.Override
-      public RequestVoteResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RequestVoteResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<RequestVoteResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<RequestVoteResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.RequestVoteResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.RequestVoteResponse)
   }
 
-  public interface AppendEntriesRequestHeaderOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.AppendEntriesRequestHeader)
-      com.google.protobuf.MessageOrBuilder {
+  public interface AppendEntriesRequestHeaderOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // required string peer_id = 3;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
@@ -7913,40 +6442,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.AppendEntriesRequestHeader}
    */
   public static final class AppendEntriesRequestHeader extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.AppendEntriesRequestHeader)
-      AppendEntriesRequestHeaderOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements AppendEntriesRequestHeaderOrBuilder {
     // Use AppendEntriesRequestHeader.newBuilder() to construct.
-    private AppendEntriesRequestHeader(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private AppendEntriesRequestHeader(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private AppendEntriesRequestHeader() {
-      groupId_ = "";
-      serverId_ = "";
-      peerId_ = "";
+    private AppendEntriesRequestHeader(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AppendEntriesRequestHeader defaultInstance;
+    public static AppendEntriesRequestHeader getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new AppendEntriesRequestHeader();
+    public AppendEntriesRequestHeader getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private AppendEntriesRequestHeader(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7958,29 +6482,26 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
+              peerId_ = input.readBytes();
               break;
             }
           }
@@ -7989,7 +6510,7 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -8000,30 +6521,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequestHeader_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequestHeader_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader.class, com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<AppendEntriesRequestHeader> PARSER =
+        new com.google.protobuf.AbstractParser<AppendEntriesRequestHeader>() {
+      public AppendEntriesRequestHeader parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AppendEntriesRequestHeader(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AppendEntriesRequestHeader> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -8040,9 +6572,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -8057,21 +6587,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -8088,9 +6615,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -8105,21 +6630,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string peer_id = 3;
     public static final int PEER_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -8136,9 +6658,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -8153,12 +6673,15 @@ public final class RpcRequests {
       }
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      peerId_ = "";
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -8176,105 +6699,51 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPeerIdBytes());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPeerIdBytes());
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader other = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8298,59 +6767,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -8358,16 +6814,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.AppendEntriesRequestHeader}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.AppendEntriesRequestHeader)
-        com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeaderOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeaderOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequestHeader_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequestHeader_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -8380,16 +6834,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -8401,18 +6857,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequestHeader_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader result = buildPartial();
         if (!result.isInitialized()) {
@@ -8421,20 +6878,19 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader result = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
@@ -8443,39 +6899,6 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader)other);
@@ -8502,26 +6925,26 @@ public final class RpcRequests {
           peerId_ = other.peerId_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         if (!hasPeerId()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8531,7 +6954,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -8541,27 +6964,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -8569,7 +6988,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -8586,8 +7004,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -8601,7 +7017,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -8611,8 +7026,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8625,27 +7038,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -8653,7 +7062,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -8670,8 +7078,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -8685,7 +7091,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -8695,8 +7100,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8709,27 +7112,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string peer_id = 3;
       private java.lang.Object peerId_ = "";
       /**
        * <code>required string peer_id = 3;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -8737,7 +7136,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -8754,8 +7152,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -8769,7 +7165,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -8779,8 +7174,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8792,147 +7185,97 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.AppendEntriesRequestHeader)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesRequestHeader)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader();
+      defaultInstance = new AppendEntriesRequestHeader(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<AppendEntriesRequestHeader>
-        PARSER = new com.google.protobuf.AbstractParser<AppendEntriesRequestHeader>() {
-      @java.lang.Override
-      public AppendEntriesRequestHeader parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AppendEntriesRequestHeader(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<AppendEntriesRequestHeader> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<AppendEntriesRequestHeader> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestHeader getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesRequestHeader)
   }
 
-  public interface AppendEntriesRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.AppendEntriesRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface AppendEntriesRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // required string peer_id = 3;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
 
+    // required int64 term = 4;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required int64 prev_log_term = 5;
     /**
      * <code>required int64 prev_log_term = 5;</code>
-     * @return Whether the prevLogTerm field is set.
      */
     boolean hasPrevLogTerm();
     /**
      * <code>required int64 prev_log_term = 5;</code>
-     * @return The prevLogTerm.
      */
     long getPrevLogTerm();
 
+    // required int64 prev_log_index = 6;
     /**
      * <code>required int64 prev_log_index = 6;</code>
-     * @return Whether the prevLogIndex field is set.
      */
     boolean hasPrevLogIndex();
     /**
      * <code>required int64 prev_log_index = 6;</code>
-     * @return The prevLogIndex.
      */
     long getPrevLogIndex();
 
+    // repeated .jraft.EntryMeta entries = 7;
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
@@ -8957,25 +7300,23 @@ public final class RpcRequests {
     com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder getEntriesOrBuilder(
         int index);
 
+    // required int64 committed_index = 8;
     /**
      * <code>required int64 committed_index = 8;</code>
-     * @return Whether the committedIndex field is set.
      */
     boolean hasCommittedIndex();
     /**
      * <code>required int64 committed_index = 8;</code>
-     * @return The committedIndex.
      */
     long getCommittedIndex();
 
+    // optional bytes data = 9;
     /**
      * <code>optional bytes data = 9;</code>
-     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>optional bytes data = 9;</code>
-     * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
@@ -8983,42 +7324,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.AppendEntriesRequest}
    */
   public static final class AppendEntriesRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.AppendEntriesRequest)
-      AppendEntriesRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements AppendEntriesRequestOrBuilder {
     // Use AppendEntriesRequest.newBuilder() to construct.
-    private AppendEntriesRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private AppendEntriesRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private AppendEntriesRequest() {
-      groupId_ = "";
-      serverId_ = "";
-      peerId_ = "";
-      entries_ = java.util.Collections.emptyList();
-      data_ = com.google.protobuf.ByteString.EMPTY;
+    private AppendEntriesRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AppendEntriesRequest defaultInstance;
+    public static AppendEntriesRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new AppendEntriesRequest();
+    public AppendEntriesRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private AppendEntriesRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9030,22 +7364,26 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
+              peerId_ = input.readBytes();
               break;
             }
             case 32: {
@@ -9064,12 +7402,11 @@ public final class RpcRequests {
               break;
             }
             case 58: {
-              if (!((mutable_bitField0_ & 0x00000040) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 entries_ = new java.util.ArrayList<com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta>();
                 mutable_bitField0_ |= 0x00000040;
               }
-              entries_.add(
-                  input.readMessage(com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta.PARSER, extensionRegistry));
+              entries_.add(input.readMessage(com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta.PARSER, extensionRegistry));
               break;
             }
             case 64: {
@@ -9082,22 +7419,15 @@ public final class RpcRequests {
               data_ = input.readBytes();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) != 0)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           entries_ = java.util.Collections.unmodifiableList(entries_);
         }
         this.unknownFields = unknownFields.build();
@@ -9109,30 +7439,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<AppendEntriesRequest> PARSER =
+        new com.google.protobuf.AbstractParser<AppendEntriesRequest>() {
+      public AppendEntriesRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AppendEntriesRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AppendEntriesRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -9149,9 +7490,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -9166,21 +7505,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -9197,9 +7533,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -9214,21 +7548,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string peer_id = 3;
     public static final int PEER_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>required string peer_id = 3;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -9245,9 +7576,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string peer_id = 3;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -9262,76 +7591,66 @@ public final class RpcRequests {
       }
     }
 
+    // required int64 term = 4;
     public static final int TERM_FIELD_NUMBER = 4;
     private long term_;
     /**
      * <code>required int64 term = 4;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int64 term = 4;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required int64 prev_log_term = 5;
     public static final int PREV_LOG_TERM_FIELD_NUMBER = 5;
     private long prevLogTerm_;
     /**
      * <code>required int64 prev_log_term = 5;</code>
-     * @return Whether the prevLogTerm field is set.
      */
-    @java.lang.Override
     public boolean hasPrevLogTerm() {
-      return ((bitField0_ & 0x00000010) != 0);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required int64 prev_log_term = 5;</code>
-     * @return The prevLogTerm.
      */
-    @java.lang.Override
     public long getPrevLogTerm() {
       return prevLogTerm_;
     }
 
+    // required int64 prev_log_index = 6;
     public static final int PREV_LOG_INDEX_FIELD_NUMBER = 6;
     private long prevLogIndex_;
     /**
      * <code>required int64 prev_log_index = 6;</code>
-     * @return Whether the prevLogIndex field is set.
      */
-    @java.lang.Override
     public boolean hasPrevLogIndex() {
-      return ((bitField0_ & 0x00000020) != 0);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required int64 prev_log_index = 6;</code>
-     * @return The prevLogIndex.
      */
-    @java.lang.Override
     public long getPrevLogIndex() {
       return prevLogIndex_;
     }
 
+    // repeated .jraft.EntryMeta entries = 7;
     public static final int ENTRIES_FIELD_NUMBER = 7;
     private java.util.List<com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta> entries_;
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
-    @java.lang.Override
     public java.util.List<com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta> getEntriesList() {
       return entries_;
     }
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder> 
         getEntriesOrBuilderList() {
       return entries_;
@@ -9339,70 +7658,70 @@ public final class RpcRequests {
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
-    @java.lang.Override
     public int getEntriesCount() {
       return entries_.size();
     }
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta getEntries(int index) {
       return entries_.get(index);
     }
     /**
      * <code>repeated .jraft.EntryMeta entries = 7;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder getEntriesOrBuilder(
         int index) {
       return entries_.get(index);
     }
 
+    // required int64 committed_index = 8;
     public static final int COMMITTED_INDEX_FIELD_NUMBER = 8;
     private long committedIndex_;
     /**
      * <code>required int64 committed_index = 8;</code>
-     * @return Whether the committedIndex field is set.
      */
-    @java.lang.Override
     public boolean hasCommittedIndex() {
-      return ((bitField0_ & 0x00000040) != 0);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>required int64 committed_index = 8;</code>
-     * @return The committedIndex.
      */
-    @java.lang.Override
     public long getCommittedIndex() {
       return committedIndex_;
     }
 
+    // optional bytes data = 9;
     public static final int DATA_FIELD_NUMBER = 9;
     private com.google.protobuf.ByteString data_;
     /**
      * <code>optional bytes data = 9;</code>
-     * @return Whether the data field is set.
      */
-    @java.lang.Override
     public boolean hasData() {
-      return ((bitField0_ & 0x00000080) != 0);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional bytes data = 9;</code>
-     * @return The data.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      peerId_ = "";
+      term_ = 0L;
+      prevLogTerm_ = 0L;
+      prevLogIndex_ = 0L;
+      entries_ = java.util.Collections.emptyList();
+      committedIndex_ = 0L;
+      data_ = com.google.protobuf.ByteString.EMPTY;
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -9442,63 +7761,66 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt64(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt64(5, prevLogTerm_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt64(6, prevLogIndex_);
       }
       for (int i = 0; i < entries_.size(); i++) {
         output.writeMessage(7, entries_.get(i));
       }
-      if (((bitField0_ & 0x00000040) != 0)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt64(8, committedIndex_);
       }
-      if (((bitField0_ & 0x00000080) != 0)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeBytes(9, data_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPeerIdBytes());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, term_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, prevLogTerm_);
       }
-      if (((bitField0_ & 0x00000020) != 0)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(6, prevLogIndex_);
       }
@@ -9506,138 +7828,26 @@ public final class RpcRequests {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, entries_.get(i));
       }
-      if (((bitField0_ & 0x00000040) != 0)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(8, committedIndex_);
       }
-      if (((bitField0_ & 0x00000080) != 0)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(9, data_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasPrevLogTerm() != other.hasPrevLogTerm()) return false;
-      if (hasPrevLogTerm()) {
-        if (getPrevLogTerm()
-            != other.getPrevLogTerm()) return false;
-      }
-      if (hasPrevLogIndex() != other.hasPrevLogIndex()) return false;
-      if (hasPrevLogIndex()) {
-        if (getPrevLogIndex()
-            != other.getPrevLogIndex()) return false;
-      }
-      if (!getEntriesList()
-          .equals(other.getEntriesList())) return false;
-      if (hasCommittedIndex() != other.hasCommittedIndex()) return false;
-      if (hasCommittedIndex()) {
-        if (getCommittedIndex()
-            != other.getCommittedIndex()) return false;
-      }
-      if (hasData() != other.hasData()) return false;
-      if (hasData()) {
-        if (!getData()
-            .equals(other.getData())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasPrevLogTerm()) {
-        hash = (37 * hash) + PREV_LOG_TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getPrevLogTerm());
-      }
-      if (hasPrevLogIndex()) {
-        hash = (37 * hash) + PREV_LOG_INDEX_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getPrevLogIndex());
-      }
-      if (getEntriesCount() > 0) {
-        hash = (37 * hash) + ENTRIES_FIELD_NUMBER;
-        hash = (53 * hash) + getEntriesList().hashCode();
-      }
-      if (hasCommittedIndex()) {
-        hash = (37 * hash) + COMMITTED_INDEX_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getCommittedIndex());
-      }
-      if (hasData()) {
-        hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getData().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9661,59 +7871,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -9721,16 +7918,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.AppendEntriesRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.AppendEntriesRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -9743,17 +7938,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getEntriesFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -9781,18 +7978,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9801,37 +7999,36 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.prevLogTerm_ = prevLogTerm_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.prevLogIndex_ = prevLogIndex_;
+        result.prevLogTerm_ = prevLogTerm_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
+        result.prevLogIndex_ = prevLogIndex_;
         if (entriesBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) != 0)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             entries_ = java.util.Collections.unmodifiableList(entries_);
             bitField0_ = (bitField0_ & ~0x00000040);
           }
@@ -9839,11 +8036,11 @@ public final class RpcRequests {
         } else {
           result.entries_ = entriesBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000080) != 0)) {
-          result.committedIndex_ = committedIndex_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000040;
         }
-        if (((from_bitField0_ & 0x00000100) != 0)) {
+        result.committedIndex_ = committedIndex_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000080;
         }
         result.data_ = data_;
@@ -9852,39 +8049,6 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest)other);
@@ -9939,7 +8103,7 @@ public final class RpcRequests {
               entries_ = other.entries_;
               bitField0_ = (bitField0_ & ~0x00000040);
               entriesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getEntriesFieldBuilder() : null;
             } else {
               entriesBuilder_.addAllMessages(other.entries_);
@@ -9952,43 +8116,48 @@ public final class RpcRequests {
         if (other.hasData()) {
           setData(other.getData());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         if (!hasPeerId()) {
+          
           return false;
         }
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasPrevLogTerm()) {
+          
           return false;
         }
         if (!hasPrevLogIndex()) {
+          
           return false;
         }
         if (!hasCommittedIndex()) {
+          
           return false;
         }
         for (int i = 0; i < getEntriesCount(); i++) {
           if (!getEntries(i).isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9998,7 +8167,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -10008,27 +8177,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -10036,7 +8201,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -10053,8 +8217,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -10068,7 +8230,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -10078,8 +8239,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10092,27 +8251,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -10120,7 +8275,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -10137,8 +8291,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -10152,7 +8304,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -10162,8 +8313,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10176,27 +8325,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string peer_id = 3;
       private java.lang.Object peerId_ = "";
       /**
        * <code>required string peer_id = 3;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -10204,7 +8349,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -10221,8 +8365,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -10236,7 +8378,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -10246,8 +8387,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string peer_id = 3;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10260,27 +8399,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 term = 4;
       private long term_ ;
       /**
        * <code>required int64 term = 4;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000008;
@@ -10290,7 +8424,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -10299,27 +8432,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 prev_log_term = 5;
       private long prevLogTerm_ ;
       /**
        * <code>required int64 prev_log_term = 5;</code>
-       * @return Whether the prevLogTerm field is set.
        */
-      @java.lang.Override
       public boolean hasPrevLogTerm() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int64 prev_log_term = 5;</code>
-       * @return The prevLogTerm.
        */
-      @java.lang.Override
       public long getPrevLogTerm() {
         return prevLogTerm_;
       }
       /**
        * <code>required int64 prev_log_term = 5;</code>
-       * @param value The prevLogTerm to set.
-       * @return This builder for chaining.
        */
       public Builder setPrevLogTerm(long value) {
         bitField0_ |= 0x00000010;
@@ -10329,7 +8457,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 prev_log_term = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPrevLogTerm() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -10338,27 +8465,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 prev_log_index = 6;
       private long prevLogIndex_ ;
       /**
        * <code>required int64 prev_log_index = 6;</code>
-       * @return Whether the prevLogIndex field is set.
        */
-      @java.lang.Override
       public boolean hasPrevLogIndex() {
-        return ((bitField0_ & 0x00000020) != 0);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required int64 prev_log_index = 6;</code>
-       * @return The prevLogIndex.
        */
-      @java.lang.Override
       public long getPrevLogIndex() {
         return prevLogIndex_;
       }
       /**
        * <code>required int64 prev_log_index = 6;</code>
-       * @param value The prevLogIndex to set.
-       * @return This builder for chaining.
        */
       public Builder setPrevLogIndex(long value) {
         bitField0_ |= 0x00000020;
@@ -10368,7 +8490,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 prev_log_index = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPrevLogIndex() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -10377,16 +8498,17 @@ public final class RpcRequests {
         return this;
       }
 
+      // repeated .jraft.EntryMeta entries = 7;
       private java.util.List<com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta> entries_ =
         java.util.Collections.emptyList();
       private void ensureEntriesIsMutable() {
-        if (!((bitField0_ & 0x00000040) != 0)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           entries_ = new java.util.ArrayList<com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta>(entries_);
           bitField0_ |= 0x00000040;
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilderV3<
+      private com.google.protobuf.RepeatedFieldBuilder<
           com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta, com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder> entriesBuilder_;
 
       /**
@@ -10518,8 +8640,7 @@ public final class RpcRequests {
           java.lang.Iterable<? extends com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta> values) {
         if (entriesBuilder_ == null) {
           ensureEntriesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, entries_);
+          super.addAll(values, entries_);
           onChanged();
         } else {
           entriesBuilder_.addAllMessages(values);
@@ -10602,14 +8723,14 @@ public final class RpcRequests {
            getEntriesBuilderList() {
         return getEntriesFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
+      private com.google.protobuf.RepeatedFieldBuilder<
           com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta, com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder> 
           getEntriesFieldBuilder() {
         if (entriesBuilder_ == null) {
-          entriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+          entriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta, com.alipay.sofa.jraft.entity.RaftOutter.EntryMeta.Builder, com.alipay.sofa.jraft.entity.RaftOutter.EntryMetaOrBuilder>(
                   entries_,
-                  ((bitField0_ & 0x00000040) != 0),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           entries_ = null;
@@ -10617,27 +8738,22 @@ public final class RpcRequests {
         return entriesBuilder_;
       }
 
+      // required int64 committed_index = 8;
       private long committedIndex_ ;
       /**
        * <code>required int64 committed_index = 8;</code>
-       * @return Whether the committedIndex field is set.
        */
-      @java.lang.Override
       public boolean hasCommittedIndex() {
-        return ((bitField0_ & 0x00000080) != 0);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>required int64 committed_index = 8;</code>
-       * @return The committedIndex.
        */
-      @java.lang.Override
       public long getCommittedIndex() {
         return committedIndex_;
       }
       /**
        * <code>required int64 committed_index = 8;</code>
-       * @param value The committedIndex to set.
-       * @return This builder for chaining.
        */
       public Builder setCommittedIndex(long value) {
         bitField0_ |= 0x00000080;
@@ -10647,7 +8763,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 committed_index = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCommittedIndex() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -10656,27 +8771,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional bytes data = 9;
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes data = 9;</code>
-       * @return Whether the data field is set.
        */
-      @java.lang.Override
       public boolean hasData() {
-        return ((bitField0_ & 0x00000100) != 0);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional bytes data = 9;</code>
-       * @return The data.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
        * <code>optional bytes data = 9;</code>
-       * @param value The data to set.
-       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10689,7 +8799,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional bytes data = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -10697,104 +8806,58 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.AppendEntriesRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest();
+      defaultInstance = new AppendEntriesRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<AppendEntriesRequest>
-        PARSER = new com.google.protobuf.AbstractParser<AppendEntriesRequest>() {
-      @java.lang.Override
-      public AppendEntriesRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AppendEntriesRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<AppendEntriesRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<AppendEntriesRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesRequest)
   }
 
-  public interface AppendEntriesResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.AppendEntriesResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface AppendEntriesResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 term = 1;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
     boolean hasTerm();
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
     long getTerm();
 
+    // required bool success = 2;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
     boolean hasSuccess();
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
     boolean getSuccess();
 
+    // optional int64 last_log_index = 3;
     /**
      * <code>optional int64 last_log_index = 3;</code>
-     * @return Whether the lastLogIndex field is set.
      */
     boolean hasLastLogIndex();
     /**
      * <code>optional int64 last_log_index = 3;</code>
-     * @return The lastLogIndex.
      */
     long getLastLogIndex();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -10806,37 +8869,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.AppendEntriesResponse}
    */
   public static final class AppendEntriesResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.AppendEntriesResponse)
-      AppendEntriesResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements AppendEntriesResponseOrBuilder {
     // Use AppendEntriesResponse.newBuilder() to construct.
-    private AppendEntriesResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private AppendEntriesResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private AppendEntriesResponse() {
+    private AppendEntriesResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AppendEntriesResponse defaultInstance;
+    public static AppendEntriesResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new AppendEntriesResponse();
+    public AppendEntriesResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private AppendEntriesResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10848,6 +8909,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               term_ = input.readInt64();
@@ -10865,7 +8933,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) != 0)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -10876,20 +8944,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000008;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -10900,104 +8961,109 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<AppendEntriesResponse> PARSER =
+        new com.google.protobuf.AbstractParser<AppendEntriesResponse>() {
+      public AppendEntriesResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AppendEntriesResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AppendEntriesResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 term = 1;
     public static final int TERM_FIELD_NUMBER = 1;
     private long term_;
     /**
      * <code>required int64 term = 1;</code>
-     * @return Whether the term field is set.
      */
-    @java.lang.Override
     public boolean hasTerm() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 term = 1;</code>
-     * @return The term.
      */
-    @java.lang.Override
     public long getTerm() {
       return term_;
     }
 
+    // required bool success = 2;
     public static final int SUCCESS_FIELD_NUMBER = 2;
     private boolean success_;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
-    @java.lang.Override
     public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
-    @java.lang.Override
     public boolean getSuccess() {
       return success_;
     }
 
+    // optional int64 last_log_index = 3;
     public static final int LAST_LOG_INDEX_FIELD_NUMBER = 3;
     private long lastLogIndex_;
     /**
      * <code>optional int64 last_log_index = 3;</code>
-     * @return Whether the lastLogIndex field is set.
      */
-    @java.lang.Override
     public boolean hasLastLogIndex() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int64 last_log_index = 3;</code>
-     * @return The lastLogIndex.
      */
-    @java.lang.Override
     public long getLastLogIndex() {
       return lastLogIndex_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      term_ = 0L;
+      success_ = false;
+      lastLogIndex_ = 0L;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTerm()) {
         memoizedIsInitialized = 0;
@@ -11017,127 +9083,58 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(3, lastLogIndex_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, term_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, lastLogIndex_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse) obj;
-
-      if (hasTerm() != other.hasTerm()) return false;
-      if (hasTerm()) {
-        if (getTerm()
-            != other.getTerm()) return false;
-      }
-      if (hasSuccess() != other.hasSuccess()) return false;
-      if (hasSuccess()) {
-        if (getSuccess()
-            != other.getSuccess()) return false;
-      }
-      if (hasLastLogIndex() != other.hasLastLogIndex()) return false;
-      if (hasLastLogIndex()) {
-        if (getLastLogIndex()
-            != other.getLastLogIndex()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTerm()) {
-        hash = (37 * hash) + TERM_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getTerm());
-      }
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getSuccess());
-      }
-      if (hasLastLogIndex()) {
-        hash = (37 * hash) + LAST_LOG_INDEX_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getLastLogIndex());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -11161,59 +9158,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -11221,16 +9205,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.AppendEntriesResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.AppendEntriesResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -11243,17 +9225,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         term_ = 0L;
@@ -11263,7 +9247,7 @@ public final class RpcRequests {
         lastLogIndex_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -11271,18 +9255,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_AppendEntriesResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -11291,69 +9276,35 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.term_ = term_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.success_ = success_;
+        result.term_ = term_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.lastLogIndex_ = lastLogIndex_;
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.lastLogIndex_ = lastLogIndex_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse)other);
@@ -11377,28 +9328,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasTerm()) {
+          
           return false;
         }
         if (!hasSuccess()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11408,7 +9359,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -11418,27 +9369,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 term = 1;
       private long term_ ;
       /**
        * <code>required int64 term = 1;</code>
-       * @return Whether the term field is set.
        */
-      @java.lang.Override
       public boolean hasTerm() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return The term.
        */
-      @java.lang.Override
       public long getTerm() {
         return term_;
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @param value The term to set.
-       * @return This builder for chaining.
        */
       public Builder setTerm(long value) {
         bitField0_ |= 0x00000001;
@@ -11448,7 +9394,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 term = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTerm() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -11457,27 +9402,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool success = 2;
       private boolean success_ ;
       /**
        * <code>required bool success = 2;</code>
-       * @return Whether the success field is set.
        */
-      @java.lang.Override
       public boolean hasSuccess() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return The success.
        */
-      @java.lang.Override
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>required bool success = 2;</code>
-       * @param value The success to set.
-       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         bitField0_ |= 0x00000002;
@@ -11487,7 +9427,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -11496,27 +9435,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional int64 last_log_index = 3;
       private long lastLogIndex_ ;
       /**
        * <code>optional int64 last_log_index = 3;</code>
-       * @return Whether the lastLogIndex field is set.
        */
-      @java.lang.Override
       public boolean hasLastLogIndex() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int64 last_log_index = 3;</code>
-       * @return The lastLogIndex.
        */
-      @java.lang.Override
       public long getLastLogIndex() {
         return lastLogIndex_;
       }
       /**
        * <code>optional int64 last_log_index = 3;</code>
-       * @param value The lastLogIndex to set.
-       * @return This builder for chaining.
        */
       public Builder setLastLogIndex(long value) {
         bitField0_ |= 0x00000004;
@@ -11526,7 +9460,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional int64 last_log_index = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLastLogIndex() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -11535,23 +9468,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -11591,8 +9523,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -11611,7 +9542,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -11634,141 +9565,92 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.AppendEntriesResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse();
+      defaultInstance = new AppendEntriesResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<AppendEntriesResponse>
-        PARSER = new com.google.protobuf.AbstractParser<AppendEntriesResponse>() {
-      @java.lang.Override
-      public AppendEntriesResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AppendEntriesResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<AppendEntriesResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<AppendEntriesResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.AppendEntriesResponse)
   }
 
-  public interface GetFileRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.GetFileRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface GetFileRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 reader_id = 1;
     /**
      * <code>required int64 reader_id = 1;</code>
-     * @return Whether the readerId field is set.
      */
     boolean hasReaderId();
     /**
      * <code>required int64 reader_id = 1;</code>
-     * @return The readerId.
      */
     long getReaderId();
 
+    // required string filename = 2;
     /**
      * <code>required string filename = 2;</code>
-     * @return Whether the filename field is set.
      */
     boolean hasFilename();
     /**
      * <code>required string filename = 2;</code>
-     * @return The filename.
      */
     java.lang.String getFilename();
     /**
      * <code>required string filename = 2;</code>
-     * @return The bytes for filename.
      */
     com.google.protobuf.ByteString
         getFilenameBytes();
 
+    // required int64 count = 3;
     /**
      * <code>required int64 count = 3;</code>
-     * @return Whether the count field is set.
      */
     boolean hasCount();
     /**
      * <code>required int64 count = 3;</code>
-     * @return The count.
      */
     long getCount();
 
+    // required int64 offset = 4;
     /**
      * <code>required int64 offset = 4;</code>
-     * @return Whether the offset field is set.
      */
     boolean hasOffset();
     /**
      * <code>required int64 offset = 4;</code>
-     * @return The offset.
      */
     long getOffset();
 
+    // optional bool read_partly = 5;
     /**
      * <code>optional bool read_partly = 5;</code>
-     * @return Whether the readPartly field is set.
      */
     boolean hasReadPartly();
     /**
      * <code>optional bool read_partly = 5;</code>
-     * @return The readPartly.
      */
     boolean getReadPartly();
   }
@@ -11776,38 +9658,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.GetFileRequest}
    */
   public static final class GetFileRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.GetFileRequest)
-      GetFileRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements GetFileRequestOrBuilder {
     // Use GetFileRequest.newBuilder() to construct.
-    private GetFileRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private GetFileRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private GetFileRequest() {
-      filename_ = "";
+    private GetFileRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetFileRequest defaultInstance;
+    public static GetFileRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new GetFileRequest();
+    public GetFileRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private GetFileRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -11819,15 +9698,21 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               readerId_ = input.readInt64();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              filename_ = bs;
+              filename_ = input.readBytes();
               break;
             }
             case 24: {
@@ -11845,20 +9730,13 @@ public final class RpcRequests {
               readPartly_ = input.readBool();
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -11869,49 +9747,57 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<GetFileRequest> PARSER =
+        new com.google.protobuf.AbstractParser<GetFileRequest>() {
+      public GetFileRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetFileRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetFileRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 reader_id = 1;
     public static final int READER_ID_FIELD_NUMBER = 1;
     private long readerId_;
     /**
      * <code>required int64 reader_id = 1;</code>
-     * @return Whether the readerId field is set.
      */
-    @java.lang.Override
     public boolean hasReaderId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 reader_id = 1;</code>
-     * @return The readerId.
      */
-    @java.lang.Override
     public long getReaderId() {
       return readerId_;
     }
 
+    // required string filename = 2;
     public static final int FILENAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object filename_;
+    private java.lang.Object filename_;
     /**
      * <code>required string filename = 2;</code>
-     * @return Whether the filename field is set.
      */
-    @java.lang.Override
     public boolean hasFilename() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string filename = 2;</code>
-     * @return The filename.
      */
-    @java.lang.Override
     public java.lang.String getFilename() {
       java.lang.Object ref = filename_;
       if (ref instanceof java.lang.String) {
@@ -11928,9 +9814,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string filename = 2;</code>
-     * @return The bytes for filename.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getFilenameBytes() {
       java.lang.Object ref = filename_;
@@ -11945,69 +9829,65 @@ public final class RpcRequests {
       }
     }
 
+    // required int64 count = 3;
     public static final int COUNT_FIELD_NUMBER = 3;
     private long count_;
     /**
      * <code>required int64 count = 3;</code>
-     * @return Whether the count field is set.
      */
-    @java.lang.Override
     public boolean hasCount() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int64 count = 3;</code>
-     * @return The count.
      */
-    @java.lang.Override
     public long getCount() {
       return count_;
     }
 
+    // required int64 offset = 4;
     public static final int OFFSET_FIELD_NUMBER = 4;
     private long offset_;
     /**
      * <code>required int64 offset = 4;</code>
-     * @return Whether the offset field is set.
      */
-    @java.lang.Override
     public boolean hasOffset() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int64 offset = 4;</code>
-     * @return The offset.
      */
-    @java.lang.Override
     public long getOffset() {
       return offset_;
     }
 
+    // optional bool read_partly = 5;
     public static final int READ_PARTLY_FIELD_NUMBER = 5;
     private boolean readPartly_;
     /**
      * <code>optional bool read_partly = 5;</code>
-     * @return Whether the readPartly field is set.
      */
-    @java.lang.Override
     public boolean hasReadPartly() {
-      return ((bitField0_ & 0x00000010) != 0);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional bool read_partly = 5;</code>
-     * @return The readPartly.
      */
-    @java.lang.Override
     public boolean getReadPartly() {
       return readPartly_;
     }
 
+    private void initFields() {
+      readerId_ = 0L;
+      filename_ = "";
+      count_ = 0L;
+      offset_ = 0L;
+      readPartly_ = false;
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReaderId()) {
         memoizedIsInitialized = 0;
@@ -12029,143 +9909,65 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, readerId_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, filename_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getFilenameBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(3, count_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt64(4, offset_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBool(5, readPartly_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, readerId_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, filename_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getFilenameBytes());
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, count_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, offset_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, readPartly_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest) obj;
-
-      if (hasReaderId() != other.hasReaderId()) return false;
-      if (hasReaderId()) {
-        if (getReaderId()
-            != other.getReaderId()) return false;
-      }
-      if (hasFilename() != other.hasFilename()) return false;
-      if (hasFilename()) {
-        if (!getFilename()
-            .equals(other.getFilename())) return false;
-      }
-      if (hasCount() != other.hasCount()) return false;
-      if (hasCount()) {
-        if (getCount()
-            != other.getCount()) return false;
-      }
-      if (hasOffset() != other.hasOffset()) return false;
-      if (hasOffset()) {
-        if (getOffset()
-            != other.getOffset()) return false;
-      }
-      if (hasReadPartly() != other.hasReadPartly()) return false;
-      if (hasReadPartly()) {
-        if (getReadPartly()
-            != other.getReadPartly()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasReaderId()) {
-        hash = (37 * hash) + READER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReaderId());
-      }
-      if (hasFilename()) {
-        hash = (37 * hash) + FILENAME_FIELD_NUMBER;
-        hash = (53 * hash) + getFilename().hashCode();
-      }
-      if (hasCount()) {
-        hash = (37 * hash) + COUNT_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getCount());
-      }
-      if (hasOffset()) {
-        hash = (37 * hash) + OFFSET_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getOffset());
-      }
-      if (hasReadPartly()) {
-        hash = (37 * hash) + READ_PARTLY_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getReadPartly());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -12189,59 +9991,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -12249,16 +10038,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.GetFileRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.GetFileRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -12271,16 +10058,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         readerId_ = 0L;
@@ -12296,18 +10085,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -12316,69 +10106,35 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.readerId_ = readerId_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.readerId_ = readerId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.filename_ = filename_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.count_ = count_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.offset_ = offset_;
+        result.count_ = count_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.readPartly_ = readPartly_;
+        result.offset_ = offset_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
+        result.readPartly_ = readPartly_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest)other);
@@ -12407,29 +10163,30 @@ public final class RpcRequests {
         if (other.hasReadPartly()) {
           setReadPartly(other.getReadPartly());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasReaderId()) {
+          
           return false;
         }
         if (!hasFilename()) {
+          
           return false;
         }
         if (!hasCount()) {
+          
           return false;
         }
         if (!hasOffset()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12439,7 +10196,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -12449,27 +10206,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 reader_id = 1;
       private long readerId_ ;
       /**
        * <code>required int64 reader_id = 1;</code>
-       * @return Whether the readerId field is set.
        */
-      @java.lang.Override
       public boolean hasReaderId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 reader_id = 1;</code>
-       * @return The readerId.
        */
-      @java.lang.Override
       public long getReaderId() {
         return readerId_;
       }
       /**
        * <code>required int64 reader_id = 1;</code>
-       * @param value The readerId to set.
-       * @return This builder for chaining.
        */
       public Builder setReaderId(long value) {
         bitField0_ |= 0x00000001;
@@ -12479,7 +10231,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 reader_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearReaderId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -12488,27 +10239,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string filename = 2;
       private java.lang.Object filename_ = "";
       /**
        * <code>required string filename = 2;</code>
-       * @return Whether the filename field is set.
        */
       public boolean hasFilename() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string filename = 2;</code>
-       * @return The filename.
        */
       public java.lang.String getFilename() {
         java.lang.Object ref = filename_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            filename_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          filename_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -12516,7 +10263,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string filename = 2;</code>
-       * @return The bytes for filename.
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
@@ -12533,8 +10279,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string filename = 2;</code>
-       * @param value The filename to set.
-       * @return This builder for chaining.
        */
       public Builder setFilename(
           java.lang.String value) {
@@ -12548,7 +10292,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string filename = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearFilename() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -12558,8 +10301,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string filename = 2;</code>
-       * @param value The bytes for filename to set.
-       * @return This builder for chaining.
        */
       public Builder setFilenameBytes(
           com.google.protobuf.ByteString value) {
@@ -12572,27 +10313,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 count = 3;
       private long count_ ;
       /**
        * <code>required int64 count = 3;</code>
-       * @return Whether the count field is set.
        */
-      @java.lang.Override
       public boolean hasCount() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int64 count = 3;</code>
-       * @return The count.
        */
-      @java.lang.Override
       public long getCount() {
         return count_;
       }
       /**
        * <code>required int64 count = 3;</code>
-       * @param value The count to set.
-       * @return This builder for chaining.
        */
       public Builder setCount(long value) {
         bitField0_ |= 0x00000004;
@@ -12602,7 +10338,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 count = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCount() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -12611,27 +10346,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required int64 offset = 4;
       private long offset_ ;
       /**
        * <code>required int64 offset = 4;</code>
-       * @return Whether the offset field is set.
        */
-      @java.lang.Override
       public boolean hasOffset() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int64 offset = 4;</code>
-       * @return The offset.
        */
-      @java.lang.Override
       public long getOffset() {
         return offset_;
       }
       /**
        * <code>required int64 offset = 4;</code>
-       * @param value The offset to set.
-       * @return This builder for chaining.
        */
       public Builder setOffset(long value) {
         bitField0_ |= 0x00000008;
@@ -12641,7 +10371,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 offset = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearOffset() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -12650,27 +10379,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional bool read_partly = 5;
       private boolean readPartly_ ;
       /**
        * <code>optional bool read_partly = 5;</code>
-       * @return Whether the readPartly field is set.
        */
-      @java.lang.Override
       public boolean hasReadPartly() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional bool read_partly = 5;</code>
-       * @return The readPartly.
        */
-      @java.lang.Override
       public boolean getReadPartly() {
         return readPartly_;
       }
       /**
        * <code>optional bool read_partly = 5;</code>
-       * @param value The readPartly to set.
-       * @return This builder for chaining.
        */
       public Builder setReadPartly(boolean value) {
         bitField0_ |= 0x00000010;
@@ -12680,7 +10404,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional bool read_partly = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearReadPartly() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -12688,112 +10411,66 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.GetFileRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.GetFileRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest();
+      defaultInstance = new GetFileRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetFileRequest>
-        PARSER = new com.google.protobuf.AbstractParser<GetFileRequest>() {
-      @java.lang.Override
-      public GetFileRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetFileRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<GetFileRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetFileRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.GetFileRequest)
   }
 
-  public interface GetFileResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.GetFileResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface GetFileResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required bool eof = 1;
     /**
+     * <code>required bool eof = 1;</code>
+     *
      * <pre>
      * Data is in attachment
      * </pre>
-     *
-     * <code>required bool eof = 1;</code>
-     * @return Whether the eof field is set.
      */
     boolean hasEof();
     /**
+     * <code>required bool eof = 1;</code>
+     *
      * <pre>
      * Data is in attachment
      * </pre>
-     *
-     * <code>required bool eof = 1;</code>
-     * @return The eof.
      */
     boolean getEof();
 
+    // required bytes data = 2;
     /**
      * <code>required bytes data = 2;</code>
-     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>required bytes data = 2;</code>
-     * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
+    // optional int64 read_size = 3;
     /**
      * <code>optional int64 read_size = 3;</code>
-     * @return Whether the readSize field is set.
      */
     boolean hasReadSize();
     /**
      * <code>optional int64 read_size = 3;</code>
-     * @return The readSize.
      */
     long getReadSize();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -12805,38 +10482,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.GetFileResponse}
    */
   public static final class GetFileResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.GetFileResponse)
-      GetFileResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements GetFileResponseOrBuilder {
     // Use GetFileResponse.newBuilder() to construct.
-    private GetFileResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private GetFileResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private GetFileResponse() {
-      data_ = com.google.protobuf.ByteString.EMPTY;
+    private GetFileResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetFileResponse defaultInstance;
+    public static GetFileResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new GetFileResponse();
+    public GetFileResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private GetFileResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -12848,6 +10522,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               eof_ = input.readBool();
@@ -12865,7 +10546,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) != 0)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -12876,20 +10557,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000008;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -12900,112 +10574,117 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<GetFileResponse> PARSER =
+        new com.google.protobuf.AbstractParser<GetFileResponse>() {
+      public GetFileResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetFileResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetFileResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required bool eof = 1;
     public static final int EOF_FIELD_NUMBER = 1;
     private boolean eof_;
     /**
+     * <code>required bool eof = 1;</code>
+     *
      * <pre>
      * Data is in attachment
      * </pre>
-     *
-     * <code>required bool eof = 1;</code>
-     * @return Whether the eof field is set.
      */
-    @java.lang.Override
     public boolean hasEof() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
+     * <code>required bool eof = 1;</code>
+     *
      * <pre>
      * Data is in attachment
      * </pre>
-     *
-     * <code>required bool eof = 1;</code>
-     * @return The eof.
      */
-    @java.lang.Override
     public boolean getEof() {
       return eof_;
     }
 
+    // required bytes data = 2;
     public static final int DATA_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString data_;
     /**
      * <code>required bytes data = 2;</code>
-     * @return Whether the data field is set.
      */
-    @java.lang.Override
     public boolean hasData() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bytes data = 2;</code>
-     * @return The data.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
+    // optional int64 read_size = 3;
     public static final int READ_SIZE_FIELD_NUMBER = 3;
     private long readSize_;
     /**
      * <code>optional int64 read_size = 3;</code>
-     * @return Whether the readSize field is set.
      */
-    @java.lang.Override
     public boolean hasReadSize() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int64 read_size = 3;</code>
-     * @return The readSize.
      */
-    @java.lang.Override
     public long getReadSize() {
       return readSize_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000008) != 0);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      eof_ = false;
+      data_ = com.google.protobuf.ByteString.EMPTY;
+      readSize_ = 0L;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasEof()) {
         memoizedIsInitialized = 0;
@@ -13025,126 +10704,58 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBool(1, eof_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, data_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(3, readSize_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, eof_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, data_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, readSize_);
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse) obj;
-
-      if (hasEof() != other.hasEof()) return false;
-      if (hasEof()) {
-        if (getEof()
-            != other.getEof()) return false;
-      }
-      if (hasData() != other.hasData()) return false;
-      if (hasData()) {
-        if (!getData()
-            .equals(other.getData())) return false;
-      }
-      if (hasReadSize() != other.hasReadSize()) return false;
-      if (hasReadSize()) {
-        if (getReadSize()
-            != other.getReadSize()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasEof()) {
-        hash = (37 * hash) + EOF_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getEof());
-      }
-      if (hasData()) {
-        hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getData().hashCode();
-      }
-      if (hasReadSize()) {
-        hash = (37 * hash) + READ_SIZE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadSize());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -13168,59 +10779,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -13228,16 +10826,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.GetFileResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.GetFileResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -13250,17 +10846,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         eof_ = false;
@@ -13270,7 +10868,7 @@ public final class RpcRequests {
         readSize_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -13278,18 +10876,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_GetFileResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -13298,69 +10897,35 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.eof_ = eof_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.eof_ = eof_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.data_ = data_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.readSize_ = readSize_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.readSize_ = readSize_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse)other);
@@ -13384,28 +10949,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasEof()) {
+          
           return false;
         }
         if (!hasData()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13415,7 +10980,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -13425,39 +10990,34 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required bool eof = 1;
       private boolean eof_ ;
       /**
+       * <code>required bool eof = 1;</code>
+       *
        * <pre>
        * Data is in attachment
        * </pre>
-       *
-       * <code>required bool eof = 1;</code>
-       * @return Whether the eof field is set.
        */
-      @java.lang.Override
       public boolean hasEof() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
+       * <code>required bool eof = 1;</code>
+       *
        * <pre>
        * Data is in attachment
        * </pre>
-       *
-       * <code>required bool eof = 1;</code>
-       * @return The eof.
        */
-      @java.lang.Override
       public boolean getEof() {
         return eof_;
       }
       /**
+       * <code>required bool eof = 1;</code>
+       *
        * <pre>
        * Data is in attachment
        * </pre>
-       *
-       * <code>required bool eof = 1;</code>
-       * @param value The eof to set.
-       * @return This builder for chaining.
        */
       public Builder setEof(boolean value) {
         bitField0_ |= 0x00000001;
@@ -13466,12 +11026,11 @@ public final class RpcRequests {
         return this;
       }
       /**
+       * <code>required bool eof = 1;</code>
+       *
        * <pre>
        * Data is in attachment
        * </pre>
-       *
-       * <code>required bool eof = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearEof() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -13480,27 +11039,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bytes data = 2;
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes data = 2;</code>
-       * @return Whether the data field is set.
        */
-      @java.lang.Override
       public boolean hasData() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bytes data = 2;</code>
-       * @return The data.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
        * <code>required bytes data = 2;</code>
-       * @param value The data to set.
-       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -13513,7 +11067,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bytes data = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -13522,27 +11075,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional int64 read_size = 3;
       private long readSize_ ;
       /**
        * <code>optional int64 read_size = 3;</code>
-       * @return Whether the readSize field is set.
        */
-      @java.lang.Override
       public boolean hasReadSize() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int64 read_size = 3;</code>
-       * @return The readSize.
        */
-      @java.lang.Override
       public long getReadSize() {
         return readSize_;
       }
       /**
        * <code>optional int64 read_size = 3;</code>
-       * @param value The readSize to set.
-       * @return This builder for chaining.
        */
       public Builder setReadSize(long value) {
         bitField0_ |= 0x00000004;
@@ -13552,7 +11100,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional int64 read_size = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearReadSize() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -13561,23 +11108,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -13617,8 +11163,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -13637,7 +11182,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -13660,147 +11205,95 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.GetFileResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.GetFileResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse();
+      defaultInstance = new GetFileResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetFileResponse>
-        PARSER = new com.google.protobuf.AbstractParser<GetFileResponse>() {
-      @java.lang.Override
-      public GetFileResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetFileResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<GetFileResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetFileResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.GetFileResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.GetFileResponse)
   }
 
-  public interface ReadIndexRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.ReadIndexRequest)
-      com.google.protobuf.MessageOrBuilder {
+  public interface ReadIndexRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required string group_id = 1;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
     boolean hasGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
     java.lang.String getGroupId();
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
+    // required string server_id = 2;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
     boolean hasServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
     java.lang.String getServerId();
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
     com.google.protobuf.ByteString
         getServerIdBytes();
 
+    // repeated bytes entries = 3;
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @return A list containing the entries.
      */
     java.util.List<com.google.protobuf.ByteString> getEntriesList();
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @return The count of entries.
      */
     int getEntriesCount();
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @param index The index of the element to return.
-     * @return The entries at the given index.
      */
     com.google.protobuf.ByteString getEntries(int index);
 
+    // optional string peer_id = 4;
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return Whether the peerId field is set.
      */
     boolean hasPeerId();
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return The peerId.
      */
     java.lang.String getPeerId();
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return The bytes for peerId.
      */
     com.google.protobuf.ByteString
         getPeerIdBytes();
@@ -13809,41 +11302,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.ReadIndexRequest}
    */
   public static final class ReadIndexRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.ReadIndexRequest)
-      ReadIndexRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements ReadIndexRequestOrBuilder {
     // Use ReadIndexRequest.newBuilder() to construct.
-    private ReadIndexRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private ReadIndexRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private ReadIndexRequest() {
-      groupId_ = "";
-      serverId_ = "";
-      entries_ = java.util.Collections.emptyList();
-      peerId_ = "";
+    private ReadIndexRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ReadIndexRequest defaultInstance;
+    public static ReadIndexRequest getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ReadIndexRequest();
+    public ReadIndexRequest getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private ReadIndexRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13855,20 +11342,25 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              groupId_ = bs;
+              groupId_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              serverId_ = bs;
+              serverId_ = input.readBytes();
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 entries_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -13876,16 +11368,8 @@ public final class RpcRequests {
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              peerId_ = bs;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
+              peerId_ = input.readBytes();
               break;
             }
           }
@@ -13894,10 +11378,10 @@ public final class RpcRequests {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
-          entries_ = java.util.Collections.unmodifiableList(entries_); // C
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          entries_ = java.util.Collections.unmodifiableList(entries_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -13908,30 +11392,41 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest.class, com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<ReadIndexRequest> PARSER =
+        new com.google.protobuf.AbstractParser<ReadIndexRequest>() {
+      public ReadIndexRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReadIndexRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReadIndexRequest> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required string group_id = 1;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object groupId_;
+    private java.lang.Object groupId_;
     /**
      * <code>required string group_id = 1;</code>
-     * @return Whether the groupId field is set.
      */
-    @java.lang.Override
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The groupId.
      */
-    @java.lang.Override
     public java.lang.String getGroupId() {
       java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
@@ -13948,9 +11443,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string group_id = 1;</code>
-     * @return The bytes for groupId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getGroupIdBytes() {
       java.lang.Object ref = groupId_;
@@ -13965,21 +11458,18 @@ public final class RpcRequests {
       }
     }
 
+    // required string server_id = 2;
     public static final int SERVER_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object serverId_;
+    private java.lang.Object serverId_;
     /**
      * <code>required string server_id = 2;</code>
-     * @return Whether the serverId field is set.
      */
-    @java.lang.Override
     public boolean hasServerId() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The serverId.
      */
-    @java.lang.Override
     public java.lang.String getServerId() {
       java.lang.Object ref = serverId_;
       if (ref instanceof java.lang.String) {
@@ -13996,9 +11486,7 @@ public final class RpcRequests {
     }
     /**
      * <code>required string server_id = 2;</code>
-     * @return The bytes for serverId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getServerIdBytes() {
       java.lang.Object ref = serverId_;
@@ -14013,48 +11501,41 @@ public final class RpcRequests {
       }
     }
 
+    // repeated bytes entries = 3;
     public static final int ENTRIES_FIELD_NUMBER = 3;
     private java.util.List<com.google.protobuf.ByteString> entries_;
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @return A list containing the entries.
      */
-    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getEntriesList() {
       return entries_;
     }
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @return The count of entries.
      */
     public int getEntriesCount() {
       return entries_.size();
     }
     /**
      * <code>repeated bytes entries = 3;</code>
-     * @param index The index of the element to return.
-     * @return The entries at the given index.
      */
     public com.google.protobuf.ByteString getEntries(int index) {
       return entries_.get(index);
     }
 
+    // optional string peer_id = 4;
     public static final int PEER_ID_FIELD_NUMBER = 4;
-    private volatile java.lang.Object peerId_;
+    private java.lang.Object peerId_;
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return Whether the peerId field is set.
      */
-    @java.lang.Override
     public boolean hasPeerId() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return The peerId.
      */
-    @java.lang.Override
     public java.lang.String getPeerId() {
       java.lang.Object ref = peerId_;
       if (ref instanceof java.lang.String) {
@@ -14071,9 +11552,7 @@ public final class RpcRequests {
     }
     /**
      * <code>optional string peer_id = 4;</code>
-     * @return The bytes for peerId.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPeerIdBytes() {
       java.lang.Object ref = peerId_;
@@ -14088,12 +11567,16 @@ public final class RpcRequests {
       }
     }
 
+    private void initFields() {
+      groupId_ = "";
+      serverId_ = "";
+      entries_ = java.util.Collections.emptyList();
+      peerId_ = "";
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGroupId()) {
         memoizedIsInitialized = 0;
@@ -14107,35 +11590,37 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getServerIdBytes());
       }
       for (int i = 0; i < entries_.size(); i++) {
         output.writeBytes(3, entries_.get(i));
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(4, getPeerIdBytes());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getGroupIdBytes());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serverId_);
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getServerIdBytes());
       }
       {
         int dataSize = 0;
@@ -14146,84 +11631,22 @@ public final class RpcRequests {
         size += dataSize;
         size += 1 * getEntriesList().size();
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, peerId_);
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getPeerIdBytes());
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest other = (com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest) obj;
-
-      if (hasGroupId() != other.hasGroupId()) return false;
-      if (hasGroupId()) {
-        if (!getGroupId()
-            .equals(other.getGroupId())) return false;
-      }
-      if (hasServerId() != other.hasServerId()) return false;
-      if (hasServerId()) {
-        if (!getServerId()
-            .equals(other.getServerId())) return false;
-      }
-      if (!getEntriesList()
-          .equals(other.getEntriesList())) return false;
-      if (hasPeerId() != other.hasPeerId()) return false;
-      if (hasPeerId()) {
-        if (!getPeerId()
-            .equals(other.getPeerId())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasGroupId()) {
-        hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getGroupId().hashCode();
-      }
-      if (hasServerId()) {
-        hash = (37 * hash) + SERVER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getServerId().hashCode();
-      }
-      if (getEntriesCount() > 0) {
-        hash = (37 * hash) + ENTRIES_FIELD_NUMBER;
-        hash = (53 * hash) + getEntriesList().hashCode();
-      }
-      if (hasPeerId()) {
-        hash = (37 * hash) + PEER_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getPeerId().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -14247,59 +11670,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -14307,16 +11717,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.ReadIndexRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.ReadIndexRequest)
-        com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexRequest_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -14329,16 +11737,18 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         groupId_ = "";
@@ -14352,18 +11762,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexRequest_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -14372,25 +11783,24 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest result = new com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.groupId_ = groupId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
         result.serverId_ = serverId_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           entries_ = java.util.Collections.unmodifiableList(entries_);
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.entries_ = entries_;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000004;
         }
         result.peerId_ = peerId_;
@@ -14399,39 +11809,6 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest)other);
@@ -14468,23 +11845,22 @@ public final class RpcRequests {
           peerId_ = other.peerId_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasGroupId()) {
+          
           return false;
         }
         if (!hasServerId()) {
+          
           return false;
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14494,7 +11870,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -14504,27 +11880,23 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required string group_id = 1;
       private java.lang.Object groupId_ = "";
       /**
        * <code>required string group_id = 1;</code>
-       * @return Whether the groupId field is set.
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The groupId.
        */
       public java.lang.String getGroupId() {
         java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            groupId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -14532,7 +11904,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return The bytes for groupId.
        */
       public com.google.protobuf.ByteString
           getGroupIdBytes() {
@@ -14549,8 +11920,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupId(
           java.lang.String value) {
@@ -14564,7 +11933,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -14574,8 +11942,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string group_id = 1;</code>
-       * @param value The bytes for groupId to set.
-       * @return This builder for chaining.
        */
       public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14588,27 +11954,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // required string server_id = 2;
       private java.lang.Object serverId_ = "";
       /**
        * <code>required string server_id = 2;</code>
-       * @return Whether the serverId field is set.
        */
       public boolean hasServerId() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The serverId.
        */
       public java.lang.String getServerId() {
         java.lang.Object ref = serverId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            serverId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -14616,7 +11978,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return The bytes for serverId.
        */
       public com.google.protobuf.ByteString
           getServerIdBytes() {
@@ -14633,8 +11994,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerId(
           java.lang.String value) {
@@ -14648,7 +12007,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearServerId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -14658,8 +12016,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required string server_id = 2;</code>
-       * @param value The bytes for serverId to set.
-       * @return This builder for chaining.
        */
       public Builder setServerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14672,42 +12028,35 @@ public final class RpcRequests {
         return this;
       }
 
+      // repeated bytes entries = 3;
       private java.util.List<com.google.protobuf.ByteString> entries_ = java.util.Collections.emptyList();
       private void ensureEntriesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           entries_ = new java.util.ArrayList<com.google.protobuf.ByteString>(entries_);
           bitField0_ |= 0x00000004;
          }
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @return A list containing the entries.
        */
       public java.util.List<com.google.protobuf.ByteString>
           getEntriesList() {
-        return ((bitField0_ & 0x00000004) != 0) ?
-                 java.util.Collections.unmodifiableList(entries_) : entries_;
+        return java.util.Collections.unmodifiableList(entries_);
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @return The count of entries.
        */
       public int getEntriesCount() {
         return entries_.size();
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @param index The index of the element to return.
-       * @return The entries at the given index.
        */
       public com.google.protobuf.ByteString getEntries(int index) {
         return entries_.get(index);
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @param index The index to set the value at.
-       * @param value The entries to set.
-       * @return This builder for chaining.
        */
       public Builder setEntries(
           int index, com.google.protobuf.ByteString value) {
@@ -14721,8 +12070,6 @@ public final class RpcRequests {
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @param value The entries to add.
-       * @return This builder for chaining.
        */
       public Builder addEntries(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -14735,20 +12082,16 @@ public final class RpcRequests {
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @param values The entries to add.
-       * @return This builder for chaining.
        */
       public Builder addAllEntries(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureEntriesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, entries_);
+        super.addAll(values, entries_);
         onChanged();
         return this;
       }
       /**
        * <code>repeated bytes entries = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearEntries() {
         entries_ = java.util.Collections.emptyList();
@@ -14757,27 +12100,23 @@ public final class RpcRequests {
         return this;
       }
 
+      // optional string peer_id = 4;
       private java.lang.Object peerId_ = "";
       /**
        * <code>optional string peer_id = 4;</code>
-       * @return Whether the peerId field is set.
        */
       public boolean hasPeerId() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional string peer_id = 4;</code>
-       * @return The peerId.
        */
       public java.lang.String getPeerId() {
         java.lang.Object ref = peerId_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            peerId_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          peerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -14785,7 +12124,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string peer_id = 4;</code>
-       * @return The bytes for peerId.
        */
       public com.google.protobuf.ByteString
           getPeerIdBytes() {
@@ -14802,8 +12140,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string peer_id = 4;</code>
-       * @param value The peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerId(
           java.lang.String value) {
@@ -14817,7 +12153,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string peer_id = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPeerId() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -14827,8 +12162,6 @@ public final class RpcRequests {
       }
       /**
        * <code>optional string peer_id = 4;</code>
-       * @param value The bytes for peerId to set.
-       * @return This builder for chaining.
        */
       public Builder setPeerIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14840,93 +12173,48 @@ public final class RpcRequests {
         onChanged();
         return this;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.ReadIndexRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.ReadIndexRequest)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest();
+      defaultInstance = new ReadIndexRequest(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<ReadIndexRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ReadIndexRequest>() {
-      @java.lang.Override
-      public ReadIndexRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ReadIndexRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ReadIndexRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ReadIndexRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.ReadIndexRequest)
   }
 
-  public interface ReadIndexResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:jraft.ReadIndexResponse)
-      com.google.protobuf.MessageOrBuilder {
+  public interface ReadIndexResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 index = 1;
     /**
      * <code>required int64 index = 1;</code>
-     * @return Whether the index field is set.
      */
     boolean hasIndex();
     /**
      * <code>required int64 index = 1;</code>
-     * @return The index.
      */
     long getIndex();
 
+    // required bool success = 2;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
     boolean hasSuccess();
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
     boolean getSuccess();
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
     boolean hasErrorResponse();
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
     com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse();
     /**
@@ -14938,37 +12226,35 @@ public final class RpcRequests {
    * Protobuf type {@code jraft.ReadIndexResponse}
    */
   public static final class ReadIndexResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:jraft.ReadIndexResponse)
-      ReadIndexResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+      com.google.protobuf.GeneratedMessage
+      implements ReadIndexResponseOrBuilder {
     // Use ReadIndexResponse.newBuilder() to construct.
-    private ReadIndexResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    private ReadIndexResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
+      this.unknownFields = builder.getUnknownFields();
     }
-    private ReadIndexResponse() {
+    private ReadIndexResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ReadIndexResponse defaultInstance;
+    public static ReadIndexResponse getDefaultInstance() {
+      return defaultInstance;
     }
 
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ReadIndexResponse();
+    public ReadIndexResponse getDefaultInstanceForType() {
+      return defaultInstance;
     }
 
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
+        getUnknownFields() {
       return this.unknownFields;
     }
     private ReadIndexResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
+      initFields();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -14980,6 +12266,13 @@ public final class RpcRequests {
             case 0:
               done = true;
               break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
               bitField0_ |= 0x00000001;
               index_ = input.readInt64();
@@ -14992,7 +12285,7 @@ public final class RpcRequests {
             }
             case 794: {
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) != 0)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = errorResponse_.toBuilder();
               }
               errorResponse_ = input.readMessage(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.PARSER, extensionRegistry);
@@ -15003,20 +12296,13 @@ public final class RpcRequests {
               bitField0_ |= 0x00000004;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
+            e.getMessage()).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -15027,85 +12313,92 @@ public final class RpcRequests {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexResponse_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse.class, com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse.Builder.class);
     }
 
+    public static com.google.protobuf.Parser<ReadIndexResponse> PARSER =
+        new com.google.protobuf.AbstractParser<ReadIndexResponse>() {
+      public ReadIndexResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReadIndexResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReadIndexResponse> getParserForType() {
+      return PARSER;
+    }
+
     private int bitField0_;
+    // required int64 index = 1;
     public static final int INDEX_FIELD_NUMBER = 1;
     private long index_;
     /**
      * <code>required int64 index = 1;</code>
-     * @return Whether the index field is set.
      */
-    @java.lang.Override
     public boolean hasIndex() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 index = 1;</code>
-     * @return The index.
      */
-    @java.lang.Override
     public long getIndex() {
       return index_;
     }
 
+    // required bool success = 2;
     public static final int SUCCESS_FIELD_NUMBER = 2;
     private boolean success_;
     /**
      * <code>required bool success = 2;</code>
-     * @return Whether the success field is set.
      */
-    @java.lang.Override
     public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool success = 2;</code>
-     * @return The success.
      */
-    @java.lang.Override
     public boolean getSuccess() {
       return success_;
     }
 
+    // optional .jraft.ErrorResponse errorResponse = 99;
     public static final int ERRORRESPONSE_FIELD_NUMBER = 99;
     private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return Whether the errorResponse field is set.
      */
-    @java.lang.Override
     public boolean hasErrorResponse() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-     * @return The errorResponse.
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
     /**
      * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
      */
-    @java.lang.Override
     public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder getErrorResponseOrBuilder() {
-      return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+      return errorResponse_;
     }
 
+    private void initFields() {
+      index_ = 0L;
+      success_ = false;
+      errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+    }
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasIndex()) {
         memoizedIsInitialized = 0;
@@ -15125,110 +12418,51 @@ public final class RpcRequests {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, index_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(99, getErrorResponse());
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(99, errorResponse_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSize;
+      int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, index_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, success_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(99, getErrorResponse());
+          .computeMessageSize(99, errorResponse_);
       }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse)) {
-        return super.equals(obj);
-      }
-      com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse other = (com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse) obj;
-
-      if (hasIndex() != other.hasIndex()) return false;
-      if (hasIndex()) {
-        if (getIndex()
-            != other.getIndex()) return false;
-      }
-      if (hasSuccess() != other.hasSuccess()) return false;
-      if (hasSuccess()) {
-        if (getSuccess()
-            != other.getSuccess()) return false;
-      }
-      if (hasErrorResponse() != other.hasErrorResponse()) return false;
-      if (hasErrorResponse()) {
-        if (!getErrorResponse()
-            .equals(other.getErrorResponse())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
 
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasIndex()) {
-        hash = (37 * hash) + INDEX_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getIndex());
-      }
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getSuccess());
-      }
-      if (hasErrorResponse()) {
-        hash = (37 * hash) + ERRORRESPONSE_FIELD_NUMBER;
-        hash = (53 * hash) + getErrorResponse().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -15252,59 +12486,46 @@ public final class RpcRequests {
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+      return PARSER.parseDelimitedFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+      return PARSER.parseFrom(input);
     }
     public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+      return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    @java.lang.Override
+    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
     public static Builder newBuilder(com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      return newBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
+    public Builder toBuilder() { return newBuilder(this); }
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -15312,16 +12533,14 @@ public final class RpcRequests {
      * Protobuf type {@code jraft.ReadIndexResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:jraft.ReadIndexResponse)
-        com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexResponse_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -15334,17 +12553,19 @@ public final class RpcRequests {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getErrorResponseFieldBuilder();
         }
       }
-      @java.lang.Override
+      private static Builder create() {
+        return new Builder();
+      }
+
       public Builder clear() {
         super.clear();
         index_ = 0L;
@@ -15352,7 +12573,7 @@ public final class RpcRequests {
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
         } else {
           errorResponseBuilder_.clear();
         }
@@ -15360,18 +12581,19 @@ public final class RpcRequests {
         return this;
       }
 
-      @java.lang.Override
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.internal_static_jraft_ReadIndexResponse_descriptor;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse getDefaultInstanceForType() {
         return com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse.getDefaultInstance();
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse build() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -15380,65 +12602,31 @@ public final class RpcRequests {
         return result;
       }
 
-      @java.lang.Override
       public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse buildPartial() {
         com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse result = new com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.index_ = index_;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.success_ = success_;
+        result.index_ = index_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          if (errorResponseBuilder_ == null) {
-            result.errorResponse_ = errorResponse_;
-          } else {
-            result.errorResponse_ = errorResponseBuilder_.build();
-          }
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        if (errorResponseBuilder_ == null) {
+          result.errorResponse_ = errorResponse_;
+        } else {
+          result.errorResponse_ = errorResponseBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse) {
           return mergeFrom((com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse)other);
@@ -15459,28 +12647,28 @@ public final class RpcRequests {
         if (other.hasErrorResponse()) {
           mergeErrorResponse(other.getErrorResponse());
         }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
+        this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasIndex()) {
+          
           return false;
         }
         if (!hasSuccess()) {
+          
           return false;
         }
         if (hasErrorResponse()) {
           if (!getErrorResponse().isInitialized()) {
+            
             return false;
           }
         }
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15490,7 +12678,7 @@ public final class RpcRequests {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
+          throw e;
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -15500,27 +12688,22 @@ public final class RpcRequests {
       }
       private int bitField0_;
 
+      // required int64 index = 1;
       private long index_ ;
       /**
        * <code>required int64 index = 1;</code>
-       * @return Whether the index field is set.
        */
-      @java.lang.Override
       public boolean hasIndex() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 index = 1;</code>
-       * @return The index.
        */
-      @java.lang.Override
       public long getIndex() {
         return index_;
       }
       /**
        * <code>required int64 index = 1;</code>
-       * @param value The index to set.
-       * @return This builder for chaining.
        */
       public Builder setIndex(long value) {
         bitField0_ |= 0x00000001;
@@ -15530,7 +12713,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required int64 index = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIndex() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -15539,27 +12721,22 @@ public final class RpcRequests {
         return this;
       }
 
+      // required bool success = 2;
       private boolean success_ ;
       /**
        * <code>required bool success = 2;</code>
-       * @return Whether the success field is set.
        */
-      @java.lang.Override
       public boolean hasSuccess() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return The success.
        */
-      @java.lang.Override
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>required bool success = 2;</code>
-       * @param value The success to set.
-       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         bitField0_ |= 0x00000002;
@@ -15569,7 +12746,6 @@ public final class RpcRequests {
       }
       /**
        * <code>required bool success = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -15578,23 +12754,22 @@ public final class RpcRequests {
         return this;
       }
 
-      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_;
-      private com.google.protobuf.SingleFieldBuilderV3<
+      // optional .jraft.ErrorResponse errorResponse = 99;
+      private com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> errorResponseBuilder_;
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return Whether the errorResponse field is set.
        */
       public boolean hasErrorResponse() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
-       * @return The errorResponse.
        */
       public com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse getErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          return errorResponse_ == null ? com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         } else {
           return errorResponseBuilder_.getMessage();
         }
@@ -15634,8 +12809,7 @@ public final class RpcRequests {
        */
       public Builder mergeErrorResponse(com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse value) {
         if (errorResponseBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
-              errorResponse_ != null &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               errorResponse_ != com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance()) {
             errorResponse_ =
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.newBuilder(errorResponse_).mergeFrom(value).buildPartial();
@@ -15654,7 +12828,7 @@ public final class RpcRequests {
        */
       public Builder clearErrorResponse() {
         if (errorResponseBuilder_ == null) {
-          errorResponse_ = null;
+          errorResponse_ = com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance();
           onChanged();
         } else {
           errorResponseBuilder_.clear();
@@ -15677,160 +12851,118 @@ public final class RpcRequests {
         if (errorResponseBuilder_ != null) {
           return errorResponseBuilder_.getMessageOrBuilder();
         } else {
-          return errorResponse_ == null ?
-              com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.getDefaultInstance() : errorResponse_;
+          return errorResponse_;
         }
       }
       /**
        * <code>optional .jraft.ErrorResponse errorResponse = 99;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilder<
           com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder> 
           getErrorResponseFieldBuilder() {
         if (errorResponseBuilder_ == null) {
-          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          errorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse.Builder, com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponseOrBuilder>(
-                  getErrorResponse(),
+                  errorResponse_,
                   getParentForChildren(),
                   isClean());
           errorResponse_ = null;
         }
         return errorResponseBuilder_;
       }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
 
       // @@protoc_insertion_point(builder_scope:jraft.ReadIndexResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:jraft.ReadIndexResponse)
-    private static final com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse();
+      defaultInstance = new ReadIndexResponse(true);
+      defaultInstance.initFields();
     }
 
-    public static com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<ReadIndexResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ReadIndexResponse>() {
-      @java.lang.Override
-      public ReadIndexResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ReadIndexResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ReadIndexResponse> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ReadIndexResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
+    // @@protoc_insertion_point(class_scope:jraft.ReadIndexResponse)
   }
 
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_PingRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_PingRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_ErrorResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_ErrorResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_InstallSnapshotRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_InstallSnapshotRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_InstallSnapshotResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_InstallSnapshotResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_TimeoutNowRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_TimeoutNowRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_TimeoutNowResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_TimeoutNowResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_RequestVoteRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_RequestVoteRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_RequestVoteResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_RequestVoteResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_AppendEntriesRequestHeader_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_AppendEntriesRequestHeader_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_AppendEntriesRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_AppendEntriesRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_AppendEntriesResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_AppendEntriesResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_GetFileRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_GetFileRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_GetFileResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_GetFileResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_ReadIndexRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_ReadIndexRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_jraft_ReadIndexResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jraft_ReadIndexResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
     return descriptor;
   }
-  private static  com.google.protobuf.Descriptors.FileDescriptor
+  private static com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {
@@ -15843,7 +12975,7 @@ public final class RpcRequests {
       ".SnapshotMeta\022\013\n\003uri\030\006 \002(\t\"e\n\027InstallSna" +
       "pshotResponse\022\014\n\004term\030\001 \002(\003\022\017\n\007success\030\002" +
       " \002(\010\022+\n\rerrorResponse\030c \001(\0132\024.jraft.Erro" +
-      "rResponse\"W\n\021TimeoutNowRequest\022\020\n\010group_" +
+      "rResponse\"W\n\021TimeoutNowRequest\022\020\n\010group_",
       "id\030\001 \002(\t\022\021\n\tserver_id\030\002 \002(\t\022\017\n\007peer_id\030\003" +
       " \002(\t\022\014\n\004term\030\004 \002(\003\"`\n\022TimeoutNowResponse" +
       "\022\014\n\004term\030\001 \002(\003\022\017\n\007success\030\002 \002(\010\022+\n\rerror" +
@@ -15853,7 +12985,7 @@ public final class RpcRequests {
       "m\030\004 \002(\003\022\025\n\rlast_log_term\030\005 \002(\003\022\026\n\016last_l" +
       "og_index\030\006 \002(\003\022\020\n\010pre_vote\030\007 \002(\010\"a\n\023Requ" +
       "estVoteResponse\022\014\n\004term\030\001 \002(\003\022\017\n\007granted" +
-      "\030\002 \002(\010\022+\n\rerrorResponse\030c \001(\0132\024.jraft.Er" +
+      "\030\002 \002(\010\022+\n\rerrorResponse\030c \001(\0132\024.jraft.Er",
       "rorResponse\"R\n\032AppendEntriesRequestHeade" +
       "r\022\020\n\010group_id\030\001 \002(\t\022\021\n\tserver_id\030\002 \002(\t\022\017" +
       "\n\007peer_id\030\003 \002(\t\"\323\001\n\024AppendEntriesRequest" +
@@ -15863,7 +12995,7 @@ public final class RpcRequests {
       "ntries\030\007 \003(\0132\020.jraft.EntryMeta\022\027\n\017commit" +
       "ted_index\030\010 \002(\003\022\014\n\004data\030\t \001(\014\"{\n\025AppendE" +
       "ntriesResponse\022\014\n\004term\030\001 \002(\003\022\017\n\007success\030" +
-      "\002 \002(\010\022\026\n\016last_log_index\030\003 \001(\003\022+\n\rerrorRe" +
+      "\002 \002(\010\022\026\n\016last_log_index\030\003 \001(\003\022+\n\rerrorRe",
       "sponse\030c \001(\0132\024.jraft.ErrorResponse\"i\n\016Ge" +
       "tFileRequest\022\021\n\treader_id\030\001 \002(\003\022\020\n\010filen" +
       "ame\030\002 \002(\t\022\r\n\005count\030\003 \002(\003\022\016\n\006offset\030\004 \002(\003" +
@@ -15873,107 +13005,114 @@ public final class RpcRequests {
       "rorResponse\"Y\n\020ReadIndexRequest\022\020\n\010group" +
       "_id\030\001 \002(\t\022\021\n\tserver_id\030\002 \002(\t\022\017\n\007entries\030" +
       "\003 \003(\014\022\017\n\007peer_id\030\004 \001(\t\"`\n\021ReadIndexRespo" +
-      "nse\022\r\n\005index\030\001 \002(\003\022\017\n\007success\030\002 \002(\010\022+\n\re" +
+      "nse\022\r\n\005index\030\001 \002(\003\022\017\n\007success\030\002 \002(\010\022+\n\re",
       "rrorResponse\030c \001(\0132\024.jraft.ErrorResponse" +
       "B(\n\031com.alipay.sofa.jraft.rpcB\013RpcReques" +
       "ts"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+        public com.google.protobuf.ExtensionRegistry assignDescriptors(
+            com.google.protobuf.Descriptors.FileDescriptor root) {
+          descriptor = root;
+          internal_static_jraft_PingRequest_descriptor =
+            getDescriptor().getMessageTypes().get(0);
+          internal_static_jraft_PingRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_PingRequest_descriptor,
+              new java.lang.String[] { "SendTimestamp", });
+          internal_static_jraft_ErrorResponse_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_jraft_ErrorResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_ErrorResponse_descriptor,
+              new java.lang.String[] { "ErrorCode", "ErrorMsg", });
+          internal_static_jraft_InstallSnapshotRequest_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_jraft_InstallSnapshotRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_InstallSnapshotRequest_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "Meta", "Uri", });
+          internal_static_jraft_InstallSnapshotResponse_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_jraft_InstallSnapshotResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_InstallSnapshotResponse_descriptor,
+              new java.lang.String[] { "Term", "Success", "ErrorResponse", });
+          internal_static_jraft_TimeoutNowRequest_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_jraft_TimeoutNowRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_TimeoutNowRequest_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", });
+          internal_static_jraft_TimeoutNowResponse_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_jraft_TimeoutNowResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_TimeoutNowResponse_descriptor,
+              new java.lang.String[] { "Term", "Success", "ErrorResponse", });
+          internal_static_jraft_RequestVoteRequest_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_jraft_RequestVoteRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_RequestVoteRequest_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "LastLogTerm", "LastLogIndex", "PreVote", });
+          internal_static_jraft_RequestVoteResponse_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_jraft_RequestVoteResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_RequestVoteResponse_descriptor,
+              new java.lang.String[] { "Term", "Granted", "ErrorResponse", });
+          internal_static_jraft_AppendEntriesRequestHeader_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_jraft_AppendEntriesRequestHeader_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_AppendEntriesRequestHeader_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "PeerId", });
+          internal_static_jraft_AppendEntriesRequest_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_jraft_AppendEntriesRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_AppendEntriesRequest_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "PrevLogTerm", "PrevLogIndex", "Entries", "CommittedIndex", "Data", });
+          internal_static_jraft_AppendEntriesResponse_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_jraft_AppendEntriesResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_AppendEntriesResponse_descriptor,
+              new java.lang.String[] { "Term", "Success", "LastLogIndex", "ErrorResponse", });
+          internal_static_jraft_GetFileRequest_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_jraft_GetFileRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_GetFileRequest_descriptor,
+              new java.lang.String[] { "ReaderId", "Filename", "Count", "Offset", "ReadPartly", });
+          internal_static_jraft_GetFileResponse_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_jraft_GetFileResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_GetFileResponse_descriptor,
+              new java.lang.String[] { "Eof", "Data", "ReadSize", "ErrorResponse", });
+          internal_static_jraft_ReadIndexRequest_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_jraft_ReadIndexRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_ReadIndexRequest_descriptor,
+              new java.lang.String[] { "GroupId", "ServerId", "Entries", "PeerId", });
+          internal_static_jraft_ReadIndexResponse_descriptor =
+            getDescriptor().getMessageTypes().get(14);
+          internal_static_jraft_ReadIndexResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_jraft_ReadIndexResponse_descriptor,
+              new java.lang.String[] { "Index", "Success", "ErrorResponse", });
+          return null;
+        }
+      };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.alipay.sofa.jraft.entity.RaftOutter.getDescriptor(),
-        });
-    internal_static_jraft_PingRequest_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_jraft_PingRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_PingRequest_descriptor,
-        new java.lang.String[] { "SendTimestamp", });
-    internal_static_jraft_ErrorResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_jraft_ErrorResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_ErrorResponse_descriptor,
-        new java.lang.String[] { "ErrorCode", "ErrorMsg", });
-    internal_static_jraft_InstallSnapshotRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_jraft_InstallSnapshotRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_InstallSnapshotRequest_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "Meta", "Uri", });
-    internal_static_jraft_InstallSnapshotResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_jraft_InstallSnapshotResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_InstallSnapshotResponse_descriptor,
-        new java.lang.String[] { "Term", "Success", "ErrorResponse", });
-    internal_static_jraft_TimeoutNowRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_jraft_TimeoutNowRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_TimeoutNowRequest_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", });
-    internal_static_jraft_TimeoutNowResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_jraft_TimeoutNowResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_TimeoutNowResponse_descriptor,
-        new java.lang.String[] { "Term", "Success", "ErrorResponse", });
-    internal_static_jraft_RequestVoteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_jraft_RequestVoteRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_RequestVoteRequest_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "LastLogTerm", "LastLogIndex", "PreVote", });
-    internal_static_jraft_RequestVoteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_jraft_RequestVoteResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_RequestVoteResponse_descriptor,
-        new java.lang.String[] { "Term", "Granted", "ErrorResponse", });
-    internal_static_jraft_AppendEntriesRequestHeader_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_jraft_AppendEntriesRequestHeader_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_AppendEntriesRequestHeader_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "PeerId", });
-    internal_static_jraft_AppendEntriesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
-    internal_static_jraft_AppendEntriesRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_AppendEntriesRequest_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "PeerId", "Term", "PrevLogTerm", "PrevLogIndex", "Entries", "CommittedIndex", "Data", });
-    internal_static_jraft_AppendEntriesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
-    internal_static_jraft_AppendEntriesResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_AppendEntriesResponse_descriptor,
-        new java.lang.String[] { "Term", "Success", "LastLogIndex", "ErrorResponse", });
-    internal_static_jraft_GetFileRequest_descriptor =
-      getDescriptor().getMessageTypes().get(11);
-    internal_static_jraft_GetFileRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_GetFileRequest_descriptor,
-        new java.lang.String[] { "ReaderId", "Filename", "Count", "Offset", "ReadPartly", });
-    internal_static_jraft_GetFileResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
-    internal_static_jraft_GetFileResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_GetFileResponse_descriptor,
-        new java.lang.String[] { "Eof", "Data", "ReadSize", "ErrorResponse", });
-    internal_static_jraft_ReadIndexRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
-    internal_static_jraft_ReadIndexRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_ReadIndexRequest_descriptor,
-        new java.lang.String[] { "GroupId", "ServerId", "Entries", "PeerId", });
-    internal_static_jraft_ReadIndexResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
-    internal_static_jraft_ReadIndexResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_jraft_ReadIndexResponse_descriptor,
-        new java.lang.String[] { "Index", "Success", "ErrorResponse", });
-    com.alipay.sofa.jraft.entity.RaftOutter.getDescriptor();
+        }, assigner);
   }
 
   // @@protoc_insertion_point(outer_class_scope)
