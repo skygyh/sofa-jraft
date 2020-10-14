@@ -147,8 +147,6 @@ public class KVOperation implements Serializable {
 
     public static final byte    EOF              = 0x1d;
 
-
-
     private static final byte[] VALID_OPS;
 
     static {

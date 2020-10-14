@@ -70,22 +70,19 @@ public class BenchmarkClient {
         }
 
         final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
-        final List<RegionEngineOptions> regionEngineOptionsList = opts.getStoreEngineOptions().getRegionEngineOptionsList();
+        final List<RegionEngineOptions> regionEngineOptionsList = opts.getStoreEngineOptions()
+            .getRegionEngineOptionsList();
         for (RegionEngineOptions regionEngineOptions : regionEngineOptionsList) {
             final long regionId = regionEngineOptions.getRegionId();
             LOG.info("Leader in region {} is {}", regionId, pdClient.getLeader(regionId, true, 30000));
         }
         try {
             Thread.sleep(30000);
-        } catch (InterruptedException e) {};
-        BenchmarkHelper.startBenchmark2(rheaKVStore,
-                threads,
-                writeRatio,
-                readRatio,
-                keyCount,
-                keySize,
-                valueSize,
-                regionEngineOptionsList);
+        } catch (InterruptedException e) {
+        }
+        ;
+        BenchmarkHelper.startBenchmark2(rheaKVStore, threads, writeRatio, readRatio, keyCount, keySize, valueSize,
+            regionEngineOptionsList);
 
     }
 

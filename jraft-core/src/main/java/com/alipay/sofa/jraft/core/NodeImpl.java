@@ -115,7 +115,6 @@ import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 
-
 /**
  * The raft replica node implementation.
  *
