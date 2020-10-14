@@ -44,10 +44,10 @@ public class BoltRaftRpcFactory implements RaftRpcFactory {
 
     static final int            CHANNEL_WRITE_BUF_LOW_WATER_MARK  = SystemPropertyUtil.getInt(
                                                                       "bolt.channel_write_buf_low_water_mark",
-                                                                      256 * 1024);
+                                                                      16 * 1024 * 1024);
     static final int            CHANNEL_WRITE_BUF_HIGH_WATER_MARK = SystemPropertyUtil.getInt(
                                                                       "bolt.channel_write_buf_high_water_mark",
-                                                                      512 * 1024);
+                                                                      64 * 1024 * 1024);
 
     @Override
     public void registerProtobufSerializer(final String className, final Object... args) {
