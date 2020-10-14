@@ -337,7 +337,6 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
                             @SuppressWarnings("unused") final boolean readOnlySafe, final boolean returnValue,
                             final KVStoreClosure closure) {
 
-
         LOG.error("not supported, fail to [REVERSE_SCAN]");
         setFailure(closure, "not supported, Fail to [REVERSE_SCAN]");
 
