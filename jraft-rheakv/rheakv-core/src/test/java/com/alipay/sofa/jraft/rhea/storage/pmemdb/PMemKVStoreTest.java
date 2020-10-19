@@ -381,7 +381,6 @@ public class PMemKVStoreTest extends BaseKVStoreTest {
 
     @Test
     public void putLoopTest() {
-        // The max key count is determined by total persistent memory size , MAX_KEY_SIZE and MAX_VALUE_SIZE. check more in PMemDBOptions.java
         final int MaxKeyCount = 100000;
         for (int i = 0; i < MaxKeyCount; i++) {
             final String v = String.valueOf(i);

@@ -241,7 +241,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void get(final byte[] key, @SuppressWarnings("unused") final boolean readOnlySafe,
                     final KVStoreClosure closure) {
-        Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(key);
         ////final Timer.Context timeCtx = getTimeContext("GET");
         try {
             final PersistentImmutableByteArray v = this.defaultDB.get(new PMemDecoratedKey(key));
@@ -262,7 +262,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
         try {
             final Map<ByteArray, byte[]> resultMap = Maps.newHashMap();
             for (final byte[] key : keys) {
-                Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+                Requires.requireNonNull(key);
                 final PersistentImmutableByteArray v = this.defaultDB.get(new PMemDecoratedKey(key));
                 resultMap.put(ByteArray.wrap(key), v == null ? null : v.toArray());
             }
@@ -277,7 +277,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void containsKey(final byte[] key, final KVStoreClosure closure) {
-        Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(key);
         ////final Timer.Context timeCtx = getTimeContext("CONTAINS_KEY");
         try {
             final boolean exists = this.defaultDB.containsKey(new PMemDecoratedKey(key));
@@ -294,8 +294,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     public void scan(final byte[] startKey, final byte[] endKey, final int limit,
                      @SuppressWarnings("unused") final boolean readOnlySafe, final boolean returnValue,
                      final KVStoreClosure closure) {
-        Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("SCAN");
         final List<KVEntry> entries = Lists.newArrayList();
         // If limit == 0, it will be modified to Integer.MAX_VALUE on the server
@@ -346,7 +344,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void getSequence(final byte[] seqKey, final int step, final KVStoreClosure closure) {
-        Requires.requireTrue(seqKey == null || seqKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         ////final Timer.Context timeCtx = getTimeContext("GET_SEQUENCE");
         final byte[] realKey = BytesUtil.nullToEmpty(seqKey);
         try {
@@ -377,7 +374,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void resetSequence(final byte[] seqKey, final KVStoreClosure closure) {
-        Requires.requireTrue(seqKey != null && seqKey.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(seqKey);
         ////final Timer.Context timeCtx = getTimeContext("RESET_SEQUENCE");
         try {
             this.sequenceDB.remove(new PMemDecoratedKey(seqKey));
@@ -393,7 +390,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void put(final byte[] key, final byte[] value, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("PUT");
         try {
             this.defaultDB.put(new PMemDecoratedKey(key), new PersistentImmutableByteArray(value));
@@ -409,8 +405,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void getAndPut(final byte[] key, final byte[] value, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("GET_PUT");
         try {
             final PMemDecoratedKey k = new PMemDecoratedKey(key);
@@ -444,9 +438,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void compareAndPut(final byte[] key, final byte[] expect, final byte[] update, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(expect.length <= PMemDBOptions.MAX_VALUE_SIZE);
-        Requires.requireTrue(update.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("COMPARE_PUT");
         try {
             final PMemDecoratedKey k = new PMemDecoratedKey(key);
@@ -465,8 +456,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void merge(final byte[] key, final byte[] value, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("MERGE");
         try {
             final PMemDecoratedKey k = new PMemDecoratedKey(key);
@@ -506,8 +495,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
             for (final KVEntry entry : entries) {
                 final byte[] key = entry.getKey();
                 final byte[] value = entry.getValue();
-                Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-                Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
                 this.defaultDB.put(new PMemDecoratedKey(key), new PersistentImmutableByteArray(value));
             }
             setSuccess(closure, Boolean.TRUE);
@@ -521,8 +508,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void putIfAbsent(final byte[] key, final byte[] value, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(value.length <= PMemDBOptions.MAX_VALUE_SIZE);
         //final Timer.Context timeCtx = getTimeContext("PUT_IF_ABSENT");
         try {
             final PMemDecoratedKey k = new PMemDecoratedKey(key);
@@ -541,7 +526,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public void tryLockWith(final byte[] key, final byte[] fencingKey, final boolean keepLease,
                             final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
-        Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(key);
         //final Timer.Context timeCtx = getTimeContext("TRY_LOCK");
         try {
             // The algorithm relies on the assumption that while there is no
@@ -702,7 +687,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void releaseLockWith(final byte[] key, final DistributedLock.Acquirer acquirer, final KVStoreClosure closure) {
-        Requires.requireTrue(key.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("RELEASE_LOCK");
         try {
             final PMemDecoratedKey k = new PMemDecoratedKey(key);
@@ -779,7 +763,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     }
 
     private long getNextFencingToken(final byte[] fencingKey) {
-        Requires.requireTrue(fencingKey == null || fencingKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("FENCING_TOKEN");
         try {
             final byte[] realKey = BytesUtil.nullToEmpty(fencingKey);
@@ -804,7 +787,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void delete(final byte[] key, final KVStoreClosure closure) {
-        Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(key);
         //final Timer.Context timeCtx = getTimeContext("DELETE");
         try {
             this.defaultDB.remove(new PMemDecoratedKey(key));
@@ -819,8 +802,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void deleteRange(final byte[] startKey, final byte[] endKey, final KVStoreClosure closure) {
-        Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("DELETE_RANGE");
 
         // TODO : thread safe to delete range?
@@ -847,7 +828,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
         //final Timer.Context timeCtx = getTimeContext("DELETE_LIST");
         try {
             for (final byte[] key : keys) {
-                Requires.requireTrue(key != null && key.length <= PMemDBOptions.MAX_KEY_SIZE);
+                Requires.requireNonNull(key);
                 this.defaultDB.remove(new PMemDecoratedKey(key));
             }
             setSuccess(closure, Boolean.TRUE);
@@ -889,8 +870,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
     @Override
     public long getApproximateKeysInRange(final byte[] startKey, final byte[] endKey) {
         Requires.requireTrue(startKey != null || endKey != null);
-        Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(endKey == null || endKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("APPROXIMATE_KEYS");
         try {
             ConcurrentNavigableMap<PMemDecoratedKey, PersistentImmutableByteArray> subMap;
@@ -911,7 +890,6 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public byte[] jumpOver(final byte[] startKey, final long distance) {
-        Requires.requireTrue(startKey == null || startKey.length <= PMemDBOptions.MAX_KEY_SIZE);
         //final Timer.Context timeCtx = getTimeContext("JUMP_OVER");
         try {
             KVIterator it = new PMemKVIterator(this.defaultDB);
@@ -944,8 +922,7 @@ public class PMemRawKVStore2 extends BatchRawKVStore<PMemDBOptions> {
 
     @Override
     public void initFencingToken(final byte[] parentKey, final byte[] childKey) {
-        Requires.requireTrue(parentKey == null || parentKey.length <= PMemDBOptions.MAX_KEY_SIZE);
-        Requires.requireTrue(childKey != null && childKey.length <= PMemDBOptions.MAX_KEY_SIZE);
+        Requires.requireNonNull(childKey);
         //final Timer.Context timeCtx = getTimeContext("INIT_FENCING_TOKEN");
         try {
             // TODO : make 'CAS' atomic

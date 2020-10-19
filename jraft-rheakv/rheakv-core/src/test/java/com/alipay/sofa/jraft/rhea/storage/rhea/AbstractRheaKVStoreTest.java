@@ -708,12 +708,12 @@ public abstract class AbstractRheaKVStoreTest extends RheaKVTestCluster {
 
     @Test
     public void largePutByLeaderTest() {
-        putTest(getRandomLeaderStore(), PMemDBOptions.MAX_KEY_SIZE, PMemDBOptions.MAX_VALUE_SIZE);
+        putTest(getRandomLeaderStore(), 2048, 2048);
     }
 
     @Test
     public void largePutByFollowerTest() {
-        putTest(getRandomFollowerStore(), PMemDBOptions.MAX_KEY_SIZE, PMemDBOptions.MAX_VALUE_SIZE);
+        putTest(getRandomFollowerStore(), 2048, 2048);
     }
 
     /**

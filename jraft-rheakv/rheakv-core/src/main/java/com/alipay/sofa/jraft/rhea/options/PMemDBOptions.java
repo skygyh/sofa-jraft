@@ -28,21 +28,12 @@ public class PMemDBOptions {
      *     The 'stree' is a persistent, single-threaded and sorted engine, backed by a B+ tree.
      *     Sorted persistent B+ tree, thread unsafe.
      *     Please check more on https://github.com/pmem/pmemkv
-     *
-     *     The 'stree' has size limit on key size and value size, for now hardcoded. check code in stree.h in pmemkv
-     *     It is important that MAX_KEY_SIZE and MAX_VALUE_SIZE must be properly set up. Those values
-     *     together with pmemory size (pmemDataSize) determine total key count capacity such stree can hold.
-     *     The approximate estimation of max key count is :
-     *     (PMEM_DATA_SIZE - RESERVED_META_SIZE) / 2 / (MAX_KEY_SIZE + MAX_KEY_SIZE) * RATIO, where RATIO could be 0.9
      * </p>
      *
      *     cmap : A persistent concurrent engine, backed by a hashmap that allows calling get, put, and remove concurrently from multiple threads
      *     and ensures good scalability. Rest of the methods (e.g. range query methods) are not thread-safe and should not be called from more than one thread.
      **/
     public static final String PMEM_ROOT_PATH = "/mnt/mem/";
-    // The below MAX_[KEY|VALUE]_SIZE is from stree.h in pmemkv
-    public static final int    MAX_KEY_SIZE   = 2048;
-    public static final int    MAX_VALUE_SIZE = 2048;
 
     private String             orderedEngine  = "stree";
     private String             hashEngine     = "cmap";
@@ -55,11 +46,6 @@ public class PMemDBOptions {
 
     // for segment snapshot file size
     private int                keysPerSegment = 4096;
-
-    // rough estimation
-    public int approximateKeyCountLimit() {
-        return (pmemDataSize - 4 * 1024 * 1024) / 2 / (MAX_KEY_SIZE + MAX_VALUE_SIZE) * 9 / 10;
-    }
 
     public String getOrderedEngine() {
         return orderedEngine;
