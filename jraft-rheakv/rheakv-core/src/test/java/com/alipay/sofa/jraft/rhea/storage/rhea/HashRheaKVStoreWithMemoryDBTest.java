@@ -23,8 +23,4 @@ import com.alipay.sofa.jraft.util.StorageType;
  */
 public class HashRheaKVStoreWithMemoryDBTest extends HashRheaKVStoreTest {
 
-    @Override
-    public StorageType getStorageType() {
-        return StorageType.Memory;
-    }
 }

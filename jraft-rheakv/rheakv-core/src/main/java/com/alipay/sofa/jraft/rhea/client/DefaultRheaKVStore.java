@@ -196,7 +196,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
     private GetBatching                        getBatching;
     private GetBatching                        getBatchingOnlySafe;
     private PutBatching                        putBatching;
-    private CompositeBatching                  compositeBatching;
+
 
     private volatile boolean                   started;
     private boolean                            hashRegioned;
@@ -276,8 +276,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
                     new GetBatchingHandler("get_only_safe", true));
             this.putBatching = new PutBatching(KVEvent::new, "put_batching",
                     new PutBatchingHandler("put"));
-            this.compositeBatching = new CompositeBatching(KVCompositeEvent::new, "composite_batching",
-                    new CompositeBatchingHandler("batch"));
+
         }
         LOG.info("[DefaultRheaKVStore] start successfully, options: {}.", opts);
         return this.started = true;
@@ -310,9 +309,7 @@ public class DefaultRheaKVStore implements RheaKVStore {
         if (this.putBatching != null) {
             this.putBatching.shutdown();
         }
-        if (this.compositeBatching != null) {
-            this.compositeBatching.shutdown();
-        }
+
         this.stateListenerContainer.clear();
         LOG.warn("[DefaultRheaKVStore] shutdown successfully.");
     }
@@ -1963,137 +1960,9 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
-    @Override
-    public Boolean bBatch(final List<KVOperation> kvOperations) {
-        return FutureHelper.get(batch(kvOperations), this.futureTimeoutMillis);
-    }
 
-    // batch operation with composite put or delete
-    // Note: the current implementation, if the 'keys' are distributed across
-    // multiple regions, can not provide transaction guarantee.
-    @Override
-    public CompletableFuture<Boolean> batch(final List<KVOperation> kvOperations) {
-        checkState();
-        Requires.requireNonNull(kvOperations, "kvOperations");
-        Requires.requireTrue(!kvOperations.isEmpty(), "kvOperations empty");
-        final FutureGroup<Boolean> futureGroup = internalBatch(kvOperations, this.failoverRetries, null);
-        return FutureHelper.joinBooleans(futureGroup);
-    }
 
-    private FutureGroup<Boolean> internalBatch(final List<KVOperation> kvCompositeOperations, final int retriesLeft,
-                                                final Throwable lastCause) {
-        final Map<Region, List<KVOperation>> regionMap = this.pdClient
-                .findRegionsByKvOperations(kvCompositeOperations, ApiExceptionHelper.isInvalidEpoch(lastCause));
-        final List<CompletableFuture<Boolean>> futures = Lists.newArrayListWithCapacity(regionMap.size());
-        final Errors lastError = lastCause == null ? null : Errors.forException(lastCause);
-        for (final Map.Entry<Region, List<KVOperation>> entry : regionMap.entrySet()) {
-            final Region region = entry.getKey();
-            final List<KVOperation> subKVOperations = entry.getValue();
-            final RetryCallable<Boolean> retryCallable = retryCause -> internalBatch(subKVOperations, retriesLeft - 1,
-                    retryCause);
-            final BoolFailoverFuture future = new BoolFailoverFuture(retriesLeft, retryCallable);
-            internalRegionBatch(region, subKVOperations, future, retriesLeft, lastError);
-            futures.add(future);
-        }
-        return new FutureGroup<>(futures);
-    }
 
-    private void internalRegionBatch(final Region region, final List<KVOperation> subKVOperations,
-                                   final CompletableFuture<Boolean> future, final int retriesLeft,
-                                   final Errors lastCause) {
-        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalRegionBatch(region, subKVOperations, future,
-                retriesLeft - 1, retryCause);
-        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, false, retriesLeft,
-                retryRunner);
-        if (regionEngine != null) {
-            if (ensureOnValidEpoch(region, regionEngine, closure)) {
-                final RawKVStore rawKVStore = getRawKVStore(regionEngine);
-                if (this.kvDispatcher == null) {
-                    rawKVStore.batch(subKVOperations, closure);
-                } else {
-                    this.kvDispatcher.execute(() -> rawKVStore.batch(subKVOperations, closure));
-                }
-            }
-        } else {
-            final BatchCompositeRequest request = new BatchCompositeRequest();
-            request.setCompositeRequests(createCompositeRequests(subKVOperations, region.getId(), region.getRegionEpoch()));
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
-            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
-        }
-    }
-
-    private List<BaseRequest> createCompositeRequests(final List<KVOperation> kvOperations, final long regionId,
-                                                      final RegionEpoch regionEpoch) {
-        List<BaseRequest> requests = new LinkedList<>();
-        for (KVOperation op : kvOperations) {
-            switch (op.getOp()) {
-                case KVOperation.PUT:
-                    requests.add(new PutRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
-                    break;
-                case KVOperation.PUT_IF_ABSENT:
-                    requests.add(new PutIfAbsentRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
-                    break;
-                case KVOperation.DELETE:
-                    requests.add(new DeleteRequest(op.getKey(), regionId, regionEpoch));
-                    break;
-                case KVOperation.PUT_LIST:
-                    requests.add(new BatchPutRequest(op.getEntries(), regionId, regionEpoch));
-                    break;
-                case KVOperation.DELETE_RANGE:
-                    requests.add(new DeleteRangeRequest(op.getStartKey(), op.getEndKey(), regionId, regionEpoch));
-                    break;
-                case KVOperation.GET_SEQUENCE:
-                    requests.add(new GetSequenceRequest(op.getSeqKey(), op.getStep(), regionId, regionEpoch));
-                    break;
-                case KVOperation.NODE_EXECUTE:
-                    requests.add(new NodeExecuteRequest(op.getNodeExecutor(), regionId, regionEpoch));
-                    break;
-                case KVOperation.KEY_LOCK:
-                    requests.add(new KeyLockRequest(op.getKey(), true, op.getAcquirer(), regionId, regionEpoch));
-                    break;
-                case KVOperation.KEY_LOCK_RELEASE:
-                    requests.add(new KeyUnlockRequest(op.getKey(), op.getAcquirer(), regionId, regionEpoch));
-                    break;
-                case KVOperation.GET:
-                    requests.add(new GetRequest(op.getKey(), regionId, regionEpoch));
-                    break;
-                case KVOperation.MULTI_GET:
-                    requests.add(new MultiGetRequest(op.getKeys(), regionId, regionEpoch));
-                    break;
-                case KVOperation.SCAN:
-                    requests
-                        .add(new ScanRequest(op.getStartKey(), op.getEndKey(), op.getLimit(), regionId, regionEpoch));
-                    break;
-                case KVOperation.GET_PUT:
-                    requests.add(new GetAndPutRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
-                    break;
-                case KVOperation.MERGE:
-                    requests.add(new MergeRequest(op.getKey(), op.getValue(), regionId, regionEpoch));
-                    break;
-                case KVOperation.RESET_SEQUENCE:
-                    requests.add(new ResetSequenceRequest(op.getSeqKey(), regionId, regionEpoch));
-                    break;
-                case KVOperation.RANGE_SPLIT:
-                    requests.add(new RangeSplitRequest(op.getNewRegionId(), regionId, regionEpoch));
-                    break;
-                case KVOperation.COMPARE_PUT:
-                    requests.add(new CompareAndPutRequest(op.getKey(), op.getExpect(), op.getValue(), regionId,
-                        regionEpoch));
-                    break;
-                case KVOperation.DELETE_LIST:
-                    requests.add(new BatchDeleteRequest(op.getKeys(), regionId, regionEpoch));
-                    break;
-                case KVOperation.CONTAINS_KEY:
-                    requests.add(new ContainsKeyRequest(op.getKey(), regionId, regionEpoch));
-                    break;
-                default:
-                    throw new UnsupportedOperationException("batch op " + op.getOp() + " is not supported yet");
-            }
-        }
-        return requests;
-    }
 
     // internal api
     public CompletableFuture<Boolean> execute(final long regionId, final NodeExecutor executor) {
@@ -2251,166 +2120,8 @@ public class DefaultRheaKVStore implements RheaKVStore {
         this.stateListenerContainer.addStateListener(regionId, listener);
     }
 
-    @Override
-    public CompletableFuture<Boolean> destroyRegion(final long regionId) {
-        if (regionId == ANY_REGION_ID) {
-            throw new UnsupportedOperationException("destroyRegion without regionId specified");
-        }
-        checkState();
-        final CompletableFuture<Boolean> future = new CompletableFuture<>();
-        internalDestroyRegion(future, this.failoverRetries, null, regionId);
-        return future;
-    }
 
-    private void internalDestroyRegion(final CompletableFuture<Boolean> future, final int retriesLeft,
-                                         final Errors lastCause, final long regionId) {
-        final Region region = this.pdClient.getRegionById(regionId);
-        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalDestroyRegion(future,
-                retriesLeft - 1, retryCause, regionId);
-        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, true, retriesLeft,
-                retryRunner);
-        if (regionEngine != null) {
-            if (ensureOnValidEpoch(region, regionEngine, closure)) {
-                getRawKVStore(regionEngine).destroy(regionId, closure);
-            }
-        } else {
-            final DestroyRegionRequest request = new DestroyRegionRequest();
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
-            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
-        }
-    }
 
-    @Override
-    public CompletableFuture<Boolean> sealRegion(final long regionId) {
-        if (regionId == ANY_REGION_ID) {
-            throw new UnsupportedOperationException("sealRegion without regionId specified");
-        }
-        checkState();
-        final CompletableFuture<Boolean> future = new CompletableFuture<>();
-        internalSealRegion(future, this.failoverRetries, null, regionId);
-        return future;
-    }
-
-    private void internalSealRegion(final CompletableFuture<Boolean> future, final int retriesLeft,
-                                       final Errors lastCause, final long regionId) {
-        final Region region = this.pdClient.getRegionById(regionId);
-        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalSealRegion(future,
-                retriesLeft - 1, retryCause, regionId);
-        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft,
-                retryRunner);
-        if (regionEngine != null) {
-            if (ensureOnValidEpoch(region, regionEngine, closure)) {
-                getRawKVStore(regionEngine).seal(regionId, closure);
-            }
-        } else {
-            final SealRegionRequest request = new SealRegionRequest();
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
-            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
-        }
-    }
-
-    @Override
-    public CompletableFuture<Boolean> isRegionSealed(final long regionId) {
-        checkState();
-        if (regionId == ANY_REGION_ID) {
-            List<CompletableFuture<Boolean>> futures = new ArrayList<>();
-            for (Long id : this.pdClient.getRegionIds()) {
-                final CompletableFuture<Boolean> future = new CompletableFuture<>();
-                futures.add(future);
-                internalIsRegionSealed(future, this.failoverRetries, null, id);
-            }
-            FutureGroup<Boolean> futureGroup = new FutureGroup<>(futures);
-            return CompletableFuture.allOf(futureGroup.toArray()).thenApply(
-                    v -> futures.stream().allMatch(CompletableFuture::join));
-        }
-        final CompletableFuture<Boolean> future = new CompletableFuture<>();
-        internalIsRegionSealed(future, this.failoverRetries, null, regionId);
-        return future;
-    }
-
-    private void internalIsRegionSealed(final CompletableFuture<Boolean> future, final int retriesLeft,
-                                    final Errors lastCause, final long regionId) {
-        final Region region = this.pdClient.getRegionById(regionId);
-        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalIsRegionSealed(future,
-                retriesLeft - 1, retryCause, regionId);
-        final FailoverClosure<Boolean> closure = new FailoverClosureImpl<>(future, retriesLeft,
-                retryRunner);
-        if (regionEngine != null) {
-            if (ensureOnValidEpoch(region, regionEngine, closure)) {
-                getRawKVStore(regionEngine).isSealed(regionId, closure);
-            }
-        } else {
-            final IsRegionSealedRequest request = new IsRegionSealedRequest();
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
-            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
-        }
-    }
-
-    @Override
-    public Boolean bIsRegionSealed(final long regionId) {
-        return FutureHelper.get(isRegionSealed(regionId), this.futureTimeoutMillis);
-    }
-
-    @Override
-    public CompletableFuture<Long> size(final long regionId) {
-        checkState();
-        if (regionId == ANY_REGION_ID) {
-            return size();
-        }
-        final CompletableFuture<Long> future = new CompletableFuture<>();
-        internalGetSizeSingleRegion(future, this.failoverRetries, null, regionId);
-        return future;
-    }
-
-    @Override
-    public Long bSize(final long regionId) {
-        return FutureHelper.get(size(regionId), this.futureTimeoutMillis);
-    }
-
-    @Override
-    public CompletableFuture<Long> size() {
-        checkState();
-        final List<CompletableFuture<Long>> futures = new ArrayList<>();
-        for (long regionId : this.pdClient.getRegionIds()) {
-            final CompletableFuture<Long> future = new CompletableFuture<>();
-            internalGetSizeSingleRegion(future, this.failoverRetries, null, regionId);
-            futures.add(future);
-        }
-        FutureGroup<Long> futureGroup = new FutureGroup<>(futures);
-        return CompletableFuture.allOf(futureGroup.toArray()).thenApply(
-                v -> futures.stream().mapToLong(CompletableFuture::join).sum());
-    }
-
-    @Override
-    public Long bSize() {
-        return FutureHelper.get(size(), this.futureTimeoutMillis);
-    }
-
-    private void internalGetSizeSingleRegion(final CompletableFuture<Long> future, final int retriesLeft,
-                                    final Errors lastCause, final long regionId) {
-        final Region region = this.pdClient.getRegionById(regionId);
-        final RegionEngine regionEngine = getRegionEngine(region.getId(), true);
-        final RetryRunner retryRunner = retryCause -> internalGetSizeSingleRegion(future,
-                retriesLeft - 1, retryCause, regionId);
-        final FailoverClosure<Long> closure = new FailoverClosureImpl<>(future, retriesLeft,
-                retryRunner);
-        if (regionEngine != null) {
-            if (ensureOnValidEpoch(region, regionEngine, closure)) {
-                getRawKVStore(regionEngine).size(closure);
-            }
-        } else {
-            final GetSizeRequest request = new GetSizeRequest();
-            request.setRegionId(region.getId());
-            request.setRegionEpoch(region.getRegionEpoch());
-            this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause);
-        }
-    }
 
     public long getClusterId() {
         return this.opts.getClusterId();
@@ -2522,22 +2233,6 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
-    private class CompositeBatching extends Batching<KVCompositeEvent, KVOperation, Boolean> {
-
-        public CompositeBatching(EventFactory<KVCompositeEvent> factory, String name, CompositeBatchingHandler handler) {
-            super(factory, batchingOpts.getBufSize(), name, handler);
-        }
-
-        @Override
-        public boolean apply(final long regionId, final KVOperation message, final CompletableFuture<Boolean> future) {
-            return this.ringBuffer.tryPublishEvent((event, sequence) -> {
-                event.reset();
-                event.regionId = regionId;
-                event.kvOperation = message;
-                event.future = future;
-            });
-        }
-    }
 
     private class GetBatchingHandler extends AbstractBatchingHandler<KeyEvent> {
 
@@ -2642,62 +2337,6 @@ public class DefaultRheaKVStore implements RheaKVStore {
         }
     }
 
-    private class CompositeBatchingHandler extends AbstractBatchingHandler<KVCompositeEvent> {
-
-        public CompositeBatchingHandler(String metricsName) {
-            super(metricsName);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public void onEvent(final KVCompositeEvent event, final long sequence, final boolean endOfBatch) throws Exception {
-            this.events.add(event);
-            this.cachedBytes += event.kvOperation.getValue().length;
-            final int size = this.events.size();
-            if (!endOfBatch && size < batchingOpts.getBatchSize() && this.cachedBytes < batchingOpts.getMaxWriteBytes()) {
-                return;
-            }
-
-            if (size == 1) {
-                reset();
-                final KVOperation operation = event.kvOperation;
-                try {
-                    assert operation.getOp() == KVOperation.BATCH_OP;
-                    batch(operation.getKVOperations()).whenComplete((r, t) -> {
-                        if (t == null) {
-                            event.future.complete(r);
-                        } else {
-                            event.future.completeExceptionally(t);
-                        }
-                    });
-                } catch (final Throwable t) {
-                    exceptionally(t, event.future);
-                }
-            } else {
-                final List<KVOperation> entries = Lists.newArrayListWithCapacity(size);
-                final CompletableFuture<Boolean>[] futures = new CompletableFuture[size];
-                for (int i = 0; i < size; i++) {
-                    final KVCompositeEvent e = this.events.get(i);
-                    entries.add(e.kvOperation);
-                    futures[i] = e.future;
-                }
-                reset();
-                try {
-                    batch(entries).whenComplete((result, throwable) -> {
-                        if (throwable == null) {
-                            for (int i = 0; i < futures.length; i++) {
-                                futures[i].complete(result);
-                            }
-                            return;
-                        }
-                        exceptionally(throwable, futures);
-                    });
-                } catch (final Throwable t) {
-                    exceptionally(t, futures);
-                }
-            }
-        }
-    }
 
     private abstract class AbstractBatchingHandler<T> implements EventHandler<T> {
 

@@ -24,8 +24,5 @@ import com.alipay.sofa.jraft.util.StorageType;
  */
 public class RheaKVStoreWithPMemDBTest extends AbstractRheaKVStoreTest {
 
-    @Override
-    public StorageType getStorageType() {
-        return StorageType.PMem;
-    }
+
 }

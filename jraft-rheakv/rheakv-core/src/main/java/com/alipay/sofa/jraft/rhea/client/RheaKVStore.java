@@ -822,17 +822,6 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
 
     Boolean bDelete(final long regionId, final List<byte[]> keys);
 
-    /**
-     * Sync call of batch method
-     * @see #bBatch(List<KVOperation>)
-     */
-    Boolean bBatch(final List<KVOperation> kvOperations);
-
-    /**
-     * Async call of batch method
-     * @see #batch(List<KVOperation>)
-     */
-    CompletableFuture<Boolean> batch(final List<KVOperation> kvOperations);
 
     /**
      * @see #getDistributedLock(byte[], long, TimeUnit, ScheduledExecutorService)
@@ -916,44 +905,10 @@ public interface RheaKVStore extends Lifecycle<RheaKVStoreOptions> {
      */
     void addStateListener(final long regionId, final StateListener listener);
 
-    /**
-     * Clear the data and KVRawStore files in region.
-     * Specially, if regionId = -1, destroy the whole cluster.
-     * @param regionId
-     */
-    CompletableFuture<Boolean> destroyRegion(final long regionId);
 
-    /**
-     * set read only for the region
-     * Specially, if regionId = -1, disable write of all regions in the whole cluster.
-     * @param regionId
-     */
-    CompletableFuture<Boolean> sealRegion(final long regionId);
 
-    /**
-     * query if the region is sealed or not
-     * Specially, if regionId = -1, return true if and only if all regions in whole cluster are sealed.
-     * @param regionId
-     */
-    CompletableFuture<Boolean> isRegionSealed(final long regionId);
 
-    Boolean bIsRegionSealed(final long regionId);
 
-    /**
-     * get the total number of keys in region
-     * Specially, if regionId = -1, get it from all regions.
-     * @param regionId
-     */
-    CompletableFuture<Long> size(final long regionId);
-
-    Long bSize(final long regionId);
-
-    /**
-     * get the total number of keys in all regions
-     */
-    CompletableFuture<Long> size();
-
-    Long bSize();
 
     /**
      * get the greatest key less than or equal to the given key

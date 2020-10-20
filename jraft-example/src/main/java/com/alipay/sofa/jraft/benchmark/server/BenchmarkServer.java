@@ -62,6 +62,15 @@ public class BenchmarkServer {
 
         Runtime.getRuntime().addShutdownHook(new Thread(node::stop));
         LOG.info("BenchmarkServer start OK, options: {}", opts);
+        if (!isClient) {
+            try {
+                synchronized (node) {
+                    node.wait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         if (isClient) {
             LOG.info("BenchmarkServer act as a Client as well ...");

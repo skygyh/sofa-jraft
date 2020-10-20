@@ -21,10 +21,6 @@ import com.alipay.sofa.jraft.util.StorageType;
 /**
  * @author jiachun.fjc
  */
-public class RheaKVStoreWithMemoryDBTest extends AbstractRheaKVStoreTest {
+public class RheaKVStoreWithMemoryDBTest extends AbstractRheaKVStoreTest {}
 
-    @Override
-    public StorageType getStorageType() {
-        return StorageType.Memory;
-    }
-}
+

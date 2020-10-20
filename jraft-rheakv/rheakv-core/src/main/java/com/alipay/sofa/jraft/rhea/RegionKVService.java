@@ -149,33 +149,5 @@ public interface RegionKVService {
     void handleRangeSplitRequest(final RheakvRpc.BaseRequest baseRequest, final RheakvRpc.RangeSplitRequest request,
                                  final RequestProcessClosure<RheakvRpc.BaseRequest, RheakvRpc.BaseResponse> closure);
 
-    /**
-     * {@link BaseRequest#BATCH_COMPOSITE}
-     */
-    void handleBatchCompositeRequest(final BatchCompositeRequest request,
-                                     final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
 
-    /**
-     * {@link BaseRequest#DESTROY_REGION}
-     */
-    void handleDestroyRegionRequest(final DestroyRegionRequest request,
-                                    final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
-
-    /**
-     * {@link BaseRequest#SEAL_REGION}
-     */
-    void handleSealRegionRequest(final SealRegionRequest request,
-                                 final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
-
-    /**
-     * {@link BaseRequest#IS_REGION_SEALED}
-     */
-    void handleIsRegionSealedRequest(final IsRegionSealedRequest request,
-                                     final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
-
-    /**
-     * {@link BaseRequest#GET_SIZE}
-     */
-    void handleGetSizeRequest(final GetSizeRequest request,
-                              final RequestProcessClosure<BaseRequest, BaseResponse<?>> closure);
 }

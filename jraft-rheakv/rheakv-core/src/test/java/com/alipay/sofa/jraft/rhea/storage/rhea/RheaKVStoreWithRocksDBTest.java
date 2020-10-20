@@ -24,8 +24,4 @@ import com.alipay.sofa.jraft.util.StorageType;
  */
 public class RheaKVStoreWithRocksDBTest extends AbstractRheaKVStoreTest {
 
-    @Override
-    public StorageType getStorageType() {
-        return StorageType.RocksDB;
-    }
 }
