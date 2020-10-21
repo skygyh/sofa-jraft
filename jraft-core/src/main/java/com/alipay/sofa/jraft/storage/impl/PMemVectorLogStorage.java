@@ -61,6 +61,7 @@ public class PMemVectorLogStorage implements LogStorage, Describer {
     private static final long   DEFAULT_FIRST_LOG_INDEX = 1L;
 
     private final String        path;
+    private final long          poolSize;
     private long                pointer                 = 0;
     private final ReadWriteLock readWriteLock           = new ReentrantReadWriteLock();
     private final Lock          readLock                = this.readWriteLock.readLock();
@@ -76,6 +77,7 @@ public class PMemVectorLogStorage implements LogStorage, Describer {
     public PMemVectorLogStorage(final String path, final RaftOptions raftOptions) {
         super();
         this.path = path;
+        this.poolSize = raftOptions.getPMemLogSize();
     }
 
     @Override
@@ -93,7 +95,7 @@ public class PMemVectorLogStorage implements LogStorage, Describer {
             Requires.requireNonNull(this.logEntryDecoder, "Null log entry decoder");
             Requires.requireNonNull(this.logEntryEncoder, "Null log entry encoder");
 
-            this.pointer = pmem_log_open(this.path, 64 * 1024 * 1024 /* TODO: pool size  */);
+            this.pointer = pmem_log_open(this.path, this.poolSize);
             Requires.requireTrue(this.pointer != 0);
             this.firstLogIndex = DEFAULT_FIRST_LOG_INDEX;
             this.hasLoadFirstLogIndex = false;

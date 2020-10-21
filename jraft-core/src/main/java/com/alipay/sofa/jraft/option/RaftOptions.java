@@ -31,6 +31,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     /** Raft Log Type */
     private StorageType    logType                              = StorageType.RocksDB;
+    private long           pmemLogSize                          = 2 * 1024 * 1024 * 1024;
     /** Maximum of block size per RPC */
     private int            maxByteCountPerRpc                   = 128 * 1024;
     /** File service check hole switch, default disable */
@@ -104,6 +105,14 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     public void setLogType(StorageType logType) {
         this.logType = logType;
+    }
+
+    public long getPMemLogSize() {
+        return this.pmemLogSize;
+    }
+
+    public void setPMemLogSize(final long pmemLogSize) {
+        this.pmemLogSize = pmemLogSize;
     }
 
     public int getDisruptorPublishEventWaitTimeoutSecs() {
@@ -246,6 +255,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
     public RaftOptions copy() {
         final RaftOptions raftOptions = new RaftOptions();
         raftOptions.setLogType(this.logType);
+        raftOptions.setPMemLogSize(this.pmemLogSize);
         raftOptions.setMaxByteCountPerRpc(this.maxByteCountPerRpc);
         raftOptions.setFileCheckHole(this.fileCheckHole);
         raftOptions.setMaxEntriesSize(this.maxEntriesSize);
@@ -268,15 +278,16 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     @Override
     public String toString() {
-        return "RaftOptions{logType=" + logType + ", maxByteCountPerRpc=" + this.maxByteCountPerRpc
-               + ", fileCheckHole=" + this.fileCheckHole + ", maxEntriesSize=" + this.maxEntriesSize + ", maxBodySize="
-               + this.maxBodySize + ", maxAppendBufferSize=" + this.maxAppendBufferSize + ", maxElectionDelayMs="
-               + this.maxElectionDelayMs + ", electionHeartbeatFactor=" + this.electionHeartbeatFactor
-               + ", applyBatch=" + this.applyBatch + ", sync=" + this.sync + ", syncMeta=" + this.syncMeta
-               + ", openStatistics=" + this.openStatistics + ", replicatorPipeline=" + this.replicatorPipeline
-               + ", maxReplicatorInflightMsgs=" + this.maxReplicatorInflightMsgs + ", disruptorBufferSize="
-               + this.disruptorBufferSize + ", disruptorPublishEventWaitTimeoutSecs="
-               + this.disruptorPublishEventWaitTimeoutSecs + ", enableLogEntryChecksum=" + this.enableLogEntryChecksum
-               + ", readOnlyOptions=" + this.readOnlyOptions + '}';
+        return "RaftOptions{logType=" + logType + ", pmemLogSize=" + pmemLogSize + ", maxByteCountPerRpc="
+               + this.maxByteCountPerRpc + ", fileCheckHole=" + this.fileCheckHole + ", maxEntriesSize="
+               + this.maxEntriesSize + ", maxBodySize=" + this.maxBodySize + ", maxAppendBufferSize="
+               + this.maxAppendBufferSize + ", maxElectionDelayMs=" + this.maxElectionDelayMs
+               + ", electionHeartbeatFactor=" + this.electionHeartbeatFactor + ", applyBatch=" + this.applyBatch
+               + ", sync=" + this.sync + ", syncMeta=" + this.syncMeta + ", openStatistics=" + this.openStatistics
+               + ", replicatorPipeline=" + this.replicatorPipeline + ", maxReplicatorInflightMsgs="
+               + this.maxReplicatorInflightMsgs + ", disruptorBufferSize=" + this.disruptorBufferSize
+               + ", disruptorPublishEventWaitTimeoutSecs=" + this.disruptorPublishEventWaitTimeoutSecs
+               + ", enableLogEntryChecksum=" + this.enableLogEntryChecksum + ", readOnlyOptions="
+               + this.readOnlyOptions + '}';
     }
 }
