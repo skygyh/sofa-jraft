@@ -84,7 +84,12 @@ public class CliServiceImpl implements CliService {
             return true;
         }
         this.cliOptions = opts;
-        this.cliClientService = new CliClientServiceImpl();
+        try {
+            this.cliClientService = new CliClientServiceImpl();
+        } catch(Throwable t) {
+            LOG.error("can not init the cli client service", t);
+            throw t;
+        }
         return this.cliClientService.init(this.cliOptions);
     }
 
