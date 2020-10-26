@@ -47,7 +47,6 @@ import static java.lang.invoke.MethodType.methodType;
  * 2018-Mar-26 4:44:20 PM
  */
 public class ProtobufMsgFactory {
-    protected static final Logger LOG = LoggerFactory.getLogger(ProtobufMsgFactory.class);
 
     private static Map<String/* class name in proto file */, MethodHandle> PARSE_METHODS_4PROTO        = new HashMap<>();
     private static Map<String/* class name in java file */, MethodHandle>  PARSE_METHODS_4J            = new HashMap<>();
@@ -89,8 +88,15 @@ public class ProtobufMsgFactory {
 
     public static void load() {
         if (PARSE_METHODS_4J.isEmpty() || PARSE_METHODS_4PROTO.isEmpty() || DEFAULT_INSTANCE_METHODS_4J.isEmpty()) {
-            LOG.error("PARSE_METHODS_4J: {}, PARSE_METHODS_4PROTO: {}, DEFAULT_INSTANCE_METHODS_4J : {}", PARSE_METHODS_4J,  PARSE_METHODS_4PROTO, DEFAULT_INSTANCE_METHODS_4J );
-            throw new IllegalStateException("Parse protocol file failed.");
+            StringBuilder sb = new StringBuilder();
+            if (PARSE_METHODS_4J.isEmpty())
+                sb.append("PARSE_METHODS_4J");
+            if (PARSE_METHODS_4PROTO.isEmpty())
+                sb.append("PARSE_METHODS_4PROTO");
+            if (DEFAULT_INSTANCE_METHODS_4J.isEmpty())
+                sb.append("DEFAULT_INSTANCE_METHODS_4J");
+             sb.append(":Parse protocol file failed.")
+            throw new IllegalStateException(sb.toString());
         }
     }
 
