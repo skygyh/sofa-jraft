@@ -95,7 +95,7 @@ public class ProtobufMsgFactory {
                 sb.append("PARSE_METHODS_4PROTO");
             if (DEFAULT_INSTANCE_METHODS_4J.isEmpty())
                 sb.append("DEFAULT_INSTANCE_METHODS_4J");
-             sb.append(":Parse protocol file failed.")
+             sb.append(":Parse protocol file failed.");
             throw new IllegalStateException(sb.toString());
         }
     }
