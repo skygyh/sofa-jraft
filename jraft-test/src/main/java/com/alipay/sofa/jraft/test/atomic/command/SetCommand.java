@@ -25,7 +25,7 @@ import java.io.Serializable;
  * 2018-Apr-25 1:28:54 PM
  */
 public class SetCommand extends BaseRequestCommand implements Serializable {
-    private static final long serialVersionUID = 5942385417491201345L;
+    private static final long serialVersionUID = 59423517491201345L;
 
     private long              value;
 

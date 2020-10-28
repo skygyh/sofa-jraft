@@ -23,7 +23,7 @@ import com.alipay.sofa.jraft.rpc.RpcRequestProcessor;
 import com.alipay.sofa.jraft.rpc.RpcRequests;
 import com.alipay.sofa.jraft.rpc.RpcRequests.GetFileRequest;
 import com.alipay.sofa.jraft.storage.FileService;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Get file request processor.

@@ -37,9 +37,9 @@ import com.alipay.sofa.jraft.util.ByteBufferCollector;
 import com.alipay.sofa.jraft.util.OnlyForTest;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ByteString;
+import com.github.os72.protobuf351.Message;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 /**
  * File reader service.

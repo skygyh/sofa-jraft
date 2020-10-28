@@ -23,17 +23,17 @@ public final class LocalFileMetaOutter {
     private LocalFileMetaOutter() {
     }
 
-    public static void registerAllExtensions(com.google.protobuf.ExtensionRegistryLite registry) {
+    public static void registerAllExtensions(com.github.os72.protobuf351.ExtensionRegistryLite registry) {
     }
 
-    public static void registerAllExtensions(com.google.protobuf.ExtensionRegistry registry) {
-        registerAllExtensions((com.google.protobuf.ExtensionRegistryLite) registry);
+    public static void registerAllExtensions(com.github.os72.protobuf351.ExtensionRegistry registry) {
+        registerAllExtensions((com.github.os72.protobuf351.ExtensionRegistryLite) registry);
     }
 
     /**
      * Protobuf enum {@code jraft.FileSource}
      */
-    public enum FileSource implements com.google.protobuf.ProtocolMessageEnum {
+    public enum FileSource implements com.github.os72.protobuf351.ProtocolMessageEnum {
         /**
          * <code>FILE_SOURCE_LOCAL = 0;</code>
          */
@@ -75,32 +75,32 @@ public final class LocalFileMetaOutter {
             }
         }
 
-        public static com.google.protobuf.Internal.EnumLiteMap<FileSource> internalGetValueMap() {
+        public static com.github.os72.protobuf351.Internal.EnumLiteMap<FileSource> internalGetValueMap() {
             return internalValueMap;
         }
 
-        private static final com.google.protobuf.Internal.EnumLiteMap<FileSource> internalValueMap = new com.google.protobuf.Internal.EnumLiteMap<FileSource>() {
-                                                                                                       public FileSource findValueByNumber(int number) {
-                                                                                                           return FileSource
-                                                                                                               .forNumber(number);
-                                                                                                       }
-                                                                                                   };
+        private static final com.github.os72.protobuf351.Internal.EnumLiteMap<FileSource> internalValueMap = new com.github.os72.protobuf351.Internal.EnumLiteMap<FileSource>() {
+                                                                                                               public FileSource findValueByNumber(int number) {
+                                                                                                                   return FileSource
+                                                                                                                       .forNumber(number);
+                                                                                                               }
+                                                                                                           };
 
-        public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+        public final com.github.os72.protobuf351.Descriptors.EnumValueDescriptor getValueDescriptor() {
             return getDescriptor().getValues().get(ordinal());
         }
 
-        public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+        public final com.github.os72.protobuf351.Descriptors.EnumDescriptor getDescriptorForType() {
             return getDescriptor();
         }
 
-        public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+        public static final com.github.os72.protobuf351.Descriptors.EnumDescriptor getDescriptor() {
             return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.getDescriptor().getEnumTypes().get(0);
         }
 
         private static final FileSource[] VALUES = values();
 
-        public static FileSource valueOf(com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        public static FileSource valueOf(com.github.os72.protobuf351.Descriptors.EnumValueDescriptor desc) {
             if (desc.getType() != getDescriptor()) {
                 throw new java.lang.IllegalArgumentException("EnumValueDescriptor is not for this type.");
             }
@@ -118,7 +118,7 @@ public final class LocalFileMetaOutter {
 
     public interface LocalFileMetaOrBuilder extends
     // @@protoc_insertion_point(interface_extends:jraft.LocalFileMeta)
-                                           com.google.protobuf.MessageOrBuilder {
+                                           com.github.os72.protobuf351.MessageOrBuilder {
 
         /**
          * <code>optional bytes user_meta = 1;</code>
@@ -128,7 +128,7 @@ public final class LocalFileMetaOutter {
         /**
          * <code>optional bytes user_meta = 1;</code>
          */
-        com.google.protobuf.ByteString getUserMeta();
+        com.github.os72.protobuf351.ByteString getUserMeta();
 
         /**
          * <code>optional .jraft.FileSource source = 2;</code>
@@ -153,42 +153,42 @@ public final class LocalFileMetaOutter {
         /**
          * <code>optional string checksum = 3;</code>
          */
-        com.google.protobuf.ByteString getChecksumBytes();
+        com.github.os72.protobuf351.ByteString getChecksumBytes();
     }
 
     /**
      * Protobuf type {@code jraft.LocalFileMeta}
      */
-    public static final class LocalFileMeta extends com.google.protobuf.GeneratedMessageV3 implements
+    public static final class LocalFileMeta extends com.github.os72.protobuf351.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:jraft.LocalFileMeta)
-                                                                                          LocalFileMetaOrBuilder {
+                                                                                                  LocalFileMetaOrBuilder {
         private static final long serialVersionUID = 0L;
 
         // Use LocalFileMeta.newBuilder() to construct.
-        private LocalFileMeta(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        private LocalFileMeta(com.github.os72.protobuf351.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
 
         private LocalFileMeta() {
-            userMeta_ = com.google.protobuf.ByteString.EMPTY;
+            userMeta_ = com.github.os72.protobuf351.ByteString.EMPTY;
             source_ = 0;
             checksum_ = "";
         }
 
         @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+        public final com.github.os72.protobuf351.UnknownFieldSet getUnknownFields() {
             return this.unknownFields;
         }
 
-        private LocalFileMeta(com.google.protobuf.CodedInputStream input,
-                              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                          throws com.google.protobuf.InvalidProtocolBufferException {
+        private LocalFileMeta(com.github.os72.protobuf351.CodedInputStream input,
+                              com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                  throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             this();
             if (extensionRegistry == null) {
                 throw new java.lang.NullPointerException();
             }
             int mutable_bitField0_ = 0;
-            com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet
+            com.github.os72.protobuf351.UnknownFieldSet.Builder unknownFields = com.github.os72.protobuf351.UnknownFieldSet
                 .newBuilder();
             try {
                 boolean done = false;
@@ -222,36 +222,36 @@ public final class LocalFileMetaOutter {
                             break;
                         }
                         case 26: {
-                            com.google.protobuf.ByteString bs = input.readBytes();
+                            com.github.os72.protobuf351.ByteString bs = input.readBytes();
                             bitField0_ |= 0x00000004;
                             checksum_ = bs;
                             break;
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (com.github.os72.protobuf351.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
             } catch (java.io.IOException e) {
-                throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                throw new com.github.os72.protobuf351.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
             } finally {
                 this.unknownFields = unknownFields.build();
                 makeExtensionsImmutable();
             }
         }
 
-        public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+        public static final com.github.os72.protobuf351.Descriptors.Descriptor getDescriptor() {
             return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.internal_static_jraft_LocalFileMeta_descriptor;
         }
 
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        protected com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
             return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.internal_static_jraft_LocalFileMeta_fieldAccessorTable
                 .ensureFieldAccessorsInitialized(com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta.class,
                     com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta.Builder.class);
         }
 
-        private int                            bitField0_;
-        public static final int                USER_META_FIELD_NUMBER = 1;
-        private com.google.protobuf.ByteString userMeta_;
+        private int                                    bitField0_;
+        public static final int                        USER_META_FIELD_NUMBER = 1;
+        private com.github.os72.protobuf351.ByteString userMeta_;
 
         /**
          * <code>optional bytes user_meta = 1;</code>
@@ -263,7 +263,7 @@ public final class LocalFileMetaOutter {
         /**
          * <code>optional bytes user_meta = 1;</code>
          */
-        public com.google.protobuf.ByteString getUserMeta() {
+        public com.github.os72.protobuf351.ByteString getUserMeta() {
             return userMeta_;
         }
 
@@ -305,7 +305,7 @@ public final class LocalFileMetaOutter {
             if (ref instanceof java.lang.String) {
                 return (java.lang.String) ref;
             } else {
-                com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+                com.github.os72.protobuf351.ByteString bs = (com.github.os72.protobuf351.ByteString) ref;
                 java.lang.String s = bs.toStringUtf8();
                 if (bs.isValidUtf8()) {
                     checksum_ = s;
@@ -317,14 +317,15 @@ public final class LocalFileMetaOutter {
         /**
          * <code>optional string checksum = 3;</code>
          */
-        public com.google.protobuf.ByteString getChecksumBytes() {
+        public com.github.os72.protobuf351.ByteString getChecksumBytes() {
             java.lang.Object ref = checksum_;
             if (ref instanceof java.lang.String) {
-                com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+                com.github.os72.protobuf351.ByteString b = com.github.os72.protobuf351.ByteString
+                    .copyFromUtf8((java.lang.String) ref);
                 checksum_ = b;
                 return b;
             } else {
-                return (com.google.protobuf.ByteString) ref;
+                return (com.github.os72.protobuf351.ByteString) ref;
             }
         }
 
@@ -341,7 +342,7 @@ public final class LocalFileMetaOutter {
             return true;
         }
 
-        public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+        public void writeTo(com.github.os72.protobuf351.CodedOutputStream output) throws java.io.IOException {
             if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 output.writeBytes(1, userMeta_);
             }
@@ -349,7 +350,7 @@ public final class LocalFileMetaOutter {
                 output.writeEnum(2, source_);
             }
             if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                com.google.protobuf.GeneratedMessageV3.writeString(output, 3, checksum_);
+                com.github.os72.protobuf351.GeneratedMessageV3.writeString(output, 3, checksum_);
             }
             unknownFields.writeTo(output);
         }
@@ -361,13 +362,13 @@ public final class LocalFileMetaOutter {
 
             size = 0;
             if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, userMeta_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeBytesSize(1, userMeta_);
             }
             if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                size += com.google.protobuf.CodedOutputStream.computeEnumSize(2, source_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeEnumSize(2, source_);
             }
             if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, checksum_);
+                size += com.github.os72.protobuf351.GeneratedMessageV3.computeStringSize(3, checksum_);
             }
             size += unknownFields.getSerializedSize();
             memoizedSize = size;
@@ -426,70 +427,72 @@ public final class LocalFileMetaOutter {
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(java.nio.ByteBuffer data)
-                                                                                                                        throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                                                        throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(java.nio.ByteBuffer data,
-                                                                                               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                           throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                   throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
-        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.google.protobuf.ByteString data)
-                                                                                                                                   throws com.google.protobuf.InvalidProtocolBufferException {
+        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.github.os72.protobuf351.ByteString data)
+                                                                                                                                           throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
-        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.google.protobuf.ByteString data,
-                                                                                               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                           throws com.google.protobuf.InvalidProtocolBufferException {
+        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.github.os72.protobuf351.ByteString data,
+                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                   throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(byte[] data)
-                                                                                                           throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                                           throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(byte[] data,
-                                                                                               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                           throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                   throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(java.io.InputStream input)
                                                                                                                          throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseWithIOException(PARSER, input);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(java.io.InputStream input,
-                                                                                               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                           throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                   throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseDelimitedFrom(java.io.InputStream input)
                                                                                                                                   throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
         }
 
         public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseDelimitedFrom(java.io.InputStream input,
-                                                                                                        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                                    throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input,
+                                                                                                        com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                            throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input,
                 extensionRegistry);
         }
 
-        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.google.protobuf.CodedInputStream input)
-                                                                                                                                          throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.github.os72.protobuf351.CodedInputStream input)
+                                                                                                                                                  throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseWithIOException(PARSER, input);
         }
 
-        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.google.protobuf.CodedInputStream input,
-                                                                                               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                           throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+        public static com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parseFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                   throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
         public Builder newBuilderForType() {
@@ -509,7 +512,7 @@ public final class LocalFileMetaOutter {
         }
 
         @java.lang.Override
-        protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        protected Builder newBuilderForType(com.github.os72.protobuf351.GeneratedMessageV3.BuilderParent parent) {
             Builder builder = new Builder(parent);
             return builder;
         }
@@ -517,15 +520,15 @@ public final class LocalFileMetaOutter {
         /**
          * Protobuf type {@code jraft.LocalFileMeta}
          */
-        public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-                                                                                                         implements
-                                                                                                         // @@protoc_insertion_point(builder_implements:jraft.LocalFileMeta)
-                                                                                                         com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMetaOrBuilder {
-            public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+        public static final class Builder extends com.github.os72.protobuf351.GeneratedMessageV3.Builder<Builder>
+                                                                                                                 implements
+                                                                                                                 // @@protoc_insertion_point(builder_implements:jraft.LocalFileMeta)
+                                                                                                                 com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMetaOrBuilder {
+            public static final com.github.os72.protobuf351.Descriptors.Descriptor getDescriptor() {
                 return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.internal_static_jraft_LocalFileMeta_descriptor;
             }
 
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            protected com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
                 return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.internal_static_jraft_LocalFileMeta_fieldAccessorTable
                     .ensureFieldAccessorsInitialized(
                         com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta.class,
@@ -537,19 +540,19 @@ public final class LocalFileMetaOutter {
                 maybeForceBuilderInitialization();
             }
 
-            private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            private Builder(com.github.os72.protobuf351.GeneratedMessageV3.BuilderParent parent) {
                 super(parent);
                 maybeForceBuilderInitialization();
             }
 
             private void maybeForceBuilderInitialization() {
-                if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {
+                if (com.github.os72.protobuf351.GeneratedMessageV3.alwaysUseFieldBuilders) {
                 }
             }
 
             public Builder clear() {
                 super.clear();
-                userMeta_ = com.google.protobuf.ByteString.EMPTY;
+                userMeta_ = com.github.os72.protobuf351.ByteString.EMPTY;
                 bitField0_ = (bitField0_ & ~0x00000001);
                 source_ = 0;
                 bitField0_ = (bitField0_ & ~0x00000002);
@@ -558,7 +561,7 @@ public final class LocalFileMetaOutter {
                 return this;
             }
 
-            public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+            public com.github.os72.protobuf351.Descriptors.Descriptor getDescriptorForType() {
                 return com.alipay.sofa.jraft.entity.LocalFileMetaOutter.internal_static_jraft_LocalFileMeta_descriptor;
             }
 
@@ -600,29 +603,30 @@ public final class LocalFileMetaOutter {
                 return (Builder) super.clone();
             }
 
-            public Builder setField(com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+            public Builder setField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field,
+                                    java.lang.Object value) {
                 return (Builder) super.setField(field, value);
             }
 
-            public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+            public Builder clearField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field) {
                 return (Builder) super.clearField(field);
             }
 
-            public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+            public Builder clearOneof(com.github.os72.protobuf351.Descriptors.OneofDescriptor oneof) {
                 return (Builder) super.clearOneof(oneof);
             }
 
-            public Builder setRepeatedField(com.google.protobuf.Descriptors.FieldDescriptor field, int index,
+            public Builder setRepeatedField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field, int index,
                                             java.lang.Object value) {
                 return (Builder) super.setRepeatedField(field, index, value);
             }
 
-            public Builder addRepeatedField(com.google.protobuf.Descriptors.FieldDescriptor field,
+            public Builder addRepeatedField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field,
                                             java.lang.Object value) {
                 return (Builder) super.addRepeatedField(field, value);
             }
 
-            public Builder mergeFrom(com.google.protobuf.Message other) {
+            public Builder mergeFrom(com.github.os72.protobuf351.Message other) {
                 if (other instanceof com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta) {
                     return mergeFrom((com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta) other);
                 } else {
@@ -654,13 +658,13 @@ public final class LocalFileMetaOutter {
                 return true;
             }
 
-            public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
-                                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                 throws java.io.IOException {
+            public Builder mergeFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                     com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                         throws java.io.IOException {
                 com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (com.github.os72.protobuf351.InvalidProtocolBufferException e) {
                     parsedMessage = (com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta) e
                         .getUnfinishedMessage();
                     throw e.unwrapIOException();
@@ -672,9 +676,9 @@ public final class LocalFileMetaOutter {
                 return this;
             }
 
-            private int                            bitField0_;
+            private int                                    bitField0_;
 
-            private com.google.protobuf.ByteString userMeta_ = com.google.protobuf.ByteString.EMPTY;
+            private com.github.os72.protobuf351.ByteString userMeta_ = com.github.os72.protobuf351.ByteString.EMPTY;
 
             /**
              * <code>optional bytes user_meta = 1;</code>
@@ -686,14 +690,14 @@ public final class LocalFileMetaOutter {
             /**
              * <code>optional bytes user_meta = 1;</code>
              */
-            public com.google.protobuf.ByteString getUserMeta() {
+            public com.github.os72.protobuf351.ByteString getUserMeta() {
                 return userMeta_;
             }
 
             /**
              * <code>optional bytes user_meta = 1;</code>
              */
-            public Builder setUserMeta(com.google.protobuf.ByteString value) {
+            public Builder setUserMeta(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -770,7 +774,7 @@ public final class LocalFileMetaOutter {
             public java.lang.String getChecksum() {
                 java.lang.Object ref = checksum_;
                 if (!(ref instanceof java.lang.String)) {
-                    com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+                    com.github.os72.protobuf351.ByteString bs = (com.github.os72.protobuf351.ByteString) ref;
                     java.lang.String s = bs.toStringUtf8();
                     if (bs.isValidUtf8()) {
                         checksum_ = s;
@@ -784,15 +788,15 @@ public final class LocalFileMetaOutter {
             /**
              * <code>optional string checksum = 3;</code>
              */
-            public com.google.protobuf.ByteString getChecksumBytes() {
+            public com.github.os72.protobuf351.ByteString getChecksumBytes() {
                 java.lang.Object ref = checksum_;
                 if (ref instanceof String) {
-                    com.google.protobuf.ByteString b = com.google.protobuf.ByteString
+                    com.github.os72.protobuf351.ByteString b = com.github.os72.protobuf351.ByteString
                         .copyFromUtf8((java.lang.String) ref);
                     checksum_ = b;
                     return b;
                 } else {
-                    return (com.google.protobuf.ByteString) ref;
+                    return (com.github.os72.protobuf351.ByteString) ref;
                 }
             }
 
@@ -822,7 +826,7 @@ public final class LocalFileMetaOutter {
             /**
              * <code>optional string checksum = 3;</code>
              */
-            public Builder setChecksumBytes(com.google.protobuf.ByteString value) {
+            public Builder setChecksumBytes(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -832,11 +836,11 @@ public final class LocalFileMetaOutter {
                 return this;
             }
 
-            public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+            public final Builder setUnknownFields(final com.github.os72.protobuf351.UnknownFieldSet unknownFields) {
                 return super.setUnknownFields(unknownFields);
             }
 
-            public final Builder mergeUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+            public final Builder mergeUnknownFields(final com.github.os72.protobuf351.UnknownFieldSet unknownFields) {
                 return super.mergeUnknownFields(unknownFields);
             }
 
@@ -854,21 +858,22 @@ public final class LocalFileMetaOutter {
         }
 
         @java.lang.Deprecated
-        public static final com.google.protobuf.Parser<LocalFileMeta> PARSER = new com.google.protobuf.AbstractParser<LocalFileMeta>() {
-                                                                                 public LocalFileMeta parsePartialFrom(com.google.protobuf.CodedInputStream input,
-                                                                                                                       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                                                   throws com.google.protobuf.InvalidProtocolBufferException {
-                                                                                     return new LocalFileMeta(input,
-                                                                                         extensionRegistry);
-                                                                                 }
-                                                                             };
+        public static final com.github.os72.protobuf351.Parser<LocalFileMeta> PARSER = new com.github.os72.protobuf351.AbstractParser<LocalFileMeta>() {
+                                                                                         public LocalFileMeta parsePartialFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                                                                                                               com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                                                   throws com.github.os72.protobuf351.InvalidProtocolBufferException {
+                                                                                             return new LocalFileMeta(
+                                                                                                 input,
+                                                                                                 extensionRegistry);
+                                                                                         }
+                                                                                     };
 
-        public static com.google.protobuf.Parser<LocalFileMeta> parser() {
+        public static com.github.os72.protobuf351.Parser<LocalFileMeta> parser() {
             return PARSER;
         }
 
         @java.lang.Override
-        public com.google.protobuf.Parser<LocalFileMeta> getParserForType() {
+        public com.github.os72.protobuf351.Parser<LocalFileMeta> getParserForType() {
             return PARSER;
         }
 
@@ -878,14 +883,14 @@ public final class LocalFileMetaOutter {
 
     }
 
-    private static final com.google.protobuf.Descriptors.Descriptor                internal_static_jraft_LocalFileMeta_descriptor;
-    private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_jraft_LocalFileMeta_fieldAccessorTable;
+    private static final com.github.os72.protobuf351.Descriptors.Descriptor                internal_static_jraft_LocalFileMeta_descriptor;
+    private static final com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internal_static_jraft_LocalFileMeta_fieldAccessorTable;
 
-    public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+    public static com.github.os72.protobuf351.Descriptors.FileDescriptor getDescriptor() {
         return descriptor;
     }
 
-    private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+    private static com.github.os72.protobuf351.Descriptors.FileDescriptor descriptor;
     static {
         java.lang.String[] descriptorData = { "\n\025local_file_meta.proto\022\005jraft\"W\n\rLocalF"
                                               + "ileMeta\022\021\n\tuser_meta\030\001 \001(\014\022!\n\006source\030\002 \001"
@@ -893,16 +898,16 @@ public final class LocalFileMetaOutter {
                                               + ">\n\nFileSource\022\025\n\021FILE_SOURCE_LOCAL\020\000\022\031\n\025"
                                               + "FILE_SOURCE_REFERENCE\020\001B3\n\034com.alipay.so"
                                               + "fa.jraft.entityB\023LocalFileMetaOutter" };
-        com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-            public com.google.protobuf.ExtensionRegistry assignDescriptors(com.google.protobuf.Descriptors.FileDescriptor root) {
+        com.github.os72.protobuf351.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.github.os72.protobuf351.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+            public com.github.os72.protobuf351.ExtensionRegistry assignDescriptors(com.github.os72.protobuf351.Descriptors.FileDescriptor root) {
                 descriptor = root;
                 return null;
             }
         };
-        com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(descriptorData,
-            new com.google.protobuf.Descriptors.FileDescriptor[] {}, assigner);
+        com.github.os72.protobuf351.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(descriptorData,
+            new com.github.os72.protobuf351.Descriptors.FileDescriptor[] {}, assigner);
         internal_static_jraft_LocalFileMeta_descriptor = getDescriptor().getMessageTypes().get(0);
-        internal_static_jraft_LocalFileMeta_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_jraft_LocalFileMeta_fieldAccessorTable = new com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable(
             internal_static_jraft_LocalFileMeta_descriptor,
             new java.lang.String[] { "UserMeta", "Source", "Checksum", });
     }

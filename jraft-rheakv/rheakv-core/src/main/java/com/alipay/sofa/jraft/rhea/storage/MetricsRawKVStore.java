@@ -45,7 +45,6 @@ import static com.alipay.sofa.jraft.rhea.storage.KVOperation.RESET_SEQUENCE;
 import static com.alipay.sofa.jraft.rhea.storage.KVOperation.REVERSE_SCAN;
 import static com.alipay.sofa.jraft.rhea.storage.KVOperation.SCAN;
 
-
 /**
  * @author jiachun.fjc
  */

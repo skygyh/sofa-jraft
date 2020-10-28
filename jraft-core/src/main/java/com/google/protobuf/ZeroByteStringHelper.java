@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.protobuf;
+package com.github.os72.protobuf351;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -77,7 +77,7 @@ public class ZeroByteStringHelper {
     /**
      * Concatenate the given strings while performing various optimizations to
      * slow the growth rate of tree depth and tree node count. The result is
-     * either a {@link com.google.protobuf.ByteString.LeafByteString} or a
+     * either a {@link com.github.os72.protobuf351.ByteString.LeafByteString} or a
      * {@link RopeByteString} depending on which optimizations, if any, were
      * applied.
      *

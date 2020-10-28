@@ -20,7 +20,6 @@ import com.alipay.sofa.jraft.util.Copiable;
 import com.alipay.sofa.jraft.util.StorageType;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
 
-
 /**
  * Raft options.
  *

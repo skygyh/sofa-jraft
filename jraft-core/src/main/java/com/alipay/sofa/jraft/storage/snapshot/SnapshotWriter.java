@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Snapshot writer.

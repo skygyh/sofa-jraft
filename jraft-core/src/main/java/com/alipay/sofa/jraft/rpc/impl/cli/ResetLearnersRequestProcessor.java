@@ -26,7 +26,7 @@ import com.alipay.sofa.jraft.rpc.CliRequests.LearnersOpResponse;
 import com.alipay.sofa.jraft.rpc.CliRequests.ResetLearnersRequest;
 import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * ResetLearners request processor.

@@ -29,11 +29,11 @@ import org.apache.commons.lang.SerializationException;
 import com.alipay.sofa.jraft.error.MessageClassNotFoundException;
 import com.alipay.sofa.jraft.storage.io.ProtoBufFile;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
-import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
-import com.google.protobuf.Descriptors.Descriptor;
-import com.google.protobuf.Descriptors.FileDescriptor;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.DescriptorProtos.FileDescriptorProto;
+import com.github.os72.protobuf351.DescriptorProtos.FileDescriptorSet;
+import com.github.os72.protobuf351.Descriptors.Descriptor;
+import com.github.os72.protobuf351.Descriptors.FileDescriptor;
+import com.github.os72.protobuf351.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,7 +95,7 @@ public class ProtobufMsgFactory {
                 sb.append("PARSE_METHODS_4PROTO");
             if (DEFAULT_INSTANCE_METHODS_4J.isEmpty())
                 sb.append("DEFAULT_INSTANCE_METHODS_4J");
-             sb.append(":Parse protocol file failed.");
+            sb.append(":Parse protocol file failed.");
             throw new IllegalStateException(sb.toString());
         }
     }

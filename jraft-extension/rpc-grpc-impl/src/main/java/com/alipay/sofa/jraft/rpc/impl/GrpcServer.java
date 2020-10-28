@@ -50,7 +50,7 @@ import com.alipay.sofa.jraft.util.NamedThreadFactory;
 import com.alipay.sofa.jraft.util.Requires;
 import com.alipay.sofa.jraft.util.ThreadPoolUtil;
 import com.alipay.sofa.jraft.util.internal.ThrowUtil;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * GRPC RPC server implement.

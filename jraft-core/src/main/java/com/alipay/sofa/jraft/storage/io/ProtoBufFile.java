@@ -27,7 +27,7 @@ import java.io.InputStream;
 import com.alipay.sofa.jraft.rpc.ProtobufMsgFactory;
 import com.alipay.sofa.jraft.util.Bits;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * A file to store protobuf message. Format:

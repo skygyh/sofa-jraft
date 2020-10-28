@@ -23,7 +23,7 @@ package com.alipay.sofa.jraft.rhea.errors;
  */
 public class RouteTableException extends RuntimeException {
 
-    private static final long serialVersionUID = 7286710905394365815L;
+    private static final long serialVersionUID = 72867109053943515L;
 
     public RouteTableException() {
     }

@@ -16,7 +16,6 @@
  */
 package com.alipay.sofa.jraft.rhea.client;
 
-
 import com.alipay.sofa.jraft.RouteTable;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.entity.PeerId;
@@ -850,7 +849,6 @@ public class DefaultRheaKVStore implements RheaKVStore {
             this.rheaKVRpcService.callAsyncWithRpc(request, closure, lastCause, requireLeader);
         }
     }
-
 
     @Override
     public CompletableFuture<List<KVEntry>> reverseScan(final byte[] startKey, final byte[] endKey) {

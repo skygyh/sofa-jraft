@@ -31,7 +31,7 @@ import com.alipay.sofa.jraft.entity.PeerId;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.rpc.RaftServerService;
 import com.alipay.sofa.jraft.test.MockAsyncContext;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public abstract class BaseNodeRequestProcessorTest<T extends Message> {

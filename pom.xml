@@ -39,7 +39,6 @@
         <module>jraft-example</module>
         <module>jraft-rheakv</module>
         <module>pcj</module>
-        <module>jraft-extension</module>
     </modules>
 
     <scm>
@@ -184,6 +183,11 @@
             <dependency>
                 <groupId>com.github.os72</groupId>
                 <artifactId>protobuf-java-shaded-351</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protobuf-java-util-shaded-351</artifactId>
                 <version>${protobuf.version}</version>
             </dependency>
             <!-- protostuff -->

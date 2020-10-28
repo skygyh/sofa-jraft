@@ -43,7 +43,7 @@ public class VarIntsBenchmark {
     VarIntsBenchmark.varInt64                    thrpt       3       0.931 ±    0.020  ops/ns
     VarIntsBenchmark.int64                        avgt       3       0.319 ±    0.023   ns/op
     VarIntsBenchmark.varInt64                     avgt       3       1.074 ±    0.080   ns/op
-    VarIntsBenchmark.int64                      sample  799721      51.160 ±    3.511   ns/op
+    VarIntsBenchmark.int64                      sample  799721      51.160 ±    351   ns/op
     VarIntsBenchmark.int64:int64·p0.00          sample               6.000              ns/op
     VarIntsBenchmark.int64:int64·p0.50          sample              39.000              ns/op
     VarIntsBenchmark.int64:int64·p0.90          sample              41.000              ns/op

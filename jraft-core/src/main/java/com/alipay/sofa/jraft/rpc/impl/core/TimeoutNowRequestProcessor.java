@@ -22,7 +22,7 @@ import com.alipay.sofa.jraft.rpc.RaftServerService;
 import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
 import com.alipay.sofa.jraft.rpc.RpcRequests;
 import com.alipay.sofa.jraft.rpc.RpcRequests.TimeoutNowRequest;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * TimeoutNow request processor.
