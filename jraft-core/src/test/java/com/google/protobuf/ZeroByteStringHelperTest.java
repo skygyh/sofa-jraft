@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 import org.junit.Assert;
 import org.junit.Test;
+import com.github.os72.protobuf351.ByteString;
+
 
 /**
  * @author jiachun.fjc
