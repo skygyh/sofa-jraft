@@ -19,7 +19,7 @@ package com.alipay.sofa.jraft.storage.snapshot;
 import java.util.Set;
 
 import com.alipay.sofa.jraft.Status;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Represents a state machine snapshot.

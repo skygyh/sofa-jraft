@@ -19,8 +19,8 @@ package com.alipay.sofa.jraft.rpc.impl;
 import com.alipay.sofa.jraft.rpc.RpcRequests;
 import com.alipay.sofa.jraft.rpc.RpcResponseFactory;
 import com.alipay.sofa.jraft.util.Requires;
-import com.google.protobuf.Descriptors;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Descriptors;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Helper to create error response for GRPC implementation.

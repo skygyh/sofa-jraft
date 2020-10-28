@@ -18,7 +18,7 @@ package com.alipay.sofa.jraft.rpc;
 
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.error.RaftError;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Helper to create error response.

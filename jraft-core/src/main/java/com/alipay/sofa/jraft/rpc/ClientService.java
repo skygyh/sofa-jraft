@@ -21,7 +21,7 @@ import java.util.concurrent.Future;
 import com.alipay.sofa.jraft.Lifecycle;
 import com.alipay.sofa.jraft.option.RpcOptions;
 import com.alipay.sofa.jraft.util.Endpoint;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * RPC client service

@@ -21,7 +21,7 @@ import java.util.concurrent.Executor;
 import com.alipay.sofa.jraft.rpc.CliRequests.SnapshotRequest;
 import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
 import com.alipay.sofa.jraft.rpc.RpcRequests;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Snapshot request processor.

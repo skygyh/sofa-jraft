@@ -67,9 +67,9 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.MetricSet;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ByteString;
+import com.github.os72.protobuf351.Message;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 /**
  * Replicator for replicating log entry from leader to followers.

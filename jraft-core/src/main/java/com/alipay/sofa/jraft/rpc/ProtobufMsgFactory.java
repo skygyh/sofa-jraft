@@ -28,11 +28,11 @@ import org.apache.commons.lang.SerializationException;
 import com.alipay.sofa.jraft.error.MessageClassNotFoundException;
 import com.alipay.sofa.jraft.storage.io.ProtoBufFile;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
-import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
-import com.google.protobuf.Descriptors.Descriptor;
-import com.google.protobuf.Descriptors.FileDescriptor;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.DescriptorProtos.FileDescriptorProto;
+import com.github.os72.protobuf351.DescriptorProtos.FileDescriptorSet;
+import com.github.os72.protobuf351.Descriptors.Descriptor;
+import com.github.os72.protobuf351.Descriptors.FileDescriptor;
+import com.github.os72.protobuf351.Message;
 
 import static java.lang.invoke.MethodType.methodType;
 
@@ -85,7 +85,15 @@ public class ProtobufMsgFactory {
 
     public static void load() {
         if (PARSE_METHODS_4J.isEmpty() || PARSE_METHODS_4PROTO.isEmpty() || DEFAULT_INSTANCE_METHODS_4J.isEmpty()) {
-            throw new IllegalStateException("Parse protocol file failed.");
+            StringBuilder sb = new StringBuilder();
+            if (PARSE_METHODS_4J.isEmpty())
+                sb.append("PARSE_METHODS_4J");
+            if (PARSE_METHODS_4PROTO.isEmpty())
+                sb.append("PARSE_METHODS_4PROTO");
+            if (DEFAULT_INSTANCE_METHODS_4J.isEmpty())
+                sb.append("DEFAULT_INSTANCE_METHODS_4J");
+            sb.append(":Parse protocol file failed.");
+            throw new IllegalStateException(sb.toString());
         }
     }
 

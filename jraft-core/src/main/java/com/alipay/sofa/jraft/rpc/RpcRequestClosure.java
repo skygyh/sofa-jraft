@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.alipay.sofa.jraft.Closure;
 import com.alipay.sofa.jraft.Status;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * RPC request Closure encapsulates the RPC contexts.

@@ -16,7 +16,7 @@
  */
 package com.alipay.sofa.jraft.rpc.impl;
 
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * @author jiachun.fjc

@@ -50,7 +50,7 @@ import com.alipay.sofa.jraft.util.DirectExecutor;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.Requires;
 import com.alipay.sofa.jraft.util.SystemPropertyUtil;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * GRPC RPC client implement.

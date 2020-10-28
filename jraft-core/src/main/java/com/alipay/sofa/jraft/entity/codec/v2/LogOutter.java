@@ -23,16 +23,16 @@ public final class LogOutter {
     private LogOutter() {
     }
 
-    public static void registerAllExtensions(com.google.protobuf.ExtensionRegistryLite registry) {
+    public static void registerAllExtensions(com.github.os72.protobuf351.ExtensionRegistryLite registry) {
     }
 
-    public static void registerAllExtensions(com.google.protobuf.ExtensionRegistry registry) {
-        registerAllExtensions((com.google.protobuf.ExtensionRegistryLite) registry);
+    public static void registerAllExtensions(com.github.os72.protobuf351.ExtensionRegistry registry) {
+        registerAllExtensions((com.github.os72.protobuf351.ExtensionRegistryLite) registry);
     }
 
     public interface PBLogEntryOrBuilder extends
     // @@protoc_insertion_point(interface_extends:jraft.PBLogEntry)
-                                        com.google.protobuf.MessageOrBuilder {
+                                        com.github.os72.protobuf351.MessageOrBuilder {
 
         /**
          * <code>required .jraft.EntryType type = 1;</code>
@@ -67,7 +67,7 @@ public final class LogOutter {
         /**
          * <code>repeated bytes peers = 4;</code>
          */
-        java.util.List<com.google.protobuf.ByteString> getPeersList();
+        java.util.List<com.github.os72.protobuf351.ByteString> getPeersList();
 
         /**
          * <code>repeated bytes peers = 4;</code>
@@ -77,12 +77,12 @@ public final class LogOutter {
         /**
          * <code>repeated bytes peers = 4;</code>
          */
-        com.google.protobuf.ByteString getPeers(int index);
+        com.github.os72.protobuf351.ByteString getPeers(int index);
 
         /**
          * <code>repeated bytes old_peers = 5;</code>
          */
-        java.util.List<com.google.protobuf.ByteString> getOldPeersList();
+        java.util.List<com.github.os72.protobuf351.ByteString> getOldPeersList();
 
         /**
          * <code>repeated bytes old_peers = 5;</code>
@@ -92,7 +92,7 @@ public final class LogOutter {
         /**
          * <code>repeated bytes old_peers = 5;</code>
          */
-        com.google.protobuf.ByteString getOldPeers(int index);
+        com.github.os72.protobuf351.ByteString getOldPeers(int index);
 
         /**
          * <code>required bytes data = 6;</code>
@@ -102,7 +102,7 @@ public final class LogOutter {
         /**
          * <code>required bytes data = 6;</code>
          */
-        com.google.protobuf.ByteString getData();
+        com.github.os72.protobuf351.ByteString getData();
 
         /**
          * <code>optional int64 checksum = 7;</code>
@@ -117,7 +117,7 @@ public final class LogOutter {
         /**
          * <code>repeated bytes learners = 8;</code>
          */
-        java.util.List<com.google.protobuf.ByteString> getLearnersList();
+        java.util.List<com.github.os72.protobuf351.ByteString> getLearnersList();
 
         /**
          * <code>repeated bytes learners = 8;</code>
@@ -127,12 +127,12 @@ public final class LogOutter {
         /**
          * <code>repeated bytes learners = 8;</code>
          */
-        com.google.protobuf.ByteString getLearners(int index);
+        com.github.os72.protobuf351.ByteString getLearners(int index);
 
         /**
          * <code>repeated bytes old_learners = 9;</code>
          */
-        java.util.List<com.google.protobuf.ByteString> getOldLearnersList();
+        java.util.List<com.github.os72.protobuf351.ByteString> getOldLearnersList();
 
         /**
          * <code>repeated bytes old_learners = 9;</code>
@@ -142,19 +142,19 @@ public final class LogOutter {
         /**
          * <code>repeated bytes old_learners = 9;</code>
          */
-        com.google.protobuf.ByteString getOldLearners(int index);
+        com.github.os72.protobuf351.ByteString getOldLearners(int index);
     }
 
     /**
      * Protobuf type {@code jraft.PBLogEntry}
      */
-    public static final class PBLogEntry extends com.google.protobuf.GeneratedMessageV3 implements
+    public static final class PBLogEntry extends com.github.os72.protobuf351.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:jraft.PBLogEntry)
-                                                                                       PBLogEntryOrBuilder {
+                                                                                               PBLogEntryOrBuilder {
         private static final long serialVersionUID = 0L;
 
         // Use PBLogEntry.newBuilder() to construct.
-        private PBLogEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        private PBLogEntry(com.github.os72.protobuf351.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
 
@@ -164,26 +164,26 @@ public final class LogOutter {
             index_ = 0L;
             peers_ = java.util.Collections.emptyList();
             oldPeers_ = java.util.Collections.emptyList();
-            data_ = com.google.protobuf.ByteString.EMPTY;
+            data_ = com.github.os72.protobuf351.ByteString.EMPTY;
             checksum_ = 0L;
             learners_ = java.util.Collections.emptyList();
             oldLearners_ = java.util.Collections.emptyList();
         }
 
         @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+        public final com.github.os72.protobuf351.UnknownFieldSet getUnknownFields() {
             return this.unknownFields;
         }
 
-        private PBLogEntry(com.google.protobuf.CodedInputStream input,
-                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                       throws com.google.protobuf.InvalidProtocolBufferException {
+        private PBLogEntry(com.github.os72.protobuf351.CodedInputStream input,
+                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                               throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             this();
             if (extensionRegistry == null) {
                 throw new java.lang.NullPointerException();
             }
             int mutable_bitField0_ = 0;
-            com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet
+            com.github.os72.protobuf351.UnknownFieldSet.Builder unknownFields = com.github.os72.protobuf351.UnknownFieldSet
                 .newBuilder();
             try {
                 boolean done = false;
@@ -223,7 +223,7 @@ public final class LogOutter {
                         }
                         case 34: {
                             if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                                peers_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                                peers_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>();
                                 mutable_bitField0_ |= 0x00000008;
                             }
                             peers_.add(input.readBytes());
@@ -231,7 +231,7 @@ public final class LogOutter {
                         }
                         case 42: {
                             if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                                oldPeers_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                                oldPeers_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>();
                                 mutable_bitField0_ |= 0x00000010;
                             }
                             oldPeers_.add(input.readBytes());
@@ -249,7 +249,7 @@ public final class LogOutter {
                         }
                         case 66: {
                             if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-                                learners_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                                learners_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>();
                                 mutable_bitField0_ |= 0x00000080;
                             }
                             learners_.add(input.readBytes());
@@ -257,7 +257,7 @@ public final class LogOutter {
                         }
                         case 74: {
                             if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                                oldLearners_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                                oldLearners_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>();
                                 mutable_bitField0_ |= 0x00000100;
                             }
                             oldLearners_.add(input.readBytes());
@@ -265,10 +265,10 @@ public final class LogOutter {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (com.github.os72.protobuf351.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
             } catch (java.io.IOException e) {
-                throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                throw new com.github.os72.protobuf351.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
             } finally {
                 if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                     peers_ = java.util.Collections.unmodifiableList(peers_);
@@ -287,11 +287,11 @@ public final class LogOutter {
             }
         }
 
-        public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+        public static final com.github.os72.protobuf351.Descriptors.Descriptor getDescriptor() {
             return com.alipay.sofa.jraft.entity.codec.v2.LogOutter.internal_static_jraft_PBLogEntry_descriptor;
         }
 
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        protected com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
             return com.alipay.sofa.jraft.entity.codec.v2.LogOutter.internal_static_jraft_PBLogEntry_fieldAccessorTable
                 .ensureFieldAccessorsInitialized(com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry.class,
                     com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry.Builder.class);
@@ -351,13 +351,13 @@ public final class LogOutter {
             return index_;
         }
 
-        public static final int                                PEERS_FIELD_NUMBER = 4;
-        private java.util.List<com.google.protobuf.ByteString> peers_;
+        public static final int                                        PEERS_FIELD_NUMBER = 4;
+        private java.util.List<com.github.os72.protobuf351.ByteString> peers_;
 
         /**
          * <code>repeated bytes peers = 4;</code>
          */
-        public java.util.List<com.google.protobuf.ByteString> getPeersList() {
+        public java.util.List<com.github.os72.protobuf351.ByteString> getPeersList() {
             return peers_;
         }
 
@@ -371,17 +371,17 @@ public final class LogOutter {
         /**
          * <code>repeated bytes peers = 4;</code>
          */
-        public com.google.protobuf.ByteString getPeers(int index) {
+        public com.github.os72.protobuf351.ByteString getPeers(int index) {
             return peers_.get(index);
         }
 
-        public static final int                                OLD_PEERS_FIELD_NUMBER = 5;
-        private java.util.List<com.google.protobuf.ByteString> oldPeers_;
+        public static final int                                        OLD_PEERS_FIELD_NUMBER = 5;
+        private java.util.List<com.github.os72.protobuf351.ByteString> oldPeers_;
 
         /**
          * <code>repeated bytes old_peers = 5;</code>
          */
-        public java.util.List<com.google.protobuf.ByteString> getOldPeersList() {
+        public java.util.List<com.github.os72.protobuf351.ByteString> getOldPeersList() {
             return oldPeers_;
         }
 
@@ -395,12 +395,12 @@ public final class LogOutter {
         /**
          * <code>repeated bytes old_peers = 5;</code>
          */
-        public com.google.protobuf.ByteString getOldPeers(int index) {
+        public com.github.os72.protobuf351.ByteString getOldPeers(int index) {
             return oldPeers_.get(index);
         }
 
-        public static final int                DATA_FIELD_NUMBER = 6;
-        private com.google.protobuf.ByteString data_;
+        public static final int                        DATA_FIELD_NUMBER = 6;
+        private com.github.os72.protobuf351.ByteString data_;
 
         /**
          * <code>required bytes data = 6;</code>
@@ -412,7 +412,7 @@ public final class LogOutter {
         /**
          * <code>required bytes data = 6;</code>
          */
-        public com.google.protobuf.ByteString getData() {
+        public com.github.os72.protobuf351.ByteString getData() {
             return data_;
         }
 
@@ -433,13 +433,13 @@ public final class LogOutter {
             return checksum_;
         }
 
-        public static final int                                LEARNERS_FIELD_NUMBER = 8;
-        private java.util.List<com.google.protobuf.ByteString> learners_;
+        public static final int                                        LEARNERS_FIELD_NUMBER = 8;
+        private java.util.List<com.github.os72.protobuf351.ByteString> learners_;
 
         /**
          * <code>repeated bytes learners = 8;</code>
          */
-        public java.util.List<com.google.protobuf.ByteString> getLearnersList() {
+        public java.util.List<com.github.os72.protobuf351.ByteString> getLearnersList() {
             return learners_;
         }
 
@@ -453,17 +453,17 @@ public final class LogOutter {
         /**
          * <code>repeated bytes learners = 8;</code>
          */
-        public com.google.protobuf.ByteString getLearners(int index) {
+        public com.github.os72.protobuf351.ByteString getLearners(int index) {
             return learners_.get(index);
         }
 
-        public static final int                                OLD_LEARNERS_FIELD_NUMBER = 9;
-        private java.util.List<com.google.protobuf.ByteString> oldLearners_;
+        public static final int                                        OLD_LEARNERS_FIELD_NUMBER = 9;
+        private java.util.List<com.github.os72.protobuf351.ByteString> oldLearners_;
 
         /**
          * <code>repeated bytes old_learners = 9;</code>
          */
-        public java.util.List<com.google.protobuf.ByteString> getOldLearnersList() {
+        public java.util.List<com.github.os72.protobuf351.ByteString> getOldLearnersList() {
             return oldLearners_;
         }
 
@@ -477,7 +477,7 @@ public final class LogOutter {
         /**
          * <code>repeated bytes old_learners = 9;</code>
          */
-        public com.google.protobuf.ByteString getOldLearners(int index) {
+        public com.github.os72.protobuf351.ByteString getOldLearners(int index) {
             return oldLearners_.get(index);
         }
 
@@ -510,7 +510,7 @@ public final class LogOutter {
             return true;
         }
 
-        public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+        public void writeTo(com.github.os72.protobuf351.CodedOutputStream output) throws java.io.IOException {
             if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 output.writeEnum(1, type_);
             }
@@ -548,18 +548,18 @@ public final class LogOutter {
 
             size = 0;
             if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, type_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeEnumSize(1, type_);
             }
             if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                size += com.google.protobuf.CodedOutputStream.computeInt64Size(2, term_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeInt64Size(2, term_);
             }
             if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                size += com.google.protobuf.CodedOutputStream.computeInt64Size(3, index_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeInt64Size(3, index_);
             }
             {
                 int dataSize = 0;
                 for (int i = 0; i < peers_.size(); i++) {
-                    dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(peers_.get(i));
+                    dataSize += com.github.os72.protobuf351.CodedOutputStream.computeBytesSizeNoTag(peers_.get(i));
                 }
                 size += dataSize;
                 size += 1 * getPeersList().size();
@@ -567,21 +567,21 @@ public final class LogOutter {
             {
                 int dataSize = 0;
                 for (int i = 0; i < oldPeers_.size(); i++) {
-                    dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(oldPeers_.get(i));
+                    dataSize += com.github.os72.protobuf351.CodedOutputStream.computeBytesSizeNoTag(oldPeers_.get(i));
                 }
                 size += dataSize;
                 size += 1 * getOldPeersList().size();
             }
             if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                size += com.google.protobuf.CodedOutputStream.computeBytesSize(6, data_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeBytesSize(6, data_);
             }
             if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                size += com.google.protobuf.CodedOutputStream.computeInt64Size(7, checksum_);
+                size += com.github.os72.protobuf351.CodedOutputStream.computeInt64Size(7, checksum_);
             }
             {
                 int dataSize = 0;
                 for (int i = 0; i < learners_.size(); i++) {
-                    dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(learners_.get(i));
+                    dataSize += com.github.os72.protobuf351.CodedOutputStream.computeBytesSizeNoTag(learners_.get(i));
                 }
                 size += dataSize;
                 size += 1 * getLearnersList().size();
@@ -589,7 +589,8 @@ public final class LogOutter {
             {
                 int dataSize = 0;
                 for (int i = 0; i < oldLearners_.size(); i++) {
-                    dataSize += com.google.protobuf.CodedOutputStream.computeBytesSizeNoTag(oldLearners_.get(i));
+                    dataSize += com.github.os72.protobuf351.CodedOutputStream
+                        .computeBytesSizeNoTag(oldLearners_.get(i));
                 }
                 size += dataSize;
                 size += 1 * getOldLearnersList().size();
@@ -651,11 +652,11 @@ public final class LogOutter {
             }
             if (hasTerm()) {
                 hash = (37 * hash) + TERM_FIELD_NUMBER;
-                hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getTerm());
+                hash = (53 * hash) + com.github.os72.protobuf351.Internal.hashLong(getTerm());
             }
             if (hasIndex()) {
                 hash = (37 * hash) + INDEX_FIELD_NUMBER;
-                hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getIndex());
+                hash = (53 * hash) + com.github.os72.protobuf351.Internal.hashLong(getIndex());
             }
             if (getPeersCount() > 0) {
                 hash = (37 * hash) + PEERS_FIELD_NUMBER;
@@ -671,7 +672,7 @@ public final class LogOutter {
             }
             if (hasChecksum()) {
                 hash = (37 * hash) + CHECKSUM_FIELD_NUMBER;
-                hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getChecksum());
+                hash = (53 * hash) + com.github.os72.protobuf351.Internal.hashLong(getChecksum());
             }
             if (getLearnersCount() > 0) {
                 hash = (37 * hash) + LEARNERS_FIELD_NUMBER;
@@ -687,70 +688,72 @@ public final class LogOutter {
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(java.nio.ByteBuffer data)
-                                                                                                                    throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                                                    throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(java.nio.ByteBuffer data,
-                                                                                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                       throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                               throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
-        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.google.protobuf.ByteString data)
-                                                                                                                               throws com.google.protobuf.InvalidProtocolBufferException {
+        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.github.os72.protobuf351.ByteString data)
+                                                                                                                                       throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
-        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.google.protobuf.ByteString data,
-                                                                                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                       throws com.google.protobuf.InvalidProtocolBufferException {
+        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.github.os72.protobuf351.ByteString data,
+                                                                                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                               throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(byte[] data)
-                                                                                                       throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                                       throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(byte[] data,
-                                                                                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                       throws com.google.protobuf.InvalidProtocolBufferException {
+                                                                                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                               throws com.github.os72.protobuf351.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(java.io.InputStream input)
                                                                                                                      throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseWithIOException(PARSER, input);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(java.io.InputStream input,
-                                                                                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                       throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+                                                                                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                               throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseDelimitedFrom(java.io.InputStream input)
                                                                                                                               throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
         }
 
         public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseDelimitedFrom(java.io.InputStream input,
-                                                                                                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input,
+                                                                                                    com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                        throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input,
                 extensionRegistry);
         }
 
-        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.google.protobuf.CodedInputStream input)
-                                                                                                                                      throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.github.os72.protobuf351.CodedInputStream input)
+                                                                                                                                              throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3.parseWithIOException(PARSER, input);
         }
 
-        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.google.protobuf.CodedInputStream input,
-                                                                                           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                       throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+        public static com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parseFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                                                                           com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                               throws java.io.IOException {
+            return com.github.os72.protobuf351.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
         public Builder newBuilderForType() {
@@ -770,7 +773,7 @@ public final class LogOutter {
         }
 
         @java.lang.Override
-        protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        protected Builder newBuilderForType(com.github.os72.protobuf351.GeneratedMessageV3.BuilderParent parent) {
             Builder builder = new Builder(parent);
             return builder;
         }
@@ -778,15 +781,15 @@ public final class LogOutter {
         /**
          * Protobuf type {@code jraft.PBLogEntry}
          */
-        public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-                                                                                                         implements
-                                                                                                         // @@protoc_insertion_point(builder_implements:jraft.PBLogEntry)
-                                                                                                         com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntryOrBuilder {
-            public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+        public static final class Builder extends com.github.os72.protobuf351.GeneratedMessageV3.Builder<Builder>
+                                                                                                                 implements
+                                                                                                                 // @@protoc_insertion_point(builder_implements:jraft.PBLogEntry)
+                                                                                                                 com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntryOrBuilder {
+            public static final com.github.os72.protobuf351.Descriptors.Descriptor getDescriptor() {
                 return com.alipay.sofa.jraft.entity.codec.v2.LogOutter.internal_static_jraft_PBLogEntry_descriptor;
             }
 
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            protected com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
                 return com.alipay.sofa.jraft.entity.codec.v2.LogOutter.internal_static_jraft_PBLogEntry_fieldAccessorTable
                     .ensureFieldAccessorsInitialized(com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry.class,
                         com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry.Builder.class);
@@ -797,13 +800,13 @@ public final class LogOutter {
                 maybeForceBuilderInitialization();
             }
 
-            private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            private Builder(com.github.os72.protobuf351.GeneratedMessageV3.BuilderParent parent) {
                 super(parent);
                 maybeForceBuilderInitialization();
             }
 
             private void maybeForceBuilderInitialization() {
-                if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {
+                if (com.github.os72.protobuf351.GeneratedMessageV3.alwaysUseFieldBuilders) {
                 }
             }
 
@@ -819,7 +822,7 @@ public final class LogOutter {
                 bitField0_ = (bitField0_ & ~0x00000008);
                 oldPeers_ = java.util.Collections.emptyList();
                 bitField0_ = (bitField0_ & ~0x00000010);
-                data_ = com.google.protobuf.ByteString.EMPTY;
+                data_ = com.github.os72.protobuf351.ByteString.EMPTY;
                 bitField0_ = (bitField0_ & ~0x00000020);
                 checksum_ = 0L;
                 bitField0_ = (bitField0_ & ~0x00000040);
@@ -830,7 +833,7 @@ public final class LogOutter {
                 return this;
             }
 
-            public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+            public com.github.os72.protobuf351.Descriptors.Descriptor getDescriptorForType() {
                 return com.alipay.sofa.jraft.entity.codec.v2.LogOutter.internal_static_jraft_PBLogEntry_descriptor;
             }
 
@@ -900,29 +903,30 @@ public final class LogOutter {
                 return (Builder) super.clone();
             }
 
-            public Builder setField(com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+            public Builder setField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field,
+                                    java.lang.Object value) {
                 return (Builder) super.setField(field, value);
             }
 
-            public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+            public Builder clearField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field) {
                 return (Builder) super.clearField(field);
             }
 
-            public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+            public Builder clearOneof(com.github.os72.protobuf351.Descriptors.OneofDescriptor oneof) {
                 return (Builder) super.clearOneof(oneof);
             }
 
-            public Builder setRepeatedField(com.google.protobuf.Descriptors.FieldDescriptor field, int index,
+            public Builder setRepeatedField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field, int index,
                                             java.lang.Object value) {
                 return (Builder) super.setRepeatedField(field, index, value);
             }
 
-            public Builder addRepeatedField(com.google.protobuf.Descriptors.FieldDescriptor field,
+            public Builder addRepeatedField(com.github.os72.protobuf351.Descriptors.FieldDescriptor field,
                                             java.lang.Object value) {
                 return (Builder) super.addRepeatedField(field, value);
             }
 
-            public Builder mergeFrom(com.google.protobuf.Message other) {
+            public Builder mergeFrom(com.github.os72.protobuf351.Message other) {
                 if (other instanceof com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry) {
                     return mergeFrom((com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry) other);
                 } else {
@@ -1010,13 +1014,13 @@ public final class LogOutter {
                 return true;
             }
 
-            public Builder mergeFrom(com.google.protobuf.CodedInputStream input,
-                                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                 throws java.io.IOException {
+            public Builder mergeFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                     com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                         throws java.io.IOException {
                 com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (com.github.os72.protobuf351.InvalidProtocolBufferException e) {
                     parsedMessage = (com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry) e
                         .getUnfinishedMessage();
                     throw e.unwrapIOException();
@@ -1143,11 +1147,11 @@ public final class LogOutter {
                 return this;
             }
 
-            private java.util.List<com.google.protobuf.ByteString> peers_ = java.util.Collections.emptyList();
+            private java.util.List<com.github.os72.protobuf351.ByteString> peers_ = java.util.Collections.emptyList();
 
             private void ensurePeersIsMutable() {
                 if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-                    peers_ = new java.util.ArrayList<com.google.protobuf.ByteString>(peers_);
+                    peers_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>(peers_);
                     bitField0_ |= 0x00000008;
                 }
             }
@@ -1155,7 +1159,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes peers = 4;</code>
              */
-            public java.util.List<com.google.protobuf.ByteString> getPeersList() {
+            public java.util.List<com.github.os72.protobuf351.ByteString> getPeersList() {
                 return java.util.Collections.unmodifiableList(peers_);
             }
 
@@ -1169,14 +1173,14 @@ public final class LogOutter {
             /**
              * <code>repeated bytes peers = 4;</code>
              */
-            public com.google.protobuf.ByteString getPeers(int index) {
+            public com.github.os72.protobuf351.ByteString getPeers(int index) {
                 return peers_.get(index);
             }
 
             /**
              * <code>repeated bytes peers = 4;</code>
              */
-            public Builder setPeers(int index, com.google.protobuf.ByteString value) {
+            public Builder setPeers(int index, com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1189,7 +1193,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes peers = 4;</code>
              */
-            public Builder addPeers(com.google.protobuf.ByteString value) {
+            public Builder addPeers(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1202,9 +1206,9 @@ public final class LogOutter {
             /**
              * <code>repeated bytes peers = 4;</code>
              */
-            public Builder addAllPeers(java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+            public Builder addAllPeers(java.lang.Iterable<? extends com.github.os72.protobuf351.ByteString> values) {
                 ensurePeersIsMutable();
-                com.google.protobuf.AbstractMessageLite.Builder.addAll(values, peers_);
+                com.github.os72.protobuf351.AbstractMessageLite.Builder.addAll(values, peers_);
                 onChanged();
                 return this;
             }
@@ -1219,11 +1223,12 @@ public final class LogOutter {
                 return this;
             }
 
-            private java.util.List<com.google.protobuf.ByteString> oldPeers_ = java.util.Collections.emptyList();
+            private java.util.List<com.github.os72.protobuf351.ByteString> oldPeers_ = java.util.Collections
+                                                                                         .emptyList();
 
             private void ensureOldPeersIsMutable() {
                 if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-                    oldPeers_ = new java.util.ArrayList<com.google.protobuf.ByteString>(oldPeers_);
+                    oldPeers_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>(oldPeers_);
                     bitField0_ |= 0x00000010;
                 }
             }
@@ -1231,7 +1236,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_peers = 5;</code>
              */
-            public java.util.List<com.google.protobuf.ByteString> getOldPeersList() {
+            public java.util.List<com.github.os72.protobuf351.ByteString> getOldPeersList() {
                 return java.util.Collections.unmodifiableList(oldPeers_);
             }
 
@@ -1245,14 +1250,14 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_peers = 5;</code>
              */
-            public com.google.protobuf.ByteString getOldPeers(int index) {
+            public com.github.os72.protobuf351.ByteString getOldPeers(int index) {
                 return oldPeers_.get(index);
             }
 
             /**
              * <code>repeated bytes old_peers = 5;</code>
              */
-            public Builder setOldPeers(int index, com.google.protobuf.ByteString value) {
+            public Builder setOldPeers(int index, com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1265,7 +1270,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_peers = 5;</code>
              */
-            public Builder addOldPeers(com.google.protobuf.ByteString value) {
+            public Builder addOldPeers(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1278,9 +1283,9 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_peers = 5;</code>
              */
-            public Builder addAllOldPeers(java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+            public Builder addAllOldPeers(java.lang.Iterable<? extends com.github.os72.protobuf351.ByteString> values) {
                 ensureOldPeersIsMutable();
-                com.google.protobuf.AbstractMessageLite.Builder.addAll(values, oldPeers_);
+                com.github.os72.protobuf351.AbstractMessageLite.Builder.addAll(values, oldPeers_);
                 onChanged();
                 return this;
             }
@@ -1295,7 +1300,7 @@ public final class LogOutter {
                 return this;
             }
 
-            private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+            private com.github.os72.protobuf351.ByteString data_ = com.github.os72.protobuf351.ByteString.EMPTY;
 
             /**
              * <code>required bytes data = 6;</code>
@@ -1307,14 +1312,14 @@ public final class LogOutter {
             /**
              * <code>required bytes data = 6;</code>
              */
-            public com.google.protobuf.ByteString getData() {
+            public com.github.os72.protobuf351.ByteString getData() {
                 return data_;
             }
 
             /**
              * <code>required bytes data = 6;</code>
              */
-            public Builder setData(com.google.protobuf.ByteString value) {
+            public Builder setData(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1370,11 +1375,12 @@ public final class LogOutter {
                 return this;
             }
 
-            private java.util.List<com.google.protobuf.ByteString> learners_ = java.util.Collections.emptyList();
+            private java.util.List<com.github.os72.protobuf351.ByteString> learners_ = java.util.Collections
+                                                                                         .emptyList();
 
             private void ensureLearnersIsMutable() {
                 if (!((bitField0_ & 0x00000080) == 0x00000080)) {
-                    learners_ = new java.util.ArrayList<com.google.protobuf.ByteString>(learners_);
+                    learners_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>(learners_);
                     bitField0_ |= 0x00000080;
                 }
             }
@@ -1382,7 +1388,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes learners = 8;</code>
              */
-            public java.util.List<com.google.protobuf.ByteString> getLearnersList() {
+            public java.util.List<com.github.os72.protobuf351.ByteString> getLearnersList() {
                 return java.util.Collections.unmodifiableList(learners_);
             }
 
@@ -1396,14 +1402,14 @@ public final class LogOutter {
             /**
              * <code>repeated bytes learners = 8;</code>
              */
-            public com.google.protobuf.ByteString getLearners(int index) {
+            public com.github.os72.protobuf351.ByteString getLearners(int index) {
                 return learners_.get(index);
             }
 
             /**
              * <code>repeated bytes learners = 8;</code>
              */
-            public Builder setLearners(int index, com.google.protobuf.ByteString value) {
+            public Builder setLearners(int index, com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1416,7 +1422,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes learners = 8;</code>
              */
-            public Builder addLearners(com.google.protobuf.ByteString value) {
+            public Builder addLearners(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1429,9 +1435,9 @@ public final class LogOutter {
             /**
              * <code>repeated bytes learners = 8;</code>
              */
-            public Builder addAllLearners(java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+            public Builder addAllLearners(java.lang.Iterable<? extends com.github.os72.protobuf351.ByteString> values) {
                 ensureLearnersIsMutable();
-                com.google.protobuf.AbstractMessageLite.Builder.addAll(values, learners_);
+                com.github.os72.protobuf351.AbstractMessageLite.Builder.addAll(values, learners_);
                 onChanged();
                 return this;
             }
@@ -1446,11 +1452,12 @@ public final class LogOutter {
                 return this;
             }
 
-            private java.util.List<com.google.protobuf.ByteString> oldLearners_ = java.util.Collections.emptyList();
+            private java.util.List<com.github.os72.protobuf351.ByteString> oldLearners_ = java.util.Collections
+                                                                                            .emptyList();
 
             private void ensureOldLearnersIsMutable() {
                 if (!((bitField0_ & 0x00000100) == 0x00000100)) {
-                    oldLearners_ = new java.util.ArrayList<com.google.protobuf.ByteString>(oldLearners_);
+                    oldLearners_ = new java.util.ArrayList<com.github.os72.protobuf351.ByteString>(oldLearners_);
                     bitField0_ |= 0x00000100;
                 }
             }
@@ -1458,7 +1465,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_learners = 9;</code>
              */
-            public java.util.List<com.google.protobuf.ByteString> getOldLearnersList() {
+            public java.util.List<com.github.os72.protobuf351.ByteString> getOldLearnersList() {
                 return java.util.Collections.unmodifiableList(oldLearners_);
             }
 
@@ -1472,14 +1479,14 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_learners = 9;</code>
              */
-            public com.google.protobuf.ByteString getOldLearners(int index) {
+            public com.github.os72.protobuf351.ByteString getOldLearners(int index) {
                 return oldLearners_.get(index);
             }
 
             /**
              * <code>repeated bytes old_learners = 9;</code>
              */
-            public Builder setOldLearners(int index, com.google.protobuf.ByteString value) {
+            public Builder setOldLearners(int index, com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1492,7 +1499,7 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_learners = 9;</code>
              */
-            public Builder addOldLearners(com.google.protobuf.ByteString value) {
+            public Builder addOldLearners(com.github.os72.protobuf351.ByteString value) {
                 if (value == null) {
                     throw new NullPointerException();
                 }
@@ -1505,9 +1512,9 @@ public final class LogOutter {
             /**
              * <code>repeated bytes old_learners = 9;</code>
              */
-            public Builder addAllOldLearners(java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+            public Builder addAllOldLearners(java.lang.Iterable<? extends com.github.os72.protobuf351.ByteString> values) {
                 ensureOldLearnersIsMutable();
-                com.google.protobuf.AbstractMessageLite.Builder.addAll(values, oldLearners_);
+                com.github.os72.protobuf351.AbstractMessageLite.Builder.addAll(values, oldLearners_);
                 onChanged();
                 return this;
             }
@@ -1522,11 +1529,11 @@ public final class LogOutter {
                 return this;
             }
 
-            public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+            public final Builder setUnknownFields(final com.github.os72.protobuf351.UnknownFieldSet unknownFields) {
                 return super.setUnknownFields(unknownFields);
             }
 
-            public final Builder mergeUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+            public final Builder mergeUnknownFields(final com.github.os72.protobuf351.UnknownFieldSet unknownFields) {
                 return super.mergeUnknownFields(unknownFields);
             }
 
@@ -1544,21 +1551,21 @@ public final class LogOutter {
         }
 
         @java.lang.Deprecated
-        public static final com.google.protobuf.Parser<PBLogEntry> PARSER = new com.google.protobuf.AbstractParser<PBLogEntry>() {
-                                                                              public PBLogEntry parsePartialFrom(com.google.protobuf.CodedInputStream input,
-                                                                                                                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                                                                                                                                                                             throws com.google.protobuf.InvalidProtocolBufferException {
-                                                                                  return new PBLogEntry(input,
-                                                                                      extensionRegistry);
-                                                                              }
-                                                                          };
+        public static final com.github.os72.protobuf351.Parser<PBLogEntry> PARSER = new com.github.os72.protobuf351.AbstractParser<PBLogEntry>() {
+                                                                                      public PBLogEntry parsePartialFrom(com.github.os72.protobuf351.CodedInputStream input,
+                                                                                                                         com.github.os72.protobuf351.ExtensionRegistryLite extensionRegistry)
+                                                                                                                                                                                             throws com.github.os72.protobuf351.InvalidProtocolBufferException {
+                                                                                          return new PBLogEntry(input,
+                                                                                              extensionRegistry);
+                                                                                      }
+                                                                                  };
 
-        public static com.google.protobuf.Parser<PBLogEntry> parser() {
+        public static com.github.os72.protobuf351.Parser<PBLogEntry> parser() {
             return PARSER;
         }
 
         @java.lang.Override
-        public com.google.protobuf.Parser<PBLogEntry> getParserForType() {
+        public com.github.os72.protobuf351.Parser<PBLogEntry> getParserForType() {
             return PARSER;
         }
 
@@ -1568,14 +1575,14 @@ public final class LogOutter {
 
     }
 
-    private static final com.google.protobuf.Descriptors.Descriptor                internal_static_jraft_PBLogEntry_descriptor;
-    private static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable internal_static_jraft_PBLogEntry_fieldAccessorTable;
+    private static final com.github.os72.protobuf351.Descriptors.Descriptor                internal_static_jraft_PBLogEntry_descriptor;
+    private static final com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable internal_static_jraft_PBLogEntry_fieldAccessorTable;
 
-    public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+    public static com.github.os72.protobuf351.Descriptors.FileDescriptor getDescriptor() {
         return descriptor;
     }
 
-    private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+    private static com.github.os72.protobuf351.Descriptors.FileDescriptor descriptor;
     static {
         java.lang.String[] descriptorData = { "\n\tlog.proto\022\005jraft\032\nenum.proto\"\263\001\n\nPBLog"
                                               + "Entry\022\036\n\004type\030\001 \002(\0162\020.jraft.EntryType\022\014\n"
@@ -1584,17 +1591,17 @@ public final class LogOutter {
                                               + "ecksum\030\007 \001(\003\022\020\n\010learners\030\010 \003(\014\022\024\n\014old_le"
                                               + "arners\030\t \003(\014B2\n%com.alipay.sofa.jraft.en"
                                               + "tity.codec.v2B\tLogOutter" };
-        com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-            public com.google.protobuf.ExtensionRegistry assignDescriptors(com.google.protobuf.Descriptors.FileDescriptor root) {
+        com.github.os72.protobuf351.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.github.os72.protobuf351.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+            public com.github.os72.protobuf351.ExtensionRegistry assignDescriptors(com.github.os72.protobuf351.Descriptors.FileDescriptor root) {
                 descriptor = root;
                 return null;
             }
         };
-        com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(descriptorData,
-            new com.google.protobuf.Descriptors.FileDescriptor[] { com.alipay.sofa.jraft.entity.EnumOutter
+        com.github.os72.protobuf351.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(descriptorData,
+            new com.github.os72.protobuf351.Descriptors.FileDescriptor[] { com.alipay.sofa.jraft.entity.EnumOutter
                 .getDescriptor(), }, assigner);
         internal_static_jraft_PBLogEntry_descriptor = getDescriptor().getMessageTypes().get(0);
-        internal_static_jraft_PBLogEntry_fieldAccessorTable = new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_jraft_PBLogEntry_fieldAccessorTable = new com.github.os72.protobuf351.GeneratedMessageV3.FieldAccessorTable(
             internal_static_jraft_PBLogEntry_descriptor, new java.lang.String[] { "Type", "Term", "Index", "Peers",
             "OldPeers", "Data", "Checksum", "Learners", "OldLearners", });
         com.alipay.sofa.jraft.entity.EnumOutter.getDescriptor();

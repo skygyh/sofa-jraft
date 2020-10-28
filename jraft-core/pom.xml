@@ -92,8 +92,8 @@
             <artifactId>disruptor</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
+            <groupId>com.github.os72</groupId>
+            <artifactId>protobuf-java-shaded-351</artifactId>
         </dependency>
         <!-- commons -->
         <dependency>

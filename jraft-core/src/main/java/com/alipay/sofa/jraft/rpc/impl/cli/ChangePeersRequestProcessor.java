@@ -26,7 +26,7 @@ import com.alipay.sofa.jraft.rpc.CliRequests.ChangePeersRequest;
 import com.alipay.sofa.jraft.rpc.CliRequests.ChangePeersResponse;
 import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Change peers request processor.
