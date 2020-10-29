@@ -41,7 +41,6 @@
         <module>jraft-example</module>
         <module>jraft-rheakv</module>
         <module>pcj</module>
-        <module>jraft-extension</module>
     </modules>
 
     <scm>
@@ -76,7 +75,7 @@
         <powermock.version>1.6.0</powermock.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.encoding>UTF-8</project.encoding>
-        <protobuf.version>3.5.1</protobuf.version>
+        <protobuf.version>0.9</protobuf.version>
         <protostuff.version>1.6.0</protostuff.version>
         <rocksdb.version>5.18.3</rocksdb.version>
         <slf4j.version>1.7.21</slf4j.version>
@@ -184,8 +183,13 @@
             </dependency>
             <!-- protobuf -->
             <dependency>
-                <groupId>com.google.protobuf</groupId>
-                <artifactId>protobuf-java</artifactId>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protobuf-java-shaded-351</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protobuf-java-util-shaded-351</artifactId>
                 <version>${protobuf.version}</version>
             </dependency>
             <!-- protostuff -->

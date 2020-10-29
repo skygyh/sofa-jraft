@@ -110,7 +110,7 @@ public class Instruction implements Serializable {
 
     public static class RangeSplit implements Serializable {
 
-        private static final long serialVersionUID = -3451109819719367744L;
+        private static final long serialVersionUID = -35109819719367744L;
 
         private Long              newRegionId;
 

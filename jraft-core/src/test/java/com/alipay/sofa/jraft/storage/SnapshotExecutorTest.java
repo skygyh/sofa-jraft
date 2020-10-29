@@ -56,8 +56,8 @@ import com.alipay.sofa.jraft.storage.snapshot.local.LocalSnapshotStorage;
 import com.alipay.sofa.jraft.storage.snapshot.local.LocalSnapshotWriter;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.ByteString;
+import com.github.os72.protobuf351.Message;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -31,7 +31,7 @@ import com.alipay.sofa.jraft.error.RaftError;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.snapshot.SnapshotWriter;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Snapshot writer to write snapshot into local file system.

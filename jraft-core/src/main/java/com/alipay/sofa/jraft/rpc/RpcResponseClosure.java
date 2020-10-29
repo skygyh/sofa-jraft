@@ -17,7 +17,7 @@
 package com.alipay.sofa.jraft.rpc;
 
 import com.alipay.sofa.jraft.Closure;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * RPC response closure.

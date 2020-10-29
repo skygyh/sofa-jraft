@@ -28,7 +28,7 @@ import com.alipay.sofa.jraft.storage.LogStorage;
  *
  * @author boyan (boyan@alibaba-inc.com)
  *
- * 2018-Mar-13 5:15:15 PM
+ * 2018-Mar-13515:15 PM
  */
 public class LogManagerOptions {
 

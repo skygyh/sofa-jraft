@@ -25,7 +25,7 @@ import com.alipay.sofa.jraft.entity.LocalFileMetaOutter.LocalFileMeta;
 import com.alipay.sofa.jraft.storage.io.ProtoBufFile;
 import com.alipay.sofa.jraft.util.AsciiStringUtil;
 import com.alipay.sofa.jraft.util.Bits;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 /**
  * Segments checkpoint file.

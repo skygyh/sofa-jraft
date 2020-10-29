@@ -24,7 +24,7 @@ import com.alipay.remoting.rpc.RequestCommand;
 import com.alipay.remoting.rpc.ResponseCommand;
 import com.alipay.remoting.rpc.protocol.RpcRequestCommand;
 import com.alipay.remoting.rpc.protocol.RpcResponseCommand;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * RPC custom serializer based on protobuf

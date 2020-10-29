@@ -37,7 +37,7 @@ import com.alipay.sofa.jraft.util.AdaptiveBufAllocator;
 import com.alipay.sofa.jraft.util.ByteBufferCollector;
 import com.alipay.sofa.jraft.util.RecyclableByteBufferList;
 import com.alipay.sofa.jraft.util.RecycleUtil;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 import static com.alipay.sofa.jraft.rpc.RpcRequests.AppendEntriesRequest;
 

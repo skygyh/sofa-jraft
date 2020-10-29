@@ -31,8 +31,8 @@ import com.alipay.sofa.jraft.entity.LocalStorageOutter.LocalSnapshotPbMeta.File;
 import com.alipay.sofa.jraft.entity.RaftOutter.SnapshotMeta;
 import com.alipay.sofa.jraft.option.RaftOptions;
 import com.alipay.sofa.jraft.storage.io.ProtoBufFile;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.InvalidProtocolBufferException;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 /**
  * Table to keep local snapshot metadata infos.

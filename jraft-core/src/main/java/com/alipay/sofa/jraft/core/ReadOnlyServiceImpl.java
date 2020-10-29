@@ -31,7 +31,7 @@ import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexRequest;
 import com.alipay.sofa.jraft.rpc.RpcRequests.ReadIndexResponse;
 import com.alipay.sofa.jraft.rpc.RpcResponseClosureAdapter;
 import com.alipay.sofa.jraft.util.*;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;

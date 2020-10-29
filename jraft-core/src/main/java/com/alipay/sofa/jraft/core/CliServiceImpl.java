@@ -60,8 +60,8 @@ import com.alipay.sofa.jraft.rpc.RpcRequests.ErrorResponse;
 import com.alipay.sofa.jraft.rpc.impl.cli.CliClientServiceImpl;
 import com.alipay.sofa.jraft.util.Requires;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.Message;
-import com.google.protobuf.ProtocolStringList;
+import com.github.os72.protobuf351.Message;
+import com.github.os72.protobuf351.ProtocolStringList;
 
 /**
  * Cli service implementation.
@@ -84,7 +84,12 @@ public class CliServiceImpl implements CliService {
             return true;
         }
         this.cliOptions = opts;
-        this.cliClientService = new CliClientServiceImpl();
+        try {
+            this.cliClientService = new CliClientServiceImpl();
+        } catch (Throwable t) {
+            LOG.error("can not init the cli client service", t);
+            throw t;
+        }
         return this.cliClientService.init(this.cliOptions);
     }
 

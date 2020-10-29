@@ -17,7 +17,7 @@
 package com.alipay.sofa.jraft.util;
 
 import com.alipay.sofa.jraft.util.internal.UnsafeUtil;
-import com.google.protobuf.ByteString;
+import com.github.os72.protobuf351.ByteString;
 
 /**
  * @author jiachun.fjc

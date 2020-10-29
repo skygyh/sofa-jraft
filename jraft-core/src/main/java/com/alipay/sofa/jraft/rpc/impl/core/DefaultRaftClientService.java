@@ -49,7 +49,7 @@ import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.Utils;
 import com.alipay.sofa.jraft.util.concurrent.DefaultFixedThreadsExecutorGroupFactory;
 import com.alipay.sofa.jraft.util.concurrent.FixedThreadsExecutorGroup;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Raft rpc service based bolt.

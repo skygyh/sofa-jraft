@@ -32,7 +32,7 @@ import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
 import com.alipay.sofa.jraft.rpc.RpcRequests;
 import com.alipay.sofa.jraft.storage.io.LocalDirReader;
 import com.alipay.sofa.jraft.test.TestUtils;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

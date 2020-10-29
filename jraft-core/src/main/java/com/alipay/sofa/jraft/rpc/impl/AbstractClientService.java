@@ -46,8 +46,8 @@ import com.alipay.sofa.jraft.util.RpcFactoryHelper;
 import com.alipay.sofa.jraft.util.ThreadPoolMetricSet;
 import com.alipay.sofa.jraft.util.ThreadPoolUtil;
 import com.alipay.sofa.jraft.util.Utils;
-import com.google.protobuf.Descriptors;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Descriptors;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Abstract RPC client service based.

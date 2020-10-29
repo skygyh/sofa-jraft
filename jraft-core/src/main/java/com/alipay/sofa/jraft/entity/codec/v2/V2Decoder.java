@@ -29,9 +29,9 @@ import com.alipay.sofa.jraft.entity.PeerId;
 import com.alipay.sofa.jraft.entity.codec.LogEntryDecoder;
 import com.alipay.sofa.jraft.entity.codec.v2.LogOutter.PBLogEntry;
 import com.alipay.sofa.jraft.util.AsciiStringUtil;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.ZeroByteStringHelper;
+import com.github.os72.protobuf351.ByteString;
+import com.github.os72.protobuf351.InvalidProtocolBufferException;
+import com.github.os72.protobuf351.ZeroByteStringHelper;
 
 /**
  * V2 log entry decoder based on protobuf, see src/main/resources/log.proto

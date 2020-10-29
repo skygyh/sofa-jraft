@@ -23,7 +23,7 @@ import com.alipay.sofa.jraft.entity.PeerId;
 import com.alipay.sofa.jraft.rpc.CliRequests.GetPeersRequest;
 import com.alipay.sofa.jraft.rpc.CliRequests.GetPeersResponse;
 import com.alipay.sofa.jraft.rpc.RpcRequestClosure;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 /**
  * Process get all peers of the replication group request.

@@ -39,7 +39,7 @@ import com.alipay.sofa.jraft.rpc.impl.AbstractClientService;
 import com.alipay.sofa.jraft.test.TestUtils;
 import com.alipay.sofa.jraft.util.Endpoint;
 import com.alipay.sofa.jraft.util.RpcFactoryHelper;
-import com.google.protobuf.Message;
+import com.github.os72.protobuf351.Message;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
