@@ -21,6 +21,8 @@ storeEngineOptions:
       readOnlyOptions: ReadOnlyLeaseBased
   regionEngineOptionsList:
     - { regionId: 1, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 2, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 3, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
 
 onlyLeaderRead: true
 

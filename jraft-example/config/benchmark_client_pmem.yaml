@@ -4,9 +4,11 @@ clusterName: rhea_benchmark
 
 placementDriverOptions:
   fake: true
+  hashRoute: true
   regionRouteTableOptionsList:
-    - { regionId:  1,                      endKey: 80000000 }
-    - { regionId:  2, startKey: 80000000,                   }
+    - { regionId:  1,                      endKey: 01000000 }
+    - { regionId:  2, startKey: 01000000,  endKey: 02000000 }
+    - { regionId:  3, startKey: 02000000,  endKey: 03000000 }
 
 onlyLeaderRead: true
 
