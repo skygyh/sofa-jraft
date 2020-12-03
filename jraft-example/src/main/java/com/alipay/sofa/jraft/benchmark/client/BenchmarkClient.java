@@ -332,7 +332,7 @@ public class BenchmarkClient {
                     continue;
                 }
                 try {
-                    pdClient.transferLeader(regionId, JRaftHelper.toPeer(p), true);
+                   // pdClient.transferLeader(regionId, JRaftHelper.toPeer(p), true);
                     LOG.info("Region {} transfer leader to {}", regionId, p);
                     regions.add(regionId);
                     break;
@@ -341,6 +341,7 @@ public class BenchmarkClient {
                 }
             }
         }
+
 
         for (final RegionRouteTableOptions r : regionRouteTableOptionsList) {
             final Long regionId = r.getRegionId();

@@ -43,6 +43,7 @@ com.alipay.sofa.jraft.benchmark.BenchmarkBootstrap
 server
 $1
 $2
+$3
 EOF
 
 JAVA_CONFIG=$(cat $JAVA_CONFIG | xargs echo)

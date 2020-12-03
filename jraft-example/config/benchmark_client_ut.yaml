@@ -1,0 +1,24 @@
+##RheaKVStoreOptions
+---
+clusterName: rhea_benchmark
+
+placementDriverOptions:
+  fake: true
+  hashRoute: true
+  regionRouteTableOptionsList:
+    - { regionId:  1,                      endKey: 01000000 }
+    - { regionId:  2, startKey: 01000000,  endKey: 02000000 }
+    - { regionId:  3, startKey: 02000000,                   }
+
+
+
+onlyLeaderRead: true
+
+rpcOptions:
+  callbackExecutorCorePoolSize: 0
+  callbackExecutorMaximumPoolSize: 0
+  rpcTimeoutMillis: 2000
+
+failoverRetries: 0
+useParallelKVExecutor: false
+

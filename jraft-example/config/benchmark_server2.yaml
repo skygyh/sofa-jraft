@@ -23,6 +23,35 @@ storeEngineOptions:
     - { regionId: 1, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 2, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 3, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 4, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 5, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 6, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 7, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 8, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 9, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 10, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 11, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 12, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 13, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 14, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 15, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 16, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 17, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 18, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 19, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 20, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 21, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 22, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 23, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 24, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 25, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 26, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 27, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 28, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 29, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 30, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 31, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
+    - { regionId: 32, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
 
 onlyLeaderRead: true
 
