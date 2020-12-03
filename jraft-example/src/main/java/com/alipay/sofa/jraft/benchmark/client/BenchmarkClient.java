@@ -96,7 +96,16 @@ public class BenchmarkClient {
         final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
                 .getRegionRouteTableOptionsList();
 
-        rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
+        final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
+        for (RegionRouteTableOptions regionRouteTableOptions : regionRouteTableOptionsList) {
+            final long regionId = regionRouteTableOptions.getRegionId();
+            LOG.info("Leader in region {} is {}", regionId, pdClient.getLeader(regionId, true, 30000));
+        }
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {};
+
+        // rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
 
         //rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
         //LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
@@ -332,7 +341,7 @@ public class BenchmarkClient {
                     continue;
                 }
                 try {
-                   // pdClient.transferLeader(regionId, JRaftHelper.toPeer(p), true);
+                    pdClient.transferLeader(regionId, JRaftHelper.toPeer(p), true);
                     LOG.info("Region {} transfer leader to {}", regionId, p);
                     regions.add(regionId);
                     break;
