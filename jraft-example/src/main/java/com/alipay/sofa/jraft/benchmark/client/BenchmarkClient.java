@@ -16,11 +16,9 @@
  */
 package com.alipay.sofa.jraft.benchmark.client;
 
-import java.util.ArrayDeque;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
@@ -95,21 +93,41 @@ public class BenchmarkClient {
 
         final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
                 .getRegionRouteTableOptionsList();
+        String localIP = null;
+        try {
+            localIP = Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
+        final List<RegionRouteTableOptions> localRegionRouteTableOptionsList = new ArrayList<>();
         final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
         for (RegionRouteTableOptions regionRouteTableOptions : regionRouteTableOptionsList) {
             final long regionId = regionRouteTableOptions.getRegionId();
-            LOG.info("Leader in region {} is {}", regionId, pdClient.getLeader(regionId, true, 30000));
+            Endpoint ep = pdClient.getLeader(regionId, true, 30000);
+
+           if (localIP != null) {
+               if (localIP.equals(ep.getIp())) {
+                   localRegionRouteTableOptionsList.add(regionRouteTableOptions);
+                   LOG.info("Leader in region {} is {}", regionId,  ep);
+               }
+           }
         }
+
         try {
             Thread.sleep(30000);
         } catch (InterruptedException e) {};
+
 
         // rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
 
         //rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
         //LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
-
+//        try {
+//            System.out.println(Inet4Address.getLocalHost().getHostAddress());
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
         ConsoleReporter.forRegistry(KVMetrics.metricRegistry()) //
                 .build() //
                 .start(30, TimeUnit.SECONDS);
@@ -122,7 +140,7 @@ public class BenchmarkClient {
                 keyCount,
                 keySize,
                 valueSize,
-                regionRouteTableOptionsList);
+                localRegionRouteTableOptionsList);
     }
 
     public static void startBenchmark_hash(final RheaKVStore rheaKVStore,
@@ -136,7 +154,7 @@ public class BenchmarkClient {
 
         for (int i = 0; i < threads; i++) {
             final Thread t = new Thread(() -> doRequest_hash(rheaKVStore, writeRatio, readRatio, keyCount, keySize, valueSize, regionEngineOptionsList));
-            t.setDaemon(false);
+            //t.setDaemon(false);
             t.start();
         }
 
@@ -197,8 +215,8 @@ public class BenchmarkClient {
                 });
 
                 if (submittedKey.get() >= keyCount) {
-                    LOG.error("submitted key: {}", submittedKey.get());
-                    return;
+                    LOG.info("submitted key: {}", submittedKey.get());
+                    System.exit(0);
                 }
 
             } else {
