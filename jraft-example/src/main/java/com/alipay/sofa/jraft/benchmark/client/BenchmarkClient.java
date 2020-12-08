@@ -96,6 +96,7 @@ public class BenchmarkClient {
         String localIP = null;
         try {
             localIP = Inet4Address.getLocalHost().getHostAddress();
+            LOG.info("local IP {}", localIP);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -109,7 +110,7 @@ public class BenchmarkClient {
            if (localIP != null) {
                if (localIP.equals(ep.getIp())) {
                    localRegionRouteTableOptionsList.add(regionRouteTableOptions);
-                   LOG.info("Leader in region {} is {}", regionId,  ep);
+                   LOG.info("local Leader in region {} is {}", regionId,  ep);
                }
            }
         }
