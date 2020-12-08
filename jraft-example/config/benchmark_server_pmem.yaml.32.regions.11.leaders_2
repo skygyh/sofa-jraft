@@ -17,7 +17,7 @@ storeEngineOptions:
   raftRpcCoreThreads: 128
   serverAddress:
     #ip: 127.0.0.1
-    ip: 10.255.93.16
+    ip: 10.255.93.17
     port: 18091
   commonNodeOptions:
     raftOptions:
