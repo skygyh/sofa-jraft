@@ -45,8 +45,9 @@ onlyLeaderRead: true
 rpcOptions:
   callbackExecutorCorePoolSize: 0
   callbackExecutorMaximumPoolSize: 0
-  rpcTimeoutMillis: 2000
+  rpcTimeoutMillis: 5000
 
-failoverRetries: 0
+failoverRetries: 1 
+futureTimeoutMillis: 5000
 useParallelKVExecutor: false
 
