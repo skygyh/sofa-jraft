@@ -108,7 +108,7 @@ public class BenchmarkClient {
             try {
                 ep = pdClient.getLeader(regionId, true, 30000);
             } catch (RouteTableException e) {
-                LOG.info("no leader in regionId {}", regionId );
+                LOG.info("no leader in regionId {}", regionId);
                 //e.printStackTrace();
             }
             if (localIP != null && ep != null) {
