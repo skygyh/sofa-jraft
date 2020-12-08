@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alipay.sofa.jraft.benchmark.BenchmarkHelper;
+import com.alipay.sofa.jraft.rhea.errors.RouteTableException;
 import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
 import com.alipay.sofa.jraft.util.Bits;
 import com.codahale.metrics.Meter;
@@ -103,8 +104,12 @@ public class BenchmarkClient {
         final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
         for (RegionRouteTableOptions regionRouteTableOptions : regionRouteTableOptionsList) {
             final long regionId = regionRouteTableOptions.getRegionId();
-            Endpoint ep = pdClient.getLeader(regionId, true, 30000);
-
+            try {
+                Endpoint ep = pdClient.getLeader(regionId, true, 30000);
+            } catch (RouteTableException e) {
+                LOG.info("no leader in regionId {}", regionId );
+                //e.printStackTrace();
+            }
             if (localIP != null) {
                 if (localIP.equals(ep.getIp())) {
                     localRegionRouteTableOptionsList.add(regionRouteTableOptions);
