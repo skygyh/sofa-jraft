@@ -54,8 +54,7 @@ import com.codahale.metrics.Timer;
  */
 public class BenchmarkClient {
 
-    private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkClient.class);
-
+    private static final Logger        LOG          = LoggerFactory.getLogger(BenchmarkClient.class);
 
     private static final byte[]        BYTES        = new byte[] { 0, 1 };
 
@@ -66,7 +65,6 @@ public class BenchmarkClient {
     private static final Timer         timer        = KVMetrics.timer("benchmark_timer");
 
     private static final AtomicInteger submittedKey = new AtomicInteger(0);
-
 
     public static void main(final String[] args) {
         if (args.length < 8) {
@@ -92,7 +90,7 @@ public class BenchmarkClient {
         }
 
         final List<RegionRouteTableOptions> regionRouteTableOptionsList = opts.getPlacementDriverOptions()
-                .getRegionRouteTableOptionsList();
+            .getRegionRouteTableOptionsList();
         String localIP = null;
         try {
             localIP = Inet4Address.getLocalHost().getHostAddress();
@@ -107,41 +105,36 @@ public class BenchmarkClient {
             final long regionId = regionRouteTableOptions.getRegionId();
             Endpoint ep = pdClient.getLeader(regionId, true, 30000);
 
-           if (localIP != null) {
-               if (localIP.equals(ep.getIp())) {
-                   localRegionRouteTableOptionsList.add(regionRouteTableOptions);
-                   LOG.info("local Leader in region {} is {}", regionId,  ep);
-               }
-           }
+            if (localIP != null) {
+                if (localIP.equals(ep.getIp())) {
+                    localRegionRouteTableOptionsList.add(regionRouteTableOptions);
+                    LOG.info("local Leader in region {} is {}", regionId, ep);
+                }
+            }
         }
 
         try {
             Thread.sleep(30000);
-        } catch (InterruptedException e) {};
-
+        } catch (InterruptedException e) {
+        }
+        ;
 
         // rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
 
         //rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
         //LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
-//        try {
-//            System.out.println(Inet4Address.getLocalHost().getHostAddress());
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
+        //        try {
+        //            System.out.println(Inet4Address.getLocalHost().getHostAddress());
+        //        } catch (UnknownHostException e) {
+        //            e.printStackTrace();
+        //        }
         ConsoleReporter.forRegistry(KVMetrics.metricRegistry()) //
-                .build() //
-                .start(30, TimeUnit.SECONDS);
+            .build() //
+            .start(30, TimeUnit.SECONDS);
 
         LOG.info("Start benchmark...");
-        startBenchmark_hash(rheaKVStore,
-                threads,
-                writeRatio,
-                readRatio,
-                keyCount,
-                keySize,
-                valueSize,
-                localRegionRouteTableOptionsList);
+        startBenchmark_hash(rheaKVStore, threads, writeRatio, readRatio, keyCount, keySize, valueSize,
+            localRegionRouteTableOptionsList);
     }
 
     public static void startBenchmark_hash(final RheaKVStore rheaKVStore,
@@ -238,7 +231,6 @@ public class BenchmarkClient {
         }
     }
 
-
     public static CompletableFuture<Boolean> put(final RheaKVStore rheaKVStore, final long regionId, final byte[] key,
                                                  final byte[] value) {
         return rheaKVStore.put(regionId, key, value);
@@ -247,7 +239,6 @@ public class BenchmarkClient {
     public static CompletableFuture<byte[]> get(final RheaKVStore rheaKVStore, final long regionId, final byte[] key) {
         return rheaKVStore.get(regionId, key);
     }
-
 
     public static void startBenchmark(final RheaKVStore rheaKVStore, final int threads, final int writeRatio, final int readRatio,
                                       final int valueSize, final List<RegionRouteTableOptions> regionRouteTableOptionsList) {
@@ -369,7 +360,6 @@ public class BenchmarkClient {
                 }
             }
         }
-
 
         for (final RegionRouteTableOptions r : regionRouteTableOptionsList) {
             final Long regionId = r.getRegionId();
