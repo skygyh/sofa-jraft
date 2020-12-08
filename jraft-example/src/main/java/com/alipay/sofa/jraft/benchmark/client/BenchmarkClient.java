@@ -104,13 +104,14 @@ public class BenchmarkClient {
         final PlacementDriverClient pdClient = rheaKVStore.getPlacementDriverClient();
         for (RegionRouteTableOptions regionRouteTableOptions : regionRouteTableOptionsList) {
             final long regionId = regionRouteTableOptions.getRegionId();
+            Endpoint ep = null;
             try {
-                Endpoint ep = pdClient.getLeader(regionId, true, 30000);
+                ep = pdClient.getLeader(regionId, true, 30000);
             } catch (RouteTableException e) {
                 LOG.info("no leader in regionId {}", regionId );
                 //e.printStackTrace();
             }
-            if (localIP != null) {
+            if (localIP != null && ep != null) {
                 if (localIP.equals(ep.getIp())) {
                     localRegionRouteTableOptionsList.add(regionRouteTableOptions);
                     LOG.info("local Leader in region {} is {}", regionId, ep);
