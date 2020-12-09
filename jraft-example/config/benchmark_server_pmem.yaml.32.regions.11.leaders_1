@@ -33,7 +33,7 @@ storeEngineOptions:
     - { regionId: 8, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, electionPriority: 0, raftOptions: { sync: false} } }
     - { regionId: 9, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, electionPriority: 0, raftOptions: { sync: false} } }
     - { regionId: 10, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, electionPriority: 0, raftOptions: { sync: false} } }
-    - { regionId: 11, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, electionPriority: 0, raftOptions: { sync: false} } }
+    - { regionId: 11, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 12, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 13, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
     - { regionId: 14, metricsReportPeriod: 30, nodeOptions: { electionTimeoutMs: 10000, raftOptions: { sync: false} } }
