@@ -1,0 +1,148 @@
+##RheaKVStoreOptions
+---
+clusterName: rhea_benchmark
+
+placementDriverOptions:
+  fake: true
+  hashRoute: true
+  regionRouteTableOptionsList:
+    - { regionId:  1,                      endKey: 01000000 }
+    - { regionId:  2, startKey: 01000000,  endKey: 02000000 }
+    - { regionId:  3, startKey: 02000000,  endKey: 03000000 }
+    - { regionId:  4, startKey: 03000000,  endKey: 04000000 }
+    - { regionId:  5, startKey: 04000000,  endKey: 05000000 }
+    - { regionId:  6, startKey: 05000000,  endKey: 06000000 }
+    - { regionId:  7, startKey: 06000000,  endKey: 07000000 }
+    - { regionId:  8, startKey: 07000000,  endKey: 08000000 }
+    - { regionId:  9, startKey: 08000000,  endKey: 09000000 }
+    - { regionId: 10, startKey: 09000000,  endKey: 10000000 }
+    - { regionId: 11, startKey: 10000000,  endKey: 11000000 }
+    - { regionId: 12, startKey: 11000000,  endKey: 12000000 }
+    - { regionId: 13, startKey: 12000000,  endKey: 13000000 }
+    - { regionId: 14, startKey: 13000000,  endKey: 14000000 }
+    - { regionId: 15, startKey: 14000000,  endKey: 15000000 }
+    - { regionId: 16, startKey: 15000000,  endKey: 16000000 }
+    - { regionId: 17, startKey: 16000000,  endKey: 17000000 }
+    - { regionId: 18, startKey: 17000000,  endKey: 18000000 }
+    - { regionId: 19, startKey: 18000000,  endKey: 19000000 }
+    - { regionId: 20, startKey: 19000000,  endKey: 20000000 }
+    - { regionId: 21, startKey: 20000000,  endKey: 21000000 }
+    - { regionId: 22, startKey: 21000000,  endKey: 22000000 }
+    - { regionId: 23, startKey: 22000000,  endKey: 23000000 }
+    - { regionId: 24, startKey: 23000000,  endKey: 24000000 }
+    - { regionId: 25, startKey: 25000000,  endKey: 26000000 }
+    - { regionId: 26, startKey: 26000000,  endKey: 27000000 }
+    - { regionId: 27, startKey: 27000000,  endKey: 28000000 }
+    - { regionId: 28, startKey: 28000000,  endKey: 29000000 }
+    - { regionId: 29, startKey: 29000000,  endKey: 30000000 }
+    - { regionId: 30, startKey: 30000000,  endKey: 31000000 }
+    - { regionId: 31, startKey: 31000000,  endKey: 32000000 }
+    - { regionId: 32, startKey: 32000000,  endKey: 33000000 }
+    - { regionId: 33, startKey: 33000000,  endKey: 34000000 }
+    - { regionId: 34, startKey: 01000000,  endKey: 02000000 }
+    - { regionId: 35, startKey: 02000000,  endKey: 03000000 }
+    - { regionId: 36, startKey: 03000000,  endKey: 04000000 }
+    - { regionId: 37, startKey: 04000000,  endKey: 05000000 }
+    - { regionId: 38, startKey: 05000000,  endKey: 06000000 }
+    - { regionId:  39, startKey: 06000000,  endKey: 07000000 }
+    - { regionId:  40, startKey: 07000000,  endKey: 08000000 }
+    - { regionId:  41, startKey: 08000000,  endKey: 09000000 }
+    - { regionId: 42, startKey: 09000000,  endKey: 10000000 }
+    - { regionId: 43, startKey: 10000000,  endKey: 11000000 }
+    - { regionId: 44, startKey: 11000000,  endKey: 12000000 }
+    - { regionId: 45, startKey: 12000000,  endKey: 13000000 }
+    - { regionId: 46, startKey: 13000000,  endKey: 14000000 }
+    - { regionId: 47, startKey: 14000000,  endKey: 15000000 }
+    - { regionId: 48, startKey: 15000000,  endKey: 16000000 }
+    - { regionId: 49, startKey: 16000000,  endKey: 17000000 }
+    - { regionId: 50, startKey: 17000000,  endKey: 18000000 }
+    - { regionId: 51, startKey: 18000000,  endKey: 19000000 }
+    - { regionId: 52, startKey: 19000000,  endKey: 20000000 }
+    - { regionId: 53, startKey: 20000000,  endKey: 21000000 }
+    - { regionId: 54, startKey: 21000000,  endKey: 22000000 }
+    - { regionId: 55, startKey: 22000000,  endKey: 23000000 }
+    - { regionId: 56, startKey: 23000000,  endKey: 24000000 }
+    - { regionId: 57, startKey: 25000000,  endKey: 26000000 }
+    - { regionId: 58, startKey: 26000000,  endKey: 27000000 }
+    - { regionId: 59, startKey: 27000000,  endKey: 28000000 }
+    - { regionId: 60, startKey: 28000000,  endKey: 29000000 }
+    - { regionId: 61, startKey: 29000000,  endKey: 30000000 }
+    - { regionId: 62, startKey: 30000000,  endKey: 31000000 }
+    - { regionId: 63, startKey: 31000000,  endKey: 32000000 }
+    - { regionId: 64, startKey: 32000000,  endKey: 32000000  }
+    - { regionId: 65, startKey: 32000000,   endKey: 01000000 }
+    - { regionId:  66, startKey: 01000000,  endKey: 02000000 }
+    - { regionId:  67, startKey: 02000000,  endKey: 03000000 }
+    - { regionId:  68, startKey: 03000000,  endKey: 04000000 }
+    - { regionId:  69, startKey: 04000000,  endKey: 05000000 }
+    - { regionId:  70, startKey: 05000000,  endKey: 06000000 }
+    - { regionId:  71, startKey: 06000000,  endKey: 07000000 }
+    - { regionId:  72, startKey: 07000000,  endKey: 08000000 }
+    - { regionId:  73, startKey: 08000000,  endKey: 09000000 }
+    - { regionId: 74, startKey: 09000000,  endKey: 10000000 }
+    - { regionId: 75, startKey: 10000000,  endKey: 11000000 }
+    - { regionId: 76, startKey: 11000000,  endKey: 12000000 }
+    - { regionId: 77, startKey: 12000000,  endKey: 13000000 }
+    - { regionId: 78, startKey: 13000000,  endKey: 14000000 }
+    - { regionId: 79, startKey: 14000000,  endKey: 15000000 }
+    - { regionId: 80, startKey: 15000000,  endKey: 16000000 }
+    - { regionId: 81, startKey: 16000000,  endKey: 17000000 }
+    - { regionId: 82, startKey: 17000000,  endKey: 18000000 }
+    - { regionId: 83, startKey: 18000000,  endKey: 19000000 }
+    - { regionId: 84, startKey: 19000000,  endKey: 20000000 }
+    - { regionId: 85, startKey: 20000000,  endKey: 21000000 }
+    - { regionId: 86, startKey: 21000000,  endKey: 22000000 }
+    - { regionId: 87, startKey: 22000000,  endKey: 23000000 }
+    - { regionId: 88, startKey: 23000000,  endKey: 24000000 }
+    - { regionId: 89, startKey: 25000000,  endKey: 26000000 }
+    - { regionId: 90, startKey: 26000000,  endKey: 27000000 }
+    - { regionId: 91, startKey: 27000000,  endKey: 28000000 }
+    - { regionId: 92, startKey: 28000000,  endKey: 29000000 }
+    - { regionId: 93, startKey: 29000000,  endKey: 30000000 }
+    - { regionId: 94, startKey: 30000000,  endKey: 31000000 }
+    - { regionId: 95, startKey: 31000000,  endKey: 32000000 }
+    - { regionId: 96, startKey: 32000000,   endKey: 32000000    }
+    - { regionId:  97,  startKey: 32000000,    endKey: 01000000 }
+    - { regionId:  98, startKey: 01000000,  endKey: 02000000 }
+    - { regionId:  99, startKey: 02000000,  endKey: 03000000 }
+    - { regionId:  100, startKey: 03000000,  endKey: 04000000 }
+    - { regionId:  101, startKey: 04000000,  endKey: 05000000 }
+    - { regionId:  102, startKey: 05000000,  endKey: 06000000 }
+    - { regionId:  103, startKey: 06000000,  endKey: 07000000 }
+    - { regionId:  104, startKey: 07000000,  endKey: 08000000 }
+    - { regionId:  105, startKey: 08000000,  endKey: 09000000 }
+    - { regionId: 106, startKey: 09000000,  endKey: 10000000 }
+    - { regionId: 107, startKey: 10000000,  endKey: 11000000 }
+    - { regionId: 108, startKey: 11000000,  endKey: 12000000 }
+    - { regionId: 109, startKey: 12000000,  endKey: 13000000 }
+    - { regionId: 110, startKey: 13000000,  endKey: 14000000 }
+    - { regionId: 111, startKey: 14000000,  endKey: 15000000 }
+    - { regionId: 112, startKey: 15000000,  endKey: 16000000 }
+    - { regionId: 113, startKey: 16000000,  endKey: 17000000 }
+    - { regionId: 114, startKey: 17000000,  endKey: 18000000 }
+    - { regionId: 115, startKey: 18000000,  endKey: 19000000 }
+    - { regionId: 116, startKey: 19000000,  endKey: 20000000 }
+    - { regionId: 117, startKey: 20000000,  endKey: 21000000 }
+    - { regionId: 118, startKey: 21000000,  endKey: 22000000 }
+    - { regionId: 119, startKey: 22000000,  endKey: 23000000 }
+    - { regionId: 120, startKey: 23000000,  endKey: 24000000 }
+    - { regionId: 121, startKey: 25000000,  endKey: 26000000 }
+    - { regionId: 122, startKey: 26000000,  endKey: 27000000 }
+    - { regionId: 123, startKey: 27000000,  endKey: 28000000 }
+    - { regionId: 124, startKey: 28000000,  endKey: 29000000 }
+    - { regionId: 125, startKey: 29000000,  endKey: 30000000 }
+    - { regionId: 126, startKey: 30000000,  endKey: 31000000 }
+    - { regionId: 127, startKey: 31000000,  endKey: 32000000 }
+    - { regionId: 128, startKey: 32000000,                   }
+
+onlyLeaderRead: true
+
+rpcOptions:
+  callbackExecutorCorePoolSize: 0
+  callbackExecutorMaximumPoolSize: 0
+  rpcTimeoutMillis: 5000
+
+failoverRetries: 1 
+futureTimeoutMillis: 5000
+useParallelKVExecutor: false
+
