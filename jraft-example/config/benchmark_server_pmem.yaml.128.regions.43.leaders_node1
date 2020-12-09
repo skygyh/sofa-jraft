@@ -13,8 +13,8 @@ storeEngineOptions:
     dbPath: rhea_benchmark_db
   pmemDBOptions:
     pmemDataSize: 536870912
-    dbPath: /mnt/memory/rhea_benchmark_db
-  raftDataPath: /mnt/memory/rhea_benchmark_raft_data
+    dbPath: /mnt/mem/rhea_benchmark_db
+  raftDataPath: /mnt/mem/rhea_benchmark_raft_data
   raftRpcCoreThreads: 128
   serverAddress:
     #ip: 127.0.0.1
