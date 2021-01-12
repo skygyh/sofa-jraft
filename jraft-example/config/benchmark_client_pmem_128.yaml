@@ -44,9 +44,9 @@ placementDriverOptions:
     - { regionId: 36, startKey: 03000000,  endKey: 04000000 }
     - { regionId: 37, startKey: 04000000,  endKey: 05000000 }
     - { regionId: 38, startKey: 05000000,  endKey: 06000000 }
-    - { regionId:  39, startKey: 06000000,  endKey: 07000000 }
-    - { regionId:  40, startKey: 07000000,  endKey: 08000000 }
-    - { regionId:  41, startKey: 08000000,  endKey: 09000000 }
+    - { regionId: 39, startKey: 06000000,  endKey: 07000000 }
+    - { regionId: 40, startKey: 07000000,  endKey: 08000000 }
+    - { regionId: 41, startKey: 08000000,  endKey: 09000000 }
     - { regionId: 42, startKey: 09000000,  endKey: 10000000 }
     - { regionId: 43, startKey: 10000000,  endKey: 11000000 }
     - { regionId: 44, startKey: 11000000,  endKey: 12000000 }

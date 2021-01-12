@@ -54,11 +54,11 @@ import com.codahale.metrics.Timer;
  */
 public class BenchmarkClient_idea {
 
-    private static final Logger LOG      = LoggerFactory.getLogger(BenchmarkClient.class);
+    private static final Logger        LOG          = LoggerFactory.getLogger(BenchmarkClient.class);
 
-    private static final byte[] BYTES    = new byte[] { 0, 1 };
+    private static final byte[]        BYTES        = new byte[] { 0, 1 };
 
-    private static final Meter putMeter     = KVMetrics.meter("put_benchmark_tps");
+    private static final Meter         putMeter     = KVMetrics.meter("put_benchmark_tps");
     private static final Meter         getMeter     = KVMetrics.meter("get_benchmark_tps");
     private static final Timer         putTimer     = KVMetrics.timer("put_benchmark_timer");
     private static final Timer         getTimer     = KVMetrics.timer("get_benchmark_timer");
@@ -94,8 +94,8 @@ public class BenchmarkClient_idea {
 
         rebalance(rheaKVStore, initialServerList, regionRouteTableOptionsList);
 
-       // rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
-       // LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
+        // rheaKVStore.bPut("benchmark", BytesUtil.writeUtf8("benchmark start at: " + new Date()));
+        // LOG.info(BytesUtil.readUtf8(rheaKVStore.bGet("benchmark")));
 
         ConsoleReporter.forRegistry(KVMetrics.metricRegistry()) //
             .build() //
@@ -103,7 +103,7 @@ public class BenchmarkClient_idea {
 
         LOG.info("Start benchmark...");
         startBenchmark_hash(rheaKVStore, threads, writeRatio, readRatio, keyCount, keySize, valueSize,
-                regionRouteTableOptionsList);
+            regionRouteTableOptionsList);
     }
 
     public static void startBenchmark_hash(final RheaKVStore rheaKVStore,
