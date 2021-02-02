@@ -31,7 +31,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
 
     /** Raft Log Type */
     private StorageType    logType                              = StorageType.PMemLog;
-    private long           pmemLogSize                          = 512 * 1024 * 1024;
+    private long           pmemLogSize                          = 256 * 1024 * 1024;
     /** Maximum of block size per RPC */
     private int            maxByteCountPerRpc                   = 128 * 1024;
     /** File service check hole switch, default disable */
