@@ -512,7 +512,7 @@ public class Replicator implements ThreadId.OnError {
             return this.nextIndex;
         }
         // Too many in-flight requests.
-        if (this.inflights.size() > this.raftOptions.getMaxReplicatorInflightMsgs()) {
+        if (this.inflights.size() >= this.raftOptions.getMaxReplicatorInflightMsgs()) {
             return -1L;
         }
         // Last request should be a AppendEntries request and has some entries.

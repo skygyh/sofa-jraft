@@ -57,7 +57,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
     /** Whether to enable replicator pipeline. */
     private boolean        replicatorPipeline                   = true;
     /** The maximum replicator pipeline in-flight requests/responses, only valid when enable replicator pipeline. */
-    private int            maxReplicatorInflightMsgs            = 256;
+    private int            maxReplicatorInflightMsgs            = 1;//256;
     /** Internal disruptor buffers size for Node/FSMCaller/LogManager etc. */
     private int            disruptorBufferSize                  = 16384;
     /**
