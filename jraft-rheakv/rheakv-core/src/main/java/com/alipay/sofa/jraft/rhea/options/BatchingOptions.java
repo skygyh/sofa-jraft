@@ -30,7 +30,7 @@ public class BatchingOptions {
     // Internal disruptor buffers size for get/put request etc.
     private int     bufSize       = 8192;
     // Maximum bytes size to cached for put-request (keys.size + value.size).
-    private int     maxWriteBytes = 32768;
+    private int     maxWriteBytes = 102400;//32768;
     // Maximum bytes size to cached for get-request (keys.size).
     private int     maxReadBytes  = 1024;
 

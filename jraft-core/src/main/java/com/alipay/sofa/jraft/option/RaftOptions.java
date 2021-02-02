@@ -39,7 +39,7 @@ public class RaftOptions implements Copiable<RaftOptions> {
     /** The maximum number of entries in AppendEntriesRequest */
     private int            maxEntriesSize                       = 1024;
     /** The maximum byte size of AppendEntriesRequest */
-    private int            maxBodySize                          = 512 * 1024;
+    private int            maxBodySize                          = 1024 * 1024;//512 * 1024;
     /** Flush buffer to LogStorage if the buffer size reaches the limit */
     private int            maxAppendBufferSize                  = 256 * 1024;
     /** Maximum election delay time allowed by user */
