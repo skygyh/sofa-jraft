@@ -668,7 +668,6 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
         return true;
     }
 
-    public static final String PMEM_ROOT_PATH_NEW = "/mnt/mem0/";
     // Persistent Memory
     private boolean initPMemDB(final StoreEngineOptions opts) {
         PMemDBOptions pmemOpts = opts.getPMemDBOptions();
@@ -681,8 +680,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
             final long regionId = regionEngineOptions.getRegionId();
             final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
             Path pmemDbPath = Paths
-               // .get(pmemOpts.getDbPath() == null ? "" : pmemOpts.getDbPath(), childPath, "region" + regionId);
-                    .get( regionId % 2 == 0  ? PMEM_ROOT_PATH_NEW : pmemOpts.getDbPath(), childPath, "region" + regionId);
+                .get(pmemOpts.getDbPath() == null ? "" : pmemOpts.getDbPath(), childPath, "region" + regionId);
             if (Strings.isNotBlank(pmemDbPath.toString()) && Files.notExists(pmemDbPath)) {
                 try {
                     FileUtils.forceMkdir(new File(pmemDbPath.toString()));
