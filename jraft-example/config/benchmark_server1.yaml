@@ -11,8 +11,6 @@ storeEngineOptions:
   rocksDBOptions:
     fastSnapshot: true
     dbPath: rhea_benchmark_db
-  pmemDBOptions:
-    dbPath: rhea_benchmark_db
   raftDataPath: rhea_benchmark_raft_data
   raftRpcCoreThreads: 128
   serverAddress:

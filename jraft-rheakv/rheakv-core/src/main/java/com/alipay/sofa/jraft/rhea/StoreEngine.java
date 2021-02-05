@@ -622,7 +622,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
         for (RegionEngineOptions regionEngineOptions : opts.getRegionEngineOptionsList()) {
             final long regionId = regionEngineOptions.getRegionId();
             final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
-            Path rockDbPath = Paths.get(regionId % 2 == 0 ? PMEM_ROOT_PATH_NEW  : rocksOpts.getDbPath(), childPath,
+            Path rockDbPath = Paths.get(rocksOpts.getDbPath() == null ? "" : rocksOpts.getDbPath(), childPath,
                 "region" + regionId);
             if (Strings.isNotBlank(rockDbPath.toString()) && Files.notExists(rockDbPath)) {
                 try {
@@ -668,7 +668,7 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
         return true;
     }
 
-    public static final String PMEM_ROOT_PATH_NEW = "/mnt/mem0/rhea_benchmark_db";
+    public static final String PMEM_ROOT_PATH_NEW = "/mnt/mem0/";
     // Persistent Memory
     private boolean initPMemDB(final StoreEngineOptions opts) {
         PMemDBOptions pmemOpts = opts.getPMemDBOptions();
@@ -681,9 +681,12 @@ public class StoreEngine implements Lifecycle<StoreEngineOptions>, Describer {
             final long regionId = regionEngineOptions.getRegionId();
             final String childPath = "db_" + this.storeId + "_" + opts.getServerAddress().getPort();
 
+            if ( regionId % 2 == 0) {
+                pmemOpts.setDbPath(PMEM_ROOT_PATH_NEW);
+            }
 
             Path pmemDbPath = Paths
-               .get(regionId % 2 == 0 ? PMEM_ROOT_PATH_NEW : pmemOpts.getDbPath(), childPath, "region" + regionId);
+               .get(pmemOpts.getDbPath() == null ? "" : pmemOpts.getDbPath(), childPath, "region" + regionId);
             if (Strings.isNotBlank(pmemDbPath.toString()) && Files.notExists(pmemDbPath)) {
                 try {
                     FileUtils.forceMkdir(new File(pmemDbPath.toString()));
