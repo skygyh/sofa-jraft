@@ -1,5 +1,7 @@
 sudo mount -o dax /dev/pmem1 /mnt/mem/
+sudo mount -o dax /dev/pmem0 /mnt/mem0/
 sudo rm -rf /mnt/mem/*
+sudo rm -rf /mnt/mem0/*
 sudo systemctl stop SuSEfirewall2.service
 sudo systemctl disable SuSEfirewall2.service
 sudo /sbin/SuSEfirewall2 off
