@@ -38,7 +38,7 @@ public class PMemDBOptions {
     private String             orderedEngine  = "stree";
     private String             hashEngine     = "cmap";
     private int                pmemDataSize   = 1024 * 1024 * 1024;
-    private int                pmemMetaSize   = 0;//8 * 1024 * 1024;
+    private int                pmemMetaSize   =  8 * 1024 * 1024;
     private String             dbPath         = PMEM_ROOT_PATH;
     private boolean            forceCreate    = true;
     private boolean            enableLocker   = false;

@@ -107,7 +107,8 @@ public class PMemRawKVStore extends BatchRawKVStore<PMemDBOptions> {
             this.defaultDB = new Database(opts.getOrderedEngine(), generateConf(opts.getOrderedEngine(), dbPath,
                 DB_FILE_NAMES[0], opts.getPmemDataSize(), opts.getForceCreate() ? 1 : 0));
         }
-        if (opts.getPmemMetaSize() > 0) {
+        //f (opts.getPmemMetaSize() > 0) {
+        if (opts.getPmemMetaSize() > 0 && (this.regionId == (Region.MAX_ID_WITH_MANUAL_CONF - 1))) {
             this.sequenceDB = new Database(opts.getHashEngine(), generateConf(opts.getHashEngine(), dbPath,
                 DB_FILE_NAMES[1], opts.getPmemMetaSize(), opts.getForceCreate() ? 1 : 0));
             if (opts.getEnableLocker()) {
