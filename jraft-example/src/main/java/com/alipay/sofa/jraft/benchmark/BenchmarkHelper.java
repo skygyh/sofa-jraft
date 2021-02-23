@@ -118,7 +118,7 @@ public class BenchmarkHelper {
     }
 
     public static CompletableFuture<byte[]> get(final RheaKVStore rheaKVStore, final long regionId, final byte[] key) {
-        return rheaKVStore.get(regionId, key);
+        return rheaKVStore.get(regionId, key, false);
     }
 
     public static void startBenchmark2(final RheaKVStore rheaKVStore,
