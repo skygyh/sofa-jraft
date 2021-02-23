@@ -338,6 +338,23 @@ public class RaftRawKVStore implements RawKVStore {
 
     @Override
     public void put(final List<KVEntry> entries, final KVStoreClosure closure) {
+        if (!isLeader()) {
+            closure.setError(Errors.NOT_LEADER);
+            closure.run(new Status(RaftError.EPERM, "Not leader"));
+            return;
+        }
+        //add new fake closure to bypass the real closure
+        KVStoreClosure newClosure = new BaseKVStoreClosure() {
+
+            @Override
+            public void run(final Status status) {
+                if (status.isOk()) {
+                } else {
+                }
+            }
+        };
+
+        RaftRawKVStore.this.kvStore.put(entries, newClosure);
         applyOperation(KVOperation.createPutList(entries), closure);
     }
 

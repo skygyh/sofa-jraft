@@ -323,7 +323,7 @@ public class LogManagerImpl implements LogManager {
             }
             done.setEntries(entries);
 
-            int retryTimes = 0;
+/*            int retryTimes = 0;
             final EventTranslator<StableClosureEvent> translator = (event, sequence) -> {
                 event.reset();
                 event.type = EventType.OTHER;
@@ -340,7 +340,7 @@ public class LogManagerImpl implements LogManager {
                     }
                     ThreadHelper.onSpinWait();
                 }
-            }
+            }*/
             doUnlock = false;
             if (!wakeupAllWaiter(this.writeLock)) {
                 notifyLastLogIndexListeners();
@@ -729,13 +729,14 @@ public class LogManagerImpl implements LogManager {
                 return null;
             }
             final LogEntry entry = getEntryFromMemory(index);
-            if (entry != null) {
+          //  if (entry != null) {
                 return entry;
-            }
+          //  }
         } finally {
             this.readLock.unlock();
         }
-        final LogEntry entry = this.logStorage.getEntry(index);
+
+/*        final LogEntry entry = this.logStorage.getEntry(index);
         if (entry == null) {
             reportError(RaftError.EIO.getNumber(), "Corrupted entry at index=%d, not found", index);
         }
@@ -747,7 +748,7 @@ public class LogManagerImpl implements LogManager {
             reportError(RaftError.EIO.getNumber(), msg);
             throw new LogEntryCorruptedException(msg);
         }
-        return entry;
+        return entry;*/
     }
 
     @Override

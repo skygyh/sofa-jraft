@@ -71,7 +71,10 @@ public class Ballot {
             }
         }
 
-        this.quorum = this.peers.size() / 2 + 1;
+ //       this.quorum = this.peers.size() / 2 + 1;
+
+        this.quorum = this.peers.size();
+
         if (oldConf == null) {
             return true;
         }
@@ -80,7 +83,8 @@ public class Ballot {
             this.oldPeers.add(new UnfoundPeerId(peer, index++, false));
         }
 
-        this.oldQuorum = this.oldPeers.size() / 2 + 1;
+        //this.oldQuorum = this.oldPeers.size() / 2 + 1;
+        this.oldQuorum = this.oldPeers.size();
         return true;
     }
 

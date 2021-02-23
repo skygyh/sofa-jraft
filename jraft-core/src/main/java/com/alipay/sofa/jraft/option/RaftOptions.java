@@ -30,7 +30,7 @@ import com.alipay.sofa.jraft.util.RpcFactoryHelper;
 public class RaftOptions implements Copiable<RaftOptions> {
 
     /** Raft Log Type */
-    private StorageType    logType                              = StorageType.PMemLog;
+    private StorageType    logType                              = StorageType.RocksDB;
     private long           pmemLogSize                          = 512 * 1024 * 1024;
     /** Maximum of block size per RPC */
     private int            maxByteCountPerRpc                   = 128 * 1024;
