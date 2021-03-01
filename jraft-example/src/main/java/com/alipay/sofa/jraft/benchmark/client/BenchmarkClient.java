@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.alipay.sofa.jraft.benchmark.BenchmarkHelper;
 import com.alipay.sofa.jraft.rhea.errors.RouteTableException;
 import com.alipay.sofa.jraft.rhea.options.RegionEngineOptions;
+import com.alipay.sofa.jraft.rhea.storage.KVEntry;
 import com.alipay.sofa.jraft.util.Bits;
 import com.codahale.metrics.Meter;
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public class BenchmarkClient {
     private static final Timer         timer        = KVMetrics.timer("benchmark_timer");
 
     private static final AtomicInteger submittedKey = new AtomicInteger(0);
+    private static String              DEFAULT_MODE = "async";
 
     public static void main(final String[] args) {
         if (args.length < 8) {
@@ -81,6 +83,7 @@ public class BenchmarkClient {
         final int keyCount = args.length > 6 ? Integer.parseInt(args[6]) : 10000000;
         final int keySize = args.length > 7 ? Integer.parseInt(args[7]) : 64;
         final int valueSize = args.length > 8 ? Integer.parseInt(args[8]) : 1024;
+        final String opMode = args.length > 9 ? args[9] : DEFAULT_MODE;
 
         final RheaKVStoreOptions opts = Yaml.readConfig(configPath);
         opts.setInitialServerList(initialServerList);
@@ -141,7 +144,7 @@ public class BenchmarkClient {
 
         LOG.info("Start benchmark...");
         startBenchmark_hash(rheaKVStore, threads, writeRatio, readRatio, keyCount, keySize, valueSize,
-            localRegionRouteTableOptionsList);
+            localRegionRouteTableOptionsList, opMode);
     }
 
     public static void startBenchmark_hash(final RheaKVStore rheaKVStore,
@@ -151,10 +154,11 @@ public class BenchmarkClient {
                                        final int keyCount,
                                        final int keySize,
                                        final int valueSize,
-                                       final List<RegionRouteTableOptions>  regionEngineOptionsList) {
+                                       final List<RegionRouteTableOptions>  regionEngineOptionsList,
+                                       final String opMode) {
 
         for (int i = 0; i < threads; i++) {
-            final Thread t = new Thread(() -> doRequest_hash(rheaKVStore, writeRatio, readRatio, keyCount, keySize, valueSize, regionEngineOptionsList));
+            final Thread t = new Thread(() -> doRequest_hash(rheaKVStore, writeRatio, readRatio, keyCount, keySize, valueSize, regionEngineOptionsList, opMode));
             //t.setDaemon(false);
             t.start();
         }
@@ -168,7 +172,7 @@ public class BenchmarkClient {
                                   final int keyCount,
                                   final int keySize,
                                   final int valueSize,
-                                  final List<RegionRouteTableOptions>  regionEngineOptionsList) {
+                                  final List<RegionRouteTableOptions>  regionEngineOptionsList, final String opMode) {
         final int regionSize = regionEngineOptionsList.size();
         final ThreadLocalRandom random = ThreadLocalRandom.current();
         final int sum = writeRatio + readRatio;
@@ -201,10 +205,24 @@ public class BenchmarkClient {
             if (Math.abs(index++ % sum) < writeRatio) {
                 // put
                 final Timer.Context putCtx = putTimer.time();
-                final CompletableFuture<Boolean> f = put(rheaKVStore, regionId, keyBytes, valeBytes);
-                f.whenComplete((result, throwable) -> {
 
-                    if (!result || throwable != null) {
+                if (opMode.equals(DEFAULT_MODE)) {
+                    final CompletableFuture<Boolean> f = put(rheaKVStore, regionId, keyBytes, valeBytes);
+                    f.whenComplete((result, throwable) -> {
+
+                        if (!result || throwable != null) {
+                            failure.incrementAndGet();
+                        } else {
+                            putCtx.stop();
+                            ctx.stop();
+                            putMeter.mark();
+                            submittedKey.incrementAndGet();
+                        }
+                        slidingWindow.release();
+                    });
+                } else  {
+                    final Boolean rc = bput(rheaKVStore, regionId, keyBytes, valeBytes);
+                    if (rc != true) {
                         failure.incrementAndGet();
                     } else {
                         putCtx.stop();
@@ -213,7 +231,7 @@ public class BenchmarkClient {
                         submittedKey.incrementAndGet();
                     }
                     slidingWindow.release();
-                });
+                }
 
                 if (submittedKey.get() >= keyCount) {
                     LOG.info("submitted key: {}", submittedKey.get());
@@ -223,17 +241,30 @@ public class BenchmarkClient {
             } else {
                 // get
                 final Timer.Context getCtx = getTimer.time();
-                final CompletableFuture<byte[]> f = get(rheaKVStore, regionId, keyBytes);
-                f.whenComplete((ignored, throwable) -> {
-                    if (throwable != null) {
-                        failure.incrementAndGet();
-                    } else {
+                if (opMode.equals(DEFAULT_MODE)) {
+                    final CompletableFuture<byte[]> f = get(rheaKVStore, regionId, keyBytes);
+                    f.whenComplete((ignored, throwable) -> {
+                        if (throwable != null) {
+                            failure.incrementAndGet();
+                        } else {
+                            getCtx.stop();
+                            ctx.stop();
+                            getMeter.mark();
+                        }
+                        slidingWindow.release();
+                    });
+                } else {
+                    try {
+                        final byte[] valueBytes = bget(rheaKVStore, regionId, keyBytes);
                         getCtx.stop();
                         ctx.stop();
                         getMeter.mark();
+                    } catch (Exception e) {
+                        failure.incrementAndGet();
                     }
+
                     slidingWindow.release();
-                });
+                }
             }
         }
     }
@@ -241,6 +272,16 @@ public class BenchmarkClient {
     public static CompletableFuture<Boolean> put(final RheaKVStore rheaKVStore, final long regionId, final byte[] key,
                                                  final byte[] value) {
         return rheaKVStore.put(regionId, key, value);
+    }
+
+    public static Boolean bput(final RheaKVStore rheaKVStore, final long regionId, final byte[] key, final byte[] value) {
+        List<KVEntry> kvEntries = new ArrayList<>();
+        kvEntries.add(new KVEntry(regionId, key, value));
+        return rheaKVStore.bPut(kvEntries);
+    }
+
+    public static byte[] bget(final RheaKVStore rheaKVStore, final long regionId, final byte[] key) {
+        return rheaKVStore.bGet(regionId, key);
     }
 
     public static CompletableFuture<byte[]> get(final RheaKVStore rheaKVStore, final long regionId, final byte[] key) {
